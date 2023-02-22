@@ -11,7 +11,7 @@ Add your own name (do not add the names for others!) to the section below.
 | Profile Picture | Name | Email |
 |---|---|---|
 | ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Your Name Here | Y.NameHere@student.tudelft.nl |
-| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Jochem Pouwels | j.j.pouwels@student.tudelft.nl |
+| ![](https://www.dndbeyond.com/avatars/17/360/636377877222554737.jpeg?width=150&height=150&fit=crop&quality=95&auto=webp) | Jochem Pouwels | j.j.pouwels@student.tudelft.nl |
 | ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Olaf Herman | o.h.s.herman@student.tudelft.nl |
 
 <!-- Instructions (remove once assignment has been completed -->
