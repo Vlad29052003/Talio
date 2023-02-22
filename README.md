@@ -15,6 +15,7 @@ Add your own name (do not add the names for others!) to the section below.
 | ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Olaf Herman | o.h.s.herman@student.tudelft.nl |
 | ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Jesse Klijnsma | j.b.klijnsma@student.tudelft.nl |
 | ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Lovro Mlikotić | l.mlikotic@student.tudelft.nl |
+| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Vlad Graure | v.s.graure@student.tudelft.nl |
 
 <!-- Instructions (remove once assignment has been completed -->
 <!-- - Add (only!) your own name to the table above (use Markdown formatting) -->
