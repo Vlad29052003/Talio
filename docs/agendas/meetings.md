@@ -12,7 +12,7 @@ per the agenda template presented in OOPP materials
 - Attendees:
 	- Rareș Toader (Scrum Master)
 	- Vlad Graure
-	- Olaf Herman (Chair :chair:)
+	- Olaf Herman (Chair 🪑)
 	- Jesse Klijnsma
 	- Lovro Mlikotić
 	- Andrei Petre
@@ -93,3 +93,63 @@ per the agenda template presented in OOPP materials
 
 ### Closing Time
 - some people to stay to discuss over `COC`
+
+
+
+## Meeting 2 (By `Jesse Klijsma`)
+### Agenda OOPP Group 48 Meeting 28/02
+*per the agenda template presented in OOPP materials*
+
+* Location: DW PC1 cubicle 11
+* Date: Tu 28th 2023
+* Time: 13:45-14:30
+* Attendees:
+  * Rareș Toader (Scrum Master)
+  * Vlad Graure
+  * Olaf Herman
+  * Jesse Klijnsma (Notetaker)
+  * Lovro Mlikotić
+  * Andrei Petre (Chair 🪑)
+  * Jochem Pouwels 
+
+#### Talking points
+- [13:45] Opening by Chair.
+- [13:45-13:50] Approval of agenda: Does anyone have any last-minute additions?
+- [13:50-14:00] Reviewing and approving the final backlog submission.
+- [14:00-14:05] Making sure that everybody’s git is working as intended.
+- [14:05-14:30] Discussing the assignment of tasks to each member of the team.
+- [14:30] Closure by Chair
+
+### Additions to the agenda
+- Fixing the Code of Conduct
+
+### Backlog
+- Changes made during the meeting
+  - Added more administrative functions
+  - Added password to advanced 
+
+### Git
+- **Everyone has a fully working git setup**
+
+### Changes to Code of Conduct
+- Added 5th evaluation criterium
+  - Added quality of feedback
+- Change commitment
+  - Quality of work
+    - Done in time
+    - By the norm of evaluation criteria
+  - Quality of notes
+    - Readable and easy to understand
+    - Explains all points
+
+### Task Assignments
+
+| Task | Who is responsible | Deadline |
+|------|--------------------|----------|
+| Add Mockups | Lovro | 03-03-2023 |
+| Refactor Epics | Everyone | 28-02-2023 |
+| Create EER Diagram | Everyone | 28-02-2023 |
+| Finish Backlog | Everyone | 28-02-2023 |
+
+### Closing Time
+- Everyone decided to stay over to finish some of the tasks
