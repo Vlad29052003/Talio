@@ -16,6 +16,7 @@
 package commons;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
+import static org.apache.commons.lang3.builder.ToStringStyle.SIMPLE_STYLE;
 
 import javax.persistence.*;
 
@@ -23,6 +24,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -55,6 +57,7 @@ public class Task {
         this.name = name;
         this.index = index;
         this.description = description;
+        subtasks = new ArrayList<>();
     }
 
     public void addSubTask(String subTask){
@@ -73,6 +76,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
+        return ToStringBuilder.reflectionToString(this, SIMPLE_STYLE);
     }
 }
