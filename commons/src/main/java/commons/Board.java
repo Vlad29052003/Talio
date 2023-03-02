@@ -20,9 +20,9 @@ public class Board {
     public boolean RWpermission;            // true - both read and write, false - read only
 
     @OneToMany(cascade = CascadeType.PERSIST)
-    public List<TaskList> lists;
+    public Set<TaskList> lists;
     @OneToMany(cascade = CascadeType.PERSIST)
-    public List<Tag> tags;
+    public Set<Tag> tags;
 
     @SuppressWarnings("unused")
     private Board() {
@@ -34,8 +34,8 @@ public class Board {
                  String backgroundColor,
                  String password,
                  boolean RWpermission,
-                 List<TaskList> lists,
-                 List<Tag> tags) {
+                 Set<TaskList> lists,
+                 Set<Tag> tags) {
         this.id = id;
         this.name = name;
         this.backgroundColor = backgroundColor;
@@ -49,8 +49,8 @@ public class Board {
                  String backgroundColor,
                  String password,
                  boolean RWpermission,
-                 List<TaskList> lists,
-                 List<Tag> tags) {
+                 Set<TaskList> lists,
+                 Set<Tag> tags) {
         this.name = name;
         this.backgroundColor = backgroundColor;
         this.password = password;
@@ -61,8 +61,8 @@ public class Board {
 
     public Board(String name,
                  String backgroundColor,
-                 List<TaskList> lists,
-                 List<Tag> tags) {
+                 Set<TaskList> lists,
+                 Set<Tag> tags) {
         this.name = name;
         this.backgroundColor = backgroundColor;
         this.lists = lists;
