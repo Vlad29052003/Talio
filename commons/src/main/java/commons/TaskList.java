@@ -1,5 +1,5 @@
 package commons;
 
-public class List
+public class TaskList
 {
 }
