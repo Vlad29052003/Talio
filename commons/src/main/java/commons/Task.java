@@ -17,8 +17,7 @@ public class Task {
 
     @ManyToOne
     @JoinColumn(name = "LIST_ID")
-    private commons.List list;
-
+    private TaskList list;
 
     public String name;
     public long index;

@@ -6,9 +6,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
+@Entity
 public class TaskList
 {
     @Id
@@ -22,7 +22,7 @@ public class TaskList
     public Set<Task> tasks;
 
     @SuppressWarnings("unused")
-    private TaskList() {
+    public TaskList() {
         // for object mappers
     }
 
