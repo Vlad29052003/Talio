@@ -10,7 +10,7 @@ Add your own name (do not add the names for others!) to the section below.
 
 | Profile Picture | Name | Email |
 |---|---|---|
-| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Andrei Petre | a.petre-1@student.tudelft.nl |
+| ![birb](./resources/birb.png) | Andrei Petre | a.petre-1@student.tudelft.nl |
 | ![](https://upload.wikimedia.org/wikipedia/commons/d/d5/Rust_programming_language_black_logo.svg) | Jochem Pouwels | j.j.pouwels@student.tudelft.nl |
 | ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Olaf Herman | o.h.s.herman@student.tudelft.nl |
 | ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325) | Jesse Klijnsma | j.b.klijnsma@student.tudelft.nl |
@@ -21,7 +21,7 @@ Add your own name (do not add the names for others!) to the section below.
 <!-- - Add (only!) your own name to the table above (use Markdown formatting) -->
 <!-- - Mention your *student* email address -->
 <!-- - Preferably add a recognizable photo, otherwise add your GitLab photo -->
-<!-- - (please make sure the photos have the same size) --> 
+<!-- - (please make sure the photos have the same size) -->
 
 ## How to run it
 
