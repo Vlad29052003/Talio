@@ -1,10 +1,17 @@
 package commons;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.SIMPLE_STYLE;
-import javax.persistence.*;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,17 +22,14 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public long id;
 
-    @ManyToOne
-    @JoinColumn(name = "LIST_ID")
-    private TaskList list;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    TaskList list;
 
     public String name;
     public long index;
     public String description;
 
     @ElementCollection // 1
-    @CollectionTable(name = "SUBTASKS", joinColumns = @JoinColumn(name = "TASK_ID")) // 2
-    @Column(name = "SUBTASKS") // 3
     public List<String> subtasks;
 
     @SuppressWarnings("unused")
@@ -40,8 +44,19 @@ public class Task {
         subtasks = new ArrayList<>();
     }
 
+    public void setTaskList(TaskList taskList) {
+        if(taskList == null) return;
+        if(this.list != null) {
+            this.list.removeTask(this);
+        }
+        taskList.addTask(this);
+    }
+
     public void addSubTask(String subTask){
-        subtasks.add(subTask);
+        this.subtasks.add(subTask);
+    }
+    public boolean removeSubTask(String subTask) {
+        return this.subtasks.remove(subTask);
     }
 
     @Override

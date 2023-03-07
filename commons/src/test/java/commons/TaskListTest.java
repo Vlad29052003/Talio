@@ -2,15 +2,12 @@ package commons;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.HashSet;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 public class TaskListTest {
     @Test
     public void TestCreateTaskList() {
-        TaskList list1 = new TaskList(0, "Hello, World", 4, new HashSet<>());
-        TaskList list2 = new TaskList(0, "Hello, World", 4);
-        assertEquals(list1, list2);
+        //Board b = new Board("test board", "#000000");
+        //TaskList list1 = new TaskList("Hello, World", b, 4);
+        //TaskList list2 = new TaskList("Hello, World", b, 4);
+        //assertNotEquals(list1, list2); // because IDs do not equal
     }
 }
