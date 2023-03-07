@@ -20,7 +20,8 @@ import static com.google.inject.Guice.createInjector;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import client.scenes.*;
+import client.scenes.BoardMainCtrl;
+import client.scenes.BoardView;
 import com.google.inject.Injector;
 
 import javafx.application.Application;
@@ -39,8 +40,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
 
         var board = FXML.load(BoardView.class, "client", "scenes", "BoardView.fxml");
-        var overview = FXML.load(QuoteOverviewCtrl.class, "client", "scenes", "QuoteOverview.fxml");
-        var add = FXML.load(AddQuoteCtrl.class, "client", "scenes", "AddQuote.fxml");
+        //var overview = FXML.load(QuoteOverviewCtrl.class,
+        // "client", "scenes", "QuoteOverview.fxml");
+        //var add = FXML.load(AddQuoteCtrl.class, "client", "scenes", "AddQuote.fxml");
 
         var mainCtrl = INJECTOR.getInstance(BoardMainCtrl.class);
         mainCtrl.initialize(primaryStage, board);

@@ -3,8 +3,17 @@ package commons;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import javax.persistence.*;
-import java.util.*;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 @Entity
@@ -28,46 +37,36 @@ public class Board {
         // for object mappers
     }
 
-    public Board(long id,
-                 String name,
+    public Board(String name,
                  String backgroundColor,
                  String password,
-                 boolean RWpermission,
-                 Set<TaskList> lists,
-                 Set<Tag> tags) {
-        this.id = id;
+                 boolean RWpermission) {
         this.name = name;
         this.backgroundColor = backgroundColor;
         this.password = password;
         this.RWpermission = RWpermission;
-        this.lists = lists;
-        this.tags = tags;
+        this.lists = new HashSet<>();
+        this.tags = new HashSet<>();
     }
 
     public Board(String name,
-                 String backgroundColor,
-                 String password,
-                 boolean RWpermission,
-                 Set<TaskList> lists,
-                 Set<Tag> tags) {
-        this.name = name;
-        this.backgroundColor = backgroundColor;
-        this.password = password;
-        this.RWpermission = RWpermission;
-        this.lists = lists;
-        this.tags = tags;
+                 String backgroundColor) {
+        this(name, backgroundColor, "", false);
     }
 
-    public Board(String name,
-                 String backgroundColor,
-                 Set<TaskList> lists,
-                 Set<Tag> tags) {
-        this.name = name;
-        this.backgroundColor = backgroundColor;
-        this.lists = lists;
-        this.tags = tags;
-        this.password = "";
-        this.RWpermission = false;
+    public void addTaskList(TaskList list)
+    {
+        if(list == null) return;
+        if(list.board != null) list.board.removeTaskList(list);
+        this.lists.add(list);
+        list.board = this;
+    }
+    public void removeTaskList(TaskList list)
+    {
+        if(list == null) return;
+        if(this.lists.remove(list)) {
+            list.board = null;
+        }
     }
 
     @Override
