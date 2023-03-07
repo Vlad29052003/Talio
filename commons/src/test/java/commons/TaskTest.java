@@ -2,8 +2,8 @@ package commons;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -22,13 +22,60 @@ public class TaskTest {
     }
 
     @Test
-    public void testConstructor() {
+    public void testEmptyConstructor() {
+        Task t = new Task();
+        assertNotNull(t);
+    }
+
+    @Test
+    public void testNonEmptyConstructor() {
         Task t = new Task("t", 5, "this is t");
         assertNotNull(t);
         assertEquals(t.name, "t");
         assertEquals(t.index, 5);
         assertEquals(t.description, "this is t");
         assertEquals(t.subtasks, new ArrayList<String>());
+    }
+
+    @Test
+    public void testSetTaskList() {
+        TaskList tl = new TaskList("tl", 1);
+        t1.setTaskList(tl);
+        assertEquals(tl, t1.list);
+    }
+
+    @Test
+    public void testSetTaskListNotNullList() {
+        TaskList tl1 = new TaskList("tl1", 1);
+        TaskList tl2 = new TaskList("tl2", 2);
+        t1.setTaskList(tl1);
+        t1.setTaskList(tl2);
+        assertEquals(tl2, t1.list);
+    }
+
+    @Test
+    public void testAddSubtask() {
+        t1.addSubTask("s1");
+        List<String> expected = new ArrayList<>();
+        expected.add("s1");
+        assertEquals(expected, t1.subtasks);
+    }
+
+    @Test
+    public void testRemoveExistingSubtask() {
+        t1.addSubTask("s1");
+        List<String> expected = new ArrayList<>();
+        assertEquals(t1.removeSubTask("s1"), true);
+        assertEquals(t1.subtasks, expected);
+    }
+
+    @Test
+    public void testRemoveNonExistingSubtask() {
+        t1.addSubTask("s1");
+        List<String> expected = new ArrayList<>();
+        expected.add("s1");
+        assertEquals(t1.removeSubTask("s2"), false);
+        assertEquals(t1.subtasks, expected);
     }
 
     @Test
@@ -44,14 +91,6 @@ public class TaskTest {
     @Test
     public void testEqualHashCode() {
         assertEquals(t1.hashCode(), t3.hashCode());
-    }
-
-    @Test
-    public void testAddSubtask() {
-        t1.addSubTask("s1");
-        java.util.List<String> expected = new ArrayList<>();
-        expected.add("s1");
-        assertEquals(expected, t1.subtasks);
     }
 
     @Test
