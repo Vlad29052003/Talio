@@ -153,3 +153,85 @@ per the agenda template presented in OOPP materials
 
 ### Closing Time
 - Everyone decided to stay over to finish some of the tasks
+
+
+
+## Meeting 3 (by `Lovro Mlikotić`)
+### Agenda OOPP Group 48 Meeting 07/03
+*per the agenda template presented in OOPP materials*
+
+* Location: DW PC1 cubicle 11
+* Date: March 7th 2023
+* Time: 13:45-14:30
+* Attendees:
+    * Rareș Toader (Scrum Master)
+    * Vlad Graure (Chair 🪑)
+    * Olaf Herman
+    * Jesse Klijnsma
+    * Lovro Mlikotić (Notetaker)
+    * Andrei Petre
+    * Jochem Pouwels
+
+#### Talking points
+- [13:45] Opening by Chair.
+- [13:45-13:48] Check in: how is everyone doing so far?
+- [13:48-13:50] Does anyone have any additions to the agenda?
+- [13:55-14:05] Forming our CheckStyle and adding it to the team repository.
+- [14:05-14:15] Discussing the official Backlog and identifying differences to our own.
+- [14:15-14:25] Allocating tasks to each team member and creating issues on GitLab.
+- [14:25-14:30] Final questions.
+- [14:30] Closure by Chair.
+
+#### Showcasing our work so far to the TA
+- no additional feedback recieved
+
+#### CHECKSTYLE
+Checkstyle rules that are agreed upon:
+    
+    1) cyclomatic complexity limit - 8
+    2) method length - 50 lines
+    3) max length of line - 100 char
+    4) javadoc enforced on public methods
+    5) consecutive capital letters in identifiers allowed
+    6) left curly braces in the same line as method name
+    7) there should be no star imports except 
+        java.io, java.net, java.lang.Math
+
+Other CheckStyle modules used:
+    
+    - Indentation
+    - NoWhitespaceAfter
+    - NoWhitespaceBefore
+    - MissingOverride
+    - ConstantName
+    - PackageName
+    - EmptyBlock
+
+
+#### Misc talking points
+- all references to quizzzz (template project name) should be replaced by talio (current porject name)
+
+#### BACKLOG
+- password protection will be done last (as per the backlog)
+
+### Task Assignments
+- CRUD operations - next meeting
+- controllers for each view
+- add workspace class
+
+ISSUES CREATED ON GITLAB
+
+Server-side
+- create Task controller
+- create TaskList controller
+- create Board controller
+
+Client-side
+- add board list on the main scene
+- add BoardView controller
+
+Commons
+- create scenes for CRUD opertions for every class
+
+#### Closing Time
+- Everyone decided to stay over to finish some of the tasks
