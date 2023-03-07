@@ -2,10 +2,6 @@ package commons;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.HashSet;
-
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
 public class TaskListTest {
     @Test
     public void TestCreateTaskList() {
