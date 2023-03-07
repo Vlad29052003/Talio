@@ -19,8 +19,10 @@
 
         <module name="JavadocMethod">
             <property name="accessModifiers" value="public"/>
-            <property name="allowMissingParamTags" value="true"/>
+            <property name="allowMissingParamTags" value="false"/>
         </module>
+
+        <!--<module name="MissingJavadocMethod"/>-->
 
         <module name="CyclomaticComplexity">
             <property name="max" value="8"/>
