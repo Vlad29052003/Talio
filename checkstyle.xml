@@ -55,4 +55,6 @@
     <module name="ConstantName"/>
 
     <module name="PackageName"/>
+
+    <module name="EmptyBlock"/>
 </module>
