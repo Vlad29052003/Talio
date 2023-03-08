@@ -18,9 +18,12 @@ package server.api;
 import commons.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+ import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 public class BoardControllerTest {
@@ -42,9 +45,58 @@ public class BoardControllerTest {
     }
 
     @Test
+    public void create() {
+        var actual = sut.create(getBoard("create"));
+        assertEquals(HttpStatus.OK, actual.getStatusCode());
+        assertTrue(actual.hasBody());
+    }
+
+    @Test
+    public void read() {
+        var actual = sut.create(getBoard("fetch"));
+        if(actual.getBody() == null) return;
+        long id = actual.getBody().id;
+        var actual2 = sut.read(id);
+        assertEquals(HttpStatus.OK, actual2.getStatusCode());
+        assertEquals(actual.getBody(), actual2.getBody());
+    }
+
+    @Test
+    public void update() {
+        Board board = getBoard("updatebefore");
+        var actual = sut.create(board);
+        if(actual.getBody() == null) return;
+        long id = actual.getBody().id;
+
+        board.name = "updateafter";
+        board.password = "passwordafter";
+
+        var actual2 = sut.update(id, board);
+        assertEquals(HttpStatus.OK, actual2.getStatusCode());
+        assertEquals(actual.getBody(), actual2.getBody());
+    }
+
+    @Test
+    public void delete() {
+        Board board = getBoard("delete");
+        var actual = sut.create(board);
+        if(actual.getBody() == null) return;
+        long id = actual.getBody().id;
+
+        var actual2 = sut.delete(id);
+        assertEquals(HttpStatus.OK, actual2.getStatusCode());
+        assertTrue(repo.calledMethods.contains("deleteById"));
+
+        var actual3 = sut.read(id);
+        assertNull(actual3.getBody());
+        assertEquals(HttpStatus.NOT_FOUND, actual3.getStatusCode());
+
+    }
+
+    @Test
     public void databaseIsUsed() {
         sut.create(getBoard("q1"));
-        repo.calledMethods.contains("save");
+        assertTrue(repo.calledMethods.contains("save"));
     }
 
     private static Board getBoard(String q) {

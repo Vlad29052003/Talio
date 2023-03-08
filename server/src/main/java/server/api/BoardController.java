@@ -62,7 +62,7 @@ public class BoardController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Board> read(@PathVariable("id") long id) {
-        if (id < 0 || !repo.existsById(id)) {
+        if (id < 0) {
             return ResponseEntity.badRequest().build();
         }
         Optional<Board> board = repo.findById(id);

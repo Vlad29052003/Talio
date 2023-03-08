@@ -52,8 +52,13 @@ public class TestBoardRepository implements BoardRepository {
 
     @Override
     public List<Board> findAllById(Iterable<Long> ids) {
-        // TODO Auto-generated method stub
-        return null;
+        calledMethods.add("findAllById");
+        List<Board> boards = new ArrayList<>();
+        for (Long id : ids) {
+            Optional<Board> board = find(id);
+            board.ifPresent(boards::add);
+        }
+        return boards;
     }
 
     @Override
@@ -107,7 +112,7 @@ public class TestBoardRepository implements BoardRepository {
     @Override
     public Board getById(Long id) {
         call("getById");
-        return find(id).get();
+        return find(id).orElseThrow();
     }
 
     private Optional<Board> find(Long id) {
@@ -135,15 +140,14 @@ public class TestBoardRepository implements BoardRepository {
     @Override
     public <S extends Board> S save(S entity) {
         call("save");
-        entity.id = (long) quotes.size();
+        entity.id = quotes.size();
         quotes.add(entity);
         return entity;
     }
 
     @Override
     public Optional<Board> findById(Long id) {
-        // TODO Auto-generated method stub
-        return null;
+        return find(id);
     }
 
     @Override
@@ -159,8 +163,8 @@ public class TestBoardRepository implements BoardRepository {
 
     @Override
     public void deleteById(Long id) {
-        // TODO Auto-generated method stub
-
+        call("deleteById");
+        find(id).map(quotes::remove);
     }
 
     @Override
@@ -190,7 +194,7 @@ public class TestBoardRepository implements BoardRepository {
     @Override
     public <S extends Board> Optional<S> findOne(Example<S> example) {
         // TODO Auto-generated method stub
-        return null;
+        return Optional.empty();
     }
 
     @Override
