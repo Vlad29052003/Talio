@@ -27,7 +27,7 @@ public class TaskList {
     @ManyToOne(cascade = CascadeType.PERSIST)
     Board board;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "list", cascade = CascadeType.PERSIST)
     public Set<Task> tasks;
 
     @SuppressWarnings("unused")
