@@ -37,13 +37,13 @@ public class BoardControllerTest {
 
     @Test
     public void cannotAddNullPerson() {
-        var actual = sut.add(getBoard(null));
+        var actual = sut.create(getBoard(null));
         assertEquals(BAD_REQUEST, actual.getStatusCode());
     }
 
     @Test
     public void databaseIsUsed() {
-        sut.add(getBoard("q1"));
+        sut.create(getBoard("q1"));
         repo.calledMethods.contains("save");
     }
 

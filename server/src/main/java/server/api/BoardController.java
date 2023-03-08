@@ -17,15 +17,18 @@ package server.api;
 
 import commons.Board;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import server.database.BoardRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/boards")
@@ -42,25 +45,54 @@ public class BoardController {
         return repo.findAll();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Board> getById(@PathVariable("id") long id) {
-        if (id < 0 || !repo.existsById(id)) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(repo.findById(id).get());
-    }
-
     @PostMapping(path = { "", "/" })
-    public ResponseEntity<Board> add(@RequestBody Board board) {
+    public ResponseEntity<Board> create(@RequestBody Board board) {
 
         if (board.lists == null
             || board.tags == null
-            || board.name == null) {
+            || isNullOrEmpty(board.name)
+            || isNullOrEmpty(board.backgroundColor)
+            || isNullOrEmpty(board.password)){
             return ResponseEntity.badRequest().build();
         }
 
         Board saved = repo.save(board);
         return ResponseEntity.ok(saved);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Board> read(@PathVariable("id") long id) {
+        if (id < 0 || !repo.existsById(id)) {
+            return ResponseEntity.badRequest().build();
+        }
+        Optional<Board> board = repo.findById(id);
+        return board.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PutMapping(path = { "", "/{id}" })
+    public ResponseEntity<Board> update(@PathVariable("id") long id, @RequestBody Board board) {
+        Optional<Board> optLocalBoard = repo.findById(id);
+        if(optLocalBoard.isEmpty()) return ResponseEntity.notFound().build();
+
+        Board localBoard = optLocalBoard.get();
+        localBoard.name = board.name;
+        localBoard.password = board.password;
+        localBoard.backgroundColor = board.backgroundColor;
+
+        Board saved = repo.save(localBoard);
+
+        return ResponseEntity.ok(saved);
+    }
+
+    @DeleteMapping(path = { "", "/{id}" })
+    public ResponseEntity<Board> delete(@PathVariable("id") long id) {
+
+        if(!repo.existsById(id)){
+            return ResponseEntity.notFound().build();
+        }
+
+        repo.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 
     private static boolean isNullOrEmpty(String s) {
