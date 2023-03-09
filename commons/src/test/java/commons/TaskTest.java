@@ -32,6 +32,13 @@ public class TaskTest {
     }
 
     @Test
+    public void testGetTaskList() {
+        TaskList l = new TaskList("a", 1);
+        t1.setTaskList(l);
+        assertEquals(t1.getTaskList(), l);
+    }
+
+    @Test
     public void testEquals() {
         assertEquals(t1, t3);
     }

@@ -25,7 +25,7 @@ public class Task {
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonBackReference
-    public TaskList list;
+    TaskList list;
 
     public String name;
     public long index;
@@ -52,6 +52,15 @@ public class Task {
             this.list.removeTask(this);
         }
         taskList.addTask(this);
+    }
+
+    /**
+     * Gets the TaskList.
+     *
+     * @return the TaskList.
+     */
+    public TaskList getTaskList() {
+        return this.list;
     }
 
     public void addSubTask(String subTask){
