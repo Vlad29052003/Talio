@@ -1,5 +1,6 @@
 package commons;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -28,6 +29,7 @@ public class TaskList {
     Board board;
 
     @OneToMany(mappedBy = "list", cascade = CascadeType.PERSIST)
+    @JsonManagedReference
     public Set<Task> tasks;
 
     @SuppressWarnings("unused")

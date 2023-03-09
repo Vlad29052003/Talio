@@ -1,6 +1,7 @@
 package commons;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.SIMPLE_STYLE;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -23,7 +24,8 @@ public class Task {
     public long id;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    TaskList list;
+    @JsonBackReference
+    public TaskList list;
 
     public String name;
     public long index;
