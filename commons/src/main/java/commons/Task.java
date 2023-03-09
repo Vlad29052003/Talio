@@ -2,6 +2,7 @@ package commons;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.SIMPLE_STYLE;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -47,8 +48,8 @@ public class Task {
     }
 
     public void setTaskList(TaskList taskList) {
-        if(taskList == null) return;
-        if(this.list != null) {
+        if (taskList == null) return;
+        if (this.list != null) {
             this.list.removeTask(this);
         }
         taskList.addTask(this);
@@ -59,13 +60,15 @@ public class Task {
      *
      * @return the TaskList.
      */
+    @JsonIgnore
     public TaskList getTaskList() {
         return this.list;
     }
 
-    public void addSubTask(String subTask){
+    public void addSubTask(String subTask) {
         this.subtasks.add(subTask);
     }
+
     public boolean removeSubTask(String subTask) {
         return this.subtasks.remove(subTask);
     }
