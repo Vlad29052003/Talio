@@ -40,11 +40,20 @@ public class BoardController {
         this.repo = repo;
     }
 
+    /**
+     * Retrieves all boards from the repository
+     * @return All boards
+     */
     @GetMapping(path = { "", "/" })
     public List<Board> getAll() {
         return repo.findAll();
     }
 
+    /**
+     * Adds a board to the repository
+     * @param board to be added
+     * @return The created board
+     */
     @PostMapping(path = { "", "/" })
     public ResponseEntity<Board> createBoard(@RequestBody Board board) {
 
@@ -60,6 +69,11 @@ public class BoardController {
         return ResponseEntity.ok(saved);
     }
 
+    /**
+     * Finds and returns the board with the corresponding id
+     * @param id of the board
+     * @return ResponseEntity with OK response with the board as body or with a BadRequest or NotFound
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Board> getBoard(@PathVariable("id") long id) {
         if (id < 0) {
@@ -69,6 +83,12 @@ public class BoardController {
         return board.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    /**
+     * Updates a board in the repository with the values of the passed on board
+     * @param id of the board
+     * @param board entity with new values
+     * @return ResponseEntity with either BadRequest, NotFound or OK
+     */
     @PutMapping("/{id}")
     public ResponseEntity<Board> updateBoard(@PathVariable("id") long id,
                                              @RequestBody Board board) {
@@ -90,6 +110,11 @@ public class BoardController {
         return ResponseEntity.ok(saved);
     }
 
+    /**
+     * Deletes a board and its dependents from the repository
+     * @param id of the board
+     * @return ResponseEntity with either BadRequest, NotFound or OK
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Board> deleteBoard(@PathVariable("id") long id) {
         if (id < 0) {
