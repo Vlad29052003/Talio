@@ -21,30 +21,11 @@ import java.util.ResourceBundle;
 import com.google.inject.Inject;
 
 import client.utils.ServerUtils;
-import commons.Quote;
-//import javafx.beans.property.SimpleStringProperty;
-//import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-
 public class BoardView implements Initializable {
 
     private final ServerUtils server;
     private final BoardMainCtrl mainCtrl;
-
-    private ObservableList<Quote> data;
-
-    @FXML
-    private TableView<Quote> table;
-    @FXML
-    private TableColumn<Quote, String> colFirstName;
-    @FXML
-    private TableColumn<Quote, String> colLastName;
-    @FXML
-    private TableColumn<Quote, String> colQuote;
 
     @Inject
     public BoardView(ServerUtils server, BoardMainCtrl mainCtrl) {
