@@ -72,7 +72,8 @@ public class BoardController {
     /**
      * Finds and returns the board with the corresponding id
      * @param id of the board
-     * @return ResponseEntity with OK response with the board as body or with a BadRequest or NotFound
+     * @return ResponseEntity with OK response with the board as body
+     *         or with a BadRequest or NotFound
      */
     @GetMapping("/{id}")
     public ResponseEntity<Board> getBoard(@PathVariable("id") long id) {
