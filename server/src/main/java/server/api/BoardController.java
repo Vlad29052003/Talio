@@ -46,7 +46,7 @@ public class BoardController {
     }
 
     @PostMapping(path = { "", "/" })
-    public ResponseEntity<Board> create(@RequestBody Board board) {
+    public ResponseEntity<Board> createBoard(@RequestBody Board board) {
 
         if (board.lists == null
             || board.tags == null
@@ -61,7 +61,7 @@ public class BoardController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Board> read(@PathVariable("id") long id) {
+    public ResponseEntity<Board> getBoard(@PathVariable("id") long id) {
         if (id < 0) {
             return ResponseEntity.badRequest().build();
         }
@@ -70,7 +70,12 @@ public class BoardController {
     }
 
     @PutMapping(path = { "", "/{id}" })
-    public ResponseEntity<Board> update(@PathVariable("id") long id, @RequestBody Board board) {
+    public ResponseEntity<Board> updateBoard(@PathVariable("id") long id,
+                                             @RequestBody Board board) {
+        if (id < 0 || board == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
         Optional<Board> optLocalBoard = repo.findById(id);
         if(optLocalBoard.isEmpty()) return ResponseEntity.notFound().build();
 
@@ -86,7 +91,10 @@ public class BoardController {
     }
 
     @DeleteMapping(path = { "", "/{id}" })
-    public ResponseEntity<Board> delete(@PathVariable("id") long id) {
+    public ResponseEntity<Board> deleteBoard(@PathVariable("id") long id) {
+        if (id < 0) {
+            return ResponseEntity.badRequest().build();
+        }
 
         if(!repo.existsById(id)){
             return ResponseEntity.notFound().build();
