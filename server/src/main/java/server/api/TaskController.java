@@ -106,8 +106,8 @@ public class TaskController {
                 map(t -> t.index).max(Long::compare);
 
         long index = 0;
-        if (i.isPresent()) index = i.get();
-        task.index = index + 1;
+        if (i.isPresent()) index = i.get() + 1;
+        task.index = index;
         task.setTaskList(listRepo.findById(listId).get());
         Task saved = taskRepo.saveAndFlush(task);
 
