@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -78,7 +79,10 @@ public class Board {
 
     @Override
     public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
+        ArrayList<String> exclude = new ArrayList<>();
+        exclude.add("tags");
+        exclude.add("lists");
+        return HashCodeBuilder.reflectionHashCode(this, exclude);
     }
 
     @Override

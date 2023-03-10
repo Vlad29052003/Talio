@@ -70,7 +70,7 @@ public class TaskController {
     public ResponseEntity<String> moveTask(@PathVariable("newListId") long newListId,
                                            @PathVariable("index") long index,
                                            @PathVariable("taskId") long taskId) {
-        if (index < 1 || newListId < 0 || !listRepo.existsById((newListId)) ||
+        if (index < 0 || newListId < 0 || !listRepo.existsById((newListId)) ||
                 taskId < 0 || !taskRepo.existsById(taskId))
             return ResponseEntity.badRequest().body("Invalid ID.");
 
