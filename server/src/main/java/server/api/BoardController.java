@@ -69,7 +69,7 @@ public class BoardController {
         return board.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PutMapping(path = { "", "/{id}" })
+    @PutMapping("/{id}")
     public ResponseEntity<Board> updateBoard(@PathVariable("id") long id,
                                              @RequestBody Board board) {
         if (id < 0 || board == null) {
@@ -90,7 +90,7 @@ public class BoardController {
         return ResponseEntity.ok(saved);
     }
 
-    @DeleteMapping(path = { "", "/{id}" })
+    @DeleteMapping("/{id}")
     public ResponseEntity<Board> deleteBoard(@PathVariable("id") long id) {
         if (id < 0) {
             return ResponseEntity.badRequest().build();
