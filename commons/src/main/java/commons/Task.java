@@ -66,7 +66,9 @@ public class Task {
 
     @Override
     public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
+        ArrayList<String> exclude = new ArrayList<>();
+        exclude.add("list");
+        return HashCodeBuilder.reflectionHashCode(this, exclude);
     }
 
     @Override

@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
@@ -70,7 +71,10 @@ public class TaskList {
 
     @Override
     public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
+        ArrayList<String> exclude = new ArrayList<>();
+        exclude.add("tasks");
+        exclude.add("board");
+        return HashCodeBuilder.reflectionHashCode(this, exclude);
     }
 
     @Override
