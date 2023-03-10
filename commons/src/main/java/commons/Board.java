@@ -80,7 +80,7 @@ public class Board {
         ArrayList<String> exclude = new ArrayList<>();
         exclude.add("tags");
         exclude.add("lists");
-        return HashCodeBuilder.reflectionHashCode(this);
+        return HashCodeBuilder.reflectionHashCode(this, exclude);
     }
 
     @Override
