@@ -17,9 +17,6 @@ package client;
 
 import static com.google.inject.Guice.createInjector;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-
 import client.scenes.BoardCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.WorkspaceCtrl;
