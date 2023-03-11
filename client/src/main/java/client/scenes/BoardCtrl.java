@@ -22,37 +22,56 @@ import com.google.inject.Inject;
 
 import client.utils.ServerUtils;
 import commons.Quote;
-//import javafx.beans.property.SimpleStringProperty;
-//import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.text.Text;
 
-public class BoardView implements Initializable {
+public class BoardCtrl implements Initializable {
 
     private final ServerUtils server;
-    private final BoardMainCtrl mainCtrl;
+    private final MainCtrl mainCtrl;
+
+    private String boardID = "";
 
     private ObservableList<Quote> data;
 
     @FXML
-    private TableView<Quote> table;
-    @FXML
-    private TableColumn<Quote, String> colFirstName;
-    @FXML
-    private TableColumn<Quote, String> colLastName;
-    @FXML
-    private TableColumn<Quote, String> colQuote;
+    private Text boardText;
 
     @Inject
-    public BoardView(ServerUtils server, BoardMainCtrl mainCtrl) {
+    public BoardCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    }
+
+    /**
+     * Set the ID of the board to be rendered by the view.
+     * @param board the board which the board view is to render.
+     */
+    public void setBoard(String board) {
+        this.boardID = board;
+        this.refresh();
+    }
+
+    /**
+     * Get the boardID currently being rendered by the Board scene.
+     * @return the boardID currently being rendered.
+     */
+    public String getBoard() {
+        return this.boardID;
+    }
+
+    /**
+     * Refresh the Board scene. Will fetch the data for this board and re-render the scene.
+     */
+    public void refresh() {
+        // Populate board
+
+        this.boardText.setText("I am rendering board '"+this.boardID+"'");
     }
 }
