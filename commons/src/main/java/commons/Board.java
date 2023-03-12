@@ -42,7 +42,7 @@ public class Board {
     }
 
     /**
-     * Constructor method.
+     * Create a new {@link Board board}
      *
      * @param name is the name of the board.
      * @param backgroundColor is the background color of the board.
@@ -62,7 +62,7 @@ public class Board {
     }
 
     /**
-     * Constructor method.
+     * Create a new {@link Board board}
      *
      * @param name is the name of the board.
      * @param backgroundColor is the background color of the board.
@@ -73,7 +73,7 @@ public class Board {
     }
 
     /**
-     * Adds a list to the board.
+     * Adds a {@link TaskList list} to the {@link Board board}.
      *
      * @param list is the list that is added to the board.
      */
@@ -86,7 +86,7 @@ public class Board {
     }
 
     /**
-     * Removes a list from the board.
+     * Removes a {@link TaskList list} from the {@link Board board}.
      *
      * @param list is the list that is removed from the board.
      */

@@ -40,7 +40,7 @@ public class TaskList {
     }
 
     /**
-     * Constructor method.
+     * Create a new {@link TaskList list}.
      *
      * @param name is the name of the list.
      * @param index is the position within the board.
@@ -53,9 +53,9 @@ public class TaskList {
     }
 
     /**
-     * Sets the board.
+     * Sets the parent {@link Board board}.
      *
-     * @param board is the board of the list.
+     * @param board is the parent board of this list.
      */
     public void setBoard(Board board) {
         if(board == null) return;
@@ -66,7 +66,7 @@ public class TaskList {
     }
 
     /**
-     * Adds a task to the list.
+     * Adds a {@link Task task} to the {@link TaskList list}.
      *
      * @param task is the task that is added to the list.
      */
@@ -78,7 +78,7 @@ public class TaskList {
     }
 
     /**
-     * Removes a task from the list.
+     * Removes a {@link Task task} from the {@link TaskList list}.
      *
      * @param task is the removed task.
      */

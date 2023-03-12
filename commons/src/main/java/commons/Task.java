@@ -40,7 +40,7 @@ public class Task {
     }
 
     /**
-     * Constructor method.
+     * Creates a new {@link Task task}.
      *
      * @param name is the name of the task.
      * @param index is the position within the TaskList.
@@ -54,9 +54,9 @@ public class Task {
     }
 
     /**
-     * Sets the taskList.
+     * Sets the parent {@link TaskList list}.
      *
-     * @param taskList is the TaskList object.
+     * @param taskList is the parent list of this task.
      */
     public void setTaskList(TaskList taskList) {
         if(taskList == null) return;
@@ -67,7 +67,7 @@ public class Task {
     }
 
     /**
-     * Adds a subtask.
+     * Adds a subtask to the {@link Task#subtasks task}.
      *
      * @param subTask is the subtask.
      */
@@ -76,7 +76,7 @@ public class Task {
     }
 
     /**
-     * Removes a subtask.
+     * Removes a subtask from the {@link Task#subtasks task}.
      *
      * @param subTask is the subtask to be removed.
      * @return true if the list contained that subtask,
