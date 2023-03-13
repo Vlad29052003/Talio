@@ -21,8 +21,6 @@ import java.util.ResourceBundle;
 import com.google.inject.Inject;
 
 import client.utils.ServerUtils;
-import commons.Quote;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.text.Text;
@@ -33,8 +31,6 @@ public class BoardCtrl implements Initializable {
     private final MainCtrl mainCtrl;
 
     private String boardID = "";
-
-    private ObservableList<Quote> data;
 
     @FXML
     private Text boardText;
@@ -72,6 +68,6 @@ public class BoardCtrl implements Initializable {
     public void refresh() {
         // Populate board
 
-        this.boardText.setText("I am rendering board '"+this.boardID+"'");
+        this.boardText.setText("I am rendering board '" + this.boardID + "'");
     }
 }
