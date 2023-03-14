@@ -32,8 +32,6 @@ public class BoardCtrl implements Initializable {
 
     private String boardID = "";
 
-    @FXML
-    private Text boardText;
 
     @Inject
     public BoardCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -66,8 +64,5 @@ public class BoardCtrl implements Initializable {
      * Refresh the Board scene. Will fetch the data for this board and re-render the scene.
      */
     public void refresh() {
-        // Populate board
-
-        this.boardText.setText("I am rendering board '" + this.boardID + "'");
     }
 }

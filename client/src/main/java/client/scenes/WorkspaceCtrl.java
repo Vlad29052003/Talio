@@ -2,23 +2,28 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Board;
+import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class WorkspaceCtrl implements Initializable {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-    private BoardCtrl boardCtrl;
+    private List<BoardTemplateCtrl> boards;
+
+    private int inc;
 
     @FXML
     private AnchorPane boardViewPane;
@@ -32,6 +37,8 @@ public class WorkspaceCtrl implements Initializable {
     public WorkspaceCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+        inc = 0;
+        boards = new ArrayList<>();
     }
 
     @Override
@@ -48,6 +55,24 @@ public class WorkspaceCtrl implements Initializable {
     }
 
     public void addBoard() {
+        {
+            Board newest = new Board("name" + inc, "");
+            inc ++;
 
+            try {
+                newest = server.addBoard(newest);
+            } catch (WebApplicationException e) {
+
+                var alert = new Alert(Alert.AlertType.ERROR);
+                alert.initModality(Modality.APPLICATION_MODAL);
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
+                return;
+            }
+
+            Button nBoard = new Button(newest.name + " (" + newest.id + ")");
+            boardButtons.getChildren().add(nBoard);
+            boards.add(new BoardTemplateCtrl(server, mainCtrl, newest, nBoard));
+        }
     }
 }
