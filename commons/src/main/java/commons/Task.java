@@ -1,6 +1,8 @@
 package commons;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.SIMPLE_STYLE;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -22,6 +24,7 @@ public class Task {
     public long id;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
+    @JsonBackReference
     TaskList list;
 
     public String name;
@@ -40,7 +43,7 @@ public class Task {
     }
 
     /**
-     * Constructor method.
+     * Creates a new {@link Task task}.
      *
      * @param name is the name of the task.
      * @param index is the position within the TaskList.
@@ -54,20 +57,30 @@ public class Task {
     }
 
     /**
-     * Sets the taskList.
+     * Sets the parent {@link TaskList list}.
      *
-     * @param taskList is the TaskList object.
+     * @param taskList is the parent list of this task.
      */
     public void setTaskList(TaskList taskList) {
-        if(taskList == null) return;
-        if(this.list != null) {
+        if (taskList == null) return;
+        if (this.list != null) {
             this.list.removeTask(this);
         }
         taskList.addTask(this);
     }
 
     /**
-     * Adds a subtask.
+     * Gets the TaskList.
+     *
+     * @return the TaskList.
+     */
+    @JsonIgnore
+    public TaskList getTaskList() {
+        return this.list;
+    }
+
+    /**
+     * Adds a subtask to the {@link Task#subtasks task}.
      *
      * @param subTask is the subtask.
      */
@@ -76,7 +89,7 @@ public class Task {
     }
 
     /**
-     * Removes a subtask.
+     * Removes a subtask from the {@link Task#subtasks task}.
      *
      * @param subTask is the subtask to be removed.
      * @return true if the list contained that subtask,
