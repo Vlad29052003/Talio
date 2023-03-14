@@ -6,8 +6,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,16 +24,9 @@ public class WorkspaceCtrl implements Initializable {
     private AnchorPane boardViewPane;
 
     @FXML
-    private Button buttonB1;
+    private VBox boardButtons;
 
-    @FXML
-    private Button buttonB2;
 
-    @FXML
-    private Button buttonB3;
-
-    @FXML
-    private Button buttonB4;
 
     @Inject
     public WorkspaceCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -40,14 +36,6 @@ public class WorkspaceCtrl implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.buttonB1.addEventHandler(MouseEvent.MOUSE_CLICKED,
-                event -> this.mainCtrl.setBoard("Board1"));
-        this.buttonB2.addEventHandler(MouseEvent.MOUSE_CLICKED,
-                event -> this.mainCtrl.setBoard("Board2"));
-        this.buttonB3.addEventHandler(MouseEvent.MOUSE_CLICKED,
-                event -> this.mainCtrl.setBoard("Board3"));
-        this.buttonB4.addEventHandler(MouseEvent.MOUSE_CLICKED,
-                event -> this.mainCtrl.setBoard("Board4"));
     }
 
     // Package private: only used in MainCtrl during binding.
@@ -57,5 +45,9 @@ public class WorkspaceCtrl implements Initializable {
         AnchorPane.setLeftAnchor(boardRoot, 0.0);
         AnchorPane.setRightAnchor(boardRoot, 0.0);
         AnchorPane.setBottomAnchor(boardRoot, 0.0);
+    }
+
+    public void addBoard() {
+
     }
 }

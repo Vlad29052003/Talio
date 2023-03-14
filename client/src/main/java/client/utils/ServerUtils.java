@@ -18,4 +18,6 @@ package client.utils;
 public class ServerUtils {
 
     private static final String SERVER = "http://localhost:8080/";
+
+    
 }
