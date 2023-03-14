@@ -1,5 +1,6 @@
 package commons;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -29,6 +30,7 @@ public class Board {
     public boolean RWpermission;            // true - both read and write, false - read only
 
     @OneToMany(cascade = CascadeType.PERSIST)
+    @JsonManagedReference
     public Set<TaskList> lists;
     @OneToMany(cascade = CascadeType.PERSIST)
     public Set<Tag> tags;

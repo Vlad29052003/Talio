@@ -1,6 +1,8 @@
 package commons;
 
 import static org.apache.commons.lang3.builder.ToStringStyle.SIMPLE_STYLE;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -22,6 +24,7 @@ public class Task {
     public long id;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
+    @JsonBackReference
     TaskList list;
 
     public String name;
@@ -59,11 +62,21 @@ public class Task {
      * @param taskList is the parent list of this task.
      */
     public void setTaskList(TaskList taskList) {
-        if(taskList == null) return;
-        if(this.list != null) {
+        if (taskList == null) return;
+        if (this.list != null) {
             this.list.removeTask(this);
         }
         taskList.addTask(this);
+    }
+
+    /**
+     * Gets the TaskList.
+     *
+     * @return the TaskList.
+     */
+    @JsonIgnore
+    public TaskList getTaskList() {
+        return this.list;
     }
 
     /**
