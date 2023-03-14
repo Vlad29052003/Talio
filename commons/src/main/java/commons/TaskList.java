@@ -35,11 +35,20 @@ public class TaskList {
     @JsonManagedReference
     public Set<Task> tasks;
 
+    /**
+     * Empty constructor for object mappers.
+     */
     @SuppressWarnings("unused")
     public TaskList() {
         // for object mappers
     }
 
+    /**
+     * Create a new {@link TaskList list}.
+     *
+     * @param name is the name of the list.
+     * @param index is the position within the board.
+     */
     public TaskList(String name,
                     long index) {
         this.name = name;
@@ -47,24 +56,40 @@ public class TaskList {
         this.tasks = new HashSet<>();
     }
 
-    public void setBoard(Board b) {
-        if(b == null) return;
+    /**
+     * Sets the parent {@link Board board}.
+     *
+     * @param board is the parent board of this list.
+     */
+    public void setBoard(Board board) {
+        if(board == null) return;
         if(this.board != null) {
             this.board.removeTaskList(this);
         }
-        b.addTaskList(this);
+        board.addTaskList(this);
     }
 
-    public void addTask(Task t) {
-        if(t == null) return;
-        if(t.list != null) t.list.removeTask(t);
-        this.tasks.add(t);
-        t.list = this;
+    /**
+     * Adds a {@link Task task} to the {@link TaskList list}.
+     *
+     * @param task is the task that is added to the list.
+     */
+    public void addTask(Task task) {
+        if(task == null) return;
+        if(task.list != null) task.list.removeTask(task);
+        this.tasks.add(task);
+        task.list = this;
     }
-    public void removeTask(Task t) {
-        if(t == null) return;
-        if(this.tasks.remove(t)) {
-            t.list = null;
+
+    /**
+     * Removes a {@link Task task} from the {@link TaskList list}.
+     *
+     * @param task is the removed task.
+     */
+    public void removeTask(Task task) {
+        if(task == null) return;
+        if(this.tasks.remove(task)) {
+            task.list = null;
         }
     }
 

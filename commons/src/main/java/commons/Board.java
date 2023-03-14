@@ -35,11 +35,22 @@ public class Board {
     @OneToMany(cascade = CascadeType.PERSIST)
     public Set<Tag> tags;
 
+    /**
+     * Empty constructor for object mappers.
+     */
     @SuppressWarnings("unused")
     public Board() {
         // for object mappers
     }
 
+    /**
+     * Create a new {@link Board board}
+     *
+     * @param name is the name of the board.
+     * @param backgroundColor is the background color of the board.
+     * @param password is the password to access the board
+     * @param RWpermission is specifies the read and write permissions.
+     */
     public Board(String name,
                  String backgroundColor,
                  String password,
@@ -52,11 +63,22 @@ public class Board {
         this.tags = new HashSet<>();
     }
 
+    /**
+     * Create a new {@link Board board}
+     *
+     * @param name is the name of the board.
+     * @param backgroundColor is the background color of the board.
+    */
     public Board(String name,
                  String backgroundColor) {
         this(name, backgroundColor, "", false);
     }
 
+    /**
+     * Adds a {@link TaskList list} to the {@link Board board}.
+     *
+     * @param list is the list that is added to the board.
+     */
     public void addTaskList(TaskList list)
     {
         if(list == null) return;
@@ -64,6 +86,12 @@ public class Board {
         this.lists.add(list);
         list.board = this;
     }
+
+    /**
+     * Removes a {@link TaskList list} from the {@link Board board}.
+     *
+     * @param list is the list that is removed from the board.
+     */
     public void removeTaskList(TaskList list)
     {
         if(list == null) return;
