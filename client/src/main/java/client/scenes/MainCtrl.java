@@ -1,12 +1,9 @@
 package client.scenes;
 
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TitledPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import java.io.IOException;
 
 public class MainCtrl {
     private Stage primaryStage;
