@@ -50,6 +50,10 @@ public class TaskList {
         b.addTaskList(this);
     }
 
+    public Board getBoard() {
+        return this.board;
+    }
+
     public void addTask(Task t) {
         if(t == null) return;
         if(t.list != null) t.list.removeTask(t);
