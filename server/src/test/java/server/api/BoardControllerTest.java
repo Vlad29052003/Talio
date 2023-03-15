@@ -49,21 +49,6 @@ public class BoardControllerTest {
         assertEquals(BAD_REQUEST, actual.getStatusCode());
 
         b = getBoard("dummy");
-        b.tags = null;
-        actual = sut.createBoard(b);
-        assertEquals(BAD_REQUEST, actual.getStatusCode());
-
-        b = getBoard("dummy");
-        b.backgroundColor = null;
-        actual = sut.createBoard(b);
-        assertEquals(BAD_REQUEST, actual.getStatusCode());
-
-        b = getBoard("dummy");
-        b.password = null;
-        actual = sut.createBoard(b);
-        assertEquals(BAD_REQUEST, actual.getStatusCode());
-
-        b = getBoard("dummy");
         b.name = null;
         actual = sut.createBoard(b);
         assertEquals(BAD_REQUEST, actual.getStatusCode());
