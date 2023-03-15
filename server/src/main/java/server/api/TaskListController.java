@@ -50,21 +50,19 @@ public class TaskListController {
     /**
      * Updates a task list in the repository with the values of the passed on task list.
      *
-     * @param id is the id of the list to get.
      * @param list entity with new values.
      * @return a ResponseEntity containing the TaskList if it exists.
      */
-    @PutMapping("/{id}")
-    public ResponseEntity<TaskList> updateById(@PathVariable("id") long id,
-                                               @RequestBody TaskList list) {
-        if (id < 0
-                || list == null
+    @PutMapping({"", "/"})
+    public ResponseEntity<TaskList> update(@RequestBody TaskList list) {
+        if (list == null
+                || list.id < 0
                 || isNullOrEmpty(list.name)
                 || list.tasks == null) {
             return ResponseEntity.badRequest().build();
         }
 
-        Optional<TaskList> optLocalTaskList = repo.findById(id);
+        Optional<TaskList> optLocalTaskList = repo.findById(list.id);
         if (optLocalTaskList.isEmpty()) return ResponseEntity.notFound().build();
 
         TaskList localList = optLocalTaskList.get();

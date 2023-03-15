@@ -43,7 +43,9 @@ public class TaskListControllerTest {
         assertEquals(BAD_REQUEST, readResponse.getStatusCode());
         var deleteResponse = controller.deleteById(-1);
         assertEquals(BAD_REQUEST, deleteResponse.getStatusCode());
-        var updateResponse = controller.updateById(-1, getList("dummy"));
+        var updateList = getList("dummy");
+        updateList.id = -1;
+        var updateResponse = controller.update(updateList);
         assertEquals(BAD_REQUEST, updateResponse.getStatusCode());
     }
 
@@ -53,7 +55,9 @@ public class TaskListControllerTest {
         assertEquals(NOT_FOUND, readResponse.getStatusCode());
         var deleteResponse = controller.deleteById(10);
         assertEquals(NOT_FOUND, deleteResponse.getStatusCode());
-        var updateResponse = controller.updateById(10, getList("dummy"));
+        var updateList = getList("dummy");
+        updateList.id = 10;
+        var updateResponse = controller.update(updateList);
         assertEquals(NOT_FOUND, updateResponse.getStatusCode());
     }
 
@@ -92,17 +96,17 @@ public class TaskListControllerTest {
         TaskList list = getList("update-before");
         var actual = controller.add(list);
         if (actual.getBody() == null) return;
-        long id = actual.getBody().id;
+        list.id = actual.getBody().id;
 
         list.name = "update-after";
-        var actual2 = controller.updateById(id, list);
+        var actual2 = controller.update(list);
         assertEquals(HttpStatus.OK, actual2.getStatusCode());
         assertEquals(actual.getBody(), actual2.getBody());
     }
 
     @Test
     public void updateNull() {
-        var actual = controller.updateById(10, null);
+        var actual = controller.update(null);
         assertEquals(BAD_REQUEST, actual.getStatusCode());
     }
 
