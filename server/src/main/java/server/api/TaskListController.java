@@ -1,5 +1,6 @@
 package server.api;
 
+import commons.Board;
 import commons.TaskList;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,6 +50,9 @@ public class TaskListController {
 
     /**
      * Updates a task list in the repository with the values of the passed on task list.
+     * Note that the id of the list argument has to be the id of
+     * the actual list that needs to be modified.
+     * This means that you need to pass in the actual modified list, not a new one with new values.
      *
      * @param list entity with new values.
      * @return a ResponseEntity containing the TaskList if it exists.
@@ -77,13 +81,16 @@ public class TaskListController {
      * Creates a new TaskList.
      *
      * @param list The TaskList object to add.
+     * @param board The Board that the new TaskList belongs to.
      * @return a ResponseEntity containing the status of the operation.
      */
     @PostMapping(path = {"", "/"})
-    public ResponseEntity<TaskList> add(@RequestBody TaskList list) {
+    public ResponseEntity<TaskList> add(@RequestBody TaskList list, @RequestBody Board board) {
         if (isNullOrEmpty(list.name) || list.tasks == null) {
             return ResponseEntity.badRequest().build();
         }
+
+        list.setBoard(board);
 
         TaskList saved = repo.save(list);
         return ResponseEntity.ok(saved);
@@ -102,6 +109,7 @@ public class TaskListController {
 
         Optional<TaskList> optLocal = repo.findById(id);
         return optLocal.map((opt) -> {
+            opt.getBoard().removeTaskList(opt);
             repo.deleteById(opt.id);
             return ResponseEntity.ok("Successfully deleted.");
         }).orElseGet(() -> ResponseEntity.notFound().build());

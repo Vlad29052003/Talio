@@ -1,5 +1,6 @@
 package server.api;
 
+import commons.Board;
 import commons.TaskList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,13 +28,14 @@ public class TaskListControllerTest {
     @Test
     public void cannotAddNullList() {
         TaskList l = getList("dummy");
+        Board board = getBoard("dummy");
         l.tasks = null;
-        var actual = controller.add(l);
+        var actual = controller.add(l, board);
         assertEquals(BAD_REQUEST, actual.getStatusCode());
 
         l = getList("dummy");
         l.name = null;
-        actual = controller.add(l);
+        actual = controller.add(l, board);
         assertEquals(BAD_REQUEST, actual.getStatusCode());
     }
 
@@ -63,14 +65,16 @@ public class TaskListControllerTest {
 
     @Test
     public void create() {
-        var actual = controller.add(getList("create"));
+        var board = getBoard("create");
+        var actual = controller.add(getList("create"), board);
         assertEquals(HttpStatus.OK, actual.getStatusCode());
         assertTrue(actual.hasBody());
     }
 
     @Test
     public void read() {
-        var actual = controller.add(getList("fetch"));
+        var board = getBoard("fetch");
+        var actual = controller.add(getList("fetch"), board);
         if(actual.getBody() == null) return;
         long id = actual.getBody().id;
         var actual2 = controller.getById(id);
@@ -80,9 +84,10 @@ public class TaskListControllerTest {
 
     @Test
     public void readAll() {
-        var actual = controller.add(getList("List"));
+        var board = getBoard("Board");
+        var actual = controller.add(getList("List"), board);
         if(actual.getBody() == null) return;
-        var actual2 = controller.add(getList("List2"));
+        var actual2 = controller.add(getList("List2"), board);
         if(actual2.getBody() == null) return;
 
         List<TaskList> allLists = controller.getAll();
@@ -93,8 +98,9 @@ public class TaskListControllerTest {
 
     @Test
     public void update() {
+        var board = getBoard("Board");
         TaskList list = getList("update-before");
-        var actual = controller.add(list);
+        var actual = controller.add(list, board);
         if (actual.getBody() == null) return;
         list.id = actual.getBody().id;
 
@@ -112,8 +118,9 @@ public class TaskListControllerTest {
 
     @Test
     public void delete() {
+        var board = getBoard("delete");
         TaskList list = getList("delete");
-        var actual = controller.add(list);
+        var actual = controller.add(list, board);
         if (actual.getBody() == null) return;
         long id = actual.getBody().id;
 
@@ -128,11 +135,16 @@ public class TaskListControllerTest {
 
     @Test
     public void databaseIsUsed() {
-        controller.add(getList("l1"));
+        var board = getBoard("b1");
+        controller.add(getList("l1"), board);
         assertTrue(repo.calledMethods.contains("save"));
     }
 
     private TaskList getList(String name) {
         return new TaskList(name, 0);
+    }
+
+    private Board getBoard(String name) {
+        return new Board(name, name);
     }
 }
