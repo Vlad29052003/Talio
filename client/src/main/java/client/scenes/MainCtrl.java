@@ -33,15 +33,12 @@ public class MainCtrl {
         primaryStage.setScene(workspaceScene);
 
         workspaceCtrl.setBoardView(boardRoot);
-        boardCtrl.refresh();
 
         primaryStage.show();
     }
 
-    public void switchBoard(BoardCtrl newBoard) throws IOException {
+    public void switchBoard(BoardCtrl newBoard){
 
-        TitledPane pane = FXMLLoader.load(getClass().getResource("C:/Users/vladg/oopp-team-48/client/src/main/resources/client/scenes/BoardView.fxml"));
-        workspaceCtrl.setBoardView(pane);
         boardCtrl.refresh();
     }
 

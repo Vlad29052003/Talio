@@ -23,7 +23,8 @@ import java.util.ResourceBundle;
 public class WorkspaceCtrl implements Initializable {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-    private List<BoardCtrl> boards;
+    private BoardCtrl boardCtrl;
+    private List<Board> boards;
     private int inc;
     @FXML
     private AnchorPane boardViewPane;
@@ -33,9 +34,10 @@ public class WorkspaceCtrl implements Initializable {
 
 
     @Inject
-    public WorkspaceCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public WorkspaceCtrl(ServerUtils server, MainCtrl mainCtrl, BoardCtrl boardCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+        this.boardCtrl = boardCtrl;
         inc = 0;
         boards = new ArrayList<>();
     }
@@ -69,18 +71,15 @@ public class WorkspaceCtrl implements Initializable {
                 return;
             }
 
-            System.out.println(newest);
+            boards.add(newest);
 
             Button nBoard = new Button(newest.name + " (" + newest.id + ")");
-            BoardCtrl newBoard = new BoardCtrl(server, mainCtrl, newest);
-            boards.add(newBoard);
+            Board finalNewest = newest;
             nBoard.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                try {
-                    mainCtrl.switchBoard(newBoard);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                boardCtrl.setBoard(finalNewest);
+                boardCtrl.refresh();
             });
+
             boardButtons.getChildren().add(nBoard);
         }
     }
