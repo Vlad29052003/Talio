@@ -1,24 +1,12 @@
-/*
- * Copyright 2021 Delft University of Technology
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package client.scenes;
 
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TitledPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import java.io.IOException;
 
 public class MainCtrl {
     private Stage primaryStage;
@@ -50,23 +38,12 @@ public class MainCtrl {
         primaryStage.show();
     }
 
-    /**
-     * Set active board ID for the client to render.
-     * Refer to {@link BoardCtrl#setBoard(String)}
-     * @param boardID board to set globally.
-     * @see BoardCtrl#setBoard(String)
-     */
-    public void setBoard(String boardID) {
-        this.boardCtrl.setBoard(boardID);
+    public void switchBoard(BoardCtrl newBoard) throws IOException {
+
+        TitledPane pane = FXMLLoader.load(getClass().getResource("C:/Users/vladg/oopp-team-48/client/src/main/resources/client/scenes/BoardView.fxml"));
+        workspaceCtrl.setBoardView(pane);
+        boardCtrl.refresh();
     }
 
-    /**
-     * Get the boardID being rendered by the application and the Board scene.
-     * Refer to {@link BoardCtrl#getBoard()}
-     * @return the globally active boardID.
-     * @see BoardCtrl#getBoard()
-     */
-    public String getBoard() {
-        return this.boardCtrl.getBoard();
-    }
+
 }

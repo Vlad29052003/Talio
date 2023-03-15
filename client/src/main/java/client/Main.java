@@ -40,6 +40,7 @@ public class Main extends Application {
         var workspace = FXML.load(WorkspaceCtrl.class, "client", "scenes", "WorkspaceView.fxml");
         var board = FXML.load(BoardCtrl.class, "client", "scenes", "BoardView.fxml");
 
+
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
         mainCtrl.initialize(primaryStage, workspace, board);
     }

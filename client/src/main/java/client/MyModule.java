@@ -28,6 +28,6 @@ public class MyModule implements Module {
     public void configure(Binder binder) {
         binder.bind(MainCtrl.class).in(Scopes.SINGLETON);
         binder.bind(WorkspaceCtrl.class).in(Scopes.SINGLETON);
-        binder.bind(BoardCtrl.class).in(Scopes.SINGLETON);
+        //binder.bind(BoardCtrl.class).in(Scopes.SINGLETON);
     }
 }
