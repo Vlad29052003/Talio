@@ -6,7 +6,6 @@ import client.scenes.BoardCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.WorkspaceCtrl;
 import com.google.inject.Injector;
-
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -28,5 +27,14 @@ public class Main extends Application {
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
         mainCtrl.initialize(primaryStage, workspace, board);
+    }
+
+    /**
+     * Getter for the FXML field.
+     *
+     * @return FXML
+     */
+    public static MyFXML getMyFXML() {
+        return FXML;
     }
 }

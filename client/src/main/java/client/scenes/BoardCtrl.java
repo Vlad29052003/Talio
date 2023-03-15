@@ -2,9 +2,7 @@ package client.scenes;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import com.google.inject.Inject;
-
 import client.utils.ServerUtils;
 import commons.Board;
 import javafx.fxml.FXML;
@@ -36,16 +34,36 @@ public class BoardCtrl implements Initializable {
         else boardView.setText("No board to be displayed");
     }
 
+    /**
+     * Getter for the Board.
+     *
+     * @return the board.
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     * Setter for the Board.
+     *
+     * @param board the new Board.
+     */
     public void setBoard(Board board) {
         this.board = board;
+        boardView.setText(board.name + " (" + board.id + ")");
+    }
+
+    /**
+     * Getter for the boardView, which is the root element.
+     *
+     * @return the boardView.
+     */
+    public TitledPane getBoardView() {
+        return boardView;
     }
 
     public void refresh() {
-        boardView.setText(board.name + " (" + board.id + ")");
+
     }
 
 }

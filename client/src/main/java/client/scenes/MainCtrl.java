@@ -14,11 +14,17 @@ public class MainCtrl {
     private BoardCtrl boardCtrl;
     private Parent boardRoot; // Not a scene as it's to be embedded within the workspaceScene.
 
+    /**
+     * Initializes the application.
+     *
+     * @param primaryStage is the primary Stage.
+     * @param workspace is the Workspace.
+     * @param board is the initial Board, which is empty.
+     */
     public void initialize(
             Stage primaryStage,
             Pair<WorkspaceCtrl, Parent> workspace,
-            Pair<BoardCtrl, Parent> board
-    ) {
+            Pair<BoardCtrl, Parent> board) {
         this.primaryStage = primaryStage;
 
         this.workspaceCtrl = workspace.getKey();
@@ -34,10 +40,15 @@ public class MainCtrl {
         primaryStage.show();
     }
 
-    public void switchBoard(BoardCtrl newBoard){
-
-        boardCtrl.refresh();
+    /**
+     * Embeds a Board within the WorkspaceScene.
+     *
+     * @param newBoardCtrl is the BoardCtrl to be embedded.
+     */
+    public void switchBoard(BoardCtrl newBoardCtrl) {
+        this.boardCtrl = newBoardCtrl;
+        workspaceCtrl.setBoardView(newBoardCtrl.getBoardView());
+        newBoardCtrl.refresh();
     }
-
 
 }
