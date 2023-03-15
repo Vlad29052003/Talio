@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import server.database.TaskListRepository;
+import server.database.TaskRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,9 +21,11 @@ import java.util.Optional;
 @RequestMapping("api/task_lists")
 public class TaskListController {
     private final TaskListRepository repo;
+    private final TaskRepository taskRepo;
 
-    public TaskListController(TaskListRepository repo) {
+    public TaskListController(TaskListRepository repo, TaskRepository taskRepo) {
         this.repo = repo;
+        this.taskRepo = taskRepo;
     }
 
     /**
@@ -110,6 +113,7 @@ public class TaskListController {
         Optional<TaskList> optLocal = repo.findById(id);
         return optLocal.map((opt) -> {
             opt.getBoard().removeTaskList(opt);
+            taskRepo.deleteAll(opt.tasks);
             repo.deleteById(opt.id);
             return ResponseEntity.ok("Successfully deleted.");
         }).orElseGet(() -> ResponseEntity.notFound().build());

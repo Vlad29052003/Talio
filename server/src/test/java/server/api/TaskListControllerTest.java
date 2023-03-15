@@ -22,7 +22,8 @@ public class TaskListControllerTest {
     @BeforeEach
     public void setup() {
         repo = new TaskListTestRepository();
-        controller = new TaskListController(repo);
+        TestTaskRepository taskRepo = new TestTaskRepository();
+        controller = new TaskListController(repo, taskRepo);
     }
 
     @Test
