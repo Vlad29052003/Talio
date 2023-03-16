@@ -106,6 +106,7 @@ public class TaskListController {
      * @return a ResponseEntity containing the status of the operation.
      */
     @DeleteMapping("/{taskListId}")
+    @Transactional
     public ResponseEntity<String> deleteById(@PathVariable("taskListId") long id) {
         if (id < 0)
             return ResponseEntity.badRequest().body("Invalid ID.");
