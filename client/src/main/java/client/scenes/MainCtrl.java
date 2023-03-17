@@ -12,14 +12,15 @@ public class MainCtrl {
     private Scene workspaceScene;
 
     private BoardCtrl boardCtrl;
+    private BoardCtrl noBoardCtrl;
     private Parent boardRoot; // Not a scene as it's to be embedded within the workspaceScene.
 
     /**
      * Initializes the application.
      *
      * @param primaryStage is the primary Stage.
-     * @param workspace is the Workspace.
-     * @param board is the initial Board, which is empty.
+     * @param workspace    is the Workspace.
+     * @param board        is the initial Board, which is empty.
      */
     public void initialize(
             Stage primaryStage,
@@ -31,6 +32,7 @@ public class MainCtrl {
         this.workspaceScene = new Scene(workspace.getValue());
         this.boardCtrl = board.getKey();
         this.boardRoot = board.getValue();
+        this.noBoardCtrl = boardCtrl;
 
         primaryStage.setTitle("Talio");
         primaryStage.setScene(workspaceScene);
@@ -51,4 +53,13 @@ public class MainCtrl {
         newBoardCtrl.refresh();
     }
 
+    /**
+     * Removes a BoardDisplayWorkspace from the workspace
+     *
+     * @param boardDisplayWorkspace is the BoardDisplayWorkspace to be removed
+     */
+    public void removeFromWorkspace(BoardDisplayWorkspace boardDisplayWorkspace) {
+        workspaceCtrl.removeFromWorkspace(boardDisplayWorkspace);
+        switchBoard(noBoardCtrl);
+    }
 }

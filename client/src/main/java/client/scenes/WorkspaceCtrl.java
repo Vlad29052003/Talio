@@ -9,8 +9,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -22,15 +20,19 @@ import java.util.ResourceBundle;
 public class WorkspaceCtrl implements Initializable {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-    private List<BoardCtrl> boards;
-    private int inc;
+    private List<BoardDisplayWorkspace> boards;
+    private int inc; //used temporary to generate names
     @FXML
     private AnchorPane boardViewPane;
     @FXML
     private VBox boardButtons;
 
-
-
+    /**
+     * Creates a new {@link WorkspaceCtrl workspace controller}
+     *
+     * @param server   is the ServerUtils
+     * @param mainCtrl is the MainCtrl
+     */
     @Inject
     public WorkspaceCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
@@ -39,6 +41,14 @@ public class WorkspaceCtrl implements Initializable {
         boards = new ArrayList<>();
     }
 
+    /**
+     * Initializes the object.
+     *
+     * @param location  The location used to resolve relative paths for the root object, or
+     *                  {@code null} if the location is not known.
+     * @param resources The resources used to localize the root object, or {@code null} if
+     *                  the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
@@ -49,6 +59,7 @@ public class WorkspaceCtrl implements Initializable {
      * @param boardRoot is the root of the BoardCtrl.
      */
     void setBoardView(Parent boardRoot) {
+        this.boardViewPane.getChildren().clear();
         this.boardViewPane.getChildren().add(boardRoot);
         AnchorPane.setTopAnchor(boardRoot, 0.0);
         AnchorPane.setLeftAnchor(boardRoot, 0.0);
@@ -63,44 +74,41 @@ public class WorkspaceCtrl implements Initializable {
      * Is called when "Create Board" button is pressed.
      */
     public void addBoard() {
-        {
-            Board newBoard = new Board("name" + inc, "");
-            inc++;
+        Board newBoard = new Board("name" + inc, "");
+        inc++;
 
-            try {
-                newBoard = server.addBoard(newBoard);
-            } catch (WebApplicationException e) {
-
-                var alert = new Alert(Alert.AlertType.ERROR);
-                alert.initModality(Modality.APPLICATION_MODAL);
-                alert.setContentText(e.getMessage());
-                alert.showAndWait();
-                return;
-            }
-
-            Button viewBoard = new Button(newBoard.name + " (" + newBoard.id + ")");
-            BoardCtrl newBoardCtrl = createInstance(newBoard);
-
-            viewBoard.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-                removeAllChildren();
-                mainCtrl.switchBoard(newBoardCtrl);
-            });
-
-            boardButtons.getChildren().add(viewBoard);
+        try {
+            newBoard = server.addBoard(newBoard);
+        } catch (WebApplicationException e) {
+            var alert = new Alert(Alert.AlertType.ERROR);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+            return;
         }
+
+        BoardDisplayWorkspace displayBoard = createDisplay(newBoard);
+        boards.add(displayBoard);
+        boardButtons.getChildren().add(displayBoard.getRoot());
     }
 
     /**
-     * Removes all children of the boardViewPane AnchorPane
-     * in order to allow switching back to a previously visited
-     * BoardCtrl.
+     * Creates a new {@link BoardDisplayWorkspace} object.
+     *
+     * @param newBoard is the Board it is associated with.
+     * @return the new object.
      */
-    public void removeAllChildren() {
-        this.boardViewPane.getChildren().clear();
+    private BoardDisplayWorkspace createDisplay(Board newBoard) {
+        BoardCtrl newBoardCtrl = createInstance(newBoard);
+        BoardDisplayWorkspace boardDisplay = Main.getMyFXML().
+                load(BoardDisplayWorkspace.class,
+                        "client", "scenes", "BoardDisplayWorkspace.fxml").getKey();
+        boardDisplay.setBoardCtrl(newBoardCtrl);
+        return boardDisplay;
     }
 
     /**
-     * Creates a new instance of BoardCtrl in order to allow
+     * Creates a new instance of {@link BoardCtrl} in order to allow
      * for efficient switching to another Board.
      *
      * @param newBoard is the Board object associated with this controller.
@@ -111,5 +119,22 @@ public class WorkspaceCtrl implements Initializable {
                 .load(BoardCtrl.class, "client", "scenes", "BoardView.fxml").getKey();
         boardCtrl.setBoard(newBoard);
         return boardCtrl;
+    }
+
+    /**
+     * TO BE IMPLEMENTED
+     */
+    public void admin() {
+        /* TODO */
+    }
+
+    /**
+     * Removes a {@link BoardDisplayWorkspace} from the workspace
+     *
+     * @param boardDisplayWorkspace is the BoardDisplayWorkspace to be removed
+     */
+    public void removeFromWorkspace(BoardDisplayWorkspace boardDisplayWorkspace) {
+        boards.remove(boardDisplayWorkspace);
+        boardButtons.getChildren().remove(boardDisplayWorkspace.getRoot());
     }
 }

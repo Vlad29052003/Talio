@@ -1,6 +1,7 @@
 package client;
 
 import client.scenes.BoardCtrl;
+import client.scenes.BoardDisplayWorkspace;
 import client.scenes.MainCtrl;
 import client.scenes.WorkspaceCtrl;
 import com.google.inject.Binder;
@@ -16,5 +17,6 @@ public class MyModule implements Module {
 
         //we want a BoardCtrl for every Board added
         binder.bind(BoardCtrl.class).in(Scopes.NO_SCOPE);
+        binder.bind(BoardDisplayWorkspace.class).in(Scopes.NO_SCOPE);
     }
 }
