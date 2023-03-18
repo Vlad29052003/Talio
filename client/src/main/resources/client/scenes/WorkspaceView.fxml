@@ -93,7 +93,7 @@
                         </HBox>
                         <ScrollPane fitToHeight="true" hbarPolicy="NEVER" prefHeight="559.0" prefWidth="313.0">
                            <content>
-                              <VBox fx:id="boardButtons" prefHeight="557.0" prefWidth="311.0" />
+                              <VBox fx:id="boardWorkspace" prefHeight="557.0" prefWidth="311.0" />
                            </content>
                         </ScrollPane>
                      </children>

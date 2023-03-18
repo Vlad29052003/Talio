@@ -25,7 +25,7 @@ public class WorkspaceCtrl implements Initializable {
     @FXML
     private AnchorPane boardViewPane;
     @FXML
-    private VBox boardButtons;
+    private VBox boardWorkspace;
 
     /**
      * Creates a new {@link WorkspaceCtrl workspace controller}
@@ -53,18 +53,33 @@ public class WorkspaceCtrl implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
     }
 
-    /**
-     * Method used to embed the BoardCtrl in the same Scene.
-     *
-     * @param boardRoot is the root of the BoardCtrl.
-     */
-    void setBoardView(Parent boardRoot) {
-        this.boardViewPane.getChildren().clear();
-        this.boardViewPane.getChildren().add(boardRoot);
-        AnchorPane.setTopAnchor(boardRoot, 0.0);
-        AnchorPane.setLeftAnchor(boardRoot, 0.0);
-        AnchorPane.setRightAnchor(boardRoot, 0.0);
-        AnchorPane.setBottomAnchor(boardRoot, 0.0);
+    public ServerUtils getServer() {
+        return server;
+    }
+
+    public MainCtrl getMainCtrl() {
+        return mainCtrl;
+    }
+
+    public List<BoardDisplayWorkspace> getBoards() {
+        return boards;
+    }
+
+    public AnchorPane getBoardViewPane() {
+        return boardViewPane;
+    }
+
+    public void setBoardViewPane(AnchorPane pane) {
+        boardViewPane = pane;
+    }
+
+
+    public VBox getBoardWorkspace() {
+        return boardWorkspace;
+    }
+
+    public void setBoardWorkspace(VBox boardButtons) {
+        this.boardWorkspace = boardButtons;
     }
 
     /**
@@ -89,7 +104,21 @@ public class WorkspaceCtrl implements Initializable {
 
         BoardDisplayWorkspace displayBoard = createDisplay(newBoard);
         boards.add(displayBoard);
-        boardButtons.getChildren().add(displayBoard.getRoot());
+        boardWorkspace.getChildren().add(displayBoard.getRoot());
+    }
+
+    /**
+     * Method used to embed the BoardCtrl in the same Scene.
+     *
+     * @param boardRoot is the root of the BoardCtrl.
+     */
+    public void setBoardView(Parent boardRoot) {
+        this.boardViewPane.getChildren().clear();
+        this.boardViewPane.getChildren().add(boardRoot);
+        AnchorPane.setTopAnchor(boardRoot, 0.0);
+        AnchorPane.setLeftAnchor(boardRoot, 0.0);
+        AnchorPane.setRightAnchor(boardRoot, 0.0);
+        AnchorPane.setBottomAnchor(boardRoot, 0.0);
     }
 
     /**
@@ -135,6 +164,6 @@ public class WorkspaceCtrl implements Initializable {
      */
     public void removeFromWorkspace(BoardDisplayWorkspace boardDisplayWorkspace) {
         boards.remove(boardDisplayWorkspace);
-        boardButtons.getChildren().remove(boardDisplayWorkspace.getRoot());
+        boardWorkspace.getChildren().remove(boardDisplayWorkspace.getRoot());
     }
 }
