@@ -12,12 +12,16 @@
     -fx-background-color: #A9A9A9;
 }
 
+.delete-button-tag{
+    -fx-background-color: #008000;
+}
+
 .delete-button-task{
     -fx-background-color: #B22222;
 }
 
 .delete-button-list{
-    -fx-background-color: #191970;
+    -fx-background-color: #6495ED;
 }
 
 .delete-button-board{

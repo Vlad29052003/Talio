@@ -21,12 +21,12 @@
     -fx-background-color: #A9A9A9;
 }
 
-.add-button-task{
-    -fx-background-color: #B22222;
+.add-button-tag{
+    -fx-background-color: #008000;
 }
 
 *{
-	-fx-primary-color: #B22222;
+	-fx-primary-color: #008000;
 	-fx-secondary-color: #4B6EAF;
 	-fx-grey-color: #A9A9A9;
 
@@ -42,21 +42,4 @@
 
 .text-field: focused{
 	-fx-background-color: -fx-primary-color, white;
-}
-
-.text-area {
-    -fx-accent: #ff6347;
-	-fx-background-color: #A9A9A9;
-	-fx-background-insets: 0, 0 0 2 0;
-	-fx-background-radius: 0;
-}
-.text-area .content {
-	-fx-background-color: white;
-	-fx-background-insets: 0;
-	-fx-background-radius: 0;
-}
-.text-area:focused{
-    -fx-background-color: #B22222;
-    /* shadow */
-	-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 5.0, 5.0);
 }
