@@ -69,6 +69,10 @@ public class TaskList {
         board.addTaskList(this);
     }
 
+    public Board getBoard() {
+        return this.board;
+    }
+
     /**
      * Adds a {@link Task task} to the {@link TaskList list}.
      *
