@@ -1,4 +1,4 @@
-package client.scenes.crud;
+package client.scenes.crud.task;
 
 public class ConfirmTaskDeleteCtrl {
 }

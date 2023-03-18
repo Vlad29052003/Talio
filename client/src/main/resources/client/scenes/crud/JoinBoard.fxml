@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXBadge?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="170.0" prefWidth="340.0" stylesheets="@../../../style/CreateNewBoard.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.crud.board.JoinBoardCtrl">
+    <children>
+        <Text layoutX="13.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Join board" wrappingWidth="161.33673095703125">
+            <font>
+                <Font name="Calibri" size="12.0" />
+            </font></Text>
+        <Text layoutX="13.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Board ID:" />
+        <JFXButton layoutX="104.0" layoutY="123.0" onAction="#confirm" prefHeight="25.0" prefWidth="65.0" styleClass="add-button-board" text="Join" />
+        <JFXButton layoutX="174.0" layoutY="123.0" onAction="#cancel" prefHeight="25.0" prefWidth="65.0" styleClass="cancel-button" text="Cancel" />
+        <JFXBadge layoutX="184.0" layoutY="59.0" />
+        <TextField fx:id="text" layoutX="12.0" layoutY="87.0" prefHeight="26.0" prefWidth="315.0" styleClass="text-field" />
+    </children>
+</AnchorPane>

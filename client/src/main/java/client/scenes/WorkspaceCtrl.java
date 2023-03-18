@@ -4,14 +4,11 @@ import client.Main;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
-import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +18,6 @@ public class WorkspaceCtrl implements Initializable {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private List<BoardDisplayWorkspace> boards;
-    private int inc; //used temporary to generate names
     @FXML
     private AnchorPane boardViewPane;
     @FXML
@@ -37,7 +33,6 @@ public class WorkspaceCtrl implements Initializable {
     public WorkspaceCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
-        inc = 0;
         boards = new ArrayList<>();
     }
 
@@ -53,49 +48,88 @@ public class WorkspaceCtrl implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
     }
 
+    /**
+     * Gets the server.
+     *
+     * @return the server.
+     */
     public ServerUtils getServer() {
         return server;
     }
 
+    /**
+     * Gets the mainCtrl.
+     *
+     * @return the mainCtrl.
+     */
     public MainCtrl getMainCtrl() {
         return mainCtrl;
     }
 
+    /**
+     * Gets the boards.
+     *
+     * @return the boards.
+     */
     public List<BoardDisplayWorkspace> getBoards() {
         return boards;
     }
 
+    /**
+     * Gets the boardViewPane.
+     *
+     * @return the boardViewPane.
+     */
     public AnchorPane getBoardViewPane() {
         return boardViewPane;
     }
 
+    /**
+     * Sets the boardViewPane.
+     *
+     * @param pane the boardViewPane.
+     */
     public void setBoardViewPane(AnchorPane pane) {
         boardViewPane = pane;
     }
 
-
+    /**
+     * Gets the boardWorkspace.
+     *
+     * @return the boardWorkspace.
+     */
     public VBox getBoardWorkspace() {
         return boardWorkspace;
     }
 
-    public void setBoardWorkspace(VBox boardButtons) {
-        this.boardWorkspace = boardButtons;
+    /**
+     * Sets the boardWorkspace.
+     *
+     * @param boardWorkspace is the boardWorkspace.
+     */
+    public void setBoardWorkspace(VBox boardWorkspace) {
+        this.boardWorkspace = boardWorkspace;
     }
 
     /**
-     * Sends a request to the server to create a new Board,
-     * creates a button that switches the embedded boardView
-     * to the newly created one, adds the button in the Workspace.
-     * Is called when "Create Board" button is pressed.
+     * Switches to the AddBoard Scene
      */
     public void addBoard() {
         mainCtrl.addBoard();
     }
 
-    public void addBoardToWorkspace(Board newBoard) {
-        BoardDisplayWorkspace displayBoard = createDisplay(newBoard);
-        boards.add(displayBoard);
-        boardWorkspace.getChildren().add(displayBoard.getRoot());
+    /**
+     * Switches to the JoinBoard Scene.
+     */
+    public void joinBoard() {
+        mainCtrl.joinBoard();
+    }
+
+    /**
+     * TO BE IMPLEMENTED
+     */
+    public void admin() {
+        /* TODO */
     }
 
     /**
@@ -113,7 +147,56 @@ public class WorkspaceCtrl implements Initializable {
     }
 
     /**
-     * Creates a new {@link BoardDisplayWorkspace} object.
+     * Adds a Board to the workspace.
+     *
+     * @param newBoard is the board to be added.
+     */
+    public void addBoardToWorkspace(Board newBoard) {
+        BoardDisplayWorkspace displayBoard = createDisplay(newBoard);
+        boards.add(displayBoard);
+        boardWorkspace.getChildren().add(displayBoard.getRoot());
+    }
+
+    /**
+     * Removes a BoardDisplayWorkspace from the workspace.
+     *
+     * @param boardDisplayWorkspace is the BoardDisplayWorkspace to be removed.
+     */
+    public void removeFromWorkspace(BoardDisplayWorkspace boardDisplayWorkspace) {
+        boards.remove(boardDisplayWorkspace);
+        boardWorkspace.getChildren().remove(boardDisplayWorkspace.getRoot());
+    }
+
+    /**
+     * Removed a Board from the workspace.
+     *
+     * @param removed is the Board to be removed.
+     */
+    public void removeFromWorkspace(Board removed) {
+        BoardDisplayWorkspace boardDisplayWorkspace =
+                boards.stream().filter(b -> b.getBoardCtrl()
+                        .getBoard().equals(removed)).findFirst().get();
+        boards.remove(boardDisplayWorkspace);
+        boardWorkspace.getChildren().remove(boardDisplayWorkspace.getRoot());
+    }
+
+    /**
+     * Updates a Board on the workspace.
+     *
+     * @param board is the Board to be updated.
+     */
+    public void updateBoard(Board board) {
+        var toBeUpdated =
+                boards.stream().filter(b -> b.getBoardCtrl()
+                        .getBoard().id == board.id).findFirst();
+        if (toBeUpdated.isEmpty()) return;
+        var updatedBoardWorkspace = toBeUpdated.get();
+        updatedBoardWorkspace.getBoardCtrl().setBoard(board);
+        updatedBoardWorkspace.refresh();
+    }
+
+    /**
+     * Creates a new BoardDisplayWorkspace object.
      *
      * @param newBoard is the Board it is associated with.
      * @return the new object.
@@ -128,7 +211,7 @@ public class WorkspaceCtrl implements Initializable {
     }
 
     /**
-     * Creates a new instance of {@link BoardCtrl} in order to allow
+     * Creates a new instance of BoardCtrl in order to allow
      * for efficient switching to another Board.
      *
      * @param newBoard is the Board object associated with this controller.
@@ -139,36 +222,5 @@ public class WorkspaceCtrl implements Initializable {
                 .load(BoardCtrl.class, "client", "scenes", "BoardView.fxml").getKey();
         boardCtrl.setBoard(newBoard);
         return boardCtrl;
-    }
-
-    /**
-     * TO BE IMPLEMENTED
-     */
-    public void admin() {
-        /* TODO */
-    }
-
-    /**
-     * Removes a {@link BoardDisplayWorkspace} from the workspace
-     *
-     * @param boardDisplayWorkspace is the BoardDisplayWorkspace to be removed
-     */
-    public void removeFromWorkspace(BoardDisplayWorkspace boardDisplayWorkspace) {
-        boards.remove(boardDisplayWorkspace);
-        boardWorkspace.getChildren().remove(boardDisplayWorkspace.getRoot());
-    }
-
-    public void removeFromWorkspace(Board removed) {
-        BoardDisplayWorkspace boardDisplayWorkspace = boards.stream().filter(b -> b.getBoardCtrl().getBoard().equals(removed)).findFirst().get();
-        boards.remove(boardDisplayWorkspace);
-        boardWorkspace.getChildren().remove(boardDisplayWorkspace.getRoot());
-    }
-
-    public void updateBoard(Board board) {
-        var toBeUpdated = boards.stream().filter(b -> b.getBoardCtrl().getBoard().id == board.id).findFirst();
-        if(toBeUpdated.isEmpty())return;
-        var updatedBoardWorkspace = toBeUpdated.get();
-        updatedBoardWorkspace.getBoardCtrl().setBoard(board);
-        updatedBoardWorkspace.refresh();
     }
 }

@@ -2,16 +2,13 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
 import javafx.scene.layout.VBox;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
-import javafx.stage.Modality;
 
 public class BoardDisplayWorkspace implements Initializable {
     private final ServerUtils server;
@@ -98,6 +95,9 @@ public class BoardDisplayWorkspace implements Initializable {
         mainCtrl.editBoard(this.boardCtrl.getBoard());
     }
 
+    /**
+     * Refreshes this Object.
+     */
     public void refresh() {
         label.setText(boardCtrl.getBoard().name + " (" + boardCtrl.getBoard().id + ")");
     }

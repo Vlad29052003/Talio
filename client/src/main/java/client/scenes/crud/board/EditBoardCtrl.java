@@ -12,18 +12,52 @@ public class EditBoardCtrl {
     private MainCtrl mainCtrl;
     private Board board;
     @FXML
-    TextField text;
+    private TextField text;
 
+    /**
+     * Creates a new {@link EditBoardCtrl} object.
+     *
+     * @param server   is the ServerUtils.
+     * @param mainCtrl is the MainCtrl.
+     */
     @Inject
     public EditBoardCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
 
+    /**
+     * Sets the board.
+     *
+     * @param board is the Board.
+     */
+    public void setBoard(Board board) {
+        this.board = board;
+        this.text.setText(board.name);
+    }
+
+    /**
+     * Gets the board.
+     *
+     * @return the board.
+     */
+    public Board getBoard() {
+        return board;
+    }
+
+    /**
+     * Bond to the Cancel button.
+     * Switches back to the workspace Scene.
+     */
     public void cancel() {
         mainCtrl.cancel();
     }
 
+    /**
+     * Bound to the Confirm button.
+     * Sends a request to the server
+     * to update this board.
+     */
     public void confirm() {
         this.board.name = text.getText();
         this.board = server.updateBoard(board);
@@ -31,15 +65,9 @@ public class EditBoardCtrl {
         mainCtrl.cancel();
     }
 
-    public void setBoard(Board board) {
-        this.board = board;
-        this.text.setText(board.name);
-    }
-
-    public Board getBoard() {
-        return board;
-    }
-
+    /**
+     * Resets the fields in this object.
+     */
     public void reset() {
         this.board = null;
         text.setText("");

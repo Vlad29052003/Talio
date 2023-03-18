@@ -11,7 +11,7 @@ public class ServerUtilsTesting extends ServerUtils {
     }
 
     public Board addBoard(Board board) {
-        board.id = inc ++;
+        board.id = inc++;
         return board;
     }
 

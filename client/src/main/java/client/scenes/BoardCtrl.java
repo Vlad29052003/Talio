@@ -20,13 +20,29 @@ public class BoardCtrl implements Initializable {
     @FXML
     private HBox listContainer;
 
-
+    /**
+     * Creates a new {@link BoardCtrl} object.
+     *
+     * @param server is the ServerUtils.
+     * @param mainCtrl is the MainCtrl.
+     */
     @Inject
     public BoardCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
 
+    /**
+     * Initializes this Object.
+     *
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * {@code null} if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or {@code null} if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if(board != null)
@@ -62,8 +78,9 @@ public class BoardCtrl implements Initializable {
         return boardView;
     }
 
-    public void refresh() {
-
-    }
+    /**
+     * Refreshes this Object.
+     */
+    public void refresh() {}
 
 }

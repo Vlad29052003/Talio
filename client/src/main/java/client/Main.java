@@ -8,6 +8,7 @@ import client.scenes.WorkspaceCtrl;
 import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
+import client.scenes.crud.board.JoinBoardCtrl;
 import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -27,13 +28,19 @@ public class Main extends Application {
         var workspace = FXML.load(WorkspaceCtrl.class, "client", "scenes", "WorkspaceView.fxml");
         var board = FXML.load(BoardCtrl.class, "client", "scenes", "BoardView.fxml");
 
-        var createBoard = FXML.load(CreateNewBoardCtrl.class, "client", "scenes", "crud", "CreateNewBoard.fxml");
-        var editBoard = FXML.load(EditBoardCtrl.class, "client", "scenes", "crud", "EditBoardName.fxml");
-        var deleteBoard = FXML.load(DeleteBoardCtrl.class, "client", "scenes", "crud", "ConfirmBoardDelete.fxml");
-
+        var joinBoard = FXML
+                .load(JoinBoardCtrl.class, "client", "scenes", "crud", "JoinBoard.fxml");
+        var createBoard = FXML
+                .load(CreateNewBoardCtrl.class, "client", "scenes", "crud", "CreateNewBoard.fxml");
+        var editBoard = FXML
+                .load(EditBoardCtrl.class, "client", "scenes", "crud", "EditBoardName.fxml");
+        var deleteBoard = FXML
+                .load(DeleteBoardCtrl.class, "client", "scenes", "crud", "ConfirmBoardDelete.fxml");
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-        mainCtrl.initialize(primaryStage, workspace, board, createBoard, editBoard, deleteBoard);
+
+        mainCtrl.initialize(primaryStage, workspace, board);
+        mainCtrl.initializeBoardCrud(joinBoard, createBoard, editBoard, deleteBoard);
     }
 
     /**

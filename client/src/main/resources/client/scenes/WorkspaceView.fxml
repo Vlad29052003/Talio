@@ -79,7 +79,7 @@
                                     <Insets left="10.0" right="10.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" text="Join Board">
+                              <Button mnemonicParsing="false" onAction="#joinBoard" text="Join Board">
                                  <HBox.margin>
                                     <Insets left="10.0" right="10.0" />
                                  </HBox.margin>

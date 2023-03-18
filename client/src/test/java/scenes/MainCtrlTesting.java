@@ -1,7 +1,6 @@
 package scenes;
 
 import client.scenes.BoardCtrl;
-import client.scenes.BoardDisplayWorkspace;
 import client.scenes.MainCtrl;
 import client.scenes.WorkspaceCtrl;
 import java.util.ArrayList;
