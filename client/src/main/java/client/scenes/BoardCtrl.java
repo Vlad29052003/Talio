@@ -21,19 +21,53 @@ import java.util.ResourceBundle;
 import com.google.inject.Inject;
 
 import client.utils.ServerUtils;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-public class BoardView implements Initializable {
+import javafx.scene.text.Text;
+
+public class BoardCtrl implements Initializable {
 
     private final ServerUtils server;
-    private final BoardMainCtrl mainCtrl;
+    private final MainCtrl mainCtrl;
+
+    private String boardID = "";
+
+    @FXML
+    private Text boardText;
 
     @Inject
-    public BoardView(ServerUtils server, BoardMainCtrl mainCtrl) {
+    public BoardCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    }
+
+    /**
+     * Set the ID of the board to be rendered by the view.
+     * @param board the board which the board view is to render.
+     */
+    public void setBoard(String board) {
+        this.boardID = board;
+        this.refresh();
+    }
+
+    /**
+     * Get the boardID currently being rendered by the Board scene.
+     * @return the boardID currently being rendered.
+     */
+    public String getBoard() {
+        return this.boardID;
+    }
+
+    /**
+     * Refresh the Board scene. Will fetch the data for this board and re-render the scene.
+     */
+    public void refresh() {
+        // Populate board
+
+        this.boardText.setText("I am rendering board '" + this.boardID + "'");
     }
 }
