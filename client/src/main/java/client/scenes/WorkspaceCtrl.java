@@ -157,4 +157,18 @@ public class WorkspaceCtrl implements Initializable {
         boards.remove(boardDisplayWorkspace);
         boardWorkspace.getChildren().remove(boardDisplayWorkspace.getRoot());
     }
+
+    public void removeFromWorkspace(Board removed) {
+        BoardDisplayWorkspace boardDisplayWorkspace = boards.stream().filter(b -> b.getBoardCtrl().getBoard().equals(removed)).findFirst().get();
+        boards.remove(boardDisplayWorkspace);
+        boardWorkspace.getChildren().remove(boardDisplayWorkspace.getRoot());
+    }
+
+    public void updateBoard(Board board) {
+        var toBeUpdated = boards.stream().filter(b -> b.getBoardCtrl().getBoard().id == board.id).findFirst();
+        if(toBeUpdated.isEmpty())return;
+        var updatedBoardWorkspace = toBeUpdated.get();
+        updatedBoardWorkspace.getBoardCtrl().setBoard(board);
+        updatedBoardWorkspace.refresh();
+    }
 }

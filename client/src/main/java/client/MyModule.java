@@ -5,7 +5,7 @@ import client.scenes.BoardDisplayWorkspace;
 import client.scenes.MainCtrl;
 import client.scenes.WorkspaceCtrl;
 import client.scenes.crud.ConfirmTaskDeleteCtrl;
-import client.scenes.crud.CreateNewBoardCtrl;
+import client.scenes.crud.board.CreateNewBoardCtrl;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Scopes;

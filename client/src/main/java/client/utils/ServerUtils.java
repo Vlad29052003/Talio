@@ -38,4 +38,12 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON)
                 .delete();
     }
+
+    public Board updateBoard(Board board) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/boards/" + board.id)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .put(Entity.entity(board, APPLICATION_JSON), Board.class);
+    }
 }

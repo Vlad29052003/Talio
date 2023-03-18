@@ -84,23 +84,22 @@ public class BoardDisplayWorkspace implements Initializable {
      * Deletes the Board associated with this object.
      */
     public void delete() {
-        try {
-            server.delete(boardCtrl.getBoard());
-            remove();
-        } catch (WebApplicationException e) {
-            var alert = new Alert(Alert.AlertType.ERROR);
-            alert.initModality(Modality.APPLICATION_MODAL);
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
-            return;
-        }
+        mainCtrl.deleteBoard(this.boardCtrl.getBoard());
+    }
+
+    public BoardCtrl getBoardCtrl() {
+        return  this.boardCtrl;
     }
 
     /**
      * Edits the Board associated with this object.
      */
     public void edit() {
-        /* TODO */
+        mainCtrl.editBoard(this.boardCtrl.getBoard());
+    }
+
+    public void refresh() {
+        label.setText(boardCtrl.getBoard().name + " (" + boardCtrl.getBoard().id + ")");
     }
 
 }

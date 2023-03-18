@@ -1,6 +1,8 @@
 package client.scenes;
 
-import client.scenes.crud.CreateNewBoardCtrl;
+import client.scenes.crud.board.CreateNewBoardCtrl;
+import client.scenes.crud.board.DeleteBoardCtrl;
+import client.scenes.crud.board.EditBoardCtrl;
 import commons.Board;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,9 +14,12 @@ public class MainCtrl {
 
     private WorkspaceCtrl workspaceCtrl;
     private Scene workspaceScene;
-    private Scene createBoard;
     private CreateNewBoardCtrl createBoardCtrl;
-
+    private Scene createBoard;
+    private EditBoardCtrl editBoardCtrl;
+    private Scene editBoard;
+    private DeleteBoardCtrl deleteBoardCtrl;
+    private Scene deleteBoard;
     private BoardCtrl boardCtrl;
     private BoardCtrl noBoardCtrl;
     private Parent boardRoot; // Not a scene as it's to be embedded within the workspaceScene.
@@ -30,7 +35,9 @@ public class MainCtrl {
             Stage primaryStage,
             Pair<WorkspaceCtrl, Parent> workspace,
             Pair<BoardCtrl, Parent> board,
-            Pair<CreateNewBoardCtrl, Parent> newBoard) {
+            Pair<CreateNewBoardCtrl, Parent> newBoard,
+            Pair<EditBoardCtrl, Parent> editBoard,
+            Pair<DeleteBoardCtrl, Parent> deleteBoard) {
         this.primaryStage = primaryStage;
 
         this.workspaceCtrl = workspace.getKey();
@@ -41,6 +48,12 @@ public class MainCtrl {
 
         this.createBoardCtrl = newBoard.getKey();
         this.createBoard = new Scene(newBoard.getValue());
+
+        this.editBoardCtrl = editBoard.getKey();
+        this.editBoard = new Scene(editBoard.getValue());
+
+        this.deleteBoardCtrl = deleteBoard.getKey();
+        this.deleteBoard = new Scene(deleteBoard.getValue());
 
         primaryStage.setTitle("Talio");
         primaryStage.setScene(workspaceScene);
@@ -71,6 +84,11 @@ public class MainCtrl {
         switchBoard(noBoardCtrl);
     }
 
+    public void removeFromWorkspace(Board removed) {
+        workspaceCtrl.removeFromWorkspace(removed);
+        switchBoard(noBoardCtrl);
+    }
+
     public void cancel() {
         if(createBoardCtrl.getBoard() != null) {
             workspaceCtrl.addBoardToWorkspace(createBoardCtrl.getBoard());
@@ -81,5 +99,19 @@ public class MainCtrl {
 
     public void addBoard() {
         primaryStage.setScene(createBoard);
+    }
+
+    public void editBoard(Board board) {
+        primaryStage.setScene(editBoard);
+        editBoardCtrl.setBoard(board);
+    }
+
+    public void deleteBoard(Board board) {
+        primaryStage.setScene(deleteBoard);
+        deleteBoardCtrl.setBoard(board);
+    }
+
+    public void updateBoard(Board board) {
+        workspaceCtrl.updateBoard(board);
     }
 }

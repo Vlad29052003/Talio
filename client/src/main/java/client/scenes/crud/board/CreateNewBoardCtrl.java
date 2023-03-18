@@ -1,4 +1,4 @@
-package client.scenes.crud;
+package client.scenes.crud.board;
 
 import client.scenes.MainCtrl;
 import client.utils.ServerUtils;

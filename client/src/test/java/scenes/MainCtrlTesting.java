@@ -21,14 +21,4 @@ public class MainCtrlTesting extends MainCtrl {
         calledMethods.add("switchBoard");
         workspaceCtrl.setBoardView(newBoardCtrl.getBoardView());
     }
-
-    /**
-     * Removes a BoardDisplayWorkspace from the workspace
-     *
-     * @param boardDisplayWorkspace is the BoardDisplayWorkspace to be removed
-     */
-    public void removeFromWorkspace(BoardDisplayWorkspace boardDisplayWorkspace) {
-        calledMethods.add("removeFromWorkspace");
-        workspaceCtrl.removeFromWorkspace(boardDisplayWorkspace);
-    }
 }
