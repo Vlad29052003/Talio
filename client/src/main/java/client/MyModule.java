@@ -1,23 +1,11 @@
-/*
- * Copyright 2021 Delft University of Technology
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package client;
 
 import client.scenes.BoardCtrl;
+import client.scenes.BoardDisplayWorkspace;
 import client.scenes.MainCtrl;
 import client.scenes.WorkspaceCtrl;
+import client.scenes.crud.ConfirmTaskDeleteCtrl;
+import client.scenes.crud.CreateNewBoardCtrl;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
@@ -28,6 +16,10 @@ public class MyModule implements Module {
     public void configure(Binder binder) {
         binder.bind(MainCtrl.class).in(Scopes.SINGLETON);
         binder.bind(WorkspaceCtrl.class).in(Scopes.SINGLETON);
-        binder.bind(BoardCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(CreateNewBoardCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(ConfirmTaskDeleteCtrl.class).in(Scopes.SINGLETON);
+        //we want a BoardCtrl for every Board added
+        binder.bind(BoardCtrl.class).in(Scopes.NO_SCOPE);
+        binder.bind(BoardDisplayWorkspace.class).in(Scopes.NO_SCOPE);
     }
 }
