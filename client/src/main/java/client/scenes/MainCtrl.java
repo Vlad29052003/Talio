@@ -1,7 +1,6 @@
 package client.scenes;
 
 import client.scenes.crud.CreateNewBoardCtrl;
-import commons.Board;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -25,6 +24,7 @@ public class MainCtrl {
      * @param primaryStage is the primary Stage.
      * @param workspace    is the Workspace.
      * @param board        is the initial Board, which is empty.
+     * @param newBoard     is the newBoard Scene
      */
     public void initialize(
             Stage primaryStage,
@@ -72,7 +72,7 @@ public class MainCtrl {
     }
 
     public void cancel() {
-        if(createBoardCtrl.getBoard() != null) {
+        if (createBoardCtrl.getBoard() != null) {
             workspaceCtrl.addBoardToWorkspace(createBoardCtrl.getBoard());
         }
         createBoardCtrl.reset();
