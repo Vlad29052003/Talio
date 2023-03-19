@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.MyFXML;
 import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
@@ -12,6 +13,7 @@ import javafx.util.Pair;
 
 public class MainCtrl {
     private Stage primaryStage;
+    private MyFXML FXML;
     private WorkspaceCtrl workspaceCtrl;
     private Scene workspaceScene;
     private JoinBoardCtrl joinBoardCtrl;
@@ -32,14 +34,18 @@ public class MainCtrl {
      * initial Board.
      *
      * @param primaryStage is the primary Stage.
+     * @param FXML is the FXML loader
      * @param workspace    is the Workspace.
      * @param board        is the initial Board, which is empty.
      */
     public void initialize(
             Stage primaryStage,
+            MyFXML FXML,
             Pair<WorkspaceCtrl, Parent> workspace,
             Pair<BoardCtrl, Parent> board) {
         this.primaryStage = primaryStage;
+
+        this.FXML = FXML;
 
         this.workspaceCtrl = workspace.getKey();
         this.workspaceScene = new Scene(workspace.getValue());
@@ -174,5 +180,23 @@ public class MainCtrl {
         createBoardCtrl.reset();
         joinBoardCtrl.reset();
         primaryStage.setScene(workspaceScene);
+    }
+
+    /**
+     * Loads the scenes for the BoardDisplayWorkspace and
+     * BoardCtrl.
+     *
+     * @param newBoard is the Board associated with them.
+     * @return the new BoardDisplayWorkspace.
+     */
+    public BoardDisplayWorkspace loadBoardDisplayWorkspace(Board newBoard) {
+        BoardDisplayWorkspace boardDisplay =
+                FXML.load(BoardDisplayWorkspace.class, "client", "scenes",
+                                "BoardDisplayWorkspace.fxml").getKey();
+        BoardCtrl boardCtrl =
+                FXML.load(BoardCtrl.class, "client", "scenes", "BoardView.fxml").getKey();
+        boardCtrl.setBoard(newBoard);
+        boardDisplay.setBoardCtrl(boardCtrl);
+        return boardDisplay;
     }
 }

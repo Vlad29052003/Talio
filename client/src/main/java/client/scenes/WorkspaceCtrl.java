@@ -1,6 +1,5 @@
 package client.scenes;
 
-import client.Main;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
@@ -72,7 +71,7 @@ public class WorkspaceCtrl implements Initializable {
      * @return the boards.
      */
     public List<BoardDisplayWorkspace> getBoards() {
-        return boards;
+        return this.boards;
     }
 
     /**
@@ -81,7 +80,7 @@ public class WorkspaceCtrl implements Initializable {
      * @return the boardViewPane.
      */
     public AnchorPane getBoardViewPane() {
-        return boardViewPane;
+        return this.boardViewPane;
     }
 
     /**
@@ -90,7 +89,7 @@ public class WorkspaceCtrl implements Initializable {
      * @param pane the boardViewPane.
      */
     public void setBoardViewPane(AnchorPane pane) {
-        boardViewPane = pane;
+        this.boardViewPane = pane;
     }
 
     /**
@@ -152,7 +151,7 @@ public class WorkspaceCtrl implements Initializable {
      * @param newBoard is the board to be added.
      */
     public void addBoardToWorkspace(Board newBoard) {
-        BoardDisplayWorkspace displayBoard = createDisplay(newBoard);
+        BoardDisplayWorkspace displayBoard = mainCtrl.loadBoardDisplayWorkspace(newBoard);
         boards.add(displayBoard);
         boardWorkspace.getChildren().add(displayBoard.getRoot());
     }
@@ -193,34 +192,5 @@ public class WorkspaceCtrl implements Initializable {
         var updatedBoardWorkspace = toBeUpdated.get();
         updatedBoardWorkspace.getBoardCtrl().setBoard(board);
         updatedBoardWorkspace.refresh();
-    }
-
-    /**
-     * Creates a new BoardDisplayWorkspace object.
-     *
-     * @param newBoard is the Board it is associated with.
-     * @return the new object.
-     */
-    private BoardDisplayWorkspace createDisplay(Board newBoard) {
-        BoardCtrl newBoardCtrl = createInstance(newBoard);
-        BoardDisplayWorkspace boardDisplay = Main.getMyFXML().
-                load(BoardDisplayWorkspace.class,
-                        "client", "scenes", "BoardDisplayWorkspace.fxml").getKey();
-        boardDisplay.setBoardCtrl(newBoardCtrl);
-        return boardDisplay;
-    }
-
-    /**
-     * Creates a new instance of BoardCtrl in order to allow
-     * for efficient switching to another Board.
-     *
-     * @param newBoard is the Board object associated with this controller.
-     * @return the BoardCtrl.
-     */
-    public BoardCtrl createInstance(Board newBoard) {
-        BoardCtrl boardCtrl = Main.getMyFXML()
-                .load(BoardCtrl.class, "client", "scenes", "BoardView.fxml").getKey();
-        boardCtrl.setBoard(newBoard);
-        return boardCtrl;
     }
 }

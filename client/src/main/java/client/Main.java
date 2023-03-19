@@ -39,16 +39,7 @@ public class Main extends Application {
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
 
-        mainCtrl.initialize(primaryStage, workspace, board);
+        mainCtrl.initialize(primaryStage, FXML, workspace, board);
         mainCtrl.initializeBoardCrud(joinBoard, createBoard, editBoard, deleteBoard);
-    }
-
-    /**
-     * Getter for the FXML field.
-     *
-     * @return FXML
-     */
-    public static MyFXML getMyFXML() {
-        return FXML;
     }
 }

@@ -45,9 +45,7 @@ public class BoardCtrl implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if(board != null)
-            boardView.setText(board.name + " (" + board.id + ")");
-        else boardView.setText("No board to be displayed");
+        boardView.setText("No board to be displayed");
     }
 
     /**
@@ -76,6 +74,15 @@ public class BoardCtrl implements Initializable {
      */
     public TitledPane getBoardView() {
         return boardView;
+    }
+
+    /**
+     * Setter for boardView.
+     *
+     * @param boardView is the TitledPane.
+     */
+    public void setBoardView(TitledPane boardView) {
+        this.boardView = boardView;
     }
 
     /**

@@ -3,14 +3,11 @@ package client.scenes;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.scene.control.Label;
 
-public class BoardDisplayWorkspace implements Initializable {
+public class BoardDisplayWorkspace{
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private BoardCtrl boardCtrl;
@@ -32,16 +29,21 @@ public class BoardDisplayWorkspace implements Initializable {
     }
 
     /**
-     * Initializes the object.
+     * Gets the label.
      *
-     * @param location  The location used to resolve relative paths for the root object, or
-     *                  {@code null} if the location is not known.
-     * @param resources The resources used to localize the root object, or {@code null} if
-     *                  the root object was not localized.
+     * @return the Label.
      */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public Label getLabel() {
+        return label;
+    }
 
+    /**
+     * Sets the label.
+     *
+     * @param label is the Label.
+     */
+    public void setLabel(Label label) {
+        this.label = label;
     }
 
     /**
@@ -61,6 +63,15 @@ public class BoardDisplayWorkspace implements Initializable {
      */
     public Parent getRoot() {
         return this.root;
+    }
+
+    /**
+     * Sets the root element.
+     *
+     * @param root is the root
+     */
+    public void setRoot(VBox root) {
+        this.root = root;
     }
 
     /**
