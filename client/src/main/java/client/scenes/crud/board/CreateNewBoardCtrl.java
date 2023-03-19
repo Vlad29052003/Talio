@@ -67,7 +67,7 @@ public class CreateNewBoardCtrl {
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
-            alert.setContentText(e.getMessage());
+            alert.setContentText("There has been an error!\r" + e.getMessage());
             alert.showAndWait();
         }
         mainCtrl.addBoardToWorkspace(board);

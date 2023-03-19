@@ -52,17 +52,10 @@ public class JoinBoardCtrl {
      *
      * @return the id.
      */
-    public Long getID() {
+    public Long getID() throws Exception {
         String idText = text.getText();
         long id = 0L;
-        try {
-            id = Long.parseLong(idText);
-        } catch (Exception e) {
-            var alert = new Alert(Alert.AlertType.ERROR);
-            alert.initModality(Modality.APPLICATION_MODAL);
-            alert.setContentText("Invalid ID. It must be numeric.");
-            alert.showAndWait();
-        }
+        id = Long.parseLong(idText);
         return id;
     }
 
@@ -80,19 +73,29 @@ public class JoinBoardCtrl {
      * to get the Board with the entered id.
      */
     public void confirm() {
-        long id = getID();
-        if (id >= 0L) {
-            try {
-                board = server.joinBoard(id);
-                mainCtrl.addBoardToWorkspace(board);
-            } catch (WebApplicationException e) {
-                var alert = new Alert(Alert.AlertType.ERROR);
-                alert.initModality(Modality.APPLICATION_MODAL);
-                alert.setContentText(e.getMessage());
-                alert.showAndWait();
-            }
-            mainCtrl.cancel();
+        long id = 0;
+        try {
+            id = getID();
+        } catch (Exception e) {
+            var alert = new Alert(Alert.AlertType.ERROR);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setContentText("Invalid ID. It must be numeric.\rPlease try again!");
+            alert.showAndWait();
+            this.reset();
+            return;
         }
+        try {
+            board = server.joinBoard(id);
+            mainCtrl.addBoardToWorkspace(board);
+        } catch (WebApplicationException e) {
+            var alert = new Alert(Alert.AlertType.ERROR);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setContentText("There is no board with this id.\rPlease try again!");
+            alert.showAndWait();
+            this.reset();
+            return;
+        }
+        mainCtrl.cancel();
     }
 
     /**

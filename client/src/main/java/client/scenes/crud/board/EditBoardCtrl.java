@@ -4,8 +4,11 @@ import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
+import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 
 public class EditBoardCtrl {
     private ServerUtils server;
@@ -60,7 +63,20 @@ public class EditBoardCtrl {
      */
     public void confirm() {
         this.board.name = text.getText();
-        this.board = server.updateBoard(board);
+        try {
+            this.board = server.updateBoard(board);
+        } catch (WebApplicationException e) {
+            var alert = new Alert(Alert.AlertType.ERROR);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setContentText("The board was not found on the server!" +
+                    "\rIt will be removed from the workspace!");
+            mainCtrl.removeFromWorkspace(this.board);
+            alert.showAndWait();
+            this.reset();
+            mainCtrl.cancel();
+            return;
+        }
+
         mainCtrl.updateBoard(board);
         mainCtrl.cancel();
     }
