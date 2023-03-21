@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.scenes.crud.CreateNewBoardCtrl;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -10,6 +11,8 @@ public class MainCtrl {
 
     private WorkspaceCtrl workspaceCtrl;
     private Scene workspaceScene;
+    private Scene createBoard;
+    private CreateNewBoardCtrl createBoardCtrl;
 
     private BoardCtrl boardCtrl;
     private BoardCtrl noBoardCtrl;
@@ -21,11 +24,13 @@ public class MainCtrl {
      * @param primaryStage is the primary Stage.
      * @param workspace    is the Workspace.
      * @param board        is the initial Board, which is empty.
+     * @param newBoard     is the newBoard Scene
      */
     public void initialize(
             Stage primaryStage,
             Pair<WorkspaceCtrl, Parent> workspace,
-            Pair<BoardCtrl, Parent> board) {
+            Pair<BoardCtrl, Parent> board,
+            Pair<CreateNewBoardCtrl, Parent> newBoard) {
         this.primaryStage = primaryStage;
 
         this.workspaceCtrl = workspace.getKey();
@@ -33,6 +38,9 @@ public class MainCtrl {
         this.boardCtrl = board.getKey();
         this.boardRoot = board.getValue();
         this.noBoardCtrl = boardCtrl;
+
+        this.createBoardCtrl = newBoard.getKey();
+        this.createBoard = new Scene(newBoard.getValue());
 
         primaryStage.setTitle("Talio");
         primaryStage.setScene(workspaceScene);
@@ -61,5 +69,17 @@ public class MainCtrl {
     public void removeFromWorkspace(BoardDisplayWorkspace boardDisplayWorkspace) {
         workspaceCtrl.removeFromWorkspace(boardDisplayWorkspace);
         switchBoard(noBoardCtrl);
+    }
+
+    public void cancel() {
+        if (createBoardCtrl.getBoard() != null) {
+            workspaceCtrl.addBoardToWorkspace(createBoardCtrl.getBoard());
+        }
+        createBoardCtrl.reset();
+        primaryStage.setScene(workspaceScene);
+    }
+
+    public void addBoard() {
+        primaryStage.setScene(createBoard);
     }
 }
