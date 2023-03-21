@@ -271,7 +271,7 @@ Commons
 - [14:30] Closure by Chair.
 
 #### Showcasing our work so far to the TA
-- no additional feedback recieved on the project.
+- finishing the basic requierments.
 
 #### Feedback on team management from the TA
 - improving on commit descriptions,
