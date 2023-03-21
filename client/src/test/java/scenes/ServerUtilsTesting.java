@@ -22,10 +22,7 @@ public class ServerUtilsTesting extends ServerUtils {
     @Override
     public Board addBoard(Board board) {
         board.id = inc++;
-<<<<<<< HEAD
         boards.add(board);
-=======
->>>>>>> main
         return board;
     }
 
