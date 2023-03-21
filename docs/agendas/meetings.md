@@ -235,3 +235,58 @@ Commons
 
 #### Closing Time
 - Everyone decided to stay over to finish some of the tasks
+
+
+
+## Meeting 4 (by `Petre Andrei`)
+### Agenda OOPP Group 48 Meeting 21/03
+*per the agenda template presented in OOPP materials*
+
+* Location: DW PC1 cubicle 11
+* Date: March 21st 2023
+* Time: 13:45-14:30
+* Attendees:
+    * Rareș Toader (Scrum Master)
+    * Vlad Graure
+    * Olaf Herman
+    * Jesse Klijnsma
+    * Lovro Mlikotić (Chair 🪑)
+    * Andrei Petre (Notetaker)
+    * Jochem Pouwels
+
+#### Talking points
+- [13:45] Opening by Chair.
+- [13:45-13:48] Check in: how is everyone doing?
+- [13:48-13:50] Does anyone have any additions to the agenda?
+- [13:50-13:55] Showcasing the current state of our project to the TA
+- [13:55-14:00] Making sure all team members understand the HUE task.
+- [14:00-14:15] Hueristic Usability Evaluation:
+  - going over our GUI.
+  - discussion on how to approach the evaluation and what needs to be done.
+  - division of tasks.
+- [14:15-14:25] Product analysis:
+  - Are we on track so far, what was done well and what needs to be changed?
+  - What else needs to be implemented and how?
+- [14:25-14:30] Each member of the team recieves a task and a deadline.
+- [14:30] Closure by Chair.
+
+#### Showcasing our work so far to the TA
+- no additional feedback recieved on the project.
+
+#### Feedback on team management from the TA
+- improving on commit descriptions,
+- equalizing our work on the project.
+- improving our task assignment on gitlab.
+
+#### Hueristic Usability Evaluation Assignment
+- creating an interactive Power Point project for the prototype.
+- the TA will chose the other team for our HUE assignment.
+
+### Tasks for the week
+- creating prototype for HUE.
+- holdong a meeting for the HUE report.
+- creating git issues.
+- tasks will be assigned after the meeting.
+
+#### Closing Time
+- Everyone decided to stay over to assign tasks to each member and create issues based on the backlog.
