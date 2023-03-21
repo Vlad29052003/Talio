@@ -277,6 +277,8 @@ Commons
 - improving on commit descriptions,
 - equalizing our work on the project.
 - improving our task assignment on gitlab.
+- connections don't need to be tested.
+- setting up milestones and labels.
 
 #### Hueristic Usability Evaluation Assignment
 - creating an interactive Power Point project for the prototype.
