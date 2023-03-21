@@ -57,11 +57,7 @@ public class BoardController {
     @PostMapping(path = { "", "/" })
     public ResponseEntity<Board> createBoard(@RequestBody Board board) {
 
-        if (board.lists == null
-            || board.tags == null
-            || isNullOrEmpty(board.name)
-            || isNullOrEmpty(board.backgroundColor)
-            || isNullOrEmpty(board.password)){
+        if (board == null || board.name == null || board.lists == null){
             return ResponseEntity.badRequest().build();
         }
 

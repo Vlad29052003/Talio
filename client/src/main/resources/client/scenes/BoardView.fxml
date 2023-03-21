@@ -34,36 +34,24 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-
-<ScrollPane fitToHeight="true" hbarPolicy="ALWAYS" vbarPolicy="NEVER" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardCtrl">
+<TitledPane fx:id="boardView" animated="false" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="482.0" prefWidth="698.0" text="Board Name" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardCtrl">
    <content>
-      <HBox prefHeight="535.0" prefWidth="1060.0" scaleShape="false" spacing="20.0">
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
          <children>
-            <Pane maxWidth="200.0" minWidth="200.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;">
-               <children>
-                  <Text fx:id="boardText" fill="WHITE" layoutX="4.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="I am rendering" wrappingWidth="104.919921875">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Text>
-               </children>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" />
-               </padding>
-            </Pane>
-            <Pane layoutX="20.0" layoutY="20.0" maxWidth="200.0" minWidth="200.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;" />
-            <Pane layoutX="230.0" layoutY="20.0" maxWidth="200.0" minWidth="200.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;" />
-            <Pane layoutX="230.0" layoutY="20.0" maxWidth="200.0" minWidth="200.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;" />
-            <Pane layoutX="440.0" layoutY="20.0" maxWidth="200.0" minWidth="200.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;" />
+            <ScrollPane fitToHeight="true" fitToWidth="true">
+               <content>
+                  <HBox fx:id="listContainer" prefHeight="535.0" prefWidth="766.0" scaleShape="false" spacing="20.0">
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </HBox>
+               </content>
+            </ScrollPane>
          </children>
-         <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </padding>
-      </HBox>
+      </AnchorPane>
    </content>
-</ScrollPane>
+</TitledPane>
