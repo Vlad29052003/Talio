@@ -36,6 +36,7 @@ public class MainCtrl {
      * @param FXML is the FXML loader
      * @param workspace    is the Workspace.
      * @param board        is the initial Board, which is empty.
+     * @param board     is the newBoard Scene
      */
     public void initialize(
             Stage primaryStage,
@@ -117,6 +118,10 @@ public class MainCtrl {
      * Switches back to the previous WorkspaceScene.
      */
     public void cancel() {
+        if (createBoardCtrl.getBoard() != null) {
+            workspaceCtrl.addBoardToWorkspace(createBoardCtrl.getBoard());
+        }
+        createBoardCtrl.reset();
         primaryStage.setScene(workspaceScene);
     }
 
