@@ -8,6 +8,8 @@ import client.scenes.crud.board.JoinBoardCtrl;
 import commons.Board;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -168,6 +170,16 @@ public class MainCtrl {
         workspaceCtrl.updateBoard(board);
         if(boardCtrl.getBoard() != null && boardCtrl.getBoard().id == board.id)
             boardCtrl.setBoard(board);
+    }
+
+    /**
+     * Checks if the Board is already in the Workspace.
+     *
+     * @param board the Board.
+     * @return true if present, false otherwise.
+     */
+    public boolean isPresent(Board board) {
+        return workspaceCtrl.getBoards().stream().anyMatch(w -> w.getBoard().equals(board));
     }
 
     /**
