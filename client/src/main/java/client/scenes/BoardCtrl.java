@@ -1,22 +1,19 @@
 package client.scenes;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 import com.google.inject.Inject;
 import client.utils.ServerUtils;
 import commons.Board;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
-public class BoardCtrl implements Initializable {
+public class BoardCtrl {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private Board board;
     @FXML
-    private TitledPane boardView;
+    private Label boardTitle;
     @FXML
     private HBox listContainer;
 
@@ -30,22 +27,6 @@ public class BoardCtrl implements Initializable {
     public BoardCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
-    }
-
-    /**
-     * Initializes this Object.
-     *
-     * @param location
-     * The location used to resolve relative paths for the root object, or
-     * {@code null} if the location is not known.
-     *
-     * @param resources
-     * The resources used to localize the root object, or {@code null} if
-     * the root object was not localized.
-     */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        boardView.setText("No board to be displayed");
     }
 
     /**
@@ -64,30 +45,25 @@ public class BoardCtrl implements Initializable {
      */
     public void setBoard(Board board) {
         this.board = board;
-        boardView.setText(board.name + " (" + board.id + ")");
+        this.listContainer.getChildren().clear();
+        resetBoardName();
     }
 
     /**
-     * Getter for the boardView, which is the root element.
-     *
-     * @return the boardView.
+     * Resets the name of the Board.
      */
-    public TitledPane getBoardView() {
-        return boardView;
-    }
-
-    /**
-     * Setter for boardView.
-     *
-     * @param boardView is the TitledPane.
-     */
-    public void setBoardView(TitledPane boardView) {
-        this.boardView = boardView;
+    private void resetBoardName() {
+        if(board != null) {
+            boardTitle.setText(board.name + " (" + board.id + ")");
+        }
+        else boardTitle.setText("No board to be displayed");
     }
 
     /**
      * Refreshes this Object.
      */
-    public void refresh() {}
+    public void refresh() {
+        resetBoardName();
+    }
 
 }

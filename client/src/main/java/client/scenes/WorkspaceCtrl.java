@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class WorkspaceCtrl implements Initializable {
+public class WorkspaceCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private List<BoardDisplayWorkspace> boards;
@@ -33,36 +33,6 @@ public class WorkspaceCtrl implements Initializable {
         this.server = server;
         this.mainCtrl = mainCtrl;
         boards = new ArrayList<>();
-    }
-
-    /**
-     * Initializes the object.
-     *
-     * @param location  The location used to resolve relative paths for the root object, or
-     *                  {@code null} if the location is not known.
-     * @param resources The resources used to localize the root object, or {@code null} if
-     *                  the root object was not localized.
-     */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-    }
-
-    /**
-     * Gets the server.
-     *
-     * @return the server.
-     */
-    public ServerUtils getServer() {
-        return server;
-    }
-
-    /**
-     * Gets the mainCtrl.
-     *
-     * @return the mainCtrl.
-     */
-    public MainCtrl getMainCtrl() {
-        return mainCtrl;
     }
 
     /**
@@ -173,8 +143,7 @@ public class WorkspaceCtrl implements Initializable {
      */
     public void removeFromWorkspace(Board removed) {
         BoardDisplayWorkspace boardDisplayWorkspace =
-                boards.stream().filter(b -> b.getBoardCtrl()
-                        .getBoard().equals(removed)).findFirst().get();
+                boards.stream().filter(b -> b.getBoard().equals(removed)).findFirst().get();
         boards.remove(boardDisplayWorkspace);
         boardWorkspace.getChildren().remove(boardDisplayWorkspace.getRoot());
     }
@@ -186,11 +155,10 @@ public class WorkspaceCtrl implements Initializable {
      */
     public void updateBoard(Board board) {
         var toBeUpdated =
-                boards.stream().filter(b -> b.getBoardCtrl()
-                        .getBoard().id == board.id).findFirst();
+                boards.stream().filter(b -> b.getBoard().id == board.id).findFirst();
         if (toBeUpdated.isEmpty()) return;
         var updatedBoardWorkspace = toBeUpdated.get();
-        updatedBoardWorkspace.getBoardCtrl().setBoard(board);
+        updatedBoardWorkspace.setBoard(board);
         updatedBoardWorkspace.refresh();
     }
 }

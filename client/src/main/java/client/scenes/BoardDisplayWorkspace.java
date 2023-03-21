@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Board;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
@@ -10,7 +11,7 @@ import javafx.scene.control.Label;
 public class BoardDisplayWorkspace{
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-    private BoardCtrl boardCtrl;
+    private Board board;
     @FXML
     private Label label;
     @FXML
@@ -47,13 +48,13 @@ public class BoardDisplayWorkspace{
     }
 
     /**
-     * Sets the BoardCtrl.
+     * Sets the Board.
      *
-     * @param boardCtrl is the BoardCtrl.
+     * @param board is the Board.
      */
-    public void setBoardCtrl(BoardCtrl boardCtrl) {
-        this.boardCtrl = boardCtrl;
-        label.setText(boardCtrl.getBoard().name + " (" + boardCtrl.getBoard().id + ")");
+    public void setBoard(Board board) {
+        this.board = board;
+        label.setText(board.name + " (" + board.id + ")");
     }
 
     /**
@@ -78,7 +79,7 @@ public class BoardDisplayWorkspace{
      * Displays the Board associated with this object.
      */
     public void view() {
-        mainCtrl.switchBoard(boardCtrl);
+        mainCtrl.switchBoard(board);
     }
 
     /**
@@ -92,25 +93,25 @@ public class BoardDisplayWorkspace{
      * Deletes the Board associated with this object.
      */
     public void delete() {
-        mainCtrl.deleteBoard(this.boardCtrl.getBoard());
+        mainCtrl.deleteBoard(this.board);
     }
 
-    public BoardCtrl getBoardCtrl() {
-        return  this.boardCtrl;
+    public Board getBoard() {
+        return  this.board;
     }
 
     /**
      * Edits the Board associated with this object.
      */
     public void edit() {
-        mainCtrl.editBoard(this.boardCtrl.getBoard());
+        mainCtrl.editBoard(this.board);
     }
 
     /**
      * Refreshes this Object.
      */
     public void refresh() {
-        label.setText(boardCtrl.getBoard().name + " (" + boardCtrl.getBoard().id + ")");
+        label.setText(board.name + " (" + board.id + ")");
     }
 
 }

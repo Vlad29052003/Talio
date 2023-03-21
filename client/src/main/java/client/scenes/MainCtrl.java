@@ -25,7 +25,6 @@ public class MainCtrl {
     private DeleteBoardCtrl deleteBoardCtrl;
     private Scene deleteBoard;
     private BoardCtrl boardCtrl;
-    private BoardCtrl noBoardCtrl;
     private Parent boardRoot; // Not a scene as it's to be embedded within the workspaceScene.
 
     /**
@@ -51,7 +50,6 @@ public class MainCtrl {
         this.workspaceScene = new Scene(workspace.getValue());
         this.boardCtrl = board.getKey();
         this.boardRoot = board.getValue();
-        this.noBoardCtrl = boardCtrl;
 
         primaryStage.setTitle("Talio");
         primaryStage.setScene(workspaceScene);
@@ -89,12 +87,10 @@ public class MainCtrl {
     /**
      * Embeds a Board within the WorkspaceScene.
      *
-     * @param newBoardCtrl is the BoardCtrl to be embedded.
+     * @param board is the Board to be displayed.
      */
-    public void switchBoard(BoardCtrl newBoardCtrl) {
-        this.boardCtrl = newBoardCtrl;
-        workspaceCtrl.setBoardView(newBoardCtrl.getBoardView());
-        newBoardCtrl.refresh();
+    public void switchBoard(Board board) {
+        boardCtrl.setBoard(board);
     }
 
     /**
@@ -104,7 +100,7 @@ public class MainCtrl {
      */
     public void removeFromWorkspace(BoardDisplayWorkspace removed) {
         workspaceCtrl.removeFromWorkspace(removed);
-        switchBoard(noBoardCtrl);
+        boardCtrl.setBoard(null);
     }
 
     /**
@@ -114,7 +110,7 @@ public class MainCtrl {
      */
     public void removeFromWorkspace(Board removed) {
         workspaceCtrl.removeFromWorkspace(removed);
-        switchBoard(noBoardCtrl);
+        boardCtrl.setBoard(null);
     }
 
     /**
@@ -166,6 +162,8 @@ public class MainCtrl {
      */
     public void updateBoard(Board board) {
         workspaceCtrl.updateBoard(board);
+        if(boardCtrl.getBoard() != null && boardCtrl.getBoard().id == board.id)
+            boardCtrl.setBoard(board);
     }
 
     /**
@@ -193,10 +191,7 @@ public class MainCtrl {
         BoardDisplayWorkspace boardDisplay =
                 FXML.load(BoardDisplayWorkspace.class, "client", "scenes",
                                 "BoardDisplayWorkspace.fxml").getKey();
-        BoardCtrl boardCtrl =
-                FXML.load(BoardCtrl.class, "client", "scenes", "BoardView.fxml").getKey();
-        boardCtrl.setBoard(newBoard);
-        boardDisplay.setBoardCtrl(boardCtrl);
+        boardDisplay.setBoard(newBoard);
         return boardDisplay;
     }
 }

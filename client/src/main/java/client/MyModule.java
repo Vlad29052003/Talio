@@ -24,6 +24,7 @@ public class MyModule implements Module {
     public void configure(Binder binder) {
         binder.bind(MainCtrl.class).in(Scopes.SINGLETON);
         binder.bind(WorkspaceCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(BoardCtrl.class).in(Scopes.SINGLETON);
 
         binder.bind(JoinBoardCtrl.class).in(Scopes.SINGLETON);
         binder.bind(CreateNewBoardCtrl.class).in(Scopes.SINGLETON);
@@ -32,7 +33,6 @@ public class MyModule implements Module {
 
         binder.bind(ConfirmTaskDeleteCtrl.class).in(Scopes.SINGLETON);
 
-        binder.bind(BoardCtrl.class).in(Scopes.NO_SCOPE);
         binder.bind(BoardDisplayWorkspace.class).in(Scopes.NO_SCOPE);
     }
 }
