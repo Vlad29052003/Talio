@@ -1,33 +1,38 @@
-/*
- * Copyright 2021 Delft University of Technology
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package client;
 
 import client.scenes.BoardCtrl;
+import client.scenes.BoardDisplayWorkspace;
 import client.scenes.MainCtrl;
 import client.scenes.WorkspaceCtrl;
+import client.scenes.crud.board.DeleteBoardCtrl;
+import client.scenes.crud.board.EditBoardCtrl;
+import client.scenes.crud.task.ConfirmTaskDeleteCtrl;
+import client.scenes.crud.board.CreateNewBoardCtrl;
+import client.scenes.crud.board.JoinBoardCtrl;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
 
 public class MyModule implements Module {
 
+    /**
+     * Configures the scope of all controllers.
+     *
+     * @param binder is used to bind the scopes.
+     */
     @Override
     public void configure(Binder binder) {
         binder.bind(MainCtrl.class).in(Scopes.SINGLETON);
         binder.bind(WorkspaceCtrl.class).in(Scopes.SINGLETON);
         binder.bind(BoardCtrl.class).in(Scopes.SINGLETON);
+
+        binder.bind(JoinBoardCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(CreateNewBoardCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(EditBoardCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(DeleteBoardCtrl.class).in(Scopes.SINGLETON);
+
+        binder.bind(ConfirmTaskDeleteCtrl.class).in(Scopes.SINGLETON);
+
+        binder.bind(BoardDisplayWorkspace.class).in(Scopes.NO_SCOPE);
     }
 }

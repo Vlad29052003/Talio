@@ -1,73 +1,69 @@
-/*
- * Copyright 2021 Delft University of Technology
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package client.scenes;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import com.google.inject.Inject;
-
 import client.utils.ServerUtils;
+import commons.Board;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.text.Text;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 
-public class BoardCtrl implements Initializable {
+public class BoardCtrl {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-
-    private String boardID = "";
-
+    private Board board;
     @FXML
-    private Text boardText;
+    private Label boardTitle;
+    @FXML
+    private HBox listContainer;
 
+    /**
+     * Creates a new {@link BoardCtrl} object.
+     *
+     * @param server is the ServerUtils.
+     * @param mainCtrl is the MainCtrl.
+     */
     @Inject
     public BoardCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-    }
-
     /**
-     * Set the ID of the board to be rendered by the view.
-     * @param board the board which the board view is to render.
+     * Getter for the Board.
+     *
+     * @return the board.
      */
-    public void setBoard(String board) {
-        this.boardID = board;
-        this.refresh();
+    public Board getBoard() {
+        return board;
     }
 
     /**
-     * Get the boardID currently being rendered by the Board scene.
-     * @return the boardID currently being rendered.
+     * Setter for the Board.
+     *
+     * @param board the new Board.
      */
-    public String getBoard() {
-        return this.boardID;
+    public void setBoard(Board board) {
+        this.board = board;
+        this.listContainer.getChildren().clear();
+        resetBoardName();
     }
 
     /**
-     * Refresh the Board scene. Will fetch the data for this board and re-render the scene.
+     * Resets the name of the Board.
+     */
+    private void resetBoardName() {
+        if(board != null) {
+            boardTitle.setText(board.name + " (" + board.id + ")");
+        }
+        else boardTitle.setText("No board to be displayed");
+    }
+
+    /**
+     * Refreshes this Object.
      */
     public void refresh() {
-        // Populate board
-
-        this.boardText.setText("I am rendering board '" + this.boardID + "'");
+        resetBoardName();
     }
+
 }

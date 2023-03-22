@@ -1,0 +1,45 @@
+{
+    -fx-base: #F8F8FF;
+}
+
+.title{
+    fx-font-family: Georgia, serif;
+    -fx-font-size: 20pt;
+}
+
+.text{
+    fx-font-family: Georgia, serif;
+}
+
+.button{
+    -fx-font-size: 8pt;
+    -fx-text-fill: white;
+    -fx-shape: "M 200 250 L 500 250 Q 550 250 550 300 Q 550 350 500 350 L 200 350 Q 150 350 150 300 Q 150 250 200 250"
+}
+
+.cancel-button{
+    -fx-background-color: #A9A9A9;
+}
+
+.add-button-tag{
+    -fx-background-color: #008000;
+}
+
+*{
+	-fx-primary-color: #008000;
+	-fx-secondary-color: #4B6EAF;
+	-fx-grey-color: #A9A9A9;
+
+	-fx-focus-color: -fx-secondary-color;
+}
+
+.text-field{
+	-fx-accent: -fx-primary-color;
+	-fx-background-color: -fx-grey-color, #F8F8FF;
+	-fx-background-insets: 0, 0 0 2 0;
+	-fx-background-radius: 0;
+}
+
+.text-field: focused{
+	-fx-background-color: -fx-primary-color, white;
+}

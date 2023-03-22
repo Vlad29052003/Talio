@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="90.0" prefWidth="400.0" stylesheets="@/style/ConfirmTaskDelete.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.crud.ConfirmTaskDelete">
+    <children>
+        <JFXButton layoutX="247.0" layoutY="50.0" prefHeight="25.0" prefWidth="65.0" styleClass="cancel-button" text="Cancel" />
+        <JFXButton layoutX="320.0" layoutY="50.0" prefHeight="25.0" prefWidth="65.0" styleClass="delete-button-tag" text="Delete" />
+        <Text layoutX="14.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="This tag will be permanently deleted. Do you wish to proceed?" wrappingWidth="351.544921875" />
+    </children>
+</AnchorPane>

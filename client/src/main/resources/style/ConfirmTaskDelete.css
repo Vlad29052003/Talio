@@ -1,0 +1,29 @@
+{
+    -fx-base: #FFFFF0;
+}
+
+.button{
+    -fx-font-size: 8pt;
+    -fx-text-fill: white;
+    -fx-shape: "M 200 250 L 500 250 Q 550 250 550 300 Q 550 350 500 350 L 200 350 Q 150 350 150 300 Q 150 250 200 250"
+}
+
+.cancel-button{
+    -fx-background-color: #A9A9A9;
+}
+
+.delete-button-tag{
+    -fx-background-color: #008000;
+}
+
+.delete-button-task{
+    -fx-background-color: #B22222;
+}
+
+.delete-button-list{
+    -fx-background-color: #6495ED;
+}
+
+.delete-button-board{
+    -fx-background-color: #000000;
+}
