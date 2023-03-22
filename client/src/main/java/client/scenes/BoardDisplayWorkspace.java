@@ -28,25 +28,6 @@ public class BoardDisplayWorkspace{
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
-
-    /**
-     * Gets the label.
-     *
-     * @return the Label.
-     */
-    public Label getLabel() {
-        return label;
-    }
-
-    /**
-     * Sets the label.
-     *
-     * @param label is the Label.
-     */
-    public void setLabel(Label label) {
-        this.label = label;
-    }
-
     /**
      * Sets the Board.
      *

@@ -1,7 +1,6 @@
 package scenes.crud.board;
 
 import client.scenes.MainCtrl;
-import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
 import commons.Board;
 import org.junit.jupiter.api.BeforeEach;
