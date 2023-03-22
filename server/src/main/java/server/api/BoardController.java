@@ -35,9 +35,11 @@ import java.util.Optional;
 public class BoardController {
 
     private final BoardRepository repo;
+    public final BoardChangeQueue changes;
 
-    public BoardController(BoardRepository repo) {
+    public BoardController(BoardRepository repo, BoardChangeQueue changes) {
         this.repo = repo;
+        this.changes = changes;
     }
 
     /**
@@ -61,11 +63,12 @@ public class BoardController {
             || board.tags == null
             || isNullOrEmpty(board.name)
             || isNullOrEmpty(board.backgroundColor)
-            || isNullOrEmpty(board.password)){
+            || isNullOrEmpty(board.password)) {
             return ResponseEntity.badRequest().build();
         }
 
         Board saved = repo.save(board);
+        changes.addChanged(board.id, saved);
         return ResponseEntity.ok(saved);
     }
 
@@ -107,6 +110,7 @@ public class BoardController {
         localBoard.RWpermission = board.RWpermission;
 
         Board saved = repo.save(localBoard);
+        changes.addChanged(id, saved);
 
         return ResponseEntity.ok(saved);
     }
@@ -127,6 +131,7 @@ public class BoardController {
         }
 
         repo.deleteById(id);
+        changes.addChanged(id, null);
         return ResponseEntity.ok().build();
     }
 

@@ -20,7 +20,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
-
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,11 +33,13 @@ public class BoardControllerTest {
     private TestBoardRepository repo;
 
     private BoardController sut;
+    private BoardChangeQueue changes;
 
     @BeforeEach
     public void setup() {
         repo = new TestBoardRepository();
-        sut = new BoardController(repo);
+        changes = new BoardChangeQueue();
+        sut = new BoardController(repo, changes);
     }
 
     @Test
