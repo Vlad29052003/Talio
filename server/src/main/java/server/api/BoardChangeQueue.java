@@ -17,10 +17,8 @@ public class BoardChangeQueue {
         boardQueue = new HashMap<Long, Board>();
     }
 
-    public boolean addChanged(long id, Board b){
-        if(boardQueue.containsKey(id)) return false;
+    public void addChanged(long id, Board b){
         boardQueue.put(id, b);
-        return true;
     }
 
     public List<BoardUpdate> pollUpdates(){
