@@ -49,7 +49,7 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
           <items>
-            <MenuItem mnemonicParsing="false" text="About Telio" />
+            <MenuItem mnemonicParsing="false" text="About Talio" />
           </items>
         </Menu>
       </menus>

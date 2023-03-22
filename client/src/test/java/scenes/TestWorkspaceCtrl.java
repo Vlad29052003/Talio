@@ -1,6 +1,6 @@
 package scenes;
 
-import client.scenes.BoardDisplayWorkspace;
+import client.scenes.BoardListingCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.WorkspaceCtrl;
 import commons.Board;
@@ -41,7 +41,7 @@ public class TestWorkspaceCtrl {
 
     @Test
     public void testGetBoards() {
-        assertEquals(workspaceCtrl.getBoards(), new ArrayList<BoardDisplayWorkspace>());
+        assertEquals(workspaceCtrl.getBoards(), new ArrayList<BoardListingCtrl>());
     }
 
     @Test
@@ -90,7 +90,7 @@ public class TestWorkspaceCtrl {
     public void testAddBoardToWorkspace() {
         Board board = new Board("testBoard", "");
         Parent displayRoot = new VBox();
-        BoardDisplayWorkspace display = mock(BoardDisplayWorkspace.class);
+        BoardListingCtrl display = mock(BoardListingCtrl.class);
         when(display.getRoot()).thenReturn(displayRoot);
         when(mainCtrl.loadBoardDisplayWorkspace(board)).thenReturn(display);
 
@@ -110,7 +110,7 @@ public class TestWorkspaceCtrl {
     public void testRemoveBoardWorkspaceFromWorkspace() {
         Board board = new Board("testBoard", "");
         Parent displayRoot = new VBox();
-        BoardDisplayWorkspace display = mock(BoardDisplayWorkspace.class);
+        BoardListingCtrl display = mock(BoardListingCtrl.class);
         when(display.getRoot()).thenReturn(displayRoot);
         when(mainCtrl.loadBoardDisplayWorkspace(board)).thenReturn(display);
 
@@ -129,7 +129,7 @@ public class TestWorkspaceCtrl {
     public void testRemoveBoardFromWorkspace() {
         Board board = new Board("testBoard", "");
         Parent displayRoot = new VBox();
-        BoardDisplayWorkspace display = mock(BoardDisplayWorkspace.class);
+        BoardListingCtrl display = mock(BoardListingCtrl.class);
         when(display.getRoot()).thenReturn(displayRoot);
         when(display.getBoard()).thenReturn(board);
         when(mainCtrl.loadBoardDisplayWorkspace(board)).thenReturn(display);
@@ -150,7 +150,7 @@ public class TestWorkspaceCtrl {
         Board board = new Board("test", "");
         Board updated = new Board("updated", "");
         Parent displayRoot = new VBox();
-        BoardDisplayWorkspace display = mock(BoardDisplayWorkspace.class);
+        BoardListingCtrl display = mock(BoardListingCtrl.class);
         when(display.getRoot()).thenReturn(displayRoot);
         when(display.getBoard()).thenReturn(board);
         when(mainCtrl.loadBoardDisplayWorkspace(board)).thenReturn(display);
