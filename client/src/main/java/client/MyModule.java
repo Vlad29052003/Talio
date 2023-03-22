@@ -1,9 +1,6 @@
 package client;
 
-import client.scenes.BoardCtrl;
-import client.scenes.BoardDisplayWorkspace;
-import client.scenes.MainCtrl;
-import client.scenes.WorkspaceCtrl;
+import client.scenes.*;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.task.ConfirmTaskDeleteCtrl;
@@ -34,5 +31,7 @@ public class MyModule implements Module {
         binder.bind(ConfirmTaskDeleteCtrl.class).in(Scopes.SINGLETON);
 
         binder.bind(BoardDisplayWorkspace.class).in(Scopes.NO_SCOPE);
+
+        binder.bind(TaskListController.class).in(Scopes.NO_SCOPE);
     }
 }

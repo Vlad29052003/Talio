@@ -6,6 +6,7 @@ import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
 import commons.Board;
+import commons.TaskList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -197,5 +198,13 @@ public class MainCtrl {
                                 "BoardDisplayWorkspace.fxml").getKey();
         boardDisplay.setBoard(newBoard);
         return boardDisplay;
+    }
+
+    public TaskListController loadTaskListController(TaskList tasklist) {
+        TaskListController taskListDisplay =
+                FXML.load(TaskListController.class, "client", "scenes",
+                        "TaskList.fxml").getKey();
+        taskListDisplay.setTasklist(tasklist);
+        return taskListDisplay;
     }
 }

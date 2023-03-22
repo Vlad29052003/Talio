@@ -3,9 +3,13 @@ package client.scenes;
 import com.google.inject.Inject;
 import client.utils.ServerUtils;
 import commons.Board;
+import commons.TaskList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BoardCtrl {
 
@@ -16,6 +20,7 @@ public class BoardCtrl {
     private Label boardTitle;
     @FXML
     private HBox listContainer;
+    private List<TaskListController> tasklists;
 
     /**
      * Creates a new {@link BoardCtrl} object.
@@ -27,6 +32,7 @@ public class BoardCtrl {
     public BoardCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+        tasklists = new ArrayList<>();
     }
 
     /**
@@ -65,5 +71,14 @@ public class BoardCtrl {
     public void refresh() {
         resetBoardName();
     }
+
+    public void createTaskList(){
+        TaskList tlist = new TaskList("tasklist", 1);
+        TaskListController tlc = mainCtrl.loadTaskListController(tlist);
+        listContainer.getChildren().add(tlc.getRoot());
+        tasklists.add(tlc);
+
+    }
+
 
 }

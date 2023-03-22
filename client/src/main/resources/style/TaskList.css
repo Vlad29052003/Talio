@@ -1,0 +1,6 @@
+.outerbox{
+    -fx-border-style: solid;
+    -fx-border-color: black;
+    -fx-border-radius: 5pt;
+    -fx-margin: 10 10 10 10;
+}

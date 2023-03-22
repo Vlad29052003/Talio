@@ -8,7 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
 
-public class BoardDisplayWorkspace{
+public class BoardDisplayWorkspace {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private Board board;
