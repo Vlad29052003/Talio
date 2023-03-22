@@ -14,13 +14,13 @@ import static org.mockito.Mockito.verify;
 public class TestBoardDisplayWorkspace {
     private BoardDisplayWorkspace display;
     private MainCtrl mainCtrl;
-    private ServerUtilsTesting server;
+    private ServerUtilsTestingMock server;
     private VBox root;
 
     @BeforeEach
     public void setUp() {
         this.mainCtrl = mock(MainCtrl.class);
-        this.server = new ServerUtilsTesting();
+        this.server = new ServerUtilsTestingMock();
         this.display = new BoardDisplayWorkspace(server, mainCtrl);
         this.root = new VBox();
     }

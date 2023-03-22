@@ -15,7 +15,7 @@ import static org.mockito.Mockito.mock;
 
 public class TestMainCtrl {
     private MainCtrl mainCtrl;
-    private ServerUtilsTesting server;
+    private ServerUtilsTestingMock server;
     private Stage primaryStage;
     private MyFXML fxml;
 

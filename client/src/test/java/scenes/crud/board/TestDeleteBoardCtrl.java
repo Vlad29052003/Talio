@@ -5,7 +5,7 @@ import client.scenes.crud.board.DeleteBoardCtrl;
 import commons.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import scenes.ServerUtilsTesting;
+import scenes.ServerUtilsTestingMock;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -14,13 +14,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 public class TestDeleteBoardCtrl {
-    private ServerUtilsTesting server;
+    private ServerUtilsTestingMock server;
     private MainCtrl mainCtrl;
     private DeleteBoardCtrl deleteCtrl;
     private Board board;
     @BeforeEach
     public void setUp() {
-        this.server = new ServerUtilsTesting();
+        this.server = new ServerUtilsTestingMock();
         this.mainCtrl = mock(MainCtrl.class);
         this.deleteCtrl = new DeleteBoardCtrl(server, mainCtrl);
         this.board = new Board("testing", "");

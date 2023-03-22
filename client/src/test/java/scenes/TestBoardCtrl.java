@@ -12,13 +12,13 @@ import static org.mockito.Mockito.mock;
 public class TestBoardCtrl {
     private BoardCtrl boardCtrl;
     private MainCtrl mainCtrl;
-    private ServerUtilsTesting server;
+    private ServerUtilsTestingMock server;
     private Board board;
 
     @BeforeEach
     public void setUp() {
         this.mainCtrl = mock(MainCtrl.class);
-        this.server = new ServerUtilsTesting();
+        this.server = new ServerUtilsTestingMock();
         this.boardCtrl = new BoardCtrl(server, mainCtrl);
         this.board = new Board("testing", "");
     }

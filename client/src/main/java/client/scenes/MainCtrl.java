@@ -94,11 +94,11 @@ public class MainCtrl {
     }
 
     /**
-     * Removes a BoardDisplayWorkspace from the workspace.
+     * Removes a BoardListingCtrl from the workspace.
      *
-     * @param removed is the BoardDisplayWorkspace to be removed.
+     * @param removed is the BoardListingCtrl to be removed.
      */
-    public void removeFromWorkspace(BoardDisplayWorkspace removed) {
+    public void removeFromWorkspace(BoardListingCtrl removed) {
         workspaceCtrl.removeFromWorkspace(removed);
         boardCtrl.setBoard(null);
     }
@@ -195,16 +195,16 @@ public class MainCtrl {
     }
 
     /**
-     * Loads the scenes for the BoardDisplayWorkspace and
+     * Loads the scenes for the BoardListingCtrl and
      * BoardCtrl.
      *
      * @param newBoard is the Board associated with them.
-     * @return the new BoardDisplayWorkspace.
+     * @return the new BoardListingCtrl.
      */
-    public BoardDisplayWorkspace loadBoardDisplayWorkspace(Board newBoard) {
-        BoardDisplayWorkspace boardDisplay =
-                FXML.load(BoardDisplayWorkspace.class, "client", "scenes",
-                                "BoardDisplayWorkspace.fxml").getKey();
+    public BoardListingCtrl loadBoardDisplayWorkspace(Board newBoard) {
+        BoardListingCtrl boardDisplay =
+                FXML.load(BoardListingCtrl.class, "client", "scenes",
+                                "BoardListing.fxml").getKey();
         boardDisplay.setBoard(newBoard);
         return boardDisplay;
     }

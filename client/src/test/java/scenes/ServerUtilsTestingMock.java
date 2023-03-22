@@ -6,11 +6,11 @@ import jakarta.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServerUtilsTesting extends ServerUtils {
+public class ServerUtilsTestingMock extends ServerUtils {
     private long inc;
     private List<Board> boards;
 
-    public ServerUtilsTesting() {
+    public ServerUtilsTestingMock() {
         inc = 0;
         boards = new ArrayList<>();
     }
