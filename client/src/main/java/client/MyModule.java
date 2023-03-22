@@ -1,6 +1,10 @@
 package client;
 
-import client.scenes.*;
+import client.scenes.BoardCtrl;
+import client.scenes.BoardDisplayWorkspace;
+import client.scenes.MainCtrl;
+import client.scenes.TaskListController;
+import client.scenes.WorkspaceCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.task.ConfirmTaskDeleteCtrl;
