@@ -73,11 +73,12 @@ public class BoardCtrl {
     }
 
     public void createTaskList(){
-        TaskList tlist = new TaskList("tasklist", 1);
-        TaskListController tlc = mainCtrl.loadTaskListController(tlist);
-        listContainer.getChildren().add(tlc.getRoot());
-        tasklists.add(tlc);
-
+        if (board != null) {
+            TaskList tlist = new TaskList("tasklist", 1);
+            TaskListController tlc = mainCtrl.loadTaskListController(tlist);
+            listContainer.getChildren().add(tlc.getRoot());
+            tasklists.add(tlc);
+        }
     }
 
 
