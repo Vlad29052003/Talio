@@ -126,8 +126,4 @@ public class BoardController {
         return ResponseEntity.ok().build();
     }
 
-    private static boolean isNullOrEmpty(String s) {
-        return s == null || s.isEmpty();
-    }
-
 }

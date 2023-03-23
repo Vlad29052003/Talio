@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TaskControllerTest {
-    private TestTaskListRepository listRepo;
+    private TaskListTestRepository listRepo;
     private TestTaskRepository taskRepo;
     private TaskController taskController;
 
@@ -24,7 +24,7 @@ public class TaskControllerTest {
     public void setup() {
         lists = new ArrayList<>();
         tasks = new ArrayList<>();
-        listRepo = new TestTaskListRepository();
+        listRepo = new TaskListTestRepository();
         taskRepo = new TestTaskRepository();
         taskController = new TaskController(taskRepo, listRepo);
         TaskList l1 = new TaskList("list1");
@@ -89,7 +89,7 @@ public class TaskControllerTest {
         assertEquals(tasks.get(0).index, 1L);
         assertEquals(tasks.get(2).index, 2L);
         assertEquals(listRepo.calledMethods,
-                List.of("existsById", "findById", "saveAndFlush", "saveAndFlush"));
+                List.of("existsById", "findById"));
         assertEquals(taskRepo.calledMethods, List.of("existsById", "findById", "saveAndFlush"));
     }
 
