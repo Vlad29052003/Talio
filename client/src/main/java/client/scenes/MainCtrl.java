@@ -71,7 +71,10 @@ public class MainCtrl {
         switchBoard(noBoardCtrl);
     }
 
-    public void cancel() {
+    /**
+     * Cancel any current board creation CRUD operation.
+     */
+    public void cancelCreateBoard() {
         if (createBoardCtrl.getBoard() != null) {
             workspaceCtrl.addBoardToWorkspace(createBoardCtrl.getBoard());
         }
@@ -79,7 +82,10 @@ public class MainCtrl {
         primaryStage.setScene(workspaceScene);
     }
 
-    public void addBoard() {
+    /**
+     * Start a board creation CRUD operation.
+     */
+    public void createBoard() {
         primaryStage.setScene(createBoard);
     }
 }

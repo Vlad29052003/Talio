@@ -14,26 +14,44 @@ public class CreateNewBoardCtrl {
     @FXML
     TextField text;
 
+    /**
+     * Constructor to be called by {@link com.google.inject.Injector}.
+     * @param server the {@link ServerUtils} instance to use
+     * @param mainCtrl reference to the {@link MainCtrl} instance
+     */
     @Inject
     public CreateNewBoardCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
 
+    /**
+     * Cancel the CRUD operation. Triggered by UI.
+     */
     public void cancel() {
-        mainCtrl.cancel();
+        mainCtrl.cancelCreateBoard();
     }
 
+    /**
+     * Finalise the CRUD operation. Triggered by UI.
+     */
     public void add() {
         Board board = new Board(text.getText(), "");
         this.board = server.addBoard(board);
-        mainCtrl.cancel();
+        mainCtrl.cancelCreateBoard();
     }
 
+    /**
+     * Get the {@link Board} created by finalisation of this CRUD operation. May be null.
+     * @return the created {@link Board}
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     * Reset this CRUD controller.
+     */
     public void reset() {
         this.board = null;
         text.setText("");

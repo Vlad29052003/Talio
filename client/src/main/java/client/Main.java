@@ -15,6 +15,10 @@ public class Main extends Application {
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
 
+    /**
+     * The main function. Immediately hands over control to JavaFX.
+     * @param args an array of command line arguments given
+     */
     public static void main(String[] args) {
         launch();
     }

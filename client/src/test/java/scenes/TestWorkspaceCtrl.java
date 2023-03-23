@@ -30,18 +30,4 @@ public class TestWorkspaceCtrl {
         assertEquals(test.getMainCtrl(), mainCtrl);
         assertEquals(test.getBoards(), new ArrayList<BoardDisplayWorkspace>());
     }
-
-    @Test
-    public void testGetterSetterBoardViewPane() {
-        AnchorPane pane = new AnchorPane();
-        workspaceCtrl.setBoardViewPane(pane);
-        assertEquals(workspaceCtrl.getBoardViewPane(), pane);
-    }
-
-    @Test
-    public void testGetterSetterBoardWorkspace() {
-        VBox box = new VBox();
-        workspaceCtrl.setBoardWorkspace(box);
-        assertEquals(workspaceCtrl.getBoardWorkspace(), box);
-    }
 }

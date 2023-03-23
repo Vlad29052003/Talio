@@ -21,6 +21,11 @@ public class BoardCtrl implements Initializable {
     private HBox listContainer;
 
 
+    /**
+     * Constructor to be called by {@link com.google.inject.Injector}.
+     * @param server the {@link ServerUtils} instance to use
+     * @param mainCtrl reference to the {@link MainCtrl} instance
+     */
     @Inject
     public BoardCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
@@ -62,6 +67,10 @@ public class BoardCtrl implements Initializable {
         return boardView;
     }
 
+    /**
+     * Re-render the board view UI.
+     * This will refresh all task lists and tasks currently rendered.
+     */
     public void refresh() {
 
     }

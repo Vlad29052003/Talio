@@ -25,10 +25,9 @@ public class WorkspaceCtrl implements Initializable {
     private VBox boardWorkspace;
 
     /**
-     * Creates a new {@link WorkspaceCtrl workspace controller}
-     *
-     * @param server   is the ServerUtils
-     * @param mainCtrl is the MainCtrl
+     * Constructor to be called by {@link com.google.inject.Injector}.
+     * @param server the {@link ServerUtils} instance to use
+     * @param mainCtrl reference to the {@link MainCtrl} instance
      */
     @Inject
     public WorkspaceCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -50,33 +49,40 @@ public class WorkspaceCtrl implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
     }
 
+    /**
+     * Get the {@link ServerUtils} instance.
+     * @return the {@link ServerUtils} instance used by this instance
+     */
     public ServerUtils getServer() {
+        // TODO: Review this function. The ServerUtils instance is only for this instance' internal
+        //       usage, thus shouldn't have a getter. The tests complicate this though, so we should
+        //       maybe have a look at what our options are.
         return server;
     }
 
+    /**
+     * Get the {@link MainCtrl} instance.
+     * @return the {@link MainCtrl} instance used by this instance
+     */
     public MainCtrl getMainCtrl() {
+        // TODO: Same as for getServer()
         return mainCtrl;
     }
 
+    /**
+     * Get the list of known boards.
+     * @return a {@link List<BoardDisplayWorkspace>} of all boards known by the workspace
+     */
     public List<BoardDisplayWorkspace> getBoards() {
         return boards;
     }
 
-    public AnchorPane getBoardViewPane() {
-        return boardViewPane;
-    }
-
-    public void setBoardViewPane(AnchorPane pane) {
-        boardViewPane = pane;
-    }
-
-
+    /**
+     * Get the {@link javafx.scene.layout.Pane} container in which boards are to be rendered.
+     * @return the {@link VBox} for rendering boards in
+     */
     public VBox getBoardWorkspace() {
         return boardWorkspace;
-    }
-
-    public void setBoardWorkspace(VBox boardButtons) {
-        this.boardWorkspace = boardButtons;
     }
 
     /**
@@ -86,9 +92,13 @@ public class WorkspaceCtrl implements Initializable {
      * Is called when "Create Board" button is pressed.
      */
     public void addBoard() {
-        mainCtrl.addBoard();
+        mainCtrl.createBoard();
     }
 
+    /**
+     * Add a {@link Board} to the board listing in the workspace.
+     * @param newBoard the {@link Board} to be added.
+     */
     public void addBoardToWorkspace(Board newBoard) {
         BoardDisplayWorkspace displayBoard = createDisplay(newBoard);
         boards.add(displayBoard);
