@@ -1,6 +1,8 @@
 package server.api;
 
 import commons.Board;
+import commons.Task;
+import commons.TaskList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -130,6 +132,17 @@ public class BoardControllerTest {
         var actual3 = sut.getBoard(id);
         assertNull(actual3.getBody());
         assertEquals(HttpStatus.NOT_FOUND, actual3.getStatusCode());
+
+    }
+
+    @Test
+    public void testRemoveTasks() {
+        TaskList tl = new TaskList("tl");
+        tl.id = 1L;
+        Task t = new Task("t1", 0, "");
+        tl.addTask(t);
+        sut.deleteTasks(1L);
+        assertTrue(tl.tasks.contains(t));
 
     }
 
