@@ -2,8 +2,6 @@ package scenes;
 
 import client.scenes.BoardDisplayWorkspace;
 import client.scenes.WorkspaceCtrl;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
