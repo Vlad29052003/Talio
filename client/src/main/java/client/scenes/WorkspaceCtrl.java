@@ -1,19 +1,35 @@
 package client.scenes;
 
+import client.datasaving.ClientData;
+import client.datasaving.JoinedBoardList;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class WorkspaceCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private List<BoardListingCtrl> boards;
+    private ClientData data;
+    private File file;
+    private ObjectOutputStream out;
     @FXML
     private AnchorPane boardViewPane;
     @FXML
@@ -30,6 +46,46 @@ public class WorkspaceCtrl {
         this.server = server;
         this.mainCtrl = mainCtrl;
         boards = new ArrayList<>();
+        try {
+            URL resourceUrl = getClass().getResource("/files/clientData.ser");
+            this.file = new File(resourceUrl.toURI());
+            this.out = new ObjectOutputStream(new FileOutputStream(file));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        readData();
+    }
+
+    private void readData() {
+        Thread readData = new Thread(() -> {
+            try {
+                if(file.exists() && file.length() > 4) {
+                    InputStream inputStream = new FileInputStream(file);
+                    ObjectInputStream in = new ObjectInputStream(inputStream);
+                    data = (ClientData) in.readObject();
+                }
+                else {
+                    data = new ClientData();
+                    data.addJoinedBoardList(new JoinedBoardList("localhost"));
+                    writeToFile();
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        readData.start();
+    }
+
+    public void writeToFile() {
+        try {
+            System.out.println(data);
+            out.writeObject(data);
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
