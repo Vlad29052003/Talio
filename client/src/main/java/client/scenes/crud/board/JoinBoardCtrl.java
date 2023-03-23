@@ -86,7 +86,6 @@ public class JoinBoardCtrl {
         }
         try {
             board = server.joinBoard(id);
-            System.out.println(board);
 
             if(mainCtrl.isPresent(board)) {
                 var alert = new Alert(Alert.AlertType.ERROR);

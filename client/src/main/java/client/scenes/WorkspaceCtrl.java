@@ -6,19 +6,21 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class WorkspaceCtrl {
+public class WorkspaceCtrl implements Initializable {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private List<BoardListingCtrl> boards;
@@ -51,8 +53,7 @@ public class WorkspaceCtrl {
         }
 
         if (!flag) {
-            Thread readData = new Thread(this::readData);
-            readData.start();
+            readData();
         } else {
             data = new ClientData();
             JoinedBoardList jbl = new JoinedBoardList("http://localhost:8080/");
@@ -62,6 +63,10 @@ public class WorkspaceCtrl {
         }
     }
 
+    /**
+     * Reads the file that contains information about joined Boards.
+     * Populates the workspace with the previously joined/created Boards.
+     */
     private void readData() {
         try {
             ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
@@ -72,6 +77,9 @@ public class WorkspaceCtrl {
         }
     }
 
+    /**
+     * Writes the current state of the object to the file.
+     */
     public void writeToFile() {
         try {
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
@@ -81,6 +89,37 @@ public class WorkspaceCtrl {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        JoinedBoardList jbl = data.getServers().get(data.getLastActiveOn());
+        boolean flag = false;
+        for(long id : jbl.getBoardIDs()) {
+            try {
+                Board board = server.joinBoard(id);
+                var pair = mainCtrl.loadBoardDisplayWorkspace(board);
+            }
+            catch (Exception e) {
+                jbl.removeBoard(id);
+                flag = true;
+            }
+        }
+        if(flag)writeToFile();
+    }
+
+    public void addBoardToData(long id) {
+        System.out.println(data);
+        data.getServers().get(data.getLastActiveOn()).addBoard(id);
+        System.out.println(data);
+        Thread writeData = new Thread(this::writeToFile);
+        writeData.start();
+    }
+
+    public void removeBoardFromData(long id) {
+        data.getServers().get(data.getLastActiveOn()).removeBoard(id);
+        Thread writeData = new Thread(this::writeToFile);
+        writeData.start();
     }
 
     /**
@@ -172,6 +211,7 @@ public class WorkspaceCtrl {
         BoardListingCtrl displayBoard = mainCtrl.loadBoardDisplayWorkspace(newBoard);
         boards.add(displayBoard);
         boardWorkspace.getChildren().add(displayBoard.getRoot());
+        addBoardToData(newBoard.id);
     }
 
     /**
