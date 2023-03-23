@@ -29,7 +29,7 @@ public class CreateNewBoardCtrl {
      * Cancel the CRUD operation. Triggered by UI.
      */
     public void cancel() {
-        mainCtrl.cancelCreateBoard();
+        mainCtrl.cancel();
     }
 
     /**
@@ -38,7 +38,7 @@ public class CreateNewBoardCtrl {
     public void add() {
         Board board = new Board(text.getText(), "");
         this.board = server.addBoard(board);
-        mainCtrl.cancelCreateBoard();
+        mainCtrl.cancel();
     }
 
     /**

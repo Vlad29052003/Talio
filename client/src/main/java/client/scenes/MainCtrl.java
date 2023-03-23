@@ -72,9 +72,9 @@ public class MainCtrl {
     }
 
     /**
-     * Cancel any current board creation CRUD operation.
+     * Cancel any current CRUD operation.
      */
-    public void cancelCreateBoard() {
+    public void cancel() {
         if (createBoardCtrl.getBoard() != null) {
             workspaceCtrl.addBoardToWorkspace(createBoardCtrl.getBoard());
         }
