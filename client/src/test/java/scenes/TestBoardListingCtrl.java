@@ -1,6 +1,6 @@
 package scenes;
 
-import client.scenes.BoardDisplayWorkspace;
+import client.scenes.BoardListingCtrl;
 import client.scenes.MainCtrl;
 import javafx.scene.layout.VBox;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,8 +11,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-public class TestBoardDisplayWorkspace {
-    private BoardDisplayWorkspace display;
+public class TestBoardListingCtrl {
+    private BoardListingCtrl display;
     private MainCtrl mainCtrl;
     private ServerUtilsTestingMock server;
     private VBox root;
@@ -21,13 +21,13 @@ public class TestBoardDisplayWorkspace {
     public void setUp() {
         this.mainCtrl = mock(MainCtrl.class);
         this.server = new ServerUtilsTestingMock();
-        this.display = new BoardDisplayWorkspace(server, mainCtrl);
+        this.display = new BoardListingCtrl(server, mainCtrl);
         this.root = new VBox();
     }
 
     @Test
     public void testConstructor() {
-        BoardDisplayWorkspace test = new BoardDisplayWorkspace(server, mainCtrl);
+        BoardListingCtrl test = new BoardListingCtrl(server, mainCtrl);
         assertNotNull(test);
     }
 
