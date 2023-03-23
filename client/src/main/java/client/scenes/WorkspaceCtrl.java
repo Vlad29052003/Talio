@@ -1,108 +1,101 @@
 package client.scenes;
 
-import client.Main;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
-public class WorkspaceCtrl implements Initializable {
+public class WorkspaceCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-    private List<BoardDisplayWorkspace> boards;
-    private int inc; //used temporary to generate names
+    private List<BoardListingCtrl> boards;
     @FXML
     private AnchorPane boardViewPane;
     @FXML
     private VBox boardWorkspace;
 
     /**
-     * Constructor to be called by {@link com.google.inject.Injector}.
-     * @param server the {@link ServerUtils} instance to use
-     * @param mainCtrl reference to the {@link MainCtrl} instance
+     * Creates a new {@link WorkspaceCtrl} instance.
+     *
+     * @param server   is the ServerUtils
+     * @param mainCtrl is the MainCtrl
      */
     @Inject
     public WorkspaceCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
-        inc = 0;
         boards = new ArrayList<>();
     }
 
     /**
-     * Initializes the object.
+     * Gets the boards.
      *
-     * @param location  The location used to resolve relative paths for the root object, or
-     *                  {@code null} if the location is not known.
-     * @param resources The resources used to localize the root object, or {@code null} if
-     *                  the root object was not localized.
+     * @return the boards.
      */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public List<BoardListingCtrl> getBoards() {
+        return this.boards;
     }
 
     /**
-     * Get the {@link ServerUtils} instance.
-     * @return the {@link ServerUtils} instance used by this instance
+     * Gets the boardViewPane.
+     *
+     * @return the boardViewPane.
      */
-    public ServerUtils getServer() {
-        // TODO: Review this function. The ServerUtils instance is only for this instance' internal
-        //       usage, thus shouldn't have a getter. The tests complicate this though, so we should
-        //       maybe have a look at what our options are.
-        return server;
+    public AnchorPane getBoardViewPane() {
+        return this.boardViewPane;
     }
 
     /**
-     * Get the {@link MainCtrl} instance.
-     * @return the {@link MainCtrl} instance used by this instance
+     * Sets the boardViewPane.
+     *
+     * @param pane the boardViewPane.
      */
-    public MainCtrl getMainCtrl() {
-        // TODO: Same as for getServer()
-        return mainCtrl;
+    public void setBoardViewPane(AnchorPane pane) {
+        this.boardViewPane = pane;
     }
 
     /**
-     * Get the list of known boards.
-     * @return a {@link List<BoardDisplayWorkspace>} of all boards known by the workspace
-     */
-    public List<BoardDisplayWorkspace> getBoards() {
-        return boards;
-    }
-
-    /**
-     * Get the {@link javafx.scene.layout.Pane} container in which boards are to be rendered.
-     * @return the {@link VBox} for rendering boards in
+     * Gets the boardWorkspace.
+     *
+     * @return the boardWorkspace.
      */
     public VBox getBoardWorkspace() {
         return boardWorkspace;
     }
 
     /**
-     * Sends a request to the server to create a new Board,
-     * creates a button that switches the embedded boardView
-     * to the newly created one, adds the button in the Workspace.
-     * Is called when "Create Board" button is pressed.
+     * Sets the boardWorkspace.
+     *
+     * @param boardWorkspace is the boardWorkspace.
      */
-    public void addBoard() {
-        mainCtrl.createBoard();
+    public void setBoardWorkspace(VBox boardWorkspace) {
+        this.boardWorkspace = boardWorkspace;
     }
 
     /**
-     * Add a {@link Board} to the board listing in the workspace.
-     * @param newBoard the {@link Board} to be added.
+     * Switches to the AddBoard Scene
      */
-    public void addBoardToWorkspace(Board newBoard) {
-        BoardDisplayWorkspace displayBoard = createDisplay(newBoard);
-        boards.add(displayBoard);
-        boardWorkspace.getChildren().add(displayBoard.getRoot());
+    public void addBoard() {
+        mainCtrl.addBoard();
+    }
+
+    /**
+     * Switches to the JoinBoard Scene.
+     */
+    public void joinBoard() {
+        mainCtrl.joinBoard();
+    }
+
+    /**
+     * TO BE IMPLEMENTED
+     */
+    public void admin() {
+        /* TODO */
     }
 
     /**
@@ -120,48 +113,49 @@ public class WorkspaceCtrl implements Initializable {
     }
 
     /**
-     * Creates a new {@link BoardDisplayWorkspace} object.
+     * Adds a Board to the workspace.
      *
-     * @param newBoard is the Board it is associated with.
-     * @return the new object.
+     * @param newBoard is the board to be added.
      */
-    private BoardDisplayWorkspace createDisplay(Board newBoard) {
-        BoardCtrl newBoardCtrl = createInstance(newBoard);
-        BoardDisplayWorkspace boardDisplay = Main.getMyFXML().
-                load(BoardDisplayWorkspace.class,
-                        "client", "scenes", "BoardDisplayWorkspace.fxml").getKey();
-        boardDisplay.setBoardCtrl(newBoardCtrl);
-        return boardDisplay;
+    public void addBoardToWorkspace(Board newBoard) {
+        var pair = mainCtrl.newBoardListingView(newBoard);
+        boards.add(pair.getKey());
+        boardWorkspace.getChildren().add(pair.getValue());
     }
 
     /**
-     * Creates a new instance of {@link BoardCtrl} in order to allow
-     * for efficient switching to another Board.
+     * Removes a BoardListingCtrl from the workspace.
      *
-     * @param newBoard is the Board object associated with this controller.
-     * @return the BoardCtrl.
+     * @param boardListingCtrl is the BoardListingCtrl to be removed.
      */
-    public BoardCtrl createInstance(Board newBoard) {
-        BoardCtrl boardCtrl = Main.getMyFXML()
-                .load(BoardCtrl.class, "client", "scenes", "BoardView.fxml").getKey();
-        boardCtrl.setBoard(newBoard);
-        return boardCtrl;
+    public void removeFromWorkspace(BoardListingCtrl boardListingCtrl) {
+        boards.remove(boardListingCtrl);
+        boardWorkspace.getChildren().remove(boardListingCtrl.getRoot());
     }
 
     /**
-     * TO BE IMPLEMENTED
+     * Removed a Board from the workspace.
+     *
+     * @param removed is the Board to be removed.
      */
-    public void admin() {
-        /* TODO */
+    public void removeFromWorkspace(Board removed) {
+        BoardListingCtrl boardListingCtrl =
+                boards.stream().filter(b -> b.getBoard().equals(removed)).findFirst().get();
+        boards.remove(boardListingCtrl);
+        boardWorkspace.getChildren().remove(boardListingCtrl.getRoot());
     }
 
     /**
-     * Removes a {@link BoardDisplayWorkspace} from the workspace
+     * Updates a Board on the workspace.
      *
-     * @param boardDisplayWorkspace is the BoardDisplayWorkspace to be removed
+     * @param board is the Board to be updated.
      */
-    public void removeFromWorkspace(BoardDisplayWorkspace boardDisplayWorkspace) {
-        boards.remove(boardDisplayWorkspace);
-        boardWorkspace.getChildren().remove(boardDisplayWorkspace.getRoot());
+    public void updateBoard(Board board) {
+        var toBeUpdated =
+                boards.stream().filter(b -> b.getBoard().id == board.id).findFirst();
+        if (toBeUpdated.isEmpty()) return;
+        var updatedBoardWorkspace = toBeUpdated.get();
+        updatedBoardWorkspace.setBoard(board);
+        updatedBoardWorkspace.refresh();
     }
 }
