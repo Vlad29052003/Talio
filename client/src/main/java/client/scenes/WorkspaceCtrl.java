@@ -6,7 +6,6 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -14,14 +13,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class WorkspaceCtrl {
     private final ServerUtils server;
@@ -29,7 +24,6 @@ public class WorkspaceCtrl {
     private List<BoardListingCtrl> boards;
     private ClientData data;
     private File file;
-    private ObjectOutputStream out;
     @FXML
     private AnchorPane boardViewPane;
     @FXML
@@ -46,44 +40,45 @@ public class WorkspaceCtrl {
         this.server = server;
         this.mainCtrl = mainCtrl;
         boards = new ArrayList<>();
+
+        boolean flag = false;
+
         try {
-            URL resourceUrl = getClass().getResource("/files/clientData.ser");
-            this.file = new File(resourceUrl.toURI());
-            this.out = new ObjectOutputStream(new FileOutputStream(file));
-        }
-        catch (Exception e) {
+            this.file = new File("client/src/main/resources/files/clientData.txt");
+            if (file.length() == 0) flag = true;
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        readData();
+
+        if (!flag) {
+            Thread readData = new Thread(this::readData);
+            readData.start();
+        } else {
+            data = new ClientData();
+            JoinedBoardList jbl = new JoinedBoardList("http://localhost:8080/");
+            data.addJoinedBoardList(jbl);
+            Thread writeData = new Thread(this::writeToFile);
+            writeData.start();
+        }
     }
 
     private void readData() {
-        Thread readData = new Thread(() -> {
-            try {
-                if(file.exists() && file.length() > 4) {
-                    InputStream inputStream = new FileInputStream(file);
-                    ObjectInputStream in = new ObjectInputStream(inputStream);
-                    data = (ClientData) in.readObject();
-                }
-                else {
-                    data = new ClientData();
-                    data.addJoinedBoardList(new JoinedBoardList("localhost"));
-                    writeToFile();
-                }
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        readData.start();
+        try {
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
+            this.data = (ClientData) in.readObject();
+            in.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void writeToFile() {
         try {
-            System.out.println(data);
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
             out.writeObject(data);
             out.flush();
-        } catch (IOException e) {
+            out.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
