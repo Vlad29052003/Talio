@@ -24,10 +24,10 @@ public class BoardTest {
         board1 = new Board("board1", "White");
         board2 = new Board("board2", "Black");
         board3 = new Board("board1", "White", "",false);
-        list1 = new TaskList("1", 1);
-        list2 = new TaskList("2", 2);
+        list1 = new TaskList("1");
+        list2 = new TaskList("2");
         list3 = null;
-        list4 = new TaskList("4", 4);
+        list4 = new TaskList("4");
     }
 
     @Test

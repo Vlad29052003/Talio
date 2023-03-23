@@ -27,9 +27,9 @@ public class TaskControllerTest {
         listRepo = new TestTaskListRepository();
         taskRepo = new TestTaskRepository();
         taskController = new TaskController(taskRepo, listRepo);
-        TaskList l1 = new TaskList("list1", 1);
+        TaskList l1 = new TaskList("list1");
         l1.id = 1L;
-        TaskList l2 = new TaskList("list2", 2);
+        TaskList l2 = new TaskList("list2");
         l2.id = 2L;
         Task t1 = new Task("task1", 1, "");
         t1.id = 1L;
