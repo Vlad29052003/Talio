@@ -98,7 +98,7 @@ public class WorkspaceCtrl implements Initializable {
         for(long id : jbl.getBoardIDs()) {
             try {
                 Board board = server.joinBoard(id);
-                var pair = mainCtrl.loadBoardDisplayWorkspace(board);
+                //var pair = mainCtrl.loadBoardDisplayWorkspace(board);
             }
             catch (Exception e) {
                 jbl.removeBoard(id);
@@ -208,10 +208,9 @@ public class WorkspaceCtrl implements Initializable {
      * @param newBoard is the board to be added.
      */
     public void addBoardToWorkspace(Board newBoard) {
-        BoardListingCtrl displayBoard = mainCtrl.loadBoardDisplayWorkspace(newBoard);
-        boards.add(displayBoard);
-        boardWorkspace.getChildren().add(displayBoard.getRoot());
-        addBoardToData(newBoard.id);
+        var pair = mainCtrl.newBoardListingView(newBoard);
+        boards.add(pair.getKey());
+        boardWorkspace.getChildren().add(pair.getValue());
     }
 
     /**

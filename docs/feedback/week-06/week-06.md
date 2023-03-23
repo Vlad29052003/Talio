@@ -19,9 +19,9 @@ Feedback: The agenda was sent ahead of time on Mattermost. Please remember to al
 
 #### Performance of the *Previous* Minute Taker
 
-Mark: Insufficient
+Mark: Excellent!
 
-Feedback: I was not able to find the notes from our previous meeting (week 4), on GitLab or on Mattermost. You usually posted the notes here: https://gitlab.ewi.tudelft.nl/cse1105/2022-2023/teams/oopp-team-48/-/blob/main/docs/agendas/meetings.md. 
+Feedback: The notes have been posted to GitLab appended to meetings.md, under docs. The amount of notes taken was good, and the level of detail was very high. The notes were clear and easy to read. The notes contained the concrete agreements and the tasks assigned to people. The agreements were both actionable and realistic. I appreciated that the notes are divided in sections, and are summarised correspondingly under each bullet point.
 
 
 #### Chair performance

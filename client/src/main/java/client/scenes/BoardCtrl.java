@@ -45,8 +45,7 @@ public class BoardCtrl {
      */
     public void setBoard(Board board) {
         this.board = board;
-        this.listContainer.getChildren().clear();
-        resetBoardName();
+        refresh();
     }
 
     /**
@@ -63,6 +62,7 @@ public class BoardCtrl {
      * Refreshes this Object.
      */
     public void refresh() {
+        this.listContainer.getChildren().clear();
         resetBoardName();
     }
 

@@ -49,15 +49,6 @@ public class BoardListingCtrl {
     }
 
     /**
-     * Sets the root element.
-     *
-     * @param root is the root
-     */
-    public void setRoot(VBox root) {
-        this.root = root;
-    }
-
-    /**
      * Displays the Board associated with this object.
      */
     public void view() {
