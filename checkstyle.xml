@@ -22,7 +22,7 @@
             <property name="allowMissingParamTags" value="false"/>
         </module>
 
-        <!--<module name="MissingJavadocMethod"/>-->
+        <module name="MissingJavadocMethod"/>
 
         <module name="CyclomaticComplexity">
             <property name="max" value="8"/>
