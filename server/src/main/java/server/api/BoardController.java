@@ -145,8 +145,10 @@ public class BoardController {
      */
     @Transactional
     public void deleteLists(long id) {
-        listRepo.findAll().stream().filter(l -> l.getBoard().id == id).forEach(l -> deleteTasks(l.id));
-        listRepo.findAll().stream().filter(l -> l.getBoard().id == id).forEach(listRepo::delete);
+        listRepo.findAll().stream().filter(l -> l.getBoard().id == id)
+                .forEach(l -> deleteTasks(l.id));
+        listRepo.findAll().stream().filter(l -> l.getBoard().id == id)
+                .forEach(listRepo::delete);
     }
 
     /**

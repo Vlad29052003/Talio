@@ -40,6 +40,7 @@ public class TaskList {
     @SuppressWarnings("unused")
     public TaskList() {
         // for object mappers
+        tasks = new ArrayList<>();
     }
 
     /**

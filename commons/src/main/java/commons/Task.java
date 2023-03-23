@@ -40,6 +40,7 @@ public class Task implements Comparable<Task> {
     @SuppressWarnings("unused")
     public Task() {
         // for object mappers
+        subtasks = new ArrayList<>();
     }
 
     /**
