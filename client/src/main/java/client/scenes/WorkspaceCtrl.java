@@ -118,9 +118,9 @@ public class WorkspaceCtrl {
      * @param newBoard is the board to be added.
      */
     public void addBoardToWorkspace(Board newBoard) {
-        BoardListingCtrl displayBoard = mainCtrl.loadBoardDisplayWorkspace(newBoard);
-        boards.add(displayBoard);
-        boardWorkspace.getChildren().add(displayBoard.getRoot());
+        var pair = mainCtrl.newBoardListingView(newBoard);
+        boards.add(pair.getKey());
+        boardWorkspace.getChildren().add(pair.getValue());
     }
 
     /**
