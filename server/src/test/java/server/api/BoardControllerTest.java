@@ -141,9 +141,12 @@ public class BoardControllerTest {
         tl.id = 1L;
         Task t = new Task("t1", 0, "");
         tl.addTask(t);
-        sut.deleteTasks(1L);
-        assertTrue(tl.tasks.contains(t));
+        listRepo.save(tl);
+        taskRepo.save(t);
 
+        sut.deleteTasks(1L);
+
+        assertEquals(taskRepo.findAll().size(), 0);
     }
 
     @Test
