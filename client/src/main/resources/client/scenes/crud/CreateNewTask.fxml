@@ -12,7 +12,7 @@
 and label later
    -Lovro -->
 
-<AnchorPane prefHeight="411.0" prefWidth="340.0" stylesheets="@../../../style/CreateNewTask.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.crud.CreateNewTask">
+<AnchorPane prefHeight="411.0" prefWidth="340.0" stylesheets="/style/CreateNewTask.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.crud.CreateNewTask">
    <children>
       <Text layoutX="13.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Add task" wrappingWidth="161.33673095703125">
          <font>

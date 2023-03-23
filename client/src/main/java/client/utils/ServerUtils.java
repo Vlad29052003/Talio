@@ -26,6 +26,20 @@ public class ServerUtils {
     }
 
     /**
+     * Sends a request to get a Board from the server.
+     *
+     * @param id is the id of the requested board.
+     * @return the Board, if found.
+     */
+    public Board joinBoard(long id) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/boards/" + id)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(Board.class);
+    }
+
+    /**
      * Sends a request to delete a Board from the server.
      *
      * @param board is the board to be deleted.
@@ -37,5 +51,19 @@ public class ServerUtils {
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .delete();
+    }
+
+    /**
+     * Sends a request to update a Board on the server.
+     *
+     * @param board is the updated Board.
+     * @return the updated, saved on the server, Board.
+     */
+    public Board updateBoard(Board board) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/boards/" + board.id)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .put(Entity.entity(board, APPLICATION_JSON), Board.class);
     }
 }

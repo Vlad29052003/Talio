@@ -1,37 +1,32 @@
 package client.scenes;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 import com.google.inject.Inject;
 import client.utils.ServerUtils;
 import commons.Board;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
-public class BoardCtrl implements Initializable {
+public class BoardCtrl {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private Board board;
     @FXML
-    private TitledPane boardView;
+    private Label boardTitle;
     @FXML
     private HBox listContainer;
 
-
+    /**
+     * Creates a new {@link BoardCtrl} object.
+     *
+     * @param server is the ServerUtils.
+     * @param mainCtrl is the MainCtrl.
+     */
     @Inject
     public BoardCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        if(board != null)
-            boardView.setText(board.name + " (" + board.id + ")");
-        else boardView.setText("No board to be displayed");
     }
 
     /**
@@ -50,20 +45,25 @@ public class BoardCtrl implements Initializable {
      */
     public void setBoard(Board board) {
         this.board = board;
-        boardView.setText(board.name + " (" + board.id + ")");
+        refresh();
     }
 
     /**
-     * Getter for the boardView, which is the root element.
-     *
-     * @return the boardView.
+     * Resets the name of the Board.
      */
-    public TitledPane getBoardView() {
-        return boardView;
+    private void resetBoardName() {
+        if(board != null) {
+            boardTitle.setText(board.name + " (id: " + board.id + ")");
+        }
+        else boardTitle.setText("No board to be displayed");
     }
 
+    /**
+     * Refreshes this Object.
+     */
     public void refresh() {
-
+        this.listContainer.getChildren().clear();
+        resetBoardName();
     }
 
 }
