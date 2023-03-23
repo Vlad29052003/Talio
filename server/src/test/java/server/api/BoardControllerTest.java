@@ -17,13 +17,16 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class BoardControllerTest {
 
     private TestBoardRepository repo;
-
+    private TaskListTestRepository listRepo;
+    private TestTaskRepository taskRepo;
     private BoardController sut;
 
     @BeforeEach
     public void setup() {
         repo = new TestBoardRepository();
-        sut = new BoardController(repo);
+        listRepo = new TaskListTestRepository();
+        taskRepo = new TestTaskRepository();
+        sut = new BoardController(repo, listRepo, taskRepo);
     }
 
     @Test
