@@ -11,13 +11,18 @@ public class MainCtrlTesting extends MainCtrl {
     private List<String> calledMethods;
     private WorkspaceCtrl workspaceCtrl;
 
+    /**
+     * Create a new {@link MainCtrlTesting} instance.
+     */
     public MainCtrlTesting() {
         calledMethods = new ArrayList<>();
     }
 
-
+    /**
+     * Dummy function for switching currently active board.
+     * @param newBoardCtrl is the BoardCtrl to be embedded.
+     */
     public void switchBoard(BoardCtrl newBoardCtrl) {
-
         calledMethods.add("switchBoard");
         workspaceCtrl.setBoardView(newBoardCtrl.getBoardView());
     }
