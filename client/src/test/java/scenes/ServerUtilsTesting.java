@@ -10,11 +10,18 @@ public class ServerUtilsTesting extends ServerUtils {
     private long inc;
     private List<Board> boards;
 
+    /**
+     * Instantiate a new {@link ServerUtilsTesting}.
+     */
     public ServerUtilsTesting() {
         inc = 0;
         boards = new ArrayList<>();
     }
 
+    /**
+     * Get the list of boards known by this {@link ServerUtils} mock.
+     * @return the list of known boards
+     */
     public List<Board> getBoards() {
         return this.boards;
     }
