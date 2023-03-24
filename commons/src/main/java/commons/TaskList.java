@@ -67,14 +67,8 @@ public class TaskList {
     }
 
     /**
-<<<<<<< HEAD
-     * Gets the board.
-     *
-     * @return the board.
-=======
      * Get the parent {@link Board} for this list.
-     * @return the {@link Board} this list belongs to
->>>>>>> main
+     * @return the {@link Board} this list belongs to main
      */
     public Board getBoard() {
         return board;
