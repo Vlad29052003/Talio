@@ -41,9 +41,17 @@ public class BoardController {
     private final TaskListRepository listRepo;
     private final TaskRepository taskRepo;
 
+<<<<<<< HEAD
     public BoardController(BoardRepository repo,
                            TaskListRepository listRepo,
                            TaskRepository taskRepo) {
+=======
+    /**
+     * Instantiate a new {@link BoardController}.
+     * @param repo the {@link BoardRepository} to use
+     */
+    public BoardController(BoardRepository repo) {
+>>>>>>> main
         this.repo = repo;
         this.listRepo = listRepo;
         this.taskRepo = taskRepo;

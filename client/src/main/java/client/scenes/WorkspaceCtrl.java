@@ -20,7 +20,7 @@ public class WorkspaceCtrl {
     private VBox boardWorkspace;
 
     /**
-     * Creates a new {@link WorkspaceCtrl workspace controller}
+     * Creates a new {@link WorkspaceCtrl} instance.
      *
      * @param server   is the ServerUtils
      * @param mainCtrl is the MainCtrl
@@ -118,9 +118,9 @@ public class WorkspaceCtrl {
      * @param newBoard is the board to be added.
      */
     public void addBoardToWorkspace(Board newBoard) {
-        BoardListingCtrl displayBoard = mainCtrl.loadBoardDisplayWorkspace(newBoard);
-        boards.add(displayBoard);
-        boardWorkspace.getChildren().add(displayBoard.getRoot());
+        var pair = mainCtrl.newBoardListingView(newBoard);
+        boards.add(pair.getKey());
+        boardWorkspace.getChildren().add(pair.getValue());
     }
 
     /**
