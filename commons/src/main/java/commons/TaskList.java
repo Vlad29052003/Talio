@@ -69,6 +69,10 @@ public class TaskList {
         board.addTaskList(this);
     }
 
+    /**
+     * Get the parent {@link Board} for this list.
+     * @return the {@link Board} this list belongs to
+     */
     public Board getBoard() {
         return this.board;
     }

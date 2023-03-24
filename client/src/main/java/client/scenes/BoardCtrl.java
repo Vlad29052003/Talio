@@ -59,7 +59,8 @@ public class BoardCtrl {
     }
 
     /**
-     * Refreshes this Object.
+     * Re-render the board view UI.
+     * This will refresh all task lists and tasks currently rendered.
      */
     public void refresh() {
         this.listContainer.getChildren().clear();

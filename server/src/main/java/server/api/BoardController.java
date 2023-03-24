@@ -36,6 +36,10 @@ public class BoardController {
 
     private final BoardRepository repo;
 
+    /**
+     * Instantiate a new {@link BoardController}.
+     * @param repo the {@link BoardRepository} to use
+     */
     public BoardController(BoardRepository repo) {
         this.repo = repo;
     }

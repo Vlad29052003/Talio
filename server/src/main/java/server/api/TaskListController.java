@@ -24,6 +24,11 @@ public class TaskListController {
     private final TaskListRepository repo;
     private final TaskRepository taskRepo;
 
+    /**
+     * Instantiate a new {@link TaskListController}.
+     * @param repo the {@link TaskListRepository} to use
+     * @param taskRepo the {@link TaskRepository} to use
+     */
     public TaskListController(TaskListRepository repo, TaskRepository taskRepo) {
         this.repo = repo;
         this.taskRepo = taskRepo;
