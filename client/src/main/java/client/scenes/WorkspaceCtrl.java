@@ -6,6 +6,7 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -14,10 +15,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class WorkspaceCtrl {
+public class WorkspaceCtrl implements Initializable {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private List<BoardListingCtrl> boards;
@@ -55,6 +58,30 @@ public class WorkspaceCtrl {
         System.out.println(data);
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        ArrayList<Long> toBeRemoved = new ArrayList<>();
+        boolean modified = false;
+        int index = data.getLastActiveOn();
+        for(long id : data.getServers().get(index).getBoardIDs()) {
+            try {
+                Board b = server.joinBoard(id);
+                var pair = mainCtrl.newBoardListingView(b);
+                boards.add(pair.getKey());
+                boardWorkspace.getChildren().add(pair.getValue());
+            } catch (Exception e) {
+                toBeRemoved.add(id);
+                modified = true;
+            }
+        }
+        if(modified) {
+            for (long id : toBeRemoved) {
+                data.getServers().get(index).removeBoard(id);
+            }
+            writeToFile();
+        }
+    }
+
     /**
      * Reads the file that contains information about joined Boards.
      * Populates the workspace with the previously joined/created Boards.
@@ -82,9 +109,6 @@ public class WorkspaceCtrl {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void populate() {
     }
 
     public void addBoardToData(long id) {

@@ -26,24 +26,24 @@ public class MainCtrl {
     private Scene deleteBoard;
     private BoardCtrl boardCtrl;
 
+    public void setMyFXML(MyFXML myFXML) {
+        this.myFXML = myFXML;
+    }
+
     /**
      * Initializes the primaryStage, WorkspaceScene
      * and initial BoardScene Scenes and Controllers for Workspace and
      * initial Board.
      *
      * @param primaryStage is the primary Stage.
-     * @param myFXML       is the FXML loader
      * @param workspace    is the Workspace.
      * @param board        is the initial Board, which is empty.
      */
     public void initialize(
             Stage primaryStage,
-            MyFXML myFXML,
             Pair<WorkspaceCtrl, Parent> workspace,
             Pair<BoardCtrl, Parent> board) {
         this.primaryStage = primaryStage;
-
-        this.myFXML = myFXML;
 
         this.workspaceCtrl = workspace.getKey();
         this.workspaceScene = new Scene(workspace.getValue());

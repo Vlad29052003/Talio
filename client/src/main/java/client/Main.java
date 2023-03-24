@@ -24,6 +24,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
+        mainCtrl.setMyFXML(FXML);
+
 
         var workspace = FXML.load(WorkspaceCtrl.class, "client", "scenes", "WorkspaceView.fxml");
         var board = FXML.load(BoardCtrl.class, "client", "scenes", "BoardView.fxml");
@@ -37,9 +40,7 @@ public class Main extends Application {
         var deleteBoard = FXML
                 .load(DeleteBoardCtrl.class, "client", "scenes", "crud", "ConfirmBoardDelete.fxml");
 
-        var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-
-        mainCtrl.initialize(primaryStage, FXML, workspace, board);
+        mainCtrl.initialize(primaryStage, workspace, board);
         mainCtrl.initializeBoardCrud(joinBoard, createBoard, editBoard, deleteBoard);
     }
 }
