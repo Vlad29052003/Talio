@@ -6,7 +6,6 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -15,12 +14,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
-public class WorkspaceCtrl implements Initializable {
+public class WorkspaceCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private List<BoardListingCtrl> boards;
@@ -43,24 +40,19 @@ public class WorkspaceCtrl implements Initializable {
         this.mainCtrl = mainCtrl;
         boards = new ArrayList<>();
 
-        boolean flag = false;
-
         try {
             this.file = new File("client/src/main/resources/files/clientData.txt");
-            if (file.length() == 0) flag = true;
+            if (file.length() == 0) {
+                data = new ClientData();
+                data.addJoinedBoardList(new JoinedBoardList("http://localhost:8080/"));
+                writeToFile();
+            }
+            else readData();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if (!flag) {
-            readData();
-        } else {
-            data = new ClientData();
-            JoinedBoardList jbl = new JoinedBoardList("http://localhost:8080/");
-            data.addJoinedBoardList(jbl);
-            Thread writeData = new Thread(this::writeToFile);
-            writeData.start();
-        }
+        System.out.println(data);
     }
 
     /**
@@ -69,7 +61,7 @@ public class WorkspaceCtrl implements Initializable {
      */
     private void readData() {
         try {
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(this.file));
             this.data = (ClientData) in.readObject();
             in.close();
         } catch (Exception e) {
@@ -82,44 +74,29 @@ public class WorkspaceCtrl implements Initializable {
      */
     public void writeToFile() {
         try {
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
-            out.writeObject(data);
-            out.flush();
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(this.file));
+            out.writeObject(this.data);
             out.close();
+
+            System.out.println("write: " + data);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        JoinedBoardList jbl = data.getServers().get(data.getLastActiveOn());
-        boolean flag = false;
-        for(long id : jbl.getBoardIDs()) {
-            try {
-                Board board = server.joinBoard(id);
-                //var pair = mainCtrl.loadBoardDisplayWorkspace(board);
-            }
-            catch (Exception e) {
-                jbl.removeBoard(id);
-                flag = true;
-            }
-        }
-        if(flag)writeToFile();
+    public void populate() {
     }
 
     public void addBoardToData(long id) {
-        System.out.println(data);
-        data.getServers().get(data.getLastActiveOn()).addBoard(id);
-        System.out.println(data);
-        Thread writeData = new Thread(this::writeToFile);
-        writeData.start();
+        int index = data.getLastActiveOn();
+        data.getServers().get(index).addBoard(id);
+        writeToFile();
     }
 
     public void removeBoardFromData(long id) {
-        data.getServers().get(data.getLastActiveOn()).removeBoard(id);
-        Thread writeData = new Thread(this::writeToFile);
-        writeData.start();
+        int index = data.getLastActiveOn();
+        data.getServers().get(index).removeBoard(id);
+        writeToFile();
     }
 
     /**
@@ -211,6 +188,7 @@ public class WorkspaceCtrl implements Initializable {
         var pair = mainCtrl.newBoardListingView(newBoard);
         boards.add(pair.getKey());
         boardWorkspace.getChildren().add(pair.getValue());
+        addBoardToData(newBoard.id);
     }
 
     /**
@@ -221,6 +199,7 @@ public class WorkspaceCtrl implements Initializable {
     public void removeFromWorkspace(BoardListingCtrl boardListingCtrl) {
         boards.remove(boardListingCtrl);
         boardWorkspace.getChildren().remove(boardListingCtrl.getRoot());
+        removeBoardFromData(boardListingCtrl.getBoard().id);
     }
 
     /**
@@ -233,6 +212,7 @@ public class WorkspaceCtrl implements Initializable {
                 boards.stream().filter(b -> b.getBoard().equals(removed)).findFirst().get();
         boards.remove(boardListingCtrl);
         boardWorkspace.getChildren().remove(boardListingCtrl.getRoot());
+        removeBoardFromData(removed.id);
     }
 
     /**

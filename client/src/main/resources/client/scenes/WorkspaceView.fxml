@@ -84,7 +84,7 @@
                                     <Insets left="10.0" right="10.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" onAction="#admin" text="Admin">
+                              <Button mnemonicParsing="false" onAction="#populate" text="Admin">
                                  <HBox.margin>
                                     <Insets left="10.0" right="10.0" />
                                  </HBox.margin>

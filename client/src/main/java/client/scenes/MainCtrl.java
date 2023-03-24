@@ -120,7 +120,7 @@ public class MainCtrl {
     }
 
     /**
-     * Removed a Board from the workspace.
+     * Removes a Board from the workspace.
      *
      * @param removed is the Board to be removed;
      */

@@ -18,7 +18,7 @@ public class JoinedBoardList implements Serializable {
     }
 
     public List<Long> getBoardIDs() {
-        return new ArrayList<Long>(boardIDs);
+        return boardIDs;
     }
 
     public void addBoard(long id) {
