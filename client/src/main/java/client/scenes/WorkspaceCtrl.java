@@ -32,7 +32,7 @@ public class WorkspaceCtrl implements Initializable {
     private VBox boardWorkspace;
 
     /**
-     * Creates a new {@link WorkspaceCtrl workspace controller}
+     * Creates a new {@link WorkspaceCtrl} instance.
      *
      * @param server   is the ServerUtils
      * @param mainCtrl is the MainCtrl

@@ -49,6 +49,16 @@ public class BoardListingCtrl {
     }
 
     /**
+     * Sets the root element.
+     * Used for testing.
+     *
+     * @param root is the root.
+     */
+    public void setRoot(VBox root) {
+        this.root = root;
+    }
+
+    /**
      * Displays the Board associated with this object.
      */
     public void view() {
@@ -69,6 +79,11 @@ public class BoardListingCtrl {
         mainCtrl.deleteBoard(this.board);
     }
 
+    /**
+     * Gets the board.
+     *
+     * @return the board.
+     */
     public Board getBoard() {
         return  this.board;
     }
