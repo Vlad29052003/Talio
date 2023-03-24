@@ -84,6 +84,7 @@ public class Board {
         if(list == null) return;
         if(list.board != null) list.board.removeTaskList(list);
         this.lists.add(list);
+        // TODO: Assign the list a valid index / check if it's valid.
         list.board = this;
     }
 
@@ -98,6 +99,7 @@ public class Board {
         if(this.lists.remove(list)) {
             list.board = null;
         }
+        // TODO: Update indexes of other lists?
     }
 
     @Override

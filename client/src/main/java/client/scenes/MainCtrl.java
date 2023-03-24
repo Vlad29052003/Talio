@@ -6,6 +6,8 @@ import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
 import commons.Board;
+import commons.Task;
+import commons.TaskList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -201,10 +203,35 @@ public class MainCtrl {
      * @return the new BoardListingCtrl.
      */
     public Pair<BoardListingCtrl, Parent> newBoardListingView(Board newBoard) {
-        var pair =
-                myFXML.load(BoardListingCtrl.class, "client", "scenes",
-                        "BoardListing.fxml");
+        var pair = myFXML.load(BoardListingCtrl.class,
+                "client", "scenes", "BoardListing.fxml");
         pair.getKey().setBoard(newBoard);
+        return pair;
+    }
+
+    /**
+     * Loads a {@link TaskListCtrl} instance and view.
+     *
+     * @param newTaskList is the {@link TaskList} associated with them.
+     * @return the new {@link TaskListCtrl} and its view.
+     */
+    public Pair<TaskListCtrl, Parent> newTaskListView(TaskList newTaskList) {
+        var pair = myFXML.load(TaskListCtrl.class,
+                "client", "scenes", "TaskListView.fxml");
+        pair.getKey().setTaskList(newTaskList);
+        return pair;
+    }
+
+    /**
+     * Loads a {@link TaskCtrl} instance and view.
+     *
+     * @param newTask is the {@link Task} associated with them.
+     * @return the new {@link TaskCtrl} and its view.
+     */
+    public Pair<TaskCtrl, Parent> newTaskView(Task newTask) {
+        var pair = myFXML.load(TaskCtrl.class,
+                "client", "scenes", "TaskView.fxml");
+        pair.getKey().setTask(newTask);
         return pair;
     }
 }

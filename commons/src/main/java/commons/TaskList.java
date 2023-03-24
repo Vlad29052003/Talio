@@ -25,7 +25,7 @@ public class TaskList {
     public long id;
 
     public String name;
-    public long index;
+    public int index;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonBackReference
@@ -50,7 +50,7 @@ public class TaskList {
      * @param index is the position within the board.
      */
     public TaskList(String name,
-                    long index) {
+                    int index) {
         this.name = name;
         this.index = index;
         this.tasks = new HashSet<>();
