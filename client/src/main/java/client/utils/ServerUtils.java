@@ -9,7 +9,23 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 public class ServerUtils {
 
-    private static final String SERVER = "http://localhost:8080/";
+    private String server = "http://localhost:8080/";
+
+    public String getServer() {
+        return server;
+    }
+
+    public void setServer(String server) {
+        this.server = server;
+    }
+
+    public void testConnection() {
+        ClientBuilder.newClient(new ClientConfig())
+                .target(server).path("api/test")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get();
+    }
 
     /**
      * Sends a request to save a Board on the server.
@@ -19,7 +35,7 @@ public class ServerUtils {
      */
     public Board addBoard(Board board) {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/boards")
+                .target(server).path("api/boards")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(board, APPLICATION_JSON), Board.class);
@@ -33,7 +49,7 @@ public class ServerUtils {
      */
     public Board joinBoard(long id) {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/boards/" + id)
+                .target(server).path("api/boards/" + id)
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .get(Board.class);
@@ -47,7 +63,7 @@ public class ServerUtils {
      */
     public Response delete(Board board) {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/boards/" + board.id)
+                .target(server).path("api/boards/" + board.id)
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .delete();
@@ -61,7 +77,7 @@ public class ServerUtils {
      */
     public Board updateBoard(Board board) {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/boards/" + board.id)
+                .target(server).path("api/boards/" + board.id)
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .put(Entity.entity(board, APPLICATION_JSON), Board.class);

@@ -8,8 +8,12 @@ import commons.Board;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -18,6 +22,7 @@ import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class WorkspaceCtrl implements Initializable {
@@ -30,6 +35,10 @@ public class WorkspaceCtrl implements Initializable {
     private AnchorPane boardViewPane;
     @FXML
     private VBox boardWorkspace;
+    @FXML
+    private TextField serverIP;
+    @FXML
+    private Label connectionStatus;
 
     /**
      * Creates a new {@link WorkspaceCtrl} instance.
@@ -60,26 +69,10 @@ public class WorkspaceCtrl implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ArrayList<Long> toBeRemoved = new ArrayList<>();
-        boolean modified = false;
         int index = data.getLastActiveOn();
-        for(long id : data.getServers().get(index).getBoardIDs()) {
-            try {
-                Board b = server.joinBoard(id);
-                var pair = mainCtrl.newBoardListingView(b);
-                boards.add(pair.getKey());
-                boardWorkspace.getChildren().add(pair.getValue());
-            } catch (Exception e) {
-                toBeRemoved.add(id);
-                modified = true;
-            }
-        }
-        if(modified) {
-            for (long id : toBeRemoved) {
-                data.getServers().get(index).removeBoard(id);
-            }
-            writeToFile();
-        }
+        String ip = data.getServers().get(index).getServer();
+        serverIP.setText(ip);
+        fetch();
     }
 
     /**
@@ -121,6 +114,39 @@ public class WorkspaceCtrl implements Initializable {
         int index = data.getLastActiveOn();
         data.getServers().get(index).removeBoard(id);
         writeToFile();
+    }
+
+    public void loadBoardsFromFile() {
+        boardWorkspace.getChildren().clear();
+        ArrayList<Long> toBeRemoved = new ArrayList<>();
+        boolean modified = false;
+        int index = data.getLastActiveOn();
+
+        if(determineConnectionStatus()) {
+            for (long id : data.getServers().get(index).getBoardIDs()) {
+                try {
+                    Board b = server.joinBoard(id);
+                    var pair = mainCtrl.newBoardListingView(b);
+                    boards.add(pair.getKey());
+                    boardWorkspace.getChildren().add(pair.getValue());
+                } catch (Exception e) {
+                    toBeRemoved.add(id);
+                    modified = true;
+                }
+            }
+            if (modified) {
+                for (long id : toBeRemoved) {
+                    data.getServers().get(index).removeBoard(id);
+                }
+                writeToFile();
+            }
+        }
+        else {
+            var alert = new Alert(Alert.AlertType.ERROR);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setContentText("Previously joined boards cannot be loaded if the server is offline!");
+            alert.showAndWait();
+        }
     }
 
     /**
@@ -173,6 +199,40 @@ public class WorkspaceCtrl implements Initializable {
      */
     public void addBoard() {
         mainCtrl.addBoard();
+    }
+
+    /**
+     * Tests if a connection with the provided server ip can be
+     * established. Executed when Fetch button is pressed.
+     */
+    public void fetch() {
+        server.setServer(serverIP.getText());
+        Optional<JoinedBoardList> jbl = data.getServers().stream().filter(s -> s.getServer().equals(serverIP.getText())).findFirst();
+        if(jbl.isPresent()) {
+            int index = data.getJoinedBoardPosition(jbl.get());
+            data.setLastActiveOn(index);
+            writeToFile();
+            loadBoardsFromFile();
+        }
+        else {
+            data.addJoinedBoardList(new JoinedBoardList(serverIP.getText()));
+            writeToFile();
+            boardWorkspace.getChildren().clear();
+        }
+    }
+
+    public boolean determineConnectionStatus() {
+        try {
+            server.testConnection();
+            connectionStatus.setText("The server is up and running!");
+            connectionStatus.setStyle("-fx-text-fill: #046600;");
+            return true;
+        }
+        catch (Exception e) {
+            connectionStatus.setStyle("-fx-text-fill: #880606;");
+            connectionStatus.setText("The IP may be incorrect or the server may be offline.");
+            return false;
+        }
     }
 
     /**

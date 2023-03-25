@@ -32,6 +32,15 @@ public class ClientData implements Serializable {
         }
     }
 
+    public int getJoinedBoardPosition(JoinedBoardList joinedBoardList) {
+        if(servers.contains(joinedBoardList)) {
+            for(int i = 0; i < servers.size(); i ++)
+                if(servers.get(i).equals(joinedBoardList))
+                    return i;
+        }
+        return -1;
+    }
+
     @Override
     public String toString() {
         return "ClientData{" +
