@@ -64,7 +64,7 @@ public class BoardController {
         }
 
         Board saved = repo.save(board);
-        changes.addChanged(board.id, saved);
+        changes.addCreated(board.id, saved);
         return ResponseEntity.ok(saved);
     }
 
@@ -127,7 +127,7 @@ public class BoardController {
         }
 
         repo.deleteById(id);
-        changes.addChanged(id, null);
+        changes.addDeleted(id);
         return ResponseEntity.ok().build();
     }
 

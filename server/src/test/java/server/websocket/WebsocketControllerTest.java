@@ -2,7 +2,8 @@ package server.websocket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Board;
-import commons.messages.BoardUpdate;
+import commons.messages.BoardUpdateMessage;
+import commons.messages.UpdateMessage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,13 +82,13 @@ public class WebsocketControllerTest {
     private class BoardUpdateFrameHandler implements StompFrameHandler {
         @Override
         public Type getPayloadType(StompHeaders stompHeaders) {
-            return BoardUpdate.class;
+            return BoardUpdateMessage.class;
         }
 
         @Override
         public void handleFrame(StompHeaders stompHeaders, Object o) {
-            BoardUpdate a = (BoardUpdate) o;
-            completableFuture.complete(a.getBoard());
+            UpdateMessage a = (UpdateMessage) o;
+            completableFuture.complete((Board) a.getObject());
         }
     }
 }

@@ -1,6 +1,6 @@
 package server.websocket;
 
-import commons.messages.BoardUpdate;
+import commons.messages.UpdateMessage;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
@@ -11,7 +11,7 @@ import java.util.List;
 @Controller
 public class WebsocketController {
 
-    private SimpMessagingTemplate template;
+    private final SimpMessagingTemplate template;
 
     public BoardChangeQueue changes;
 
@@ -20,10 +20,10 @@ public class WebsocketController {
         this.template = template;
     }
 
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 100)
     public void pushBoardUpdate() {
-        List<BoardUpdate> ch = changes.pollUpdates();
-        for(BoardUpdate update : ch){
+        List<UpdateMessage> ch = changes.pollUpdates();
+        for(UpdateMessage update : ch){
             template.convertAndSend("/topic/boards/", update);
         }
     }
