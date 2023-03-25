@@ -4,27 +4,27 @@ import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.TaskList;
-import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-/**import jakarta.ws.rs.WebApplicationException;
-import javafx.scene.control.Alert;
+import javafx.fxml.FXML;
+/**import javafx.scene.control.Alert;
+import jakarta.ws.rs.WebApplicationException;
 import javafx.stage.Modality;**/
 
-public class CreateNewListCtrl {
+public class EditListCtrl {
     private ServerUtils server;
     private MainCtrl mainCtrl;
     private TaskList taskList;
     @FXML
-    TextField text;
+    private TextField text;
 
     /**
-     * Creates a new {@link CreateNewListCtrl} object.
+     * Creates a new {@link EditListCtrl} object.
      *
      * @param server   is the ServerUtils.
      * @param mainCtrl is the MainCtrl.
      */
     @Inject
-    public CreateNewListCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public EditListCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
@@ -36,6 +36,7 @@ public class CreateNewListCtrl {
      */
     public void setTaskList(TaskList taskList) {
         this.taskList = taskList;
+        this.text.setText(taskList.name);
     }
 
     /**
@@ -56,10 +57,11 @@ public class CreateNewListCtrl {
     }
 
     /**
-     * Bound to the Add button.
-     * Creates a new TaskList.
+     * Bound to the Confirm button.
+     * Sends a request to the server
+     * to update this taskList.
      */
-    public void add() {
+    public void edit() {
         // to be implemented
     }
 

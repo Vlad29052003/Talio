@@ -57,16 +57,7 @@ public class DeleteListCtrl {
      * to delete this taskList.
      */
     public void confirm() {
-        /**try {
-            server.delete(taskList);
-        } catch (WebApplicationException e) {
-            var alert = new Alert(Alert.AlertType.ERROR);
-            alert.initModality(Modality.APPLICATION_MODAL);
-            alert.setContentText("This task list does not exist on the server!");
-            alert.showAndWait();
-        }
-        mainCtrl.removeFromWorkspace(taskList);
-        mainCtrl.cancel();**/
+        // to be implemented
     }
 
     /**
