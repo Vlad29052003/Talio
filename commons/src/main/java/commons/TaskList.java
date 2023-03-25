@@ -41,6 +41,7 @@ public class TaskList {
     @SuppressWarnings("unused")
     public TaskList() {
         // for object mappers
+        this.tasks = new HashSet<>();
     }
 
     /**

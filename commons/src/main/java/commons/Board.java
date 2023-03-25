@@ -41,6 +41,8 @@ public class Board {
     @SuppressWarnings("unused")
     public Board() {
         // for object mappers
+        this.lists = new HashSet<>();
+        this.tags = new HashSet<>();
     }
 
     /**
