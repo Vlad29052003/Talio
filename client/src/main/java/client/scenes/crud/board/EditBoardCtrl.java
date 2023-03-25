@@ -77,7 +77,6 @@ public class EditBoardCtrl {
             return;
         }
 
-        mainCtrl.updateBoard(board);
         mainCtrl.cancel();
     }
 

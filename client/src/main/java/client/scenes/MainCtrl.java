@@ -114,6 +114,16 @@ public class MainCtrl {
     }
 
     /**
+     * Removed a Board from the workspace.
+     *
+     * @param id is the id of the Board to be removed;
+     */
+    public void removeFromWorkspace(long id) {
+        workspaceCtrl.removeFromWorkspace(id);
+        boardCtrl.setBoard(null);
+    }
+
+    /**
      * Switches back to the previous WorkspaceScene.
      */
     public void cancel() {
@@ -177,7 +187,7 @@ public class MainCtrl {
      * @return true if present, false otherwise.
      */
     public boolean isPresent(Board board) {
-        return workspaceCtrl.getBoards().stream().anyMatch(w -> w.getBoard().equals(board));
+        return workspaceCtrl.getBoards().stream().anyMatch(w -> w.getBoard().id == board.id);
     }
 
     /**
