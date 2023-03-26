@@ -61,6 +61,7 @@ public class WebsocketSynchroniser {
     }
 
     public void stop(){
+        reconnecting.set(false);
         stompClient.stop();
         scheduler.shutdown();
         syncTask.cancel(false);
@@ -70,7 +71,7 @@ public class WebsocketSynchroniser {
         // Make sure only one thread tries to connect at once.
         if(reconnecting.compareAndSet(false, true)){
             boolean disconnected = true;
-            while (disconnected) {
+            while (disconnected && !reconnecting.get()) {
                 try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException e) {}

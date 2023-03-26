@@ -89,6 +89,10 @@ public class MainCtrl {
         this.deleteBoard = new Scene(deleteBoard.getValue());
     }
 
+    public void stop(){
+        this.boardSyncroniser.stop();
+    }
+
     /**
      * Embeds a Board within the WorkspaceScene.
      *

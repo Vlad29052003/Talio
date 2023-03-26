@@ -18,6 +18,8 @@ public class Main extends Application {
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
 
+    private MainCtrl mainCtrl;
+
     public static void main(String[] args) {
         launch();
     }
@@ -37,9 +39,15 @@ public class Main extends Application {
         var deleteBoard = FXML
                 .load(DeleteBoardCtrl.class, "client", "scenes", "crud", "ConfirmBoardDelete.fxml");
 
-        var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
+        mainCtrl = INJECTOR.getInstance(MainCtrl.class);
 
         mainCtrl.initialize(primaryStage, FXML, workspace, board);
         mainCtrl.initializeBoardCrud(joinBoard, createBoard, editBoard, deleteBoard);
+    }
+
+    @Override
+    public void stop() throws Exception {
+        mainCtrl.stop();
+        super.stop();
     }
 }
