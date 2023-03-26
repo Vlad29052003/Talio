@@ -26,6 +26,11 @@ public class MainCtrl {
     private Scene deleteBoard;
     private BoardCtrl boardCtrl;
 
+    /**
+     * Sets myFXML.
+     *
+     * @param myFXML is myFXML.
+     */
     public void setMyFXML(MyFXML myFXML) {
         this.myFXML = myFXML;
     }
@@ -106,7 +111,8 @@ public class MainCtrl {
      * @param board is the Board to be displayed.
      */
     public void switchBoard(Board board) {
-        boardCtrl.setBoard(board);
+        if(boardCtrl != null)
+            boardCtrl.setBoard(board);
     }
 
     /**

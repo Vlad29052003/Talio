@@ -11,14 +11,27 @@ public class ServerUtils {
 
     private String server = "http://localhost:8080/";
 
+    /**
+     * Gets the server.
+     *
+     * @return the server.
+     */
     public String getServer() {
         return server;
     }
 
+    /**
+     * Sets the server.
+     *
+     * @param server is the address of another server.
+     */
     public void setServer(String server) {
         this.server = server;
     }
 
+    /**
+     * Sends a request to test the connection with the server.
+     */
     public void testConnection() {
         ClientBuilder.newClient(new ClientConfig())
                 .target(server).path("api/test")

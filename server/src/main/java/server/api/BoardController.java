@@ -21,7 +21,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/boards")
 public class BoardController {
-
     private final BoardRepository repo;
     private final TaskListRepository listRepo;
     private final TaskRepository taskRepo;

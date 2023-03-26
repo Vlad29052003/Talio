@@ -58,15 +58,20 @@ public class WorkspaceCtrl implements Initializable {
                 data = new ClientData();
                 data.addJoinedBoardList(new JoinedBoardList("http://localhost:8080/"));
                 writeToFile();
-            }
-            else readData();
+            } else readData();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        System.out.println(data);
     }
 
+    /**
+     * Initializes this Workspace.
+     *
+     * @param location  The location used to resolve relative paths for the root object, or
+     *                  {@code null} if the location is not known.
+     * @param resources The resources used to localize the root object, or {@code null} if
+     *                  the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         int index = data.getLastActiveOn();
@@ -77,7 +82,6 @@ public class WorkspaceCtrl implements Initializable {
 
     /**
      * Reads the file that contains information about joined Boards.
-     * Populates the workspace with the previously joined/created Boards.
      */
     private void readData() {
         try {
@@ -85,7 +89,10 @@ public class WorkspaceCtrl implements Initializable {
             this.data = (ClientData) in.readObject();
             in.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            data = new ClientData();
+            data.addJoinedBoardList(new JoinedBoardList("http://localhost:8080/"));
+            writeToFile();
+            displayError("There has been an error reading the file! Its content has been reset.");
         }
     }
 
@@ -97,32 +104,44 @@ public class WorkspaceCtrl implements Initializable {
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(this.file));
             out.writeObject(this.data);
             out.close();
-
-            System.out.println("write: " + data);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Adds a Board to the data object.
+     *
+     * @param id is the id of the added Board.
+     */
     public void addBoardToData(long id) {
         int index = data.getLastActiveOn();
         data.getServers().get(index).addBoard(id);
         writeToFile();
     }
 
+    /**
+     * Removes a Board from the data object.
+     *
+     * @param id is the id of the Board to be removed.
+     */
     public void removeBoardFromData(long id) {
         int index = data.getLastActiveOn();
         data.getServers().get(index).removeBoard(id);
         writeToFile();
     }
 
+    /**
+     * Populates this Workspace with the previously
+     * joined/created Boards.
+     */
     public void loadBoardsFromFile() {
-        boardWorkspace.getChildren().clear();
+        reset();
         ArrayList<Long> toBeRemoved = new ArrayList<>();
         boolean modified = false;
         int index = data.getLastActiveOn();
 
-        if(determineConnectionStatus()) {
+        if (determineConnectionStatus()) {
             for (long id : data.getServers().get(index).getBoardIDs()) {
                 try {
                     Board b = server.joinBoard(id);
@@ -140,12 +159,8 @@ public class WorkspaceCtrl implements Initializable {
                 }
                 writeToFile();
             }
-        }
-        else {
-            var alert = new Alert(Alert.AlertType.ERROR);
-            alert.initModality(Modality.APPLICATION_MODAL);
-            alert.setContentText("Previously joined boards cannot be loaded if the server is offline!");
-            alert.showAndWait();
+        } else {
+            displayError("Previously joined boards cannot be loaded if the server is offline!");
         }
     }
 
@@ -202,33 +217,39 @@ public class WorkspaceCtrl implements Initializable {
     }
 
     /**
-     * Tests if a connection with the provided server ip can be
+     * Checks if a connection with the provided server ip can be
      * established. Executed when Fetch button is pressed.
      */
     public void fetch() {
         server.setServer(serverIP.getText());
-        Optional<JoinedBoardList> jbl = data.getServers().stream().filter(s -> s.getServer().equals(serverIP.getText())).findFirst();
-        if(jbl.isPresent()) {
+        Optional<JoinedBoardList> jbl = data.getServers()
+                .stream().filter(s -> s.getServer().equals(serverIP.getText())).findFirst();
+        if (jbl.isPresent()) {
             int index = data.getJoinedBoardPosition(jbl.get());
             data.setLastActiveOn(index);
             writeToFile();
             loadBoardsFromFile();
-        }
-        else {
+        } else {
             data.addJoinedBoardList(new JoinedBoardList(serverIP.getText()));
             writeToFile();
-            boardWorkspace.getChildren().clear();
+            reset();
         }
     }
 
+    /**
+     * Determines if the server can be reached and sets the connectionStatus label
+     * to display an informative message.
+     *
+     * @return true if the server can be reached,
+     * false otherwise.
+     */
     public boolean determineConnectionStatus() {
         try {
             server.testConnection();
             connectionStatus.setText("The server is up and running!");
             connectionStatus.setStyle("-fx-text-fill: #046600;");
             return true;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             connectionStatus.setStyle("-fx-text-fill: #880606;");
             connectionStatus.setText("The IP may be incorrect or the server may be offline.");
             return false;
@@ -311,5 +332,26 @@ public class WorkspaceCtrl implements Initializable {
         var updatedBoardWorkspace = toBeUpdated.get();
         updatedBoardWorkspace.setBoard(board);
         updatedBoardWorkspace.refresh();
+    }
+
+    /**
+     * Displays an error alert.
+     *
+     * @param message is the message of the error.
+     */
+    public void displayError(String message) {
+        var alert = new Alert(Alert.AlertType.ERROR);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    /**
+     * Resets this WorkspaceCtrl and the Board that is displayed.
+     */
+    public void reset() {
+        boardWorkspace.getChildren().clear();
+        boards.clear();
+        mainCtrl.switchBoard(null);
     }
 }

@@ -27,7 +27,7 @@ public class TaskController {
     /**
      * Instantiate a new {@link TaskController}.
      * @param taskRepo the {@link TaskRepository} to use
-     * @param listRepo the {@link ListRepository} to use
+     * @param listRepo the {@link TaskRepository} to use
      */
     public TaskController(TaskRepository taskRepo,
                           TaskListRepository listRepo) {
