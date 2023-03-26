@@ -1,6 +1,9 @@
 package commons.messages;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 public abstract class UpdateMessage {
 
@@ -27,6 +30,12 @@ public abstract class UpdateMessage {
         CREATED,
         UPDATED,
         DELETED
+    }
+
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
     }
 
 }
