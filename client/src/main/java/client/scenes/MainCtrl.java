@@ -5,6 +5,7 @@ import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
+import client.utils.websocket.WebsocketSynchroniser;
 import commons.Board;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -26,6 +27,7 @@ public class MainCtrl {
     private Scene deleteBoard;
     private BoardCtrl boardCtrl;
     private Parent boardRoot; // Not a scene as it's to be embedded within the workspaceScene.
+    private WebsocketSynchroniser boardSyncroniser;
 
     /**
      * Initializes the primaryStage, WorkspaceScene
@@ -56,6 +58,9 @@ public class MainCtrl {
 
         workspaceCtrl.setBoardView(boardRoot);
 
+        this.boardSyncroniser = new WebsocketSynchroniser(this);
+        boardSyncroniser.start();
+        
         primaryStage.show();
     }
 
