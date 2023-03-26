@@ -1,16 +1,19 @@
 package scenes;
 
+import client.datasaving.ClientData;
 import client.scenes.BoardListingCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.WorkspaceCtrl;
 import commons.Board;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import java.io.File;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -38,6 +41,32 @@ public class TestWorkspaceCtrl {
         WorkspaceCtrl test = new WorkspaceCtrl(server, mainCtrl);
 
         assertNotNull(test);
+    }
+
+    @Test
+    public void testReadWriteData() {
+        File testFile = null;
+        try {
+            testFile = new File("test.txt");
+            testFile.createNewFile();
+            ClientData cl = new ClientData();
+            cl.setLastActiveOn(100);
+            workspaceCtrl.setFile(testFile);
+            workspaceCtrl.setData(cl);
+            workspaceCtrl.writeToFile();
+
+            //set the data object to null to test if reading restores the initial state
+            workspaceCtrl.setData(null);
+
+            workspaceCtrl.readData();
+            assertEquals(workspaceCtrl.getData(), cl);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            testFile.delete();
+        }
     }
 
     @Test
@@ -108,25 +137,6 @@ public class TestWorkspaceCtrl {
     }
 
     @Test
-    public void testRemoveBoardWorkspaceFromWorkspace() {
-        Board board = new Board("testBoard", "");
-        Parent displayRoot = new VBox();
-        BoardListingCtrl display = mock(BoardListingCtrl.class);
-        when(display.getRoot()).thenReturn(displayRoot);
-        when(mainCtrl.newBoardListingView(board)).thenReturn(new Pair<>(display, displayRoot));
-
-        AnchorPane pane = new AnchorPane();
-        Parent parent = new AnchorPane();
-        workspaceCtrl.setBoardViewPane(pane);
-        workspaceCtrl.setBoardView(parent);
-        workspaceCtrl.setBoardWorkspace(new VBox());
-        workspaceCtrl.addBoardToWorkspace(board);
-
-        workspaceCtrl.removeFromWorkspace(display);
-        assertEquals(0, workspaceCtrl.getBoardWorkspace().getChildren().size());
-    }
-
-    @Test
     public void testRemoveBoardFromWorkspace() {
         Board board = new Board("testBoard", "");
         Parent displayRoot = new VBox();
@@ -144,6 +154,27 @@ public class TestWorkspaceCtrl {
 
         workspaceCtrl.removeFromWorkspace(board);
         assertEquals(0, workspaceCtrl.getBoardWorkspace().getChildren().size());
+    }
+
+    @Test
+    public void testRemoveBoardListingFromWorkspace() {
+        Board board = new Board("testBoard", "");
+        Parent displayRoot = new VBox();
+        BoardListingCtrl display = mock(BoardListingCtrl.class);
+        when(display.getRoot()).thenReturn(displayRoot);
+        when(display.getBoard()).thenReturn(board);
+        when(mainCtrl.newBoardListingView(board)).thenReturn(new Pair<>(display, displayRoot));
+
+        AnchorPane pane = new AnchorPane();
+        Parent parent = new AnchorPane();
+        workspaceCtrl.setBoardViewPane(pane);
+        workspaceCtrl.setBoardView(parent);
+        workspaceCtrl.setBoardWorkspace(new VBox());
+        workspaceCtrl.addBoardToWorkspace(board);
+
+        workspaceCtrl.removeFromWorkspace(display);
+        assertEquals(0, workspaceCtrl.getBoardWorkspace().getChildren().size());
+
     }
 
     @Test
@@ -173,6 +204,13 @@ public class TestWorkspaceCtrl {
         workspaceCtrl.updateBoard(updated);
         assertEquals(workspaceCtrl.getBoards().get(0).getBoard(), updated);
         assertEquals(workspaceCtrl.getBoards().size(), 1);
+    }
+
+    @Test
+    public void testReset() {
+        workspaceCtrl.setBoardWorkspace(new VBox(new Pane(), new VBox()));
+        workspaceCtrl.reset();
+        assertEquals(workspaceCtrl.getBoardWorkspace().getChildren().size(), 0);
     }
 
 }

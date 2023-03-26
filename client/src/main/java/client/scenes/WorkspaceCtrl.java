@@ -83,7 +83,7 @@ public class WorkspaceCtrl implements Initializable {
     /**
      * Reads the file that contains information about joined Boards.
      */
-    private void readData() {
+    public void readData() {
         try {
             ObjectInputStream in = new ObjectInputStream(new FileInputStream(this.file));
             this.data = (ClientData) in.readObject();
@@ -192,6 +192,24 @@ public class WorkspaceCtrl implements Initializable {
     }
 
     /**
+     * Gets the data.
+     *
+     * @return the data.
+     */
+    public ClientData getData() {
+        return data;
+    }
+
+    /**
+     * Sets the data.
+     *
+     * @param data the data.
+     */
+    public void setData(ClientData data) {
+        this.data = data;
+    }
+
+    /**
      * Gets the boardWorkspace.
      *
      * @return the boardWorkspace.
@@ -207,6 +225,15 @@ public class WorkspaceCtrl implements Initializable {
      */
     public void setBoardWorkspace(VBox boardWorkspace) {
         this.boardWorkspace = boardWorkspace;
+    }
+
+    /**
+     * Sets the file.
+     *
+     * @param file is the file.
+     */
+    public void setFile(File file) {
+        this.file = file;
     }
 
     /**
