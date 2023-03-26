@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Board;
 import commons.messages.BoardUpdateMessage;
 import commons.messages.UpdateMessage;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,12 +25,16 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
 import java.lang.reflect.Type;
-import java.util.concurrent.CompletableFuture;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -44,35 +50,126 @@ public class WebsocketControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    private CompletableFuture<Board> completableFuture;
+    private List<BoardUpdateMessage> receivedUpdates;
+    private CountDownLatch done = new CountDownLatch(1);
     private WebSocketStompClient stompClient; 
     private StompSession stompSession;
 
     @BeforeEach
     public void setup() throws ExecutionException, InterruptedException, TimeoutException {
-        completableFuture = new CompletableFuture<>();
+        receivedUpdates = new ArrayList<>();
         URL = "ws://localhost:" + port + "/ws";
 
         stompClient = new WebSocketStompClient(new StandardWebSocketClient());
         stompClient.setMessageConverter(new MappingJackson2MessageConverter());
 
         stompSession = stompClient.connect(URL, new StompSessionHandlerAdapter() {
-        }).get(1, SECONDS);
+        }).get(3, SECONDS);
     }
 
-    @Test
-    public void testUpdateBroadcast() throws Exception {
+    @AfterEach
+    public void cleanup(){
+        stompSession.disconnect();
+        stompClient.stop();
+    }
+
+    @Test @DisplayName("Board creation websocket broadcast test")
+    public void testCreateBroadcast() throws Exception {
         stompSession.subscribe(SUBSCRIBE_BOARDUPDATE_ENDPOINT, new BoardUpdateFrameHandler());
-        postDummyBoard();
-        Board board = completableFuture.get(10, SECONDS);
+        Board test = postCreateDummyBoard();
+
+        done.await(1, SECONDS);
+
+        assertEquals(1, receivedUpdates.size());
+        BoardUpdateMessage update = receivedUpdates.get(0);
+        assertNotNull(update);
+        assertEquals(UpdateMessage.Operation.CREATED, update.getOperation());
+
+        Board board = (Board) update.getObject();
         assertNotNull(board);
+        assertEquals(test, board);
     }
 
-    private void postDummyBoard() throws Exception {
+    @Test @DisplayName("Board deletion websocket broadcast test")
+    public void testDeleteBroadcast() throws Exception {
+        done = new CountDownLatch(2);
+
+        stompSession.subscribe(SUBSCRIBE_BOARDUPDATE_ENDPOINT, new BoardUpdateFrameHandler());
+        Board test = postCreateDummyBoard();
+
+        postDeleteBoard(test);
+
+        done.await(1, SECONDS);
+
+        assertEquals(2, receivedUpdates.size());
+
+        BoardUpdateMessage update = receivedUpdates.get(1);
+        assertNotNull(update);
+        assertEquals(UpdateMessage.Operation.DELETED, update.getOperation());
+
+
+        Board board = (Board) update.getObject();
+        assertNull(board);
+    }
+
+    @Test @DisplayName("Board edit websocket broadcast test")
+    public void testUpdateBroadcast() throws Exception {
+        done = new CountDownLatch(2);
+
+        stompSession.subscribe(SUBSCRIBE_BOARDUPDATE_ENDPOINT, new BoardUpdateFrameHandler());
+        Board test = postCreateDummyBoard();
+
+        String newname = "This is a different name";
+        test.name = newname;
+
+        postUpdateBoard(test);
+
+        done.await(1, SECONDS);
+
+        receivedUpdates.forEach(System.out::println);
+
+        assertEquals(2, receivedUpdates.size());
+
+        BoardUpdateMessage update = receivedUpdates.get(1);
+        assertNotNull(update);
+        assertEquals(UpdateMessage.Operation.UPDATED, update.getOperation());
+
+        Board board = (Board) update.getObject();
+        assertNotNull(board);
+
+        assertEquals(newname, board.name);
+    }
+
+    private Board postCreateDummyBoard() throws Exception {
         Board test = new Board("Board1", "Black", "password", false);
-        String content = new ObjectMapper().writeValueAsString(test);
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+        ObjectMapper mapper = new ObjectMapper();
+        String content = mapper.writeValueAsString(test);
+        MvcResult result =  mockMvc.perform(MockMvcRequestBuilders
                 .post("/api/boards")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content))
+            .andExpect(status().isOk())
+            .andReturn();
+
+        Board response = mapper.readValue(result.getResponse().getContentAsString(), Board.class);
+
+        return response;
+    }
+
+    private void postUpdateBoard(Board board) throws Exception{
+        String content = new ObjectMapper().writeValueAsString(board);
+        MvcResult result =  mockMvc.perform(MockMvcRequestBuilders
+                .put("/api/boards/" + board.id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content))
+            .andExpect(status().isOk())
+            .andReturn();
+    }
+
+    private void postDeleteBoard(Board board) throws Exception{
+        String content = new ObjectMapper().writeValueAsString(board);
+        MvcResult result =  mockMvc.perform(MockMvcRequestBuilders
+                .delete("/api/boards/" + board.id)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content))
             .andExpect(status().isOk())
@@ -87,8 +184,9 @@ public class WebsocketControllerTest {
 
         @Override
         public void handleFrame(StompHeaders stompHeaders, Object o) {
-            UpdateMessage a = (UpdateMessage) o;
-            completableFuture.complete((Board) a.getObject());
+            BoardUpdateMessage a = (BoardUpdateMessage) o;
+            receivedUpdates.add(a);
+            done.countDown();
         }
     }
 }
