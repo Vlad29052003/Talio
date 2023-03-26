@@ -1,6 +1,7 @@
 package server.api;
 
 import commons.Board;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,7 @@ public class BoardController {
      * @param listRepo {@link TaskListRepository} to use.
      * @param taskRepo {@link TaskRepository} to use.
      */
+    @Autowired
     public BoardController(BoardRepository repo,
                            TaskListRepository listRepo,
                            TaskRepository taskRepo) {
