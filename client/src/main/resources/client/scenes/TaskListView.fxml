@@ -9,9 +9,9 @@
    <content>
       <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <content>
-            <VBox fx:id="taskContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onDragDropped="#onDragDropped" onDragOver="#onDragOver" onDragExited="#handleDragLeave" spacing="5.0">
+            <VBox fx:id="taskContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onDragDropped="#onDragDropped" onDragExited="#handleDragLeave" onDragOver="#onDragOver" spacing="5.0">
                <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  <Insets bottom="25.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </VBox>
          </content>
