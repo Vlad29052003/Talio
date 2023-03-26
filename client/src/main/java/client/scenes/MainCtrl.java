@@ -8,6 +8,7 @@ import client.scenes.crud.board.JoinBoardCtrl;
 import commons.Board;
 import commons.Task;
 import commons.TaskList;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -28,6 +29,7 @@ public class MainCtrl {
     private Scene deleteBoard;
     private BoardCtrl boardCtrl;
     private Parent boardRoot; // Not a scene as it's to be embedded within the workspaceScene.
+    private Node dnd;
 
     /**
      * Initializes the primaryStage, WorkspaceScene
@@ -233,5 +235,13 @@ public class MainCtrl {
                 "client", "scenes", "TaskView.fxml");
         pair.getKey().setTask(newTask);
         return pair;
+    }
+
+    public Node getDnd() {
+        return dnd;
+    }
+
+    public void setDnd(Node dnd) {
+        this.dnd = dnd;
     }
 }

@@ -3,31 +3,16 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<TitledPane fx:id="title" animated="false" collapsible="false" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="kljhlkjh" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskListCtrl">
+<TitledPane fx:id="title" animated="false" collapsible="false" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="taskList" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskListCtrl">
    <content>
       <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <content>
-            <VBox fx:id="taskContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
+            <VBox fx:id="taskContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onDragDropped="#onDragDropped" onDragOver="#onDragOver" onDragExited="#handleDragLeave" spacing="5.0">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
-               <children>
-                  <Pane prefHeight="50.0" style="-fx-background-color: red;" />
-                  <Pane layoutX="15.0" layoutY="15.0" prefHeight="50.0" style="-fx-background-color: red;" />
-                  <Pane layoutX="15.0" layoutY="15.0" prefHeight="50.0" style="-fx-background-color: red;" />
-                  <Pane layoutX="15.0" layoutY="70.0" prefHeight="50.0" style="-fx-background-color: red;" />
-                  <Pane layoutX="15.0" layoutY="15.0" prefHeight="50.0" style="-fx-background-color: red;" />
-                  <Pane layoutX="15.0" layoutY="64.0" prefHeight="50.0" style="-fx-background-color: red;" />
-                  <Pane layoutX="15.0" layoutY="113.0" prefHeight="50.0" style="-fx-background-color: red;" />
-                  <Pane layoutX="15.0" layoutY="162.0" prefHeight="50.0" style="-fx-background-color: red;" />
-                  <Pane layoutX="15.0" layoutY="15.0" prefHeight="50.0" style="-fx-background-color: red;" />
-                  <Pane layoutX="15.0" layoutY="70.0" prefHeight="50.0" style="-fx-background-color: red;" />
-                  <Pane layoutX="15.0" layoutY="125.0" prefHeight="50.0" style="-fx-background-color: red;" />
-                  <Pane layoutX="15.0" layoutY="180.0" prefHeight="50.0" style="-fx-background-color: red;" />
-               </children>
             </VBox>
          </content>
       </ScrollPane>
