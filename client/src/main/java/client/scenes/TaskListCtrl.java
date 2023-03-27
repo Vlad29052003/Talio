@@ -9,14 +9,15 @@ import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TitledPane;
-import javafx.scene.input.DataFormat;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
@@ -39,7 +40,7 @@ public class TaskListCtrl {
     /**
      * Creates a new {@link TaskListCtrl} object.
      *
-     * @param server is the ServerUtils.
+     * @param server   is the ServerUtils.
      * @param mainCtrl is the MainCtrl.
      */
     @Inject
@@ -47,12 +48,12 @@ public class TaskListCtrl {
         this.server = server;
         this.mainCtrl = mainCtrl;
         placeholder = new Region();
-        placeholder.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);");
-
+        placeholder.setStyle("-fx-background-color: rgba(79,75,75,0.5);");
     }
 
     /**
      * Set the {@link TaskList} to be rendered by this {@link TaskListCtrl}.
+     *
      * @param taskList the {@link TaskList} to be rendered
      */
     public void setTaskList(TaskList taskList) {
@@ -61,6 +62,7 @@ public class TaskListCtrl {
 
     /**
      * Get the {@link TaskList} being rendered by this {@link TaskListCtrl}.
+     *
      * @return the {@link TaskList} being rendered
      */
     public TaskList getTaskList() {
@@ -79,7 +81,7 @@ public class TaskListCtrl {
 
         Set<Task> tasks = this.taskList.tasks;
         Iterator<Task> it = tasks.stream().sorted(Comparator.comparingInt(o -> o.index)).iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             Task task = it.next();
 
             Pair<TaskCtrl, Parent> p = mainCtrl.newTaskView(task);
@@ -92,6 +94,13 @@ public class TaskListCtrl {
         }
     }
 
+    /**
+     * Specifies behaviour on drag over.
+     * Calculates the position the node would be inserted at and
+     * places a placeholder for visually indicating the position.
+     *
+     * @param event is the drag event.
+     */
     public void onDragOver(DragEvent event) {
         if (placeholder != null) {
             taskContainer.getChildren().remove(placeholder);
@@ -131,15 +140,28 @@ public class TaskListCtrl {
         event.consume();
     }
 
+    /**
+     * Removes the placeholder when the drag and drop
+     * movement exits this TaskList.
+     */
     public void handleDragLeave() {
         taskContainer.getChildren().remove(placeholder);
     }
 
+    /**
+     * Specifies behaviour on drag dropped.
+     * The placeholder is replaced by the actual node.
+     *
+     * @param event is the drag event.
+     */
     public void onDragDropped(DragEvent event) {
-        HBox source = (HBox) mainCtrl.getDnd();
-        if(source.getParent() == taskContainer)taskContainer.getChildren().remove(source);
+        HBox source = (HBox) mainCtrl.getDndNode();
+        Dragboard db = event.getDragboard();
+
+        if (source.getParent() == taskContainer) taskContainer.getChildren().remove(source);
         if (placeholder != null) {
             int index = taskContainer.getChildren().indexOf(placeholder);
+            sendMoveRequest(Long.parseLong(db.getString()), index);
             taskContainer.getChildren().set(index, source);
             taskContainer.getChildren().remove(placeholder);
         }
@@ -147,6 +169,26 @@ public class TaskListCtrl {
         event.consume();
     }
 
-
+    /**
+     * Sends a request to the server to update the list
+     * and the index of the moved task.
+     *
+     * @param taskId     is the id of the moved Task.
+     * @param newIndex is the newIndex within the TaskList.
+     */
+    public void sendMoveRequest(long taskId, int newIndex) {
+        try {
+            server.dragAndDrop(taskList.id, newIndex, taskId);
+            /* TODO until sockets are implemented the client side updates will not happen
+            i will not implement them as they will be totally useless after websockets
+             */
+        } catch (Exception e) {
+            var alert = new Alert(Alert.AlertType.ERROR);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setContentText("There has been an error!\r" + e.getMessage());
+            alert.showAndWait();
+            refresh();
+        }
+    }
 
 }

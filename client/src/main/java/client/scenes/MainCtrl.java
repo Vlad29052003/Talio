@@ -89,6 +89,24 @@ public class MainCtrl {
     }
 
     /**
+     * Gets the drag and drop node.
+     *
+     * @return  the drag and drop node.
+     */
+    public Node getDndNode() {
+        return dnd;
+    }
+
+    /**
+     * Sets the drag and drop node.
+     *
+     * @param dnd is the drag and drop node.
+     */
+    public void setDndNode(Node dnd) {
+        this.dnd = dnd;
+    }
+
+    /**
      * Embeds a Board within the WorkspaceScene.
      *
      * @param board is the Board to be displayed.
@@ -235,13 +253,5 @@ public class MainCtrl {
                 "client", "scenes", "TaskView.fxml");
         pair.getKey().setTask(newTask);
         return pair;
-    }
-
-    public Node getDnd() {
-        return dnd;
-    }
-
-    public void setDnd(Node dnd) {
-        this.dnd = dnd;
     }
 }
