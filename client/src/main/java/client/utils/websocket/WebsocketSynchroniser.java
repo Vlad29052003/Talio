@@ -71,11 +71,12 @@ public class WebsocketSynchroniser {
         // Make sure only one thread tries to connect at once.
         if(reconnecting.compareAndSet(false, true)){
             boolean disconnected = true;
-            while (disconnected && !reconnecting.get()) {
+            while (disconnected && reconnecting.get()) {
                 try {
                     TimeUnit.SECONDS.sleep(1);
                 } catch (InterruptedException e) {}
                 try {
+                    System.out.println("Connecting to server via websockets...");
                     stompClient.connect(SERVER, sessionHandler).get();
                     System.out.println("Connected to server via websockets");
                     disconnected = false;
