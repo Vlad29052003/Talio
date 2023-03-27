@@ -5,6 +5,7 @@ import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
+import client.utils.UpdateHandler;
 import client.utils.websocket.WebsocketSynchroniser;
 import commons.Board;
 import javafx.scene.Parent;
@@ -58,7 +59,7 @@ public class MainCtrl {
 
         workspaceCtrl.setBoardView(boardRoot);
 
-        this.boardSyncroniser = new WebsocketSynchroniser(this);
+        this.boardSyncroniser = new WebsocketSynchroniser(new MyUpdateHandler());
         boardSyncroniser.start();
         
         primaryStage.show();
@@ -227,4 +228,23 @@ public class MainCtrl {
         boardDisplay.setBoard(newBoard);
         return boardDisplay;
     }
+
+    public class MyUpdateHandler extends UpdateHandler {
+
+        @Override
+        public void onBoardCreated(Board board) {
+            addBoardToWorkspace(board);
+        }
+
+        @Override
+        public void onBoardDeleted(long id) {
+            removeFromWorkspace(id);
+        }
+
+        @Override
+        public void onBoardUpdated(Board board) {
+            updateBoard(board);
+        }
+    }
+
 }

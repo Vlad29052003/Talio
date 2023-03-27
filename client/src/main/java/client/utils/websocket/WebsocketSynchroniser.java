@@ -1,7 +1,6 @@
 package client.utils.websocket;
 
-import client.scenes.MainCtrl;
-import commons.Board;
+import client.utils.UpdateHandler;
 import commons.messages.BoardUpdateMessage;
 import commons.messages.UpdateMessage;
 import javafx.application.Platform;
@@ -25,7 +24,7 @@ public class WebsocketSynchroniser {
 
     private static final String SERVER = "ws://localhost:8080/ws";
 
-    private final MainCtrl mainCtrl;
+    private final UpdateHandler updateHandler;
 
     private final List<UpdateMessage> updateQueue = new ArrayList<>();
 
@@ -35,11 +34,11 @@ public class WebsocketSynchroniser {
     private final WebSocketStompClient stompClient;
     private final StompSessionHandler sessionHandler;
 
-    private final AtomicBoolean reconnecting = new AtomicBoolean();
+    private final AtomicBoolean reconnecting = new AtomicBoolean(false);
 
 
-    public WebsocketSynchroniser(MainCtrl mainCtrl){
-        this.mainCtrl = mainCtrl;
+    public WebsocketSynchroniser(UpdateHandler updateHandler){
+        this.updateHandler = updateHandler;
         scheduler = Executors.newScheduledThreadPool(1);
 
         WebSocketClient webSocketClient = new StandardWebSocketClient();
@@ -104,25 +103,11 @@ public class WebsocketSynchroniser {
         List<UpdateMessage> updates = poll();
         Platform.runLater(() -> {
             for (UpdateMessage update : updates) {
-                if(update instanceof BoardUpdateMessage) applyBoardUpdate(update);
+                if(update instanceof BoardUpdateMessage){
+                    updateHandler.dispatchBoardUpdate((BoardUpdateMessage) update);
+                }
             }
         });
-    }
-
-    private void applyBoardUpdate(UpdateMessage update){
-        if(!(update.getObject() instanceof Board || update.getObject() == null)) return;
-        Board board = (Board) update.getObject();
-        switch(update.getOperation()){
-            case CREATED:
-                mainCtrl.addBoardToWorkspace(board);
-                break;
-            case DELETED:
-                mainCtrl.removeFromWorkspace(update.getId());
-                break;
-            case UPDATED:
-                mainCtrl.updateBoard(board);
-                break;
-        }
     }
 
 }
