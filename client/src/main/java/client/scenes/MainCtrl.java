@@ -5,6 +5,7 @@ import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
+import client.scenes.crud.tasklists.DeleteListCtrl;
 import commons.Board;
 import commons.TaskList;
 import javafx.scene.Parent;
@@ -25,6 +26,8 @@ public class MainCtrl {
     private Scene editBoard;
     private DeleteBoardCtrl deleteBoardCtrl;
     private Scene deleteBoard;
+    private DeleteListCtrl deleteListCtrl;
+    private Scene deleteList;
     private BoardCtrl boardCtrl;
     private Parent boardRoot; // Not a scene as it's to be embedded within the workspaceScene.
 
@@ -86,6 +89,17 @@ public class MainCtrl {
     }
 
     /**
+     * Initializes the Scenes and Controllers for the CRUD operations regarding TaskList.
+     *
+     * @param deleteTaskList is the Scene for deleting a TaskList.
+     */
+    public void initializeTaskListCrud(Pair<DeleteListCtrl, Parent> deleteTaskList) {
+
+        this.deleteListCtrl = deleteTaskList.getKey();
+        this.deleteList = new Scene(deleteTaskList.getValue());
+    }
+
+    /**
      * Embeds a Board within the WorkspaceScene.
      *
      * @param board is the Board to be displayed.
@@ -112,6 +126,16 @@ public class MainCtrl {
     public void removeFromWorkspace(Board removed) {
         workspaceCtrl.removeFromWorkspace(removed);
         boardCtrl.setBoard(null);
+    }
+
+    /**
+     * Removes a TaskList from a Board.
+     *
+     * @param removed is the TaskList to be removed.
+     */
+    public void removeTaskListFromBoard(TaskList removed) {
+        boardCtrl.removeTaskListFromBoard(removed);
+        //boardCtrl.setTaskList(null);
     }
 
     /**
@@ -157,6 +181,16 @@ public class MainCtrl {
     public void deleteBoard(Board board) {
         primaryStage.setScene(deleteBoard);
         deleteBoardCtrl.setBoard(board);
+    }
+
+    /**
+     * Switches to the DeleteTaskList Scene.
+     *
+     * @param taskList is the TaskList to be deleted.
+     */
+    public void deleteTaskList(TaskList taskList) {
+        primaryStage.setScene(deleteList);
+        deleteListCtrl.setTaskList(taskList);
     }
 
     /**

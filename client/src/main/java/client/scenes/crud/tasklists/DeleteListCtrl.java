@@ -57,7 +57,9 @@ public class DeleteListCtrl {
      * to delete this taskList.
      */
     public void confirm() {
-        // to be implemented
+        // the server part is yet to be implemented
+        mainCtrl.removeTaskListFromBoard(taskList);
+        mainCtrl.cancel();
     }
 
     /**

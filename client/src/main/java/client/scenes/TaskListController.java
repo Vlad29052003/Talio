@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Board;
 import commons.TaskList;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -41,6 +42,10 @@ public class TaskListController {
         label.setText(tasklist.name);
     }
 
+    public TaskList getTaskList() {
+        return  this.tasklist;
+    }
+
     /**
      * Gets the root element.
      *
@@ -60,21 +65,21 @@ public class TaskListController {
     }
 
     /**
-     * Deletes the Board associated with this object.
+     * Deletes the TaskList associated with this object.
      */
     public void delete() {
-
+        mainCtrl.deleteTaskList(this.tasklist);
     }
 
     /**
-     * Edits the Board associated with this object.
+     * Edits the TaskList associated with this object.
      */
     public void edit() {
 
     }
 
     /**
-     * Edits the Board associated with this object.
+     * Adds a Task object to the TaskList.
      */
     public void addTask() {}
 

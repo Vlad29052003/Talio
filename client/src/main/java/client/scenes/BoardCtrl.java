@@ -81,5 +81,17 @@ public class BoardCtrl {
         }
     }
 
+    /**
+     * Removed a TaskList from the workspace.
+     *
+     * @param removed is the TaskList to be removed.
+     */
+    public void removeTaskListFromBoard(TaskList removed) {
+        TaskListController taskList =
+                tasklists.stream().filter(b -> b.getTaskList().equals(removed)).findFirst().get();
+        tasklists.remove(taskList);
+        listContainer.getChildren().remove(taskList.getRoot());
+    }
+
 
 }
