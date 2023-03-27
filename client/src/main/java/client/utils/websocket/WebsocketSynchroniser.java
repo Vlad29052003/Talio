@@ -3,7 +3,6 @@ package client.utils.websocket;
 import client.utils.UpdateHandler;
 import commons.messages.BoardUpdateMessage;
 import commons.messages.UpdateMessage;
-import javafx.application.Platform;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.stomp.StompSessionHandler;
 import org.springframework.web.socket.client.WebSocketClient;
@@ -53,7 +52,7 @@ public class WebsocketSynchroniser {
         if(syncTask != null){
             syncTask.cancel(false);
         }
-        syncTask = scheduler.scheduleAtFixedRate(() -> Platform.runLater(this::applyUpdates),
+        syncTask = scheduler.scheduleAtFixedRate(this::applyUpdates,
             1000,
             100,
             TimeUnit.MILLISECONDS);
@@ -101,13 +100,11 @@ public class WebsocketSynchroniser {
 
     public void applyUpdates(){
         List<UpdateMessage> updates = poll();
-        Platform.runLater(() -> {
-            for (UpdateMessage update : updates) {
-                if(update instanceof BoardUpdateMessage){
-                    updateHandler.dispatchBoardUpdate((BoardUpdateMessage) update);
-                }
+        for (UpdateMessage update : updates) {
+            if(update instanceof BoardUpdateMessage){
+                updateHandler.dispatchBoardUpdate((BoardUpdateMessage) update);
             }
-        });
+        }
     }
 
 }

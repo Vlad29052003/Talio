@@ -8,6 +8,7 @@ import client.scenes.crud.board.JoinBoardCtrl;
 import client.utils.UpdateHandler;
 import client.utils.websocket.WebsocketSynchroniser;
 import commons.Board;
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -233,17 +234,17 @@ public class MainCtrl {
 
         @Override
         public void onBoardCreated(Board board) {
-            addBoardToWorkspace(board);
+            Platform.runLater(() -> addBoardToWorkspace(board));
         }
 
         @Override
         public void onBoardDeleted(long id) {
-            removeFromWorkspace(id);
+            Platform.runLater(() -> removeFromWorkspace(id));
         }
 
         @Override
         public void onBoardUpdated(Board board) {
-            updateBoard(board);
+            Platform.runLater(() -> updateBoard(board));
         }
     }
 
