@@ -14,14 +14,14 @@ import java.util.stream.Collectors;
 public class WorkspaceCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-    private List<BoardDisplayWorkspace> boards;
+    private List<BoardListingCtrl> boards;
     @FXML
     private AnchorPane boardViewPane;
     @FXML
     private VBox boardWorkspace;
 
     /**
-     * Creates a new {@link WorkspaceCtrl workspace controller}
+     * Creates a new {@link WorkspaceCtrl} instance.
      *
      * @param server   is the ServerUtils
      * @param mainCtrl is the MainCtrl
@@ -38,7 +38,7 @@ public class WorkspaceCtrl {
      *
      * @return the boards.
      */
-    public List<BoardDisplayWorkspace> getBoards() {
+    public List<BoardListingCtrl> getBoards() {
         return this.boards;
     }
 
@@ -120,19 +120,19 @@ public class WorkspaceCtrl {
      */
     public void addBoardToWorkspace(Board newBoard) {
         if(mainCtrl.isPresent(newBoard)) return;
-        BoardDisplayWorkspace displayBoard = mainCtrl.loadBoardDisplayWorkspace(newBoard);
-        boards.add(displayBoard);
-        boardWorkspace.getChildren().add(displayBoard.getRoot());
+        var pair = mainCtrl.newBoardListingView(newBoard);
+        boards.add(pair.getKey());
+        boardWorkspace.getChildren().add(pair.getValue());
     }
 
     /**
-     * Removes a BoardDisplayWorkspace from the workspace.
+     * Removes a BoardListingCtrl from the workspace.
      *
-     * @param boardDisplayWorkspace is the BoardDisplayWorkspace to be removed.
+     * @param boardListingCtrl is the BoardListingCtrl to be removed.
      */
-    public void removeFromWorkspace(BoardDisplayWorkspace boardDisplayWorkspace) {
-        boards.remove(boardDisplayWorkspace);
-        boardWorkspace.getChildren().remove(boardDisplayWorkspace.getRoot());
+    public void removeFromWorkspace(BoardListingCtrl boardListingCtrl) {
+        boards.remove(boardListingCtrl);
+        boardWorkspace.getChildren().remove(boardListingCtrl.getRoot());
     }
 
     /**
@@ -141,7 +141,7 @@ public class WorkspaceCtrl {
      * @param removed is the Board to be removed.
      */
     public void removeFromWorkspace(Board removed) {
-        List<BoardDisplayWorkspace> toBeRemoved = boards.stream()
+        List<BoardListingCtrl> toBeRemoved = boards.stream()
             .filter(b -> b.getBoard().equals(removed))
             .collect(Collectors.toList());
         toBeRemoved.forEach(this::removeFromWorkspace);
@@ -153,7 +153,7 @@ public class WorkspaceCtrl {
      * @param id is the id of the Board to be removed.
      */
     public void removeFromWorkspace(long id) {
-        List<BoardDisplayWorkspace> toBeRemoved = boards.stream()
+        List<BoardListingCtrl> toBeRemoved = boards.stream()
             .filter(b -> b.getBoard().id == id)
             .collect(Collectors.toList());
         toBeRemoved.forEach(this::removeFromWorkspace);

@@ -8,7 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
 
-public class BoardDisplayWorkspace{
+public class BoardListingCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private Board board;
@@ -18,33 +18,15 @@ public class BoardDisplayWorkspace{
     private VBox root;
 
     /**
-     * Creates a new {@link BoardDisplayWorkspace} object.
+     * Creates a new {@link BoardListingCtrl} object.
      *
      * @param server   is the ServerUtils.
      * @param mainCtrl is the MainCtrl.
      */
     @Inject
-    public BoardDisplayWorkspace(ServerUtils server, MainCtrl mainCtrl) {
+    public BoardListingCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
-    }
-
-    /**
-     * Gets the label.
-     *
-     * @return the Label.
-     */
-    public Label getLabel() {
-        return label;
-    }
-
-    /**
-     * Sets the label.
-     *
-     * @param label is the Label.
-     */
-    public void setLabel(Label label) {
-        this.label = label;
     }
 
     /**
@@ -54,7 +36,7 @@ public class BoardDisplayWorkspace{
      */
     public void setBoard(Board board) {
         this.board = board;
-        label.setText(board.name + " (" + board.id + ")");
+        label.setText(board.name + " (id: " + board.id + ")");
     }
 
     /**
@@ -64,15 +46,6 @@ public class BoardDisplayWorkspace{
      */
     public Parent getRoot() {
         return this.root;
-    }
-
-    /**
-     * Sets the root element.
-     *
-     * @param root is the root
-     */
-    public void setRoot(VBox root) {
-        this.root = root;
     }
 
     /**
@@ -96,8 +69,12 @@ public class BoardDisplayWorkspace{
         mainCtrl.deleteBoard(this.board);
     }
 
+    /**
+     * Get the {@link Board} associated with this list entry.
+     * @return the associated {@link Board}
+     */
     public Board getBoard() {
-        return  this.board;
+        return this.board;
     }
 
     /**
@@ -111,7 +88,7 @@ public class BoardDisplayWorkspace{
      * Refreshes this Object.
      */
     public void refresh() {
-        label.setText(board.name + " (" + board.id + ")");
+        label.setText(board.name + " (id: " + board.id + ")");
     }
 
 }

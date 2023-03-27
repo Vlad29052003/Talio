@@ -38,6 +38,10 @@ public class BoardController {
     private final BoardRepository repo;
     public final BoardChangeQueue changes;
 
+    /**
+     * Instantiate a new {@link BoardController}.
+     * @param repo the {@link BoardRepository} to use
+     */
     public BoardController(BoardRepository repo, BoardChangeQueue changes) {
         this.repo = repo;
         this.changes = changes;

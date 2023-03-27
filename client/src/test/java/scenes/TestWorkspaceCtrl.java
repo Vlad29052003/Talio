@@ -1,12 +1,13 @@
 package scenes;
 
-import client.scenes.BoardDisplayWorkspace;
+import client.scenes.BoardListingCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.WorkspaceCtrl;
 import commons.Board;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -41,7 +42,7 @@ public class TestWorkspaceCtrl {
 
     @Test
     public void testGetBoards() {
-        assertEquals(workspaceCtrl.getBoards(), new ArrayList<BoardDisplayWorkspace>());
+        assertEquals(workspaceCtrl.getBoards(), new ArrayList<BoardListingCtrl>());
     }
 
     @Test
@@ -90,9 +91,9 @@ public class TestWorkspaceCtrl {
     public void testAddBoardToWorkspace() {
         Board board = new Board("testBoard", "");
         Parent displayRoot = new VBox();
-        BoardDisplayWorkspace display = mock(BoardDisplayWorkspace.class);
+        BoardListingCtrl display = mock(BoardListingCtrl.class);
         when(display.getRoot()).thenReturn(displayRoot);
-        when(mainCtrl.loadBoardDisplayWorkspace(board)).thenReturn(display);
+        when(mainCtrl.newBoardListingView(board)).thenReturn(new Pair<>(display, displayRoot));
 
         AnchorPane pane = new AnchorPane();
         Parent parent = new AnchorPane();
@@ -103,16 +104,16 @@ public class TestWorkspaceCtrl {
 
         assertEquals(1, workspaceCtrl.getBoardWorkspace().getChildren().size());
         assertTrue(workspaceCtrl.getBoardWorkspace().getChildren().contains(displayRoot));
-        verify(mainCtrl, times(1)).loadBoardDisplayWorkspace(board);
+        verify(mainCtrl, times(1)).newBoardListingView(board);
     }
 
     @Test
     public void testRemoveBoardWorkspaceFromWorkspace() {
         Board board = new Board("testBoard", "");
         Parent displayRoot = new VBox();
-        BoardDisplayWorkspace display = mock(BoardDisplayWorkspace.class);
+        BoardListingCtrl display = mock(BoardListingCtrl.class);
         when(display.getRoot()).thenReturn(displayRoot);
-        when(mainCtrl.loadBoardDisplayWorkspace(board)).thenReturn(display);
+        when(mainCtrl.newBoardListingView(board)).thenReturn(new Pair<>(display, displayRoot));
 
         AnchorPane pane = new AnchorPane();
         Parent parent = new AnchorPane();
@@ -129,10 +130,10 @@ public class TestWorkspaceCtrl {
     public void testRemoveBoardFromWorkspace() {
         Board board = new Board("testBoard", "");
         Parent displayRoot = new VBox();
-        BoardDisplayWorkspace display = mock(BoardDisplayWorkspace.class);
+        BoardListingCtrl display = mock(BoardListingCtrl.class);
         when(display.getRoot()).thenReturn(displayRoot);
         when(display.getBoard()).thenReturn(board);
-        when(mainCtrl.loadBoardDisplayWorkspace(board)).thenReturn(display);
+        when(mainCtrl.newBoardListingView(board)).thenReturn(new Pair<>(display, displayRoot));
 
         AnchorPane pane = new AnchorPane();
         Parent parent = new AnchorPane();
@@ -150,10 +151,10 @@ public class TestWorkspaceCtrl {
         Board board = new Board("test", "");
         Board updated = new Board("updated", "");
         Parent displayRoot = new VBox();
-        BoardDisplayWorkspace display = mock(BoardDisplayWorkspace.class);
+        BoardListingCtrl display = mock(BoardListingCtrl.class);
         when(display.getRoot()).thenReturn(displayRoot);
         when(display.getBoard()).thenReturn(board);
-        when(mainCtrl.loadBoardDisplayWorkspace(board)).thenReturn(display);
+        when(mainCtrl.newBoardListingView(board)).thenReturn(new Pair<>(display, displayRoot));
         doAnswer(invocation -> {
             Board b = invocation.getArgument(0);
             board.name = b.name;
@@ -175,4 +176,3 @@ public class TestWorkspaceCtrl {
     }
 
 }
-

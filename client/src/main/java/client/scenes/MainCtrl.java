@@ -16,7 +16,7 @@ import javafx.util.Pair;
 
 public class MainCtrl {
     private Stage primaryStage;
-    private MyFXML FXML;
+    private MyFXML myFXML;
     private WorkspaceCtrl workspaceCtrl;
     private Scene workspaceScene;
     private JoinBoardCtrl joinBoardCtrl;
@@ -37,18 +37,18 @@ public class MainCtrl {
      * initial Board.
      *
      * @param primaryStage is the primary Stage.
-     * @param FXML is the FXML loader
+     * @param myFXML       is the FXML loader
      * @param workspace    is the Workspace.
      * @param board        is the initial Board, which is empty.
      */
     public void initialize(
             Stage primaryStage,
-            MyFXML FXML,
+            MyFXML myFXML,
             Pair<WorkspaceCtrl, Parent> workspace,
             Pair<BoardCtrl, Parent> board) {
         this.primaryStage = primaryStage;
 
-        this.FXML = FXML;
+        this.myFXML = myFXML;
 
         this.workspaceCtrl = workspace.getKey();
         this.workspaceScene = new Scene(workspace.getValue());
@@ -105,11 +105,11 @@ public class MainCtrl {
     }
 
     /**
-     * Removes a BoardDisplayWorkspace from the workspace.
+     * Removes a BoardListingCtrl from the workspace.
      *
-     * @param removed is the BoardDisplayWorkspace to be removed.
+     * @param removed is the BoardListingCtrl to be removed.
      */
-    public void removeFromWorkspace(BoardDisplayWorkspace removed) {
+    public void removeFromWorkspace(BoardListingCtrl removed) {
         workspaceCtrl.removeFromWorkspace(removed);
         boardCtrl.setBoard(null);
     }
@@ -187,7 +187,7 @@ public class MainCtrl {
      */
     public void updateBoard(Board board) {
         workspaceCtrl.updateBoard(board);
-        if(boardCtrl.getBoard() != null && boardCtrl.getBoard().id == board.id)
+        if (boardCtrl.getBoard() != null && boardCtrl.getBoard().id == board.id)
             boardCtrl.setBoard(board);
     }
 
@@ -216,18 +216,17 @@ public class MainCtrl {
     }
 
     /**
-     * Loads the scenes for the BoardDisplayWorkspace and
-     * BoardCtrl.
+     * Loads the scenes for the BoardListingCtrl.
      *
      * @param newBoard is the Board associated with them.
-     * @return the new BoardDisplayWorkspace.
+     * @return the new BoardListingCtrl.
      */
-    public BoardDisplayWorkspace loadBoardDisplayWorkspace(Board newBoard) {
-        BoardDisplayWorkspace boardDisplay =
-                FXML.load(BoardDisplayWorkspace.class, "client", "scenes",
-                                "BoardDisplayWorkspace.fxml").getKey();
-        boardDisplay.setBoard(newBoard);
-        return boardDisplay;
+    public Pair<BoardListingCtrl, Parent> newBoardListingView(Board newBoard) {
+        var pair =
+                myFXML.load(BoardListingCtrl.class, "client", "scenes",
+                        "BoardListing.fxml");
+        pair.getKey().setBoard(newBoard);
+        return pair;
     }
 
     public class MyUpdateHandler extends UpdateHandler {

@@ -72,8 +72,8 @@ public class EditBoardCtrl {
                     "\rIt will be removed from the workspace!");
             mainCtrl.removeFromWorkspace(this.board);
             alert.showAndWait();
-            this.reset();
             mainCtrl.cancel();
+            this.reset();
             return;
         }
 

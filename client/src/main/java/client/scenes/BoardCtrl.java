@@ -45,8 +45,7 @@ public class BoardCtrl {
      */
     public void setBoard(Board board) {
         this.board = board;
-        this.listContainer.getChildren().clear();
-        resetBoardName();
+        refresh();
     }
 
     /**
@@ -54,15 +53,17 @@ public class BoardCtrl {
      */
     private void resetBoardName() {
         if(board != null) {
-            boardTitle.setText(board.name + " (" + board.id + ")");
+            boardTitle.setText(board.name + " (id: " + board.id + ")");
         }
         else boardTitle.setText("No board to be displayed");
     }
 
     /**
-     * Refreshes this Object.
+     * Re-render the board view UI.
+     * This will refresh all task lists and tasks currently rendered.
      */
     public void refresh() {
+        this.listContainer.getChildren().clear();
         resetBoardName();
     }
 
