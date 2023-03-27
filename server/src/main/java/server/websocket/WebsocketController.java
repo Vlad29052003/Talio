@@ -15,11 +15,19 @@ public class WebsocketController {
 
     public BoardChangeQueue changes;
 
+    /**
+     * Creates a new {@link WebsocketController} object
+     * @param changes to use
+     * @param template to use
+     */
     public WebsocketController(BoardChangeQueue changes, SimpMessagingTemplate template){
         this.changes = changes;
         this.template = template;
     }
 
+    /**
+     * Polls update queue and broadcasts them to all clients
+     */
     @Scheduled(fixedRate = 100)
     public void pushBoardUpdate() {
         List<UpdateMessage> ch = changes.pollUpdates();

@@ -13,10 +13,16 @@ public class WebsocketUpdateListener implements StompSessionHandler {
 
     private final WebsocketSynchroniser synchroniser;
 
+    /**
+     * Creates a new {@link WebsocketUpdateListener} object
+     *
+     * @param synchroniser to push incoming update messages to
+     */
     public WebsocketUpdateListener(WebsocketSynchroniser synchroniser){
         this.synchroniser = synchroniser;
     }
 
+    @Override
     public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
         session.subscribe("/topic/boards/", new StompFrameHandler() {
             public Type getPayloadType(StompHeaders headers) {

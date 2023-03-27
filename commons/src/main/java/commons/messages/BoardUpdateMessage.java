@@ -6,10 +6,19 @@ public class BoardUpdateMessage extends UpdateMessage{
 
     public Board board;
 
-    // For object mappers
+    /**
+     * Empty constructor for object mappers.
+     */
     @SuppressWarnings("unused")
     public BoardUpdateMessage(){}
 
+    /**
+     * Create a new {@link BoardUpdateMessage BoardUpdateMessage}
+     *
+     * @param id of the to be updated board
+     * @param object the {@link Board} with update content if necessary
+     * @param operation of the update
+     */
     public BoardUpdateMessage(long id, Object object, Operation operation){
         super(id,operation);
         setObject(object);

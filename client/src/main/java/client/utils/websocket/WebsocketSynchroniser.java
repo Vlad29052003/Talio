@@ -35,7 +35,11 @@ public class WebsocketSynchroniser {
 
     private final AtomicBoolean reconnecting = new AtomicBoolean(false);
 
-
+    /**
+     * Creates a new {@link WebsocketSynchroniser} object
+     *
+     * @param updateHandler to use for dispatching events
+     */
     public WebsocketSynchroniser(UpdateHandler updateHandler){
         this.updateHandler = updateHandler;
         scheduler = Executors.newScheduledThreadPool(1);
@@ -47,6 +51,9 @@ public class WebsocketSynchroniser {
         sessionHandler = new WebsocketUpdateListener(this);
     }
 
+    /**
+     * Starts the synchroniser by connecting to the server and enabling update polling
+     */
     public void start(){
         scheduler.execute(this::connect);
         if(syncTask != null){
@@ -58,6 +65,9 @@ public class WebsocketSynchroniser {
             TimeUnit.MILLISECONDS);
     }
 
+    /**
+     * Stops the synchroniser by closing connections and disabling update polling
+     */
     public void stop(){
         reconnecting.set(false);
         stompClient.stop();
@@ -65,6 +75,10 @@ public class WebsocketSynchroniser {
         syncTask.cancel(false);
     }
 
+    /**
+     * Tries to connect to the websocket server
+     * NOTE: Method is blocking
+     */
     public void connect(){
         // Make sure only one thread tries to connect at once.
         if(reconnecting.compareAndSet(false, true)){
@@ -84,20 +98,35 @@ public class WebsocketSynchroniser {
         }
     }
 
+    /**
+     * Queues an update to be dispatched
+     * @param update to enqueue
+     */
     public void addUpdate(UpdateMessage update){
         updateQueue.add(update);
     }
 
+    /**
+     * Gets and empties the {@link UpdateMessage} queue
+     * @return List of {@link UpdateMessage}
+     */
     public List<UpdateMessage> poll(){
         List<UpdateMessage> updates = new ArrayList<>(updateQueue);
         updateQueue.clear();
         return updates;
     }
 
+    /**
+     * Gets the {@link UpdateMessage} queue
+     * @return List of {@link UpdateMessage}
+     */
     public List<UpdateMessage> getUpdates(){
         return updateQueue;
     }
 
+    /**
+     * Dispatch all update events to the event handler
+     */
     public void applyUpdates(){
         List<UpdateMessage> updates = poll();
         for (UpdateMessage update : updates) {

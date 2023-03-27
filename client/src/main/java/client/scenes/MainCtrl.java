@@ -91,6 +91,9 @@ public class MainCtrl {
         this.deleteBoard = new Scene(deleteBoard.getValue());
     }
 
+    /**
+     * Stops all services depending on MainCtrl
+     */
     public void stop(){
         this.boardSyncroniser.stop();
     }
