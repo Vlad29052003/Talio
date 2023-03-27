@@ -97,16 +97,17 @@ public class WebsocketControllerTest {
         stompSession.subscribe(SUBSCRIBE_BOARDUPDATE_ENDPOINT, new BoardUpdateFrameHandler());
         Board test = postCreateDummyBoard();
 
+        // Wait between sending request to keep request order
+        Thread.sleep(100);
+
         postDeleteBoard(test);
 
         done.await(1, SECONDS);
-
         assertEquals(2, receivedUpdates.size());
 
         BoardUpdateMessage update = receivedUpdates.get(1);
         assertNotNull(update);
         assertEquals(UpdateMessage.Operation.DELETED, update.getOperation());
-
 
         Board board = (Board) update.getObject();
         assertNull(board);
@@ -122,11 +123,12 @@ public class WebsocketControllerTest {
         String newname = "This is a different name";
         test.name = newname;
 
+        // Wait between sending request to keep request order
+        Thread.sleep(100);
+
         postUpdateBoard(test);
 
         done.await(1, SECONDS);
-
-        receivedUpdates.forEach(System.out::println);
 
         assertEquals(2, receivedUpdates.size());
 
@@ -150,10 +152,7 @@ public class WebsocketControllerTest {
                 .content(content))
             .andExpect(status().isOk())
             .andReturn();
-
-        Board response = mapper.readValue(result.getResponse().getContentAsString(), Board.class);
-
-        return response;
+        return mapper.readValue(result.getResponse().getContentAsString(), Board.class);
     }
 
     private void postUpdateBoard(Board board) throws Exception{
