@@ -29,7 +29,7 @@ public class BoardCtrl {
     /**
      * Creates a new {@link BoardCtrl} object.
      *
-     * @param server is the ServerUtils.
+     * @param server   is the ServerUtils.
      * @param mainCtrl is the MainCtrl.
      */
     @Inject
@@ -61,10 +61,9 @@ public class BoardCtrl {
      * Refreshes the name of the Board.
      */
     private void refreshBoardName() {
-        if(board != null) {
+        if (board != null) {
             boardTitle.setText(board.name + " (id: " + board.id + ")");
-        }
-        else boardTitle.setText("No board to be displayed");
+        } else boardTitle.setText("No board to be displayed");
     }
 
     /**
@@ -77,20 +76,22 @@ public class BoardCtrl {
         this.listContainer.getChildren().clear();
         this.listControllers = new ArrayList<>();
 
-        Set<TaskList> taskLists = this.board.lists;
-        Iterator<TaskList> it = taskLists.stream()
-                .sorted(Comparator.comparingInt(e -> e.index))
-                .iterator();
-        while(it.hasNext()) {
-            TaskList list = it.next();
+        if (board != null) {
+            Set<TaskList> taskLists = this.board.lists;
+            Iterator<TaskList> it = taskLists.stream()
+                    .sorted(Comparator.comparingInt(e -> e.index))
+                    .iterator();
+            while (it.hasNext()) {
+                TaskList list = it.next();
 
-            Pair<TaskListCtrl, Parent> p = this.mainCtrl.newTaskListView(list);
+                Pair<TaskListCtrl, Parent> p = this.mainCtrl.newTaskListView(list);
 
-            TaskListCtrl controller = p.getKey();
-            controller.refresh();
+                TaskListCtrl controller = p.getKey();
+                controller.refresh();
 
-            this.listContainer.getChildren().add(p.getValue());
-            this.listControllers.add(controller);
+                this.listContainer.getChildren().add(p.getValue());
+                this.listControllers.add(controller);
+            }
         }
     }
 
