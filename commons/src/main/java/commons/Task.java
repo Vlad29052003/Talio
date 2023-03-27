@@ -143,7 +143,7 @@ public class Task implements Comparable<Task> {
     @Override
     public int compareTo(Task o) {
         if(o == null)
-            return 1;
+            throw new NullPointerException();
         return Long.compare(this.index, o.index);
     }
 }

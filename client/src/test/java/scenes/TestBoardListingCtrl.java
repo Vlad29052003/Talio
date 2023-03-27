@@ -5,8 +5,8 @@ import client.scenes.MainCtrl;
 import javafx.scene.layout.VBox;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -33,8 +33,7 @@ public class TestBoardListingCtrl {
 
     @Test
     public void testGetSetRoot() {
-        display.setRoot(root);
-        assertEquals(display.getRoot(), root);
+        assertNull(display.getRoot());
     }
 
     @Test

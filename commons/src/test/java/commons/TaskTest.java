@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TaskTest {
@@ -119,6 +120,8 @@ public class TaskTest {
     public void testCompareToNull() {
         Task t1 = new Task("t1", 1, "");
 
-        assertEquals(t1.compareTo(null), 1);
+        assertThrows(NullPointerException.class, () -> {
+            t1.compareTo(null);
+        });
     }
 }
