@@ -127,5 +127,19 @@ public class BoardCtrl {
         listContainer.getChildren().remove(taskList.getRoot());
     }
 
+    /**
+     * Updates a TaskList on the board.
+     *
+     * @param updated is the TaskList to be updated.
+     */
+    public void updateTaskList(TaskList updated) {
+        var toBeUpdated =
+                tasklists.stream().filter(b -> b.getTaskList().equals(updated)).findFirst();
+        if (toBeUpdated.isEmpty()) return;
+        var updatedTaskList = toBeUpdated.get();
+        updatedTaskList.setTaskList(updated);
+        updatedTaskList.refresh();
+    }
+
 
 }

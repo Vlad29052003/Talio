@@ -49,7 +49,7 @@ public class EditListCtrl {
     }
 
     /**
-     * Bond to the Cancel button.
+     * Bound to the Cancel button.
      * Switches back to the workspace Scene.
      */
     public void cancel() {
@@ -62,7 +62,10 @@ public class EditListCtrl {
      * to update this taskList.
      */
     public void edit() {
-        // to be implemented
+        this.taskList.name = text.getText();
+        // server part to be implemented
+        mainCtrl.updateTaskList(taskList);
+        mainCtrl.cancel();
     }
 
     /**

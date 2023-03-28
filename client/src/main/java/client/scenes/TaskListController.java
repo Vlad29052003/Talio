@@ -45,6 +45,11 @@ public class TaskListController {
         return  this.tasklist;
     }
 
+    public void setTaskList(TaskList taskList){
+        this.tasklist = taskList;
+        label.setText(tasklist.name);
+    }
+
     /**
      * Gets the root element.
      *
@@ -74,7 +79,7 @@ public class TaskListController {
      * Edits the TaskList associated with this object.
      */
     public void edit() {
-
+        mainCtrl.editTaskList(this.tasklist);
     }
 
     /**

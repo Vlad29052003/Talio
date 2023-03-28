@@ -7,6 +7,7 @@ import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
 import client.scenes.crud.tasklists.CreateNewListCtrl;
 import client.scenes.crud.tasklists.DeleteListCtrl;
+import client.scenes.crud.tasklists.EditListCtrl;
 import commons.Board;
 import commons.TaskList;
 import javafx.scene.Parent;
@@ -27,6 +28,8 @@ public class MainCtrl {
     private Scene createList;
     private EditBoardCtrl editBoardCtrl;
     private Scene editBoard;
+    private EditListCtrl editListCtrl;
+    private Scene editList;
     private DeleteBoardCtrl deleteBoardCtrl;
     private Scene deleteBoard;
     private DeleteListCtrl deleteListCtrl;
@@ -96,15 +99,20 @@ public class MainCtrl {
      *
      * @param deleteTaskList is the Scene for deleting a TaskList.
      * @param newTaskList is the Scene for creating a TaskList.
+     * @param editTaskList is the Scene for editing a TaskList.
      */
     public void initializeTaskListCrud(Pair<DeleteListCtrl, Parent> deleteTaskList,
-                                       Pair<CreateNewListCtrl, Parent> newTaskList) {
+                                       Pair<CreateNewListCtrl, Parent> newTaskList,
+                                       Pair<EditListCtrl, Parent> editTaskList) {
 
         this.deleteListCtrl = deleteTaskList.getKey();
         this.deleteList = new Scene(deleteTaskList.getValue());
 
         this.createListCtrl = newTaskList.getKey();
         this.createList = new Scene(newTaskList.getValue());
+
+        this.editListCtrl = editTaskList.getKey();
+        this.editList = new Scene(editTaskList.getValue());
     }
 
     /**
@@ -191,6 +199,16 @@ public class MainCtrl {
     }
 
     /**
+     * Switches to the EditTaskList Scene.
+     *
+     * @param taskList is the TaskList to be edited.
+     */
+    public void editTaskList(TaskList taskList) {
+        primaryStage.setScene(editList);
+        editListCtrl.setTaskList(taskList);
+    }
+
+    /**
      * Switches to the DeleteBoard Scene.
      *
      * @param board is the Board to be deleted.
@@ -220,6 +238,18 @@ public class MainCtrl {
         workspaceCtrl.updateBoard(board);
         if(boardCtrl.getBoard() != null && boardCtrl.getBoard().id == board.id)
             boardCtrl.setBoard(board);
+    }
+
+    /**
+     * Updates the TaskList with the same id as taskList
+     * from the workspace.
+     *
+     * @param taskList is the taskList to be updated.
+     */
+    public void updateTaskList(TaskList taskList) {
+        boardCtrl.updateTaskList(taskList);
+        //if(boardCtrl.getBoard() != null && boardCtrl.getBoard().id == board.id)
+        //    boardCtrl.setBoard(board);
     }
 
     /**
