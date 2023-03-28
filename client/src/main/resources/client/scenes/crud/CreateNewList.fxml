@@ -17,6 +17,6 @@
         <JFXButton layoutX="104.0" layoutY="123.0" onAction="#add" prefHeight="25.0" prefWidth="65.0" styleClass="add-button-list" text="Add" />
         <JFXButton layoutX="174.0" layoutY="123.0" onAction="#cancel" prefHeight="25.0" prefWidth="65.0" styleClass="cancel-button" text="Cancel" />
         <JFXBadge layoutX="184.0" layoutY="59.0" />
-        <TextField layoutX="12.0" layoutY="87.0" prefHeight="26.0" prefWidth="315.0" styleClass="text-field" />
+        <TextField fx:id="text" layoutX="12.0" layoutY="87.0" prefHeight="26.0" prefWidth="315.0" styleClass="text-field" />
     </children>
 </AnchorPane>

@@ -52,7 +52,7 @@
                   <Insets left="15.0" right="15.0" />
                </HBox.margin>
             </Label>
-            <Button mnemonicParsing="false" onAction="#createTaskList" text="Add Task List">
+            <Button mnemonicParsing="false" onAction="#addTaskList" text="Add Task List">
                <HBox.margin>
                   <Insets left="5.0" right="5.0" />
                </HBox.margin>

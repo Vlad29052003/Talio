@@ -3,6 +3,7 @@ package client.scenes.crud.tasklists;
 import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Board;
 import commons.TaskList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -13,7 +14,7 @@ import javafx.stage.Modality;**/
 public class CreateNewListCtrl {
     private ServerUtils server;
     private MainCtrl mainCtrl;
-    private TaskList taskList;
+    private Board board;
     @FXML
     TextField text;
 
@@ -29,22 +30,12 @@ public class CreateNewListCtrl {
         this.mainCtrl = mainCtrl;
     }
 
-    /**
-     * Sets the taskList.
-     *
-     * @param taskList is the TaskList.
-     */
-    public void setTaskList(TaskList taskList) {
-        this.taskList = taskList;
+    public Board getBoard() {
+        return board;
     }
 
-    /**
-     * Gets the taskList.
-     *
-     * @return the taskList.
-     */
-    public TaskList getTaskList() {
-        return taskList;
+    public void setBoard(Board board) {
+        this.board = board;
     }
 
     /**
@@ -60,14 +51,17 @@ public class CreateNewListCtrl {
      * Creates a new TaskList.
      */
     public void add() {
-        // to be implemented
+        TaskList newTaskList = new TaskList(text.getText(), 1);
+        board.addTaskList(newTaskList);
+        // server part to be implemented
+        mainCtrl.addTaskListToBoard(newTaskList);
+        mainCtrl.cancel();
     }
 
     /**
      * Resets the fields in this object.
      */
     public void reset() {
-        this.taskList = null;
         text.setText("");
     }
 }

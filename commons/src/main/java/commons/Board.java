@@ -100,6 +100,10 @@ public class Board {
         }
     }
 
+    public Set<TaskList> getTaskLists() {
+        return lists;
+    }
+
     @Override
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj);

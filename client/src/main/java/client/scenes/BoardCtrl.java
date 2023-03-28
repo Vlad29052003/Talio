@@ -25,7 +25,7 @@ public class BoardCtrl {
     /**
      * Creates a new {@link BoardCtrl} object.
      *
-     * @param server is the ServerUtils.
+     * @param server   is the ServerUtils.
      * @param mainCtrl is the MainCtrl.
      */
     @Inject
@@ -59,10 +59,22 @@ public class BoardCtrl {
      * Resets the name of the Board.
      */
     private void resetBoardName() {
-        if(board != null) {
+        if (board != null) {
             boardTitle.setText(board.name + " (" + board.id + ")");
+        } else boardTitle.setText("No board to be displayed");
+    }
+
+    /**
+     * Resets the contents of the tasklists and listContainer HBox.
+     */
+    public void resetLists() {
+        listContainer.getChildren().clear();
+        tasklists.clear();
+        if (board != null) {
+            for (TaskList taskList : board.getTaskLists()) {
+                addTaskListToBoard(taskList);
+            }
         }
-        else boardTitle.setText("No board to be displayed");
     }
 
     /**
@@ -70,9 +82,19 @@ public class BoardCtrl {
      */
     public void refresh() {
         resetBoardName();
+        resetLists();
     }
 
-    public void createTaskList(){
+    /**
+     * Switches to the AddTaskList Scene
+     */
+    public void addTaskList() {
+        if (board != null) {
+            mainCtrl.addTaskList(board);
+        }
+    }
+
+    public void createTaskList() {
         if (board != null) {
             TaskList tlist = new TaskList("tasklist", 1);
             TaskListController tlc = mainCtrl.loadTaskListController(tlist);
@@ -82,7 +104,19 @@ public class BoardCtrl {
     }
 
     /**
-     * Removed a TaskList from the workspace.
+     * Adds a TaskList to the workspace.
+     *
+     * @param newTaskList is the TaskList to be added.
+     */
+    public void addTaskListToBoard(TaskList newTaskList) {
+        TaskListController taskList = mainCtrl.loadTaskListController(newTaskList);
+        listContainer.getChildren().add(taskList.getRoot());
+        tasklists.add(taskList);
+
+    }
+
+    /**
+     * Removed a TaskList from the board.
      *
      * @param removed is the TaskList to be removed.
      */

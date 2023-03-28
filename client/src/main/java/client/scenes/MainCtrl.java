@@ -5,6 +5,7 @@ import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
+import client.scenes.crud.tasklists.CreateNewListCtrl;
 import client.scenes.crud.tasklists.DeleteListCtrl;
 import commons.Board;
 import commons.TaskList;
@@ -22,6 +23,8 @@ public class MainCtrl {
     private Scene joinBoard;
     private CreateNewBoardCtrl createBoardCtrl;
     private Scene createBoard;
+    private CreateNewListCtrl createListCtrl;
+    private Scene createList;
     private EditBoardCtrl editBoardCtrl;
     private Scene editBoard;
     private DeleteBoardCtrl deleteBoardCtrl;
@@ -93,10 +96,14 @@ public class MainCtrl {
      *
      * @param deleteTaskList is the Scene for deleting a TaskList.
      */
-    public void initializeTaskListCrud(Pair<DeleteListCtrl, Parent> deleteTaskList) {
+    public void initializeTaskListCrud(Pair<DeleteListCtrl, Parent> deleteTaskList,
+                                       Pair<CreateNewListCtrl, Parent> newTaskList) {
 
         this.deleteListCtrl = deleteTaskList.getKey();
         this.deleteList = new Scene(deleteTaskList.getValue());
+
+        this.createListCtrl = newTaskList.getKey();
+        this.createList = new Scene(newTaskList.getValue());
     }
 
     /**
@@ -164,6 +171,14 @@ public class MainCtrl {
     }
 
     /**
+     * Switches to the AddTaskList Scene.
+     */
+    public void addTaskList(Board board) {
+        primaryStage.setScene(createList);
+        createListCtrl.setBoard(board);
+    }
+
+    /**
      * Switches to the EditBoard Scene.
      *
      * @param board is the Board to be edited.
@@ -216,6 +231,20 @@ public class MainCtrl {
         }
         createBoardCtrl.reset();
         joinBoardCtrl.reset();
+        primaryStage.setScene(workspaceScene);
+    }
+
+    /**
+     * Adds a TaskList to the board.
+     *
+     * @param taskList is the TaskList to be added.
+     */
+    public void addTaskListToBoard(TaskList taskList) {
+        if (taskList != null) {
+            boardCtrl.addTaskListToBoard(taskList);
+        }
+        createListCtrl.reset();
+        boardCtrl.refresh();
         primaryStage.setScene(workspaceScene);
     }
 
