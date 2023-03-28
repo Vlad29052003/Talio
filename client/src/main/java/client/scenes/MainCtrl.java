@@ -236,7 +236,6 @@ public class MainCtrl {
 
         @Override
         public void onBoardCreated(Board board) {
-            Platform.runLater(() -> addBoardToWorkspace(board));
         }
 
         @Override
