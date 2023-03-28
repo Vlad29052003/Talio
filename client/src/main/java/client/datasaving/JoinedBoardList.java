@@ -1,5 +1,6 @@
 package client.datasaving;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,15 +64,7 @@ public class JoinedBoardList implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof JoinedBoardList)) return false;
-
-        JoinedBoardList that = (JoinedBoardList) o;
-
-        if (getServer() != null ?
-                !getServer().equals(that.getServer()) : that.getServer() != null) return false;
-        return getBoardIDs() != null ?
-                getBoardIDs().equals(that.getBoardIDs()) : that.getBoardIDs() == null;
+        return EqualsBuilder.reflectionEquals(this, o);
     }
 
     /**

@@ -1,5 +1,6 @@
 package client.datasaving;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,14 +81,7 @@ public class ClientData implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ClientData)) return false;
-
-        ClientData that = (ClientData) o;
-
-        if (getLastActiveOn() != that.getLastActiveOn()) return false;
-        return getServers() != null ?
-                getServers().equals(that.getServers()) : that.getServers() == null;
+        return EqualsBuilder.reflectionEquals(this, o);
     }
 
     /**
