@@ -95,6 +95,7 @@ public class MainCtrl {
      * Initializes the Scenes and Controllers for the CRUD operations regarding TaskList.
      *
      * @param deleteTaskList is the Scene for deleting a TaskList.
+     * @param newTaskList is the Scene for creating a TaskList.
      */
     public void initializeTaskListCrud(Pair<DeleteListCtrl, Parent> deleteTaskList,
                                        Pair<CreateNewListCtrl, Parent> newTaskList) {
@@ -172,6 +173,7 @@ public class MainCtrl {
 
     /**
      * Switches to the AddTaskList Scene.
+     * @param board
      */
     public void addTaskList(Board board) {
         primaryStage.setScene(createList);
