@@ -1,6 +1,9 @@
 package client.scenes;
 
 import client.MyFXML;
+import client.scenes.crud.admin.AccessDeniedCtrl;
+import client.scenes.crud.admin.GrantAdminCtrl;
+import client.scenes.crud.admin.PermissionAdminCtrl;
 import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
@@ -25,6 +28,12 @@ public class MainCtrl {
     private DeleteBoardCtrl deleteBoardCtrl;
     private Scene deleteBoard;
     private BoardCtrl boardCtrl;
+    private Scene grantAdmin;
+    private GrantAdminCtrl grantAdminCtrl;
+    private Scene accessDenied;
+    private AccessDeniedCtrl accessDeniedCtrl;
+    private Scene permissionAdmin;
+    private PermissionAdminCtrl permissionAdminCtrl;
 
     /**
      * Initializes the primaryStage, WorkspaceScene
@@ -98,6 +107,29 @@ public class MainCtrl {
 
         this.deleteBoardCtrl = deleteBoard.getKey();
         this.deleteBoard = new Scene(deleteBoard.getValue());
+    }
+
+    /**
+     * Initializes the Scenes and Controllers for the CRUD operations regarding admin operations.
+     *
+     * @param grantAdmin is the Scene for granting admin.
+     * @param accessDenied is the scene for not having the administrator permission.
+     * @param permissionAdmin is the scene for introducing the correct password.
+     */
+
+    public void initializeAdminCrud(Pair<GrantAdminCtrl, Parent> grantAdmin,
+                                    Pair<AccessDeniedCtrl, Parent> accessDenied,
+                                    Pair<PermissionAdminCtrl, Parent> permissionAdmin) {
+
+        this.grantAdminCtrl = grantAdmin.getKey();
+        this.grantAdmin = new Scene(grantAdmin.getValue());
+
+        this.accessDeniedCtrl = accessDenied.getKey();
+        this.accessDenied = new Scene(accessDenied.getValue());
+
+        this.permissionAdminCtrl = permissionAdmin.getKey();
+        this.permissionAdmin = new Scene(permissionAdmin.getValue());
+
     }
 
     /**
@@ -222,5 +254,29 @@ public class MainCtrl {
                         "BoardListing.fxml");
         pair.getKey().setBoard(newBoard);
         return pair;
+    }
+
+    /**
+     * Loads the scene for GrantAdmin.
+     *
+     */
+    public void grantAdmin() {
+        primaryStage.setScene(grantAdmin);
+    }
+
+    /**
+     * Loads the scene for AccessDenied.
+     *
+     */
+    public void accessDenied(){
+        primaryStage.setScene(accessDenied);
+    }
+
+    /**
+     * Loads the scene for PermisionAdmin.
+     *
+     */
+    public void permissionAdmin(){
+        primaryStage.setScene(permissionAdmin);
     }
 }

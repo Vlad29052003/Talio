@@ -5,16 +5,21 @@ import static com.google.inject.Guice.createInjector;
 import client.scenes.BoardCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.WorkspaceCtrl;
+import client.scenes.crud.admin.AccessDeniedCtrl;
+import client.scenes.crud.admin.GrantAdminCtrl;
+import client.scenes.crud.admin.PermissionAdminCtrl;
 import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
 import com.google.inject.Injector;
+import commons.Password;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    private static Password password = new Password();
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
 
@@ -40,10 +45,18 @@ public class Main extends Application {
                 .load(EditBoardCtrl.class, "client", "scenes", "crud", "EditBoardName.fxml");
         var deleteBoard = FXML
                 .load(DeleteBoardCtrl.class, "client", "scenes", "crud", "ConfirmBoardDelete.fxml");
+        var grantAdmin = FXML
+                .load(GrantAdminCtrl.class, "client", "scenes", "crud", "GrantAdmin.fxml");
+        var accessDenied = FXML
+                .load(AccessDeniedCtrl.class,"client", "scenes", "crud", "AccessDenied.fxml");
+        var permissionAdmin = FXML
+                .load(PermissionAdminCtrl.class,"client", "scenes", "crud", "PermissionAdmin.fxml");
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
 
         mainCtrl.initialize(primaryStage, FXML, workspace, board);
         mainCtrl.initializeBoardCrud(joinBoard, createBoard, editBoard, deleteBoard);
+        mainCtrl.initializeAdminCrud(grantAdmin, accessDenied, permissionAdmin);
+
     }
 }

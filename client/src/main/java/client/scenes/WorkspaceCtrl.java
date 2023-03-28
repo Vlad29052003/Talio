@@ -92,11 +92,9 @@ public class WorkspaceCtrl {
     }
 
     /**
-     * TO BE IMPLEMENTED
+     * Switches to the GrantAdmin Scene.
      */
-    public void admin() {
-        /* TODO */
-    }
+    public void admin() {mainCtrl.grantAdmin();}
 
     /**
      * Method used to embed the BoardCtrl in the same Scene.
