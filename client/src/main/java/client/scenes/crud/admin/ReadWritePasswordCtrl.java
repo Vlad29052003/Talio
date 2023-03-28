@@ -55,7 +55,7 @@ public class ReadWritePasswordCtrl {
             board = new Board(board.name, board.backgroundColor);
         }else{
             board = new Board(board.name, board.backgroundColor,
-                                text.getText(), board.RWpermission);
+                                text.getText(), false);
         }
         server.updateBoard(board);
         mainCtrl.updateBoard(board);
