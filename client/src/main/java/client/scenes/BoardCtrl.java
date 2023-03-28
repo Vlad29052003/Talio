@@ -79,7 +79,7 @@ public class BoardCtrl {
 
         Set<TaskList> taskLists = this.board.lists;
         Iterator<TaskList> it = taskLists.stream()
-                .sorted(Comparator.comparingInt(e -> e.index))
+                .sorted(Comparator.comparingLong(e -> e.id))
                 .iterator();
         while(it.hasNext()) {
             TaskList list = it.next();

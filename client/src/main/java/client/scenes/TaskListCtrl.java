@@ -11,9 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 
 public class TaskListCtrl {
     private final ServerUtils server;
@@ -63,11 +61,8 @@ public class TaskListCtrl {
         this.taskContainer.getChildren().clear();
         this.taskControllers.clear();
 
-        Set<Task> tasks = this.taskList.tasks;
-        Iterator<Task> it = tasks.stream().sorted(Comparator.comparingInt(o -> o.index)).iterator();
-        while(it.hasNext()) {
-            Task task = it.next();
-
+        List<Task> tasks = this.taskList.tasks;
+        for (Task task : tasks) {
             Pair<TaskCtrl, Parent> p = mainCtrl.newTaskView(task);
 
             TaskCtrl controller = p.getKey();
