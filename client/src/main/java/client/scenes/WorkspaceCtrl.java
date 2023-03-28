@@ -57,8 +57,8 @@ public class WorkspaceCtrl implements Initializable {
             if (file.length() == 0) {
                 data = new ClientData();
                 data.addJoinedBoardList(new JoinedBoardList("http://localhost:8080/"));
-                writeToFile();
-            } else readData();
+                new Thread(this::writeToFile).start();
+            } else new Thread(this::readData).start();;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -83,7 +83,7 @@ public class WorkspaceCtrl implements Initializable {
     /**
      * Reads the file that contains information about joined Boards.
      */
-    public void readData() {
+    public synchronized void readData() {
         try {
             ObjectInputStream in = new ObjectInputStream(new FileInputStream(this.file));
             this.data = (ClientData) in.readObject();
@@ -91,7 +91,7 @@ public class WorkspaceCtrl implements Initializable {
         } catch (Exception e) {
             data = new ClientData();
             data.addJoinedBoardList(new JoinedBoardList("http://localhost:8080/"));
-            writeToFile();
+            new Thread(this::writeToFile).start();
             displayError("There has been an error reading the file! Its content has been reset.");
         }
     }
@@ -99,7 +99,7 @@ public class WorkspaceCtrl implements Initializable {
     /**
      * Writes the current state of the object to the file.
      */
-    public void writeToFile() {
+    public synchronized void writeToFile() {
         try {
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(this.file));
             out.writeObject(this.data);
@@ -117,7 +117,7 @@ public class WorkspaceCtrl implements Initializable {
     public void addBoardToData(long id) {
         int index = data.getLastActiveOn();
         data.getServers().get(index).addBoard(id);
-        writeToFile();
+        new Thread(this::writeToFile).start();
     }
 
     /**
@@ -128,7 +128,7 @@ public class WorkspaceCtrl implements Initializable {
     public void removeBoardFromData(long id) {
         int index = data.getLastActiveOn();
         data.getServers().get(index).removeBoard(id);
-        writeToFile();
+        new Thread(this::writeToFile).start();
     }
 
     /**
@@ -157,7 +157,7 @@ public class WorkspaceCtrl implements Initializable {
                 for (long id : toBeRemoved) {
                     data.getServers().get(index).removeBoard(id);
                 }
-                writeToFile();
+                new Thread(this::writeToFile).start();
             }
         } else {
             displayError("Previously joined boards cannot be loaded if the server is offline!");
@@ -254,11 +254,11 @@ public class WorkspaceCtrl implements Initializable {
         if (jbl.isPresent()) {
             int index = data.getJoinedBoardPosition(jbl.get());
             data.setLastActiveOn(index);
-            writeToFile();
+            new Thread(this::writeToFile).start();
             loadBoardsFromFile();
         } else {
             data.addJoinedBoardList(new JoinedBoardList(serverIP.getText()));
-            writeToFile();
+            new Thread(this::writeToFile).start();
             reset();
         }
     }
