@@ -53,17 +53,34 @@ public class MainCtrl {
         this.workspaceCtrl = workspace.getKey();
         this.workspaceScene = new Scene(workspace.getValue());
         this.boardCtrl = board.getKey();
-        this.boardRoot = board.getValue();
 
         primaryStage.setTitle("Talio");
         primaryStage.setScene(workspaceScene);
 
-        workspaceCtrl.setBoardView(boardRoot);
+        workspaceCtrl.setBoardView(board.getValue());
 
         this.boardSyncroniser = new WebsocketSynchroniser(new MyUpdateHandler());
         boardSyncroniser.start();
-        
+
         primaryStage.show();
+    }
+
+    /**
+     * Sets the workspaceCtrl. Used for testing.
+     *
+     * @param workspaceCtrl is the WorkspaceCtrl
+     */
+    public void setWorkspaceCtrl(WorkspaceCtrl workspaceCtrl) {
+        this.workspaceCtrl = workspaceCtrl;
+    }
+
+    /**
+     * Sets the boardCtrl. Used for testing.
+     *
+     * @param boardCtrl is the BoardCtrl
+     */
+    public void setBoardCtrl(BoardCtrl boardCtrl) {
+        this.boardCtrl = boardCtrl;
     }
 
     /**

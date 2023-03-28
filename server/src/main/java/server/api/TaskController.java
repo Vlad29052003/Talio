@@ -3,6 +3,7 @@ package server.api;
 import commons.Task;
 import commons.TaskList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import server.database.ListRepository;
+import server.database.TaskListRepository;
 import server.database.TaskRepository;
 
 import javax.transaction.Transactional;
@@ -22,15 +23,16 @@ import java.util.Optional;
 @RequestMapping("/api/task")
 public class TaskController {
     private final TaskRepository taskRepo;
-    private final ListRepository listRepo;
+    private final TaskListRepository listRepo;
 
     /**
      * Instantiate a new {@link TaskController}.
      * @param taskRepo the {@link TaskRepository} to use
-     * @param listRepo the {@link ListRepository} to use
+     * @param listRepo the {@link TaskListRepository} to use
      */
+    @Autowired
     public TaskController(TaskRepository taskRepo,
-                          ListRepository listRepo) {
+                          TaskListRepository listRepo) {
         this.taskRepo = taskRepo;
         this.listRepo = listRepo;
     }
