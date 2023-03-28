@@ -93,7 +93,7 @@ public class MainCtrl {
      *
      * @return  the drag and drop node.
      */
-    public Node getDndNode() {
+    public Node getDragAndDropNode() {
         return dnd;
     }
 
@@ -102,7 +102,7 @@ public class MainCtrl {
      *
      * @param dnd is the drag and drop node.
      */
-    public void setDndNode(Node dnd) {
+    public void setDragAndDropNode(Node dnd) {
         this.dnd = dnd;
     }
 

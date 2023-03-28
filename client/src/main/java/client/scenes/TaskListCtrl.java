@@ -155,7 +155,7 @@ public class TaskListCtrl {
      * @param event is the drag event.
      */
     public void onDragDropped(DragEvent event) {
-        HBox source = (HBox) mainCtrl.getDndNode();
+        HBox source = (HBox) mainCtrl.getDragAndDropNode();
         Dragboard db = event.getDragboard();
 
         if (source.getParent() == taskContainer) taskContainer.getChildren().remove(source);

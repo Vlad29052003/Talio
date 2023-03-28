@@ -83,7 +83,7 @@ public class TaskCtrl {
         ClipboardContent content = new ClipboardContent();
         content.putString(String.valueOf(task.id));
         db.setContent(content);
-        mainCtrl.setDndNode(sourceNode);
+        mainCtrl.setDragAndDropNode(sourceNode);
 
         WritableImage image = sourceNode.snapshot(new SnapshotParameters(), null);
         db.setDragView(image, image.getWidth() / 2, image.getHeight() / 2);
