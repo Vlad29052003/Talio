@@ -24,6 +24,8 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public long id;
 
+    public boolean edit = false;
+
     public String name;
     public String backgroundColor;
     public String password;                 // if no password, no need to check RW permission
@@ -62,6 +64,9 @@ public class Board {
         this.RWpermission = RWpermission;
         this.lists = new HashSet<>();
         this.tags = new HashSet<>();
+        if(password == ""){
+            edit = true;
+        }
     }
 
     /**
@@ -73,6 +78,7 @@ public class Board {
     public Board(String name,
                  String backgroundColor) {
         this(name, backgroundColor, "", false);
+        this.edit = true;
     }
 
     /**
@@ -111,6 +117,8 @@ public class Board {
         ArrayList<String> exclude = new ArrayList<>();
         exclude.add("tags");
         exclude.add("lists");
+        exclude.add("password");
+        exclude.add("edit");
         return HashCodeBuilder.reflectionHashCode(this, exclude);
     }
 

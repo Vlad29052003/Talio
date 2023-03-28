@@ -12,6 +12,8 @@ import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
+import client.scenes.crud.board.ReadWritePermissionsCtrl;
+import client.scenes.crud.board.YouHavePermissionCtrl;
 import com.google.inject.Injector;
 import commons.Password;
 import javafx.application.Application;
@@ -51,11 +53,18 @@ public class Main extends Application {
                 .load(AccessDeniedCtrl.class,"client", "scenes", "crud", "AccessDenied.fxml");
         var permissionAdmin = FXML
                 .load(PermissionAdminCtrl.class,"client", "scenes", "crud", "PermissionAdmin.fxml");
+        var readWritePermissions = FXML
+                .load(ReadWritePermissionsCtrl.class,"client", "scenes", "crud",
+                                                        "ReadWritePermissions.fxml");
+        var youHavePermission = FXML
+                .load(YouHavePermissionCtrl.class,"client", "scenes", "crud",
+                                                    "YouHavePermission.fxml");
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
 
         mainCtrl.initialize(primaryStage, FXML, workspace, board);
-        mainCtrl.initializeBoardCrud(joinBoard, createBoard, editBoard, deleteBoard);
+        mainCtrl.initializeBoardCrud(joinBoard, createBoard, editBoard, deleteBoard,
+                                        readWritePermissions, youHavePermission);
         mainCtrl.initializeAdminCrud(grantAdmin, accessDenied, permissionAdmin);
 
     }

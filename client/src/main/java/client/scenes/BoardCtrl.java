@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import client.utils.ServerUtils;
 import commons.Board;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
@@ -12,6 +13,8 @@ public class BoardCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private Board board;
+    @FXML
+    private Button readwrite;
     @FXML
     private Label boardTitle;
     @FXML
@@ -67,4 +70,15 @@ public class BoardCtrl {
         resetBoardName();
     }
 
+    /**
+     * Checks if you have the read / write permission for the board.
+     * In case you are missing it you have to input it.
+     */
+    public void editPermissions() {
+        if(board.edit == false) {
+            mainCtrl.readWritePermissions(this.board);
+        }else{
+            mainCtrl.youHavePermission();
+        }
+    }
 }

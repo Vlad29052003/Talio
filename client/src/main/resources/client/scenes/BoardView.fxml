@@ -60,6 +60,11 @@
                   <Insets />
                </HBox.margin>
             </Button>
+            <Button fx:id="readwrite" alignment="CENTER" mnemonicParsing="false" text="Read/Write" onAction="#editPermissions">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Button>
          </children>
          <VBox.margin>
             <Insets />

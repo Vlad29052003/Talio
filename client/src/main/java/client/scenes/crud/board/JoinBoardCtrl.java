@@ -76,6 +76,7 @@ public class JoinBoardCtrl {
         long id;
         try {
             id = getID();
+            // check board pass
         } catch (Exception e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);

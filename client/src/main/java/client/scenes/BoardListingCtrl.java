@@ -52,7 +52,11 @@ public class BoardListingCtrl {
      * Displays the Board associated with this object.
      */
     public void view() {
-        mainCtrl.switchBoard(board);
+        if(board.password != null && board.RWpermission == true){
+            mainCtrl.readWritePermissions(board);
+        }else{
+            mainCtrl.switchBoard(board);
+        }
     }
 
     /**

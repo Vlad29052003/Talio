@@ -8,6 +8,8 @@ import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
+import client.scenes.crud.board.ReadWritePermissionsCtrl;
+import client.scenes.crud.board.YouHavePermissionCtrl;
 import commons.Board;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -34,6 +36,10 @@ public class MainCtrl {
     private AccessDeniedCtrl accessDeniedCtrl;
     private Scene permissionAdmin;
     private PermissionAdminCtrl permissionAdminCtrl;
+    private Scene readWritePermissions;
+    private ReadWritePermissionsCtrl readWritePermissionsCtrl;
+    private Scene  youHavePermission;
+    private YouHavePermissionCtrl youHavePermissionCtrl;
 
     /**
      * Initializes the primaryStage, WorkspaceScene
@@ -91,11 +97,15 @@ public class MainCtrl {
      * @param newBoard    is the Scene for creating a new Board.
      * @param editBoard   is the Scene for editing a Board.
      * @param deleteBoard is the Scene for deleting a Board.
+     * @param readWritePermissions is the Scene for inputting the password of the board.
+     * @param youHavePermission is the Scene for the situation in which you already have permission.
      */
     public void initializeBoardCrud(Pair<JoinBoardCtrl, Parent> joinBoard,
                                     Pair<CreateNewBoardCtrl, Parent> newBoard,
                                     Pair<EditBoardCtrl, Parent> editBoard,
-                                    Pair<DeleteBoardCtrl, Parent> deleteBoard) {
+                                    Pair<DeleteBoardCtrl, Parent> deleteBoard,
+                                    Pair<ReadWritePermissionsCtrl, Parent> readWritePermissions,
+                                    Pair<YouHavePermissionCtrl, Parent> youHavePermission) {
         this.joinBoardCtrl = joinBoard.getKey();
         this.joinBoard = new Scene(joinBoard.getValue());
 
@@ -107,6 +117,12 @@ public class MainCtrl {
 
         this.deleteBoardCtrl = deleteBoard.getKey();
         this.deleteBoard = new Scene(deleteBoard.getValue());
+
+        this.readWritePermissionsCtrl = readWritePermissions.getKey();
+        this.readWritePermissions = new Scene(readWritePermissions.getValue());
+
+        this.youHavePermissionCtrl = youHavePermission.getKey();
+        this.youHavePermission = new Scene(youHavePermission.getValue());
     }
 
     /**
@@ -278,5 +294,21 @@ public class MainCtrl {
      */
     public void permissionAdmin(){
         primaryStage.setScene(permissionAdmin);
+    }
+
+    /**
+     * Loads the scene for Read / Write permissions.
+     * @param board for which we check the password.
+     */
+    public void readWritePermissions(Board board){
+        primaryStage.setScene(readWritePermissions);
+        readWritePermissionsCtrl.setBoard(board);
+    }
+
+    /**
+     * Loads the scene You have permission.
+     */
+    public void youHavePermission() {
+        primaryStage.setScene(youHavePermission);
     }
 }
