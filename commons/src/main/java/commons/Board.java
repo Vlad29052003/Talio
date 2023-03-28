@@ -29,10 +29,10 @@ public class Board {
     public String password;                 // if no password, no need to check RW permission
     public boolean RWpermission;            // true - both read and write, false - read only
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL)
     @JsonManagedReference
     public Set<TaskList> lists;
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL)
     public Set<Tag> tags;
 
     /**
@@ -41,6 +41,7 @@ public class Board {
     @SuppressWarnings("unused")
     public Board() {
         // for object mappers
+        lists = new HashSet<>();
     }
 
     /**

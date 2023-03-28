@@ -14,8 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collections;
+import java.util.List;
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 @Entity
@@ -25,15 +25,14 @@ public class TaskList {
     public long id;
 
     public String name;
-    public long index;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonBackReference
     Board board;
 
-    @OneToMany(mappedBy = "list", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "list", cascade = CascadeType.ALL)
     @JsonManagedReference
-    public Set<Task> tasks;
+    public List<Task> tasks;
 
     /**
      * Empty constructor for object mappers.
@@ -41,19 +40,17 @@ public class TaskList {
     @SuppressWarnings("unused")
     public TaskList() {
         // for object mappers
+        tasks = new ArrayList<>();
     }
 
     /**
      * Create a new {@link TaskList list}.
      *
      * @param name is the name of the list.
-     * @param index is the position within the board.
      */
-    public TaskList(String name,
-                    long index) {
+    public TaskList(String name) {
         this.name = name;
-        this.index = index;
-        this.tasks = new HashSet<>();
+        this.tasks = new ArrayList<>();
     }
 
     /**
@@ -71,10 +68,10 @@ public class TaskList {
 
     /**
      * Get the parent {@link Board} for this list.
-     * @return the {@link Board} this list belongs to
+     * @return the {@link Board} this list belongs to main
      */
     public Board getBoard() {
-        return this.board;
+        return board;
     }
 
     /**
@@ -99,6 +96,13 @@ public class TaskList {
         if(this.tasks.remove(task)) {
             task.list = null;
         }
+    }
+
+    /**
+     * Sorts the collection of Task.
+     */
+    public void sort() {
+        Collections.sort(tasks);
     }
 
     @Override
