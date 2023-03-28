@@ -51,7 +51,11 @@ public class ReadWritePasswordCtrl {
      * to replace the password.
      */
     public void confirm(){
-        board.setPassword(text.getText());
+        if(text.getText() == ""){
+            board = new Board(board.name, board.backgroundColor);
+        }else{
+            board.setPassword(text.getText());
+        }
         server.updateBoard(board);
         mainCtrl.updateBoard(board);
         mainCtrl.cancel();
