@@ -107,14 +107,6 @@ public class Board {
         }
     }
 
-    /**
-     * Stter for the password
-     * @param text is the new password
-     */
-    public void setPassword(String text){
-        this.password = text;
-    }
-
     @Override
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj);
