@@ -292,3 +292,76 @@ Commons
 
 #### Closing Time
 - Everyone decided to stay over to assign tasks to each member and create issues based on the backlog.
+
+
+## Meeting 5 (by `Vlad Graure`)
+### Agenda OOPP Group 48 Meeting 28/03
+*per the agenda template presented in OOPP materials*
+
+* Location: DW PC1 cubicle 11
+* Date: March 28th 2023
+* Time: 13:45-14:30
+* Attendees:
+    * Rareș Toader (Scrum Master)
+    * Vlad Graure (Notetaker)
+    * Olaf Herman
+    * Jesse Klijnsma
+    * Lovro Mlikotić
+    * Andrei Petre
+    * Jochem Pouwels (Chair 🪑)
+
+#### Talking points
+- [13:45] Open by Chair.
+- [13:45-13:48] Check-in: how is everyone doing?
+- [13:48-13:50] Approval of the agenda: does anyone have any additions to the agenda?
+- [13:50-13:55] Product progress: showcasing the current state of our project to the TA.
+- [13:55-14:00] HUE: Making sure all team members understand where we are. And what we still need to finish before sending the evaluation.
+- [14:00-14:15] Next steps
+    - Decide what we still need to do and what to focus on.
+    - Divide tasks.
+- [14:15-14:25] Product analysis
+    - Are we on track so far, what was done well and what needs to be changed?
+    - What else need to be implemented and how?
+- [14:25-14:30] Task assignments: each member of the team receives a task and a deadline.
+- [14:30] Closure by Chair.
+
+#### Additions to the Agenda
+- Product Pitch assignment - discussion
+
+#### Showcasing our work so far to the TA
+- the server selection feature fulfills the Backlog
+
+#### HUE
+- we received the Prototype from our partner team(it can be found in Google Drive)
+- we will evaluate the other team's prototype by Thursday(30.03)
+- each of us will evaluate the prototype individually and write the results in a Google Drive word document
+
+#### Misc talking points
+- merge websockets as soon as possible, so we can fix eventual bugs
+- first merge Lovro's branch so Olaf can incorporate the changes into his one
+- agreed on removing the index from the TaskList class as it is redundant
+
+#### Task Assignments
+The most important tasks for the next sprint are:
+  1) Tag - create the class, a REST controller and the front end
+  2) Task description - implement the description and the subtask part
+  3) Complete websockets
+
+#### Product Pitch
+- we will do the final video together
+- we will do a script, so the video will be cursive
+
+#### Feedback from the TA
+- looks are important for the project grade
+- it is more important to implement a feature very good than to poorly implement a lot of the features
+- the technology part is very good
+- consider how important the features are
+
+#### Announcements by the TA
+- we are going to get feedback for the features
+- the video should be encoded, so it has at most 100MB but the quality should still be decent(720p)
+- the last 2 meetings will be shorter (25 minutes), but the location and the starting time will remain the same
+- everyone should have at least 800 lines of code by the end of the project
+
+#### Closing Time
+- Some team members decided to stay over to merge some MRs and discuss future steps

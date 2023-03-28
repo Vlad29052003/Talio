@@ -24,12 +24,12 @@ import static org.mockito.Mockito.when;
 public class TestWorkspaceCtrl {
     private WorkspaceCtrl workspaceCtrl;
     private MainCtrl mainCtrl;
-    private ServerUtilsTesting server;
+    private ServerUtilsTestingMock server;
 
     @BeforeEach
     public void setUp() {
         this.mainCtrl = mock(MainCtrl.class);
-        this.server = new ServerUtilsTesting();
+        this.server = new ServerUtilsTestingMock();
         this.workspaceCtrl = new WorkspaceCtrl(server, mainCtrl);
     }
 

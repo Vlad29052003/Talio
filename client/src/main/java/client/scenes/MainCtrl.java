@@ -27,7 +27,6 @@ public class MainCtrl {
     private DeleteBoardCtrl deleteBoardCtrl;
     private Scene deleteBoard;
     private BoardCtrl boardCtrl;
-    private Parent boardRoot; // Not a scene as it's to be embedded within the workspaceScene.
 
     /**
      * Initializes the primaryStage, WorkspaceScene
@@ -51,14 +50,31 @@ public class MainCtrl {
         this.workspaceCtrl = workspace.getKey();
         this.workspaceScene = new Scene(workspace.getValue());
         this.boardCtrl = board.getKey();
-        this.boardRoot = board.getValue();
 
         primaryStage.setTitle("Talio");
         primaryStage.setScene(workspaceScene);
 
-        workspaceCtrl.setBoardView(boardRoot);
+        workspaceCtrl.setBoardView(board.getValue());
 
         primaryStage.show();
+    }
+
+    /**
+     * Sets the workspaceCtrl. Used for testing.
+     *
+     * @param workspaceCtrl is the WorkspaceCtrl
+     */
+    public void setWorkspaceCtrl(WorkspaceCtrl workspaceCtrl) {
+        this.workspaceCtrl = workspaceCtrl;
+    }
+
+    /**
+     * Sets the boardCtrl. Used for testing.
+     *
+     * @param boardCtrl is the BoardCtrl
+     */
+    public void setBoardCtrl(BoardCtrl boardCtrl) {
+        this.boardCtrl = boardCtrl;
     }
 
     /**
