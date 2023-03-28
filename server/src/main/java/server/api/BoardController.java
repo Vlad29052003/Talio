@@ -1,6 +1,7 @@
 package server.api;
 
 import commons.Board;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import server.database.BoardRepository;
-import server.database.TaskListRepository;
-import server.database.TaskRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -22,21 +21,14 @@ import java.util.Optional;
 @RequestMapping("/api/boards")
 public class BoardController {
     private final BoardRepository repo;
-    private final TaskListRepository listRepo;
-    private final TaskRepository taskRepo;
 
     /**
      * Instantiate a new {@link BoardController}.
      * @param repo the {@link BoardRepository} to use.
-     * @param listRepo {@link TaskListRepository} to use.
-     * @param taskRepo {@link TaskRepository} to use.
      */
-    public BoardController(BoardRepository repo,
-                           TaskListRepository listRepo,
-                           TaskRepository taskRepo) {
+    @Autowired
+    public BoardController(BoardRepository repo) {
         this.repo = repo;
-        this.listRepo = listRepo;
-        this.taskRepo = taskRepo;
     }
 
     /**
@@ -122,33 +114,8 @@ public class BoardController {
             return ResponseEntity.notFound().build();
         }
 
-        deleteLists(id);
-
         repo.deleteById(id);
         return ResponseEntity.ok().build();
-    }
-
-    /**
-     * Deletes all lists referencing a board.
-     *
-     * @param id the id of the referenced board.
-     */
-    @Transactional
-    public void deleteLists(long id) {
-        listRepo.findAll().stream().filter(l -> l.getBoard().id == id)
-                .forEach(l -> deleteTasks(l.id));
-        listRepo.findAll().stream().filter(l -> l.getBoard().id == id)
-                .forEach(listRepo::delete);
-    }
-
-    /**
-     * Deletes all tasks referencing a list.
-     *
-     * @param id the id of the referenced list.
-     */
-    @Transactional
-    public void deleteTasks(long id) {
-        taskRepo.findAll().stream().filter(t -> t.getTaskList().id == id).forEach(taskRepo::delete);
     }
 
 }

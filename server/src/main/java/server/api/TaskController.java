@@ -3,6 +3,7 @@ package server.api;
 import commons.Task;
 import commons.TaskList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,9 +27,10 @@ public class TaskController {
 
     /**
      * Instantiate a new {@link TaskController}.
-     * @param taskRepo the {@link TaskRepository} to use
-     * @param listRepo the {@link TaskRepository} to use
+     * @param taskRepo the {@link TaskRepository} to use.
+     * @param listRepo the {@link TaskListRepository} to use.
      */
+    @Autowired
     public TaskController(TaskRepository taskRepo,
                           TaskListRepository listRepo) {
         this.taskRepo = taskRepo;

@@ -26,11 +26,11 @@ public class TaskList {
 
     public String name;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonBackReference
     Board board;
 
-    @OneToMany(mappedBy = "list", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "list", cascade = CascadeType.ALL)
     @JsonManagedReference
     public List<Task> tasks;
 

@@ -1,8 +1,6 @@
 package server.api;
 
 import commons.Board;
-import commons.Task;
-import commons.TaskList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -19,16 +17,12 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class BoardControllerTest {
 
     private TestBoardRepository repo;
-    private TaskListTestRepository listRepo;
-    private TestTaskRepository taskRepo;
     private BoardController sut;
 
     @BeforeEach
     public void setup() {
         repo = new TestBoardRepository();
-        listRepo = new TaskListTestRepository();
-        taskRepo = new TestTaskRepository();
-        sut = new BoardController(repo, listRepo, taskRepo);
+        sut = new BoardController(repo);
     }
 
     @Test
@@ -133,20 +127,6 @@ public class BoardControllerTest {
         assertNull(actual3.getBody());
         assertEquals(HttpStatus.NOT_FOUND, actual3.getStatusCode());
 
-    }
-
-    @Test
-    public void testRemoveTasks() {
-        TaskList tl = new TaskList("tl");
-        tl.id = 1L;
-        Task t = new Task("t1", 0, "");
-        tl.addTask(t);
-        listRepo.save(tl);
-        taskRepo.save(t);
-
-        sut.deleteTasks(1L);
-
-        assertEquals(taskRepo.findAll().size(), 0);
     }
 
     @Test
