@@ -60,7 +60,12 @@
                   <Insets />
                </HBox.margin>
             </Button>
-            <Button fx:id="readwrite" alignment="CENTER" mnemonicParsing="false" text="Read/Write" onAction="#editPermissions">
+            <Button fx:id="readwrite" alignment="CENTER_RIGHT" mnemonicParsing="false" text="Read/Write" onAction="#editPermissions">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="readwritepassword" alignment="CENTER_RIGHT" mnemonicParsing="false" text="Read/Write Password" onAction="#passwordEdit">
                <HBox.margin>
                   <Insets />
                </HBox.margin>

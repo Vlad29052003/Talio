@@ -8,6 +8,7 @@ import client.scenes.WorkspaceCtrl;
 import client.scenes.crud.admin.AccessDeniedCtrl;
 import client.scenes.crud.admin.GrantAdminCtrl;
 import client.scenes.crud.admin.PermissionAdminCtrl;
+import client.scenes.crud.admin.ReadWritePasswordCtrl;
 import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
@@ -58,14 +59,17 @@ public class Main extends Application {
                                                         "ReadWritePermissions.fxml");
         var youHavePermission = FXML
                 .load(YouHavePermissionCtrl.class,"client", "scenes", "crud",
-                                                    "YouHavePermission.fxml");
+                                                        "YouHavePermission.fxml");
+        var readWritePassord = FXML
+                .load(ReadWritePasswordCtrl.class, "client", "scenes", "crud",
+                                                        "ReadWritePassword.fxml");
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
 
         mainCtrl.initialize(primaryStage, FXML, workspace, board);
         mainCtrl.initializeBoardCrud(joinBoard, createBoard, editBoard, deleteBoard,
                                         readWritePermissions, youHavePermission);
-        mainCtrl.initializeAdminCrud(grantAdmin, accessDenied, permissionAdmin);
+        mainCtrl.initializeAdminCrud(grantAdmin, accessDenied, permissionAdmin, readWritePassord);
 
     }
 }

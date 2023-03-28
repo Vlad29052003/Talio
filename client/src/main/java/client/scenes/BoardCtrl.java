@@ -8,11 +8,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
+import static commons.Password.getAdmin;
+
 public class BoardCtrl {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private Board board;
+    @FXML
+    private Button readwritepassword;
     @FXML
     private Button readwrite;
     @FXML
@@ -79,6 +83,18 @@ public class BoardCtrl {
             mainCtrl.readWritePermissions(this.board);
         }else{
             mainCtrl.youHavePermission();
+        }
+    }
+
+    /**
+     * Checks if the user has administrator privileges and edits the board password.
+     * If not the scene is changed to the password input.
+     */
+    public void passwordEdit() {
+        if(getAdmin() == true){
+            mainCtrl.editPassword(board);
+        }else{
+            mainCtrl.grantAdmin();
         }
     }
 }

@@ -10,6 +10,8 @@ import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 import java.util.List;
 
+import static commons.Password.getAdmin;
+
 public class WorkspaceCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
@@ -94,7 +96,13 @@ public class WorkspaceCtrl {
     /**
      * Switches to the GrantAdmin Scene.
      */
-    public void admin() {mainCtrl.grantAdmin();}
+    public void admin() {
+        if(getAdmin() == true){
+            mainCtrl.youHavePermission();
+        }else{
+            mainCtrl.grantAdmin();
+        }
+    }
 
     /**
      * Method used to embed the BoardCtrl in the same Scene.
