@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
 
+
 public class BoardListingCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;

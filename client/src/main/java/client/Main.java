@@ -9,6 +9,9 @@ import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
+import client.scenes.crud.tasklists.CreateNewListCtrl;
+import client.scenes.crud.tasklists.DeleteListCtrl;
+import client.scenes.crud.tasklists.EditListCtrl;
 import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -40,10 +43,17 @@ public class Main extends Application {
                 .load(EditBoardCtrl.class, "client", "scenes", "crud", "EditBoardName.fxml");
         var deleteBoard = FXML
                 .load(DeleteBoardCtrl.class, "client", "scenes", "crud", "ConfirmBoardDelete.fxml");
+        var deleteTaskList = FXML
+                .load(DeleteListCtrl.class, "client", "scenes", "crud", "ConfirmListDelete.fxml");
+        var newTaskList = FXML
+                .load(CreateNewListCtrl.class, "client", "scenes", "crud", "CreateNewList.fxml");
+        var editTaskList = FXML
+                .load(EditListCtrl.class, "client", "scenes", "crud", "EditListName.fxml");
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
 
         mainCtrl.initialize(primaryStage, FXML, workspace, board);
         mainCtrl.initializeBoardCrud(joinBoard, createBoard, editBoard, deleteBoard);
+        mainCtrl.initializeTaskListCrud(deleteTaskList, newTaskList, editTaskList);
     }
 }

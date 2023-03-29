@@ -3,6 +3,7 @@ package client;
 import client.scenes.BoardCtrl;
 import client.scenes.BoardListingCtrl;
 import client.scenes.MainCtrl;
+import client.scenes.TaskListController;
 import client.scenes.WorkspaceCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
@@ -32,6 +33,9 @@ public class MyModule implements Module {
         binder.bind(DeleteBoardCtrl.class).in(Scopes.SINGLETON);
 
         binder.bind(ConfirmTaskDeleteCtrl.class).in(Scopes.SINGLETON);
+
+
+        binder.bind(TaskListController.class).in(Scopes.NO_SCOPE);
 
         binder.bind(BoardListingCtrl.class).in(Scopes.NO_SCOPE);
     }

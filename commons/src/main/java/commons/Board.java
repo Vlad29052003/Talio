@@ -101,6 +101,15 @@ public class Board {
         }
     }
 
+    /**
+     * Gets the Set of TaskLists.
+     *
+     * @return the Set to be returned.
+     */
+    public Set<TaskList> getTaskLists() {
+        return lists;
+    }
+
     @Override
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj);
