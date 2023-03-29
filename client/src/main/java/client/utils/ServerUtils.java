@@ -30,14 +30,15 @@ public class ServerUtils {
      * Sends a request to save a TaskList on the server.
      *
      * @param taskList is the TaskList to be saved.
+     * @param id is the id of the board.
      * @return the saved TaskList (after server modifications).
      */
-    public TaskList addTaskList(TaskList taskList) {
+    public Board addTaskList(TaskList taskList, long id) {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/task_lists")
+                .target(SERVER).path("api/task_lists/" + id)
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
-                .post(Entity.entity(taskList, APPLICATION_JSON), TaskList.class);
+                .post(Entity.entity(taskList, APPLICATION_JSON), Board.class);
     }
 
     /**

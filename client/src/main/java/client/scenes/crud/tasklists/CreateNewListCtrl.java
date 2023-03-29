@@ -65,24 +65,18 @@ public class CreateNewListCtrl {
      * Creates a new TaskList.
      */
     public void add() {
-        TaskList newTaskList = new TaskList(text.getText());
-        board.addTaskList(newTaskList);
-        newTaskList.setBoard(board);
-
         try {
-            newTaskList = server.addTaskList(newTaskList);
-            board.addTaskList(newTaskList);
-            board = server.updateBoard(board);
+            board = server.addTaskList(new TaskList(text.getText()), board.id);
+            System.out.println(board);
             mainCtrl.refreshBoard(board);
+            reset();
+            mainCtrl.cancel();
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.setContentText("There has been an error!\r" + e.getMessage());
             alert.showAndWait();
         }
-
-        mainCtrl.addTaskListToBoard(newTaskList);
-        mainCtrl.cancel();
     }
 
     /**

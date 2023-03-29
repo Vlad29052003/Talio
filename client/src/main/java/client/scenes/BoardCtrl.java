@@ -70,7 +70,7 @@ public class BoardCtrl {
         listContainer.getChildren().clear();
         tasklists.clear();
         if (board != null) {
-            for (TaskList taskList : board.getTaskLists()) {
+            for (TaskList taskList : board.lists) {
                 addTaskListToBoard(taskList);
             }
         }
@@ -145,6 +145,5 @@ public class BoardCtrl {
         updatedTaskList.setTaskList(updated);
         updatedTaskList.refresh();
     }
-
 
 }

@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
+import server.database.BoardRepository;
 import server.database.TaskListRepository;
-import server.database.TaskRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,17 +23,18 @@ import java.util.Optional;
 @RequestMapping("api/task_lists")
 public class TaskListController {
     private final TaskListRepository repo;
-    private final TaskRepository taskRepo;
+    private final BoardRepository boardRepo;
 
     /**
      * Instantiate a new {@link TaskListController}.
-     * @param repo the {@link TaskListRepository} to use
-     * @param taskRepo the {@link TaskRepository} to use
+     *
+     * @param boardRepo the {@link BoardRepository} to use.
+     * @param repo the {@link TaskListRepository} to use.
      */
     @Autowired
-    public TaskListController(TaskListRepository repo, TaskRepository taskRepo) {
+    public TaskListController(BoardRepository boardRepo, TaskListRepository repo) {
+        this.boardRepo = boardRepo;
         this.repo = repo;
-        this.taskRepo = taskRepo;
     }
 
     /**
@@ -91,18 +92,24 @@ public class TaskListController {
     /**
      * Creates a new TaskList.
      *
+     * @param boardId is the id of the board.
      * @param list The TaskList object to add.
      * @return a ResponseEntity containing the status of the operation.
      */
-    @PostMapping(path = {"", "/"})
-    public ResponseEntity<TaskList> add(@RequestBody TaskList list) {
-        if (isNullOrEmpty(list.name) || list.tasks == null) {
+    @PostMapping("/{boardId}")
+    public ResponseEntity<?> add(@PathVariable("boardId") long boardId,
+                                 @RequestBody TaskList list) {
+        if (isNullOrEmpty(list.name)
+                || list.tasks == null
+                || !boardRepo.existsById(boardId)) {
             return ResponseEntity.badRequest().build();
         }
 
+        Board board = boardRepo.findById(boardId).get();
+        list.setBoard(board);
+        repo.save(list);
 
-        TaskList saved = repo.save(list);
-        return ResponseEntity.ok(saved);
+        return ResponseEntity.ok(boardRepo.findById(boardId).get());
     }
 
     /**
@@ -114,16 +121,10 @@ public class TaskListController {
     @DeleteMapping("/{taskListId}")
     @Transactional
     public ResponseEntity<String> deleteById(@PathVariable("taskListId") long id) {
-        if (id < 0)
+        if (id < 0 || !repo.existsById(id))
             return ResponseEntity.badRequest().body("Invalid ID.");
-
-        Optional<TaskList> optLocal = repo.findById(id);
-        return optLocal.map((opt) -> {
-            opt.getBoard().removeTaskList(opt);
-            taskRepo.deleteAll(opt.tasks);
-            repo.deleteById(opt.id);
-            return ResponseEntity.ok("Successfully deleted.");
-        }).orElseGet(() -> ResponseEntity.notFound().build());
+        repo.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 
     private static boolean isNullOrEmpty(String s) { return s == null || s.isEmpty(); }

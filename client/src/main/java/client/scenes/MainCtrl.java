@@ -333,8 +333,12 @@ public class MainCtrl {
         return taskListDisplay;
     }
 
+    /**
+     * Refreshes the Board.
+     *
+     * @param board is the new board.
+     */
     public void refreshBoard(Board board){
         boardCtrl.setBoard(board);
-        boardCtrl.refresh();
     }
 }
