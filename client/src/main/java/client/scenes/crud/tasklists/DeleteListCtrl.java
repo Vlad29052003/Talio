@@ -4,6 +4,10 @@ import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.TaskList;
+import jakarta.ws.rs.WebApplicationException;
+import javafx.scene.control.Alert;
+import javafx.stage.Modality;
+
 /**import jakarta.ws.rs.WebApplicationException;
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;**/
@@ -57,7 +61,16 @@ public class DeleteListCtrl {
      * to delete this taskList.
      */
     public void confirm() {
-        // the server part is yet to be implemented
+
+        try {
+            server.deleteTaskList(taskList);
+        } catch (WebApplicationException e) {
+            var alert = new Alert(Alert.AlertType.ERROR);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setContentText("This list does not exist on the server!");
+            alert.showAndWait();
+        }
+
         mainCtrl.removeTaskListFromBoard(taskList);
         mainCtrl.cancel();
     }

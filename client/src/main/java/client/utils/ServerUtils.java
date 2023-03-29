@@ -70,6 +70,20 @@ public class ServerUtils {
     }
 
     /**
+     * Sends a request to delete a TaskList from the server.
+     *
+     * @param taskList is the board to be deleted.
+     * @return the status of the request.
+     */
+    public Response deleteTaskList(TaskList taskList) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/task_lists/" + taskList.id)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .delete();
+    }
+
+    /**
      * Sends a request to update a Board on the server.
      *
      * @param board is the updated Board.
