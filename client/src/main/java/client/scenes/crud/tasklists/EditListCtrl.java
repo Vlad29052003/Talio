@@ -4,8 +4,12 @@ import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.TaskList;
+import jakarta.ws.rs.WebApplicationException;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.fxml.FXML;
+import javafx.stage.Modality;
+
 /**import javafx.scene.control.Alert;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.stage.Modality;**/
@@ -63,7 +67,20 @@ public class EditListCtrl {
      */
     public void edit() {
         this.taskList.name = text.getText();
-        // server part to be implemented
+
+        try {
+            this.taskList = server.editTaskList(taskList);
+        } catch (WebApplicationException e) {
+            var alert = new Alert(Alert.AlertType.ERROR);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setContentText("The list was not found on the server!" +
+                    "\rIt will be removed from the workspace!");
+            alert.showAndWait();
+            mainCtrl.cancel();
+            this.reset();
+            return;
+        }
+
         mainCtrl.updateTaskList(taskList);
         mainCtrl.cancel();
     }

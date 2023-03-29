@@ -139,7 +139,7 @@ public class BoardCtrl {
      */
     public void updateTaskList(TaskList updated) {
         var toBeUpdated =
-                tasklists.stream().filter(b -> b.getTaskList().equals(updated)).findFirst();
+                tasklists.stream().filter(b -> b.getTaskList().id == updated.id).findFirst();
         if (toBeUpdated.isEmpty()) return;
         var updatedTaskList = toBeUpdated.get();
         updatedTaskList.setTaskList(updated);

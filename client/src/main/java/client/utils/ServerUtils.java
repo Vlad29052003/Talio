@@ -82,4 +82,18 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON)
                 .put(Entity.entity(board, APPLICATION_JSON), Board.class);
     }
+
+    /**
+     * Sends a request to update a TaskList on the server.
+     *
+     * @param taskList is the updated taskList.
+     * @return the updated, saved on the server, TaskList.
+     */
+    public TaskList editTaskList(TaskList taskList) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/task_lists/")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .put(Entity.entity(taskList, APPLICATION_JSON), TaskList.class);
+    }
 }
