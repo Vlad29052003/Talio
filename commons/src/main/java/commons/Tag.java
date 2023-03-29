@@ -18,7 +18,7 @@ import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 @Entity
 public class Tag {
     @Id
-    public int id;
+    public long id;
     public String name;
     public String color;
     @OneToMany(cascade = CascadeType.ALL)
