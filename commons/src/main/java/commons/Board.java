@@ -33,6 +33,7 @@ public class Board {
     @JsonManagedReference
     public Set<TaskList> lists;
     @OneToMany(cascade = CascadeType.ALL)
+    @JsonManagedReference
     public Set<Tag> tags;
 
     /**

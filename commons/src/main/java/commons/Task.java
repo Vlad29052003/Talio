@@ -31,7 +31,7 @@ public class Task implements Comparable<Task> {
     public long index;
     public String description;
 
-    @ElementCollection // 1
+    @ElementCollection
     public List<String> subtasks;
 
     /**
