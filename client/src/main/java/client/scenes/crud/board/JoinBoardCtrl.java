@@ -73,7 +73,7 @@ public class JoinBoardCtrl {
      * to get the Board with the entered id.
      */
     public void confirm() {
-        long id = 0;
+        long id;
         try {
             id = getID();
         } catch (Exception e) {
@@ -86,6 +86,17 @@ public class JoinBoardCtrl {
         }
         try {
             board = server.joinBoard(id);
+            System.out.println(board);
+
+            if(mainCtrl.isPresent(board)) {
+                var alert = new Alert(Alert.AlertType.ERROR);
+                alert.initModality(Modality.APPLICATION_MODAL);
+                alert.setContentText("The board is already present in the workspace!");
+                alert.showAndWait();
+                this.reset();
+                return;
+            }
+
             mainCtrl.addBoardToWorkspace(board);
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);

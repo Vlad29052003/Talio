@@ -6,8 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TaskTest {
     private Task t1;
@@ -39,22 +42,22 @@ public class TaskTest {
 
     @Test
     public void testGetTaskList() {
-        TaskList l = new TaskList("a", 1);
+        TaskList l = new TaskList("a");
         t1.setTaskList(l);
         assertEquals(t1.getTaskList(), l);
     }
 
     @Test
     public void testSetTaskList() {
-        TaskList tl = new TaskList("tl", 1);
+        TaskList tl = new TaskList("tl");
         t1.setTaskList(tl);
         assertEquals(tl, t1.list);
     }
 
     @Test
     public void testSetTaskListNotNullList() {
-        TaskList tl1 = new TaskList("tl1", 1);
-        TaskList tl2 = new TaskList("tl2", 2);
+        TaskList tl1 = new TaskList("tl1");
+        TaskList tl2 = new TaskList("tl2");
         t1.setTaskList(tl1);
         t1.setTaskList(tl2);
         assertEquals(tl2, t1.list);
@@ -72,7 +75,7 @@ public class TaskTest {
     public void testRemoveExistingSubtask() {
         t1.addSubTask("s1");
         List<String> expected = new ArrayList<>();
-        assertEquals(t1.removeSubTask("s1"), true);
+        assertTrue(t1.removeSubTask("s1"));
         assertEquals(t1.subtasks, expected);
     }
 
@@ -81,7 +84,7 @@ public class TaskTest {
         t1.addSubTask("s1");
         List<String> expected = new ArrayList<>();
         expected.add("s1");
-        assertEquals(t1.removeSubTask("s2"), false);
+        assertFalse(t1.removeSubTask("s2"));
         assertEquals(t1.subtasks, expected);
     }
 
@@ -103,5 +106,22 @@ public class TaskTest {
     @Test
     public void testToString() {
         assertEquals(t1.toString(), "this is t1,0,0,<null>,t1,[]");
+    }
+
+    @Test
+    public void testCompareTo() {
+        Task t1 = new Task("t1", 1, "");
+        Task t2 = new Task("t2", 2, "");
+
+        assertEquals(t1.compareTo(t2), -1);
+    }
+
+    @Test
+    public void testCompareToNull() {
+        Task t1 = new Task("t1", 1, "");
+
+        assertThrows(NullPointerException.class, () -> {
+            t1.compareTo(null);
+        });
     }
 }

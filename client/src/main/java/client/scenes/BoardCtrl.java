@@ -51,8 +51,7 @@ public class BoardCtrl {
      */
     public void setBoard(Board board) {
         this.board = board;
-        this.listContainer.getChildren().clear();
-        resetBoardName();
+        refresh();
     }
 
     /**
@@ -78,9 +77,11 @@ public class BoardCtrl {
     }
 
     /**
-     * Refreshes this Object.
+     * Re-render the board view UI.
+     * This will refresh all task lists and tasks currently rendered.
      */
     public void refresh() {
+        this.listContainer.getChildren().clear();
         resetBoardName();
         resetLists();
     }
@@ -96,7 +97,7 @@ public class BoardCtrl {
 
     public void createTaskList() {
         if (board != null) {
-            TaskList tlist = new TaskList("tasklist", 1);
+            TaskList tlist = new TaskList("tasklist");
             TaskListController tlc = mainCtrl.loadTaskListController(tlist);
             listContainer.getChildren().add(tlc.getRoot());
             tasklists.add(tlc);

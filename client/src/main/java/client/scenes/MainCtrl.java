@@ -17,7 +17,7 @@ import javafx.util.Pair;
 
 public class MainCtrl {
     private Stage primaryStage;
-    private MyFXML FXML;
+    private MyFXML myFXML;
     private WorkspaceCtrl workspaceCtrl;
     private Scene workspaceScene;
     private JoinBoardCtrl joinBoardCtrl;
@@ -35,7 +35,6 @@ public class MainCtrl {
     private DeleteListCtrl deleteListCtrl;
     private Scene deleteList;
     private BoardCtrl boardCtrl;
-    private Parent boardRoot; // Not a scene as it's to be embedded within the workspaceScene.
 
     /**
      * Initializes the primaryStage, WorkspaceScene
@@ -43,30 +42,47 @@ public class MainCtrl {
      * initial Board.
      *
      * @param primaryStage is the primary Stage.
-     * @param FXML is the FXML loader
+     * @param myFXML       is the FXML loader
      * @param workspace    is the Workspace.
      * @param board        is the initial Board, which is empty.
      */
     public void initialize(
             Stage primaryStage,
-            MyFXML FXML,
+            MyFXML myFXML,
             Pair<WorkspaceCtrl, Parent> workspace,
             Pair<BoardCtrl, Parent> board) {
         this.primaryStage = primaryStage;
 
-        this.FXML = FXML;
+        this.myFXML = myFXML;
 
         this.workspaceCtrl = workspace.getKey();
         this.workspaceScene = new Scene(workspace.getValue());
         this.boardCtrl = board.getKey();
-        this.boardRoot = board.getValue();
 
         primaryStage.setTitle("Talio");
         primaryStage.setScene(workspaceScene);
 
-        workspaceCtrl.setBoardView(boardRoot);
+        workspaceCtrl.setBoardView(board.getValue());
 
         primaryStage.show();
+    }
+
+    /**
+     * Sets the workspaceCtrl. Used for testing.
+     *
+     * @param workspaceCtrl is the WorkspaceCtrl
+     */
+    public void setWorkspaceCtrl(WorkspaceCtrl workspaceCtrl) {
+        this.workspaceCtrl = workspaceCtrl;
+    }
+
+    /**
+     * Sets the boardCtrl. Used for testing.
+     *
+     * @param boardCtrl is the BoardCtrl
+     */
+    public void setBoardCtrl(BoardCtrl boardCtrl) {
+        this.boardCtrl = boardCtrl;
     }
 
     /**
@@ -125,11 +141,11 @@ public class MainCtrl {
     }
 
     /**
-     * Removes a BoardDisplayWorkspace from the workspace.
+     * Removes a BoardListingCtrl from the workspace.
      *
-     * @param removed is the BoardDisplayWorkspace to be removed.
+     * @param removed is the BoardListingCtrl to be removed.
      */
-    public void removeFromWorkspace(BoardDisplayWorkspace removed) {
+    public void removeFromWorkspace(BoardListingCtrl removed) {
         workspaceCtrl.removeFromWorkspace(removed);
         boardCtrl.setBoard(null);
     }
@@ -236,7 +252,7 @@ public class MainCtrl {
      */
     public void updateBoard(Board board) {
         workspaceCtrl.updateBoard(board);
-        if(boardCtrl.getBoard() != null && boardCtrl.getBoard().id == board.id)
+        if (boardCtrl.getBoard() != null && boardCtrl.getBoard().id == board.id)
             boardCtrl.setBoard(board);
     }
 
@@ -249,7 +265,17 @@ public class MainCtrl {
     public void updateTaskList(TaskList taskList) {
         boardCtrl.updateTaskList(taskList);
         //if(boardCtrl.getBoard() != null && boardCtrl.getBoard().id == board.id)
-        //    boardCtrl.setBoard(board);
+        //boardCtrl.setBoard(board);
+    }
+
+    /**
+     * Checks if the Board is already in the Workspace.
+     *
+     * @param board the Board.
+     * @return true if present, false otherwise.
+     */
+    public boolean isPresent(Board board) {
+        return workspaceCtrl.getBoards().stream().anyMatch(w -> w.getBoard().equals(board));
     }
 
     /**
@@ -281,23 +307,22 @@ public class MainCtrl {
     }
 
     /**
-     * Loads the scenes for the BoardDisplayWorkspace and
-     * BoardCtrl.
+     * Loads the scenes for the BoardListingCtrl.
      *
      * @param newBoard is the Board associated with them.
-     * @return the new BoardDisplayWorkspace.
+     * @return the new BoardListingCtrl.
      */
-    public BoardDisplayWorkspace loadBoardDisplayWorkspace(Board newBoard) {
-        BoardDisplayWorkspace boardDisplay =
-                FXML.load(BoardDisplayWorkspace.class, "client", "scenes",
-                                "BoardDisplayWorkspace.fxml").getKey();
-        boardDisplay.setBoard(newBoard);
-        return boardDisplay;
+    public Pair<BoardListingCtrl, Parent> newBoardListingView(Board newBoard) {
+        var pair =
+                myFXML.load(BoardListingCtrl.class, "client", "scenes",
+                        "BoardListing.fxml");
+        pair.getKey().setBoard(newBoard);
+        return pair;
     }
 
     public TaskListController loadTaskListController(TaskList tasklist) {
         TaskListController taskListDisplay =
-                FXML.load(TaskListController.class, "client", "scenes",
+                myFXML.load(TaskListController.class, "client", "scenes",
                         "TaskList.fxml").getKey();
         taskListDisplay.setTasklist(tasklist);
         return taskListDisplay;

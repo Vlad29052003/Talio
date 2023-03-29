@@ -2,6 +2,7 @@ package server.api;
 
 import commons.Board;
 import commons.TaskList;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,12 @@ public class TaskListController {
     private final TaskListRepository repo;
     private final TaskRepository taskRepo;
 
+    /**
+     * Instantiate a new {@link TaskListController}.
+     * @param repo the {@link TaskListRepository} to use
+     * @param taskRepo the {@link TaskRepository} to use
+     */
+    @Autowired
     public TaskListController(TaskListRepository repo, TaskRepository taskRepo) {
         this.repo = repo;
         this.taskRepo = taskRepo;

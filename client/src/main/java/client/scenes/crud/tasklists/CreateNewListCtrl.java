@@ -51,7 +51,7 @@ public class CreateNewListCtrl {
      * Creates a new TaskList.
      */
     public void add() {
-        TaskList newTaskList = new TaskList(text.getText(), 1);
+        TaskList newTaskList = new TaskList(text.getText());
         board.addTaskList(newTaskList);
         // server part to be implemented
         mainCtrl.addTaskListToBoard(newTaskList);
