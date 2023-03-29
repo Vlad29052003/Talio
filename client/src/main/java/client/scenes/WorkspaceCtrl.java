@@ -141,10 +141,7 @@ public class WorkspaceCtrl {
      * @param removed is the Board to be removed.
      */
     public void removeFromWorkspace(Board removed) {
-        List<BoardListingCtrl> toBeRemoved = boards.stream()
-            .filter(b -> b.getBoard().equals(removed))
-            .collect(Collectors.toList());
-        toBeRemoved.forEach(this::removeFromWorkspace);
+        this.removeFromWorkspace(removed.id);
     }
 
     /**

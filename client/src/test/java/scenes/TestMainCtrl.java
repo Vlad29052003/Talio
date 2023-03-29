@@ -66,9 +66,9 @@ public class TestMainCtrl {
 
     @Test
     public void removeBoardFromWorkspace() {
-        mainCtrl.removeFromWorkspace(board);
+        mainCtrl.removeFromWorkspace(board.id);
         verify(boardCtrl, times(1)).setBoard(null);
-        verify(workspaceCtrl, times(1)).removeFromWorkspace(board);
+        verify(workspaceCtrl, times(1)).removeFromWorkspace(board.id);
     }
 
     @Test
