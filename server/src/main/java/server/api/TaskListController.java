@@ -92,16 +92,14 @@ public class TaskListController {
      * Creates a new TaskList.
      *
      * @param list The TaskList object to add.
-     * @param board The Board that the new TaskList belongs to.
      * @return a ResponseEntity containing the status of the operation.
      */
     @PostMapping(path = {"", "/"})
-    public ResponseEntity<TaskList> add(@RequestBody TaskList list, @RequestBody Board board) {
+    public ResponseEntity<TaskList> add(@RequestBody TaskList list) {
         if (isNullOrEmpty(list.name) || list.tasks == null) {
             return ResponseEntity.badRequest().build();
         }
 
-        list.setBoard(board);
 
         TaskList saved = repo.save(list);
         return ResponseEntity.ok(saved);

@@ -31,12 +31,12 @@ public class TaskListControllerTest {
         TaskList l = getList("dummy");
         Board board = getBoard("dummy");
         l.tasks = null;
-        var actual = controller.add(l, board);
+        var actual = controller.add(l);
         assertEquals(BAD_REQUEST, actual.getStatusCode());
 
         l = getList("dummy");
         l.name = null;
-        actual = controller.add(l, board);
+        actual = controller.add(l);
         assertEquals(BAD_REQUEST, actual.getStatusCode());
     }
 
@@ -67,7 +67,7 @@ public class TaskListControllerTest {
     @Test
     public void create() {
         var board = getBoard("create");
-        var actual = controller.add(getList("create"), board);
+        var actual = controller.add(getList("create"));
         assertEquals(HttpStatus.OK, actual.getStatusCode());
         assertTrue(actual.hasBody());
     }
@@ -75,7 +75,7 @@ public class TaskListControllerTest {
     @Test
     public void read() {
         var board = getBoard("fetch");
-        var actual = controller.add(getList("fetch"), board);
+        var actual = controller.add(getList("fetch"));
         if(actual.getBody() == null) return;
         long id = actual.getBody().id;
         var actual2 = controller.getById(id);
@@ -86,9 +86,9 @@ public class TaskListControllerTest {
     @Test
     public void readAll() {
         var board = getBoard("Board");
-        var actual = controller.add(getList("List"), board);
+        var actual = controller.add(getList("List"));
         if(actual.getBody() == null) return;
-        var actual2 = controller.add(getList("List2"), board);
+        var actual2 = controller.add(getList("List2"));
         if(actual2.getBody() == null) return;
 
         List<TaskList> allLists = controller.getAll();
@@ -101,7 +101,7 @@ public class TaskListControllerTest {
     public void update() {
         var board = getBoard("Board");
         TaskList list = getList("update-before");
-        var actual = controller.add(list, board);
+        var actual = controller.add(list);
         if (actual.getBody() == null) return;
         list.id = actual.getBody().id;
 
@@ -121,7 +121,8 @@ public class TaskListControllerTest {
     public void delete() {
         var board = getBoard("delete");
         TaskList list = getList("delete");
-        var actual = controller.add(list, board);
+        list.setBoard(board);
+        var actual = controller.add(list);
         if (actual.getBody() == null) return;
         long id = actual.getBody().id;
 
@@ -137,7 +138,7 @@ public class TaskListControllerTest {
     @Test
     public void databaseIsUsed() {
         var board = getBoard("b1");
-        controller.add(getList("l1"), board);
+        controller.add(getList("l1"));
         assertTrue(repo.calledMethods.contains("save"));
     }
 

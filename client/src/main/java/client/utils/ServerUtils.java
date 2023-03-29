@@ -1,6 +1,7 @@
 package client.utils;
 
 import commons.Board;
+import commons.TaskList;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.Response;
@@ -23,6 +24,20 @@ public class ServerUtils {
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(board, APPLICATION_JSON), Board.class);
+    }
+
+    /**
+     * Sends a request to save a TaskList on the server.
+     *
+     * @param taskList is the TaskList to be saved.
+     * @return the saved TaskList (after server modifications).
+     */
+    public TaskList addTaskList(TaskList taskList) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/task_lists")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(taskList, APPLICATION_JSON), TaskList.class);
     }
 
     /**

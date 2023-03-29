@@ -332,4 +332,9 @@ public class MainCtrl {
         taskListDisplay.setTasklist(tasklist);
         return taskListDisplay;
     }
+
+    public void refreshBoard(Board board){
+        boardCtrl.setBoard(board);
+        boardCtrl.refresh();
+    }
 }
