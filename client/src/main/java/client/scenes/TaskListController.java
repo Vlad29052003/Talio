@@ -41,10 +41,20 @@ public class TaskListController {
         label.setText(tasklist.name);
     }
 
+    /**
+     * Gets the TaskList.
+     *
+     * @return TaskList is the TaskList.
+     */
     public TaskList getTaskList() {
         return  this.tasklist;
     }
 
+    /**
+     * Sets the TaskList.
+     *
+     * @param taskList is the TaskList.
+     */
     public void setTaskList(TaskList taskList){
         this.tasklist = taskList;
         label.setText(tasklist.name);

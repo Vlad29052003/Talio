@@ -264,8 +264,6 @@ public class MainCtrl {
      */
     public void updateTaskList(TaskList taskList) {
         boardCtrl.updateTaskList(taskList);
-        //if(boardCtrl.getBoard() != null && boardCtrl.getBoard().id == board.id)
-        //boardCtrl.setBoard(board);
     }
 
     /**
@@ -320,6 +318,13 @@ public class MainCtrl {
         return pair;
     }
 
+    /**
+     * Loads a TaskListController for the TaskList
+     * to be added to the Board
+     *
+     * @param tasklist the TaskList to be added
+     * @return TaskListController for the TaskList
+     */
     public TaskListController loadTaskListController(TaskList tasklist) {
         TaskListController taskListDisplay =
                 myFXML.load(TaskListController.class, "client", "scenes",

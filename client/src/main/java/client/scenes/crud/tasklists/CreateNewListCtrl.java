@@ -30,10 +30,20 @@ public class CreateNewListCtrl {
         this.mainCtrl = mainCtrl;
     }
 
+    /**
+     * Gets the Board.
+     *
+     * @return Board to be returned.
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     * Sets the Board.
+     *
+     * @param board is the Board to be set.
+     */
     public void setBoard(Board board) {
         this.board = board;
     }

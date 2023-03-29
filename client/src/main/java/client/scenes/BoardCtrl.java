@@ -95,6 +95,10 @@ public class BoardCtrl {
         }
     }
 
+    /**
+     * Adds a new TaskList to the Board
+     * - method no longer used
+     */
     public void createTaskList() {
         if (board != null) {
             TaskList tlist = new TaskList("tasklist");
