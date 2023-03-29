@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 
 import static commons.messages.UpdateMessage.Operation;
@@ -34,44 +33,44 @@ public class WebsocketSynchroniserTest {
     }
 
     @Test
-    public void dryCreationTest() throws ExecutionException, InterruptedException {
+    public void dryCreationTest() {
         Board test = getDummyBoard();
         BoardUpdateMessage update = new BoardUpdateMessage(1, test, Operation.CREATED);
         sut.addUpdate(update);
 
         assertEquals(1, sut.getUpdates().size());
-        assertEquals(sut.getUpdates().get(0), update);
+        assertEquals(sut.getUpdates().peek(), update);
 
         sut.applyUpdates();
-        Board board = created.get();
+        Board board = created.getNow(null);
         assertEquals(test, board);
     }
 
     @Test
-    public void dryUpdateTest() throws ExecutionException, InterruptedException {
+    public void dryUpdateTest() {
         Board test = getDummyBoard();
         BoardUpdateMessage update = new BoardUpdateMessage(1, test, Operation.UPDATED);
         sut.addUpdate(update);
 
         assertEquals(1, sut.getUpdates().size());
-        assertEquals(sut.getUpdates().get(0), update);
+        assertEquals(sut.getUpdates().peek(), update);
 
         sut.applyUpdates();
-        Board board = updated.get();
+        Board board = updated.getNow(null);
         assertEquals(test, board);
     }
 
     @Test
-    public void dryDeletionTest() throws ExecutionException, InterruptedException {
+    public void dryDeletionTest() {
         long id = 1239;
         BoardUpdateMessage update = new BoardUpdateMessage(id, null, Operation.DELETED);
         sut.addUpdate(update);
 
         assertEquals(1, sut.getUpdates().size());
-        assertEquals(sut.getUpdates().get(0), update);
+        assertEquals(sut.getUpdates().peek(), update);
 
         sut.applyUpdates();
-        long result_id = deleted.get();
+        Long result_id = deleted.getNow(null);
         assertEquals(id, result_id);
     }
 

@@ -9,8 +9,8 @@ import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
@@ -25,7 +25,7 @@ public class WebsocketSynchroniser {
 
     private final UpdateHandler updateHandler;
 
-    private final List<UpdateMessage> updateQueue = new ArrayList<>();
+    private final Queue<UpdateMessage> updateQueue = new LinkedList<>();
 
     private final ScheduledExecutorService scheduler;
     private ScheduledFuture<?> syncTask;
@@ -110,17 +110,17 @@ public class WebsocketSynchroniser {
      * Gets and empties the {@link UpdateMessage} queue
      * @return List of {@link UpdateMessage}
      */
-    public List<UpdateMessage> poll(){
-        List<UpdateMessage> updates = new ArrayList<>(updateQueue);
+    public Queue<UpdateMessage> poll(){
+        Queue<UpdateMessage> updates = new LinkedList<>(updateQueue);
         updateQueue.clear();
         return updates;
     }
 
     /**
      * Gets the {@link UpdateMessage} queue
-     * @return List of {@link UpdateMessage}
+     * @return Queue of {@link UpdateMessage}
      */
-    public List<UpdateMessage> getUpdates(){
+    public Queue<UpdateMessage> getUpdates(){
         return updateQueue;
     }
 
@@ -128,7 +128,7 @@ public class WebsocketSynchroniser {
      * Dispatch all update events to the event handler
      */
     public void applyUpdates(){
-        List<UpdateMessage> updates = poll();
+        Queue<UpdateMessage> updates = poll();
         for (UpdateMessage update : updates) {
             if(update instanceof BoardUpdateMessage){
                 updateHandler.dispatchBoardUpdate((BoardUpdateMessage) update);
