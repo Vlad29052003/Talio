@@ -28,7 +28,6 @@ public class MainCtrl {
     private DeleteBoardCtrl deleteBoardCtrl;
     private Scene deleteBoard;
     private BoardCtrl boardCtrl;
-    private Parent boardRoot; // Not a scene as it's to be embedded within the workspaceScene.
     private WebsocketSynchroniser boardSyncroniser;
 
     /**
@@ -140,8 +139,7 @@ public class MainCtrl {
      * @param removed is the Board to be removed;
      */
     public void removeFromWorkspace(Board removed) {
-        workspaceCtrl.removeFromWorkspace(removed);
-        boardCtrl.setBoard(null);
+        this.removeFromWorkspace(removed.id);
     }
 
     /**
