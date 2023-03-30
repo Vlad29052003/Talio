@@ -95,4 +95,21 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON)
                 .put(Entity.entity(board, APPLICATION_JSON), Board.class);
     }
+
+    /**
+     * Sends a request to update the list and index of a task.
+     *
+     * @param newListId is the id of the new list.
+     * @param index is the new index.
+     * @param taskId is the id of the task.
+     */
+    public void dragAndDrop(long newListId, int index, long taskId) {
+        String response = null;
+        String path = String.valueOf(newListId) + '/' + index + '/' + taskId;
+        ClientBuilder.newClient(new ClientConfig())
+                .target(server).path("api/task/" + path)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(response, APPLICATION_JSON), String.class);
+    }
 }

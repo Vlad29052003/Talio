@@ -5,7 +5,13 @@ import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
+import client.scenes.crud.tasklists.CreateTaskListCtrl;
+import client.scenes.crud.tasklists.DeleteTaskListCtrl;
+import client.scenes.crud.tasklists.EditTaskListCtrl;
 import commons.Board;
+import commons.Task;
+import commons.TaskList;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -20,11 +26,19 @@ public class MainCtrl {
     private Scene joinBoard;
     private CreateNewBoardCtrl createBoardCtrl;
     private Scene createBoard;
+    private CreateTaskListCtrl createListCtrl;
+    private Scene createList;
     private EditBoardCtrl editBoardCtrl;
     private Scene editBoard;
+    private EditTaskListCtrl editTaskListCtrl;
+    private Scene editList;
     private DeleteBoardCtrl deleteBoardCtrl;
     private Scene deleteBoard;
+    private DeleteTaskListCtrl deleteListCtrl;
+    private Scene deleteList;
     private BoardCtrl boardCtrl;
+    private Parent boardRoot; // Not a scene as it's to be embedded within the workspaceScene.
+    private Node dnd;
 
     /**
      * Sets myFXML.
@@ -72,6 +86,15 @@ public class MainCtrl {
     }
 
     /**
+     * Get the boardCtrl.
+     *
+     * @return the {@link BoardCtrl} instance we're currently rendering
+     */
+    public BoardCtrl getBoardCtrl() {
+        return boardCtrl;
+    }
+
+    /**
      * Sets the boardCtrl. Used for testing.
      *
      * @param boardCtrl is the BoardCtrl
@@ -103,6 +126,46 @@ public class MainCtrl {
 
         this.deleteBoardCtrl = deleteBoard.getKey();
         this.deleteBoard = new Scene(deleteBoard.getValue());
+    }
+
+    /**
+<<<<<<< HEAD
+     * Gets the drag and drop node.
+     *
+     * @return  the drag and drop node.
+     */
+    public Node getDragAndDropNode() {
+        return dnd;
+    }
+
+    /**
+     * Sets the drag and drop node.
+     *
+     * @param dnd is the drag and drop node.
+     */
+    public void setDragAndDropNode(Node dnd) {
+        this.dnd = dnd;
+    }
+
+    /**
+     * Initializes the Scenes and Controllers for the CRUD operations regarding TaskList.
+     *
+     * @param deleteTaskList is the Scene for deleting a TaskList.
+     * @param newTaskList is the Scene for creating a TaskList.
+     * @param editTaskList is the Scene for editing a TaskList.
+     */
+    public void initializeTaskListCrud(Pair<DeleteTaskListCtrl, Parent> deleteTaskList,
+                                       Pair<CreateTaskListCtrl, Parent> newTaskList,
+                                       Pair<EditTaskListCtrl, Parent> editTaskList) {
+
+        this.deleteListCtrl = deleteTaskList.getKey();
+        this.deleteList = new Scene(deleteTaskList.getValue());
+
+        this.createListCtrl = newTaskList.getKey();
+        this.createList = new Scene(newTaskList.getValue());
+
+        this.editTaskListCtrl = editTaskList.getKey();
+        this.editList = new Scene(editTaskList.getValue());
     }
 
     /**
@@ -161,6 +224,15 @@ public class MainCtrl {
     }
 
     /**
+     * Switches to the AddTaskList Scene.
+     * @param board
+     */
+    public void addTaskList(Board board) {
+        primaryStage.setScene(createList);
+        createListCtrl.setBoard(board);
+    }
+
+    /**
      * Switches to the EditBoard Scene.
      *
      * @param board is the Board to be edited.
@@ -171,6 +243,16 @@ public class MainCtrl {
     }
 
     /**
+     * Switches to the EditTaskList Scene.
+     *
+     * @param taskList is the TaskList to be edited.
+     */
+    public void editTaskList(TaskList taskList) {
+        primaryStage.setScene(editList);
+        editTaskListCtrl.setTaskList(taskList);
+    }
+
+    /**
      * Switches to the DeleteBoard Scene.
      *
      * @param board is the Board to be deleted.
@@ -178,6 +260,16 @@ public class MainCtrl {
     public void deleteBoard(Board board) {
         primaryStage.setScene(deleteBoard);
         deleteBoardCtrl.setBoard(board);
+    }
+
+    /**
+     * Switches to the DeleteTaskList Scene.
+     *
+     * @param taskList is the TaskList to be deleted.
+     */
+    public void deleteTaskList(TaskList taskList) {
+        primaryStage.setScene(deleteList);
+        deleteListCtrl.setTaskList(taskList);
     }
 
     /**
@@ -223,10 +315,42 @@ public class MainCtrl {
      * @return the new BoardListingCtrl.
      */
     public Pair<BoardListingCtrl, Parent> newBoardListingView(Board newBoard) {
-        var pair =
-                myFXML.load(BoardListingCtrl.class, "client", "scenes",
-                        "BoardListing.fxml");
+        var pair = myFXML.load(BoardListingCtrl.class,
+                "client", "scenes", "BoardListing.fxml");
         pair.getKey().setBoard(newBoard);
         return pair;
+    }
+
+    /**
+     * Loads a {@link TaskListCtrl} instance and view.
+     *
+     * @param newTaskList is the {@link TaskList} associated with them.
+     * @return the new {@link TaskListCtrl} and its view.
+     */
+    public Pair<TaskListCtrl, Parent> newTaskListView(TaskList newTaskList) {
+        var pair = myFXML.load(TaskListCtrl.class,
+                "client", "scenes", "TaskListView.fxml");
+        pair.getKey().setTaskList(newTaskList);
+        return pair;
+    }
+
+    /**
+     * Loads a {@link TaskCtrl} instance and view.
+     *
+     * @param newTask is the {@link Task} associated with them.
+     * @return the new {@link TaskCtrl} and its view.
+     */
+    public Pair<TaskCtrl, Parent> newTaskView(Task newTask) {
+        var pair = myFXML.load(TaskCtrl.class,
+                "client", "scenes", "TaskView.fxml");
+        pair.getKey().setTask(newTask);
+        return pair;
+    }
+
+    /**
+     * Refresh this view.
+     */
+    public void refresh() {
+        this.boardCtrl.refresh();
     }
 }

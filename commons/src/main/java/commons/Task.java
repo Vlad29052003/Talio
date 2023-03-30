@@ -28,7 +28,7 @@ public class Task implements Comparable<Task> {
     TaskList list;
 
     public String name;
-    public long index;
+    public int index;
     public String description;
 
     @ElementCollection // 1
@@ -50,7 +50,7 @@ public class Task implements Comparable<Task> {
      * @param index is the position within the TaskList.
      * @param description is the description.
      */
-    public Task(String name, long index, String description) {
+    public Task(String name, int index, String description) {
         this.name = name;
         this.index = index;
         this.description = description;

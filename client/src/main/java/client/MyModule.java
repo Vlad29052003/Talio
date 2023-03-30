@@ -3,12 +3,17 @@ package client;
 import client.scenes.BoardCtrl;
 import client.scenes.BoardListingCtrl;
 import client.scenes.MainCtrl;
+import client.scenes.TaskCtrl;
+import client.scenes.TaskListCtrl;
 import client.scenes.WorkspaceCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.task.ConfirmTaskDeleteCtrl;
 import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
+import client.scenes.crud.tasklists.CreateTaskListCtrl;
+import client.scenes.crud.tasklists.DeleteTaskListCtrl;
+import client.scenes.crud.tasklists.EditTaskListCtrl;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
@@ -31,7 +36,15 @@ public class MyModule implements Module {
         binder.bind(EditBoardCtrl.class).in(Scopes.SINGLETON);
         binder.bind(DeleteBoardCtrl.class).in(Scopes.SINGLETON);
 
+        binder.bind(CreateTaskListCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(DeleteTaskListCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(EditTaskListCtrl.class).in(Scopes.SINGLETON);
+
         binder.bind(ConfirmTaskDeleteCtrl.class).in(Scopes.SINGLETON);
+
+
+        binder.bind(TaskListCtrl.class).in(Scopes.NO_SCOPE);
+        binder.bind(TaskCtrl.class).in(Scopes.NO_SCOPE);
 
         binder.bind(BoardListingCtrl.class).in(Scopes.NO_SCOPE);
     }
