@@ -11,6 +11,7 @@ import client.scenes.crud.tasklists.EditTaskListCtrl;
 import commons.Board;
 import commons.Task;
 import commons.TaskList;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -36,6 +37,8 @@ public class MainCtrl {
     private DeleteTaskListCtrl deleteListCtrl;
     private Scene deleteList;
     private BoardCtrl boardCtrl;
+    private Parent boardRoot; // Not a scene as it's to be embedded within the workspaceScene.
+    private Node dnd;
 
     /**
      * Initializes the primaryStage, WorkspaceScene
@@ -118,6 +121,25 @@ public class MainCtrl {
 
         this.deleteBoardCtrl = deleteBoard.getKey();
         this.deleteBoard = new Scene(deleteBoard.getValue());
+    }
+
+    /**
+<<<<<<< HEAD
+     * Gets the drag and drop node.
+     *
+     * @return  the drag and drop node.
+     */
+    public Node getDragAndDropNode() {
+        return dnd;
+    }
+
+    /**
+     * Sets the drag and drop node.
+     *
+     * @param dnd is the drag and drop node.
+     */
+    public void setDragAndDropNode(Node dnd) {
+        this.dnd = dnd;
     }
 
     /**
