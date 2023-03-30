@@ -64,7 +64,7 @@ public class BoardCtrl {
      * Refreshes the name of the Board.
      */
     private void refreshBoardHeader() {
-        if(board != null) {
+        if (board != null) {
             boardTitle.setText(board.name + " (id: " + board.id + ")");
             addListButton.setVisible(true);
         } else {
@@ -82,21 +82,13 @@ public class BoardCtrl {
 
         this.listContainer.getChildren().clear();
         this.listControllers = new ArrayList<>();
-
-        if(this.board == null) return;
-
-        this.board.addTaskList(new TaskList("test 1"));
-        this.board.addTaskList(new TaskList("test 2"));
-        this.board.addTaskList(new TaskList("test 3"));
-        this.board.addTaskList(new TaskList("test 4"));
-        this.board.addTaskList(new TaskList("test 5"));
-        this.board.addTaskList(new TaskList("test 6"));
+        if (this.board == null) return;
 
         Set<TaskList> taskLists = this.board.lists;
         Iterator<TaskList> it = taskLists.stream()
                 .sorted(Comparator.comparingLong(e -> e.id))
                 .iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             TaskList list = it.next();
 
             Pair<TaskListCtrl, Parent> p = this.mainCtrl.newTaskListView(list);

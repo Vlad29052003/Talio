@@ -52,24 +52,10 @@
       </HBox>
       <ScrollPane fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-border-width: 0; -fx-border-color: black;" VBox.vgrow="ALWAYS">
          <content>
-            <VBox fx:id="taskContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
+            <VBox fx:id="taskContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onDragDropped="#onDragDropped" onDragExited="#handleDragLeave" onDragOver="#onDragOver" spacing="5.0">
                <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  <Insets bottom="25.0" left="5.0" right="5.0" top="5.0" />
                </padding>
-               <children>
-                  <Pane prefHeight="50.0" style="-fx-background-color: red;" />
-                  <Pane layoutX="15.0" layoutY="15.0" prefHeight="50.0" style="-fx-background-color: red;" />
-                  <Pane layoutX="15.0" layoutY="15.0" prefHeight="50.0" style="-fx-background-color: red;" />
-                  <Pane layoutX="15.0" layoutY="70.0" prefHeight="50.0" style="-fx-background-color: red;" />
-                  <Pane layoutX="15.0" layoutY="15.0" prefHeight="50.0" style="-fx-background-color: red;" />
-                  <Pane layoutX="15.0" layoutY="64.0" prefHeight="50.0" style="-fx-background-color: red;" />
-                  <Pane layoutX="15.0" layoutY="113.0" prefHeight="50.0" style="-fx-background-color: red;" />
-                  <Pane layoutX="15.0" layoutY="162.0" prefHeight="50.0" style="-fx-background-color: red;" />
-                  <Pane layoutX="15.0" layoutY="15.0" prefHeight="50.0" style="-fx-background-color: red;" />
-                  <Pane layoutX="15.0" layoutY="70.0" prefHeight="50.0" style="-fx-background-color: red;" />
-                  <Pane layoutX="15.0" layoutY="125.0" prefHeight="50.0" style="-fx-background-color: red;" />
-                  <Pane layoutX="15.0" layoutY="180.0" prefHeight="50.0" style="-fx-background-color: red;" />
-               </children>
             </VBox>
          </content>
       </ScrollPane>
