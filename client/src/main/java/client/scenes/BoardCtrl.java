@@ -5,22 +5,29 @@ import client.utils.ServerUtils;
 import commons.Board;
 import commons.TaskList;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.Set;
 
 public class BoardCtrl {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private Board board;
+    private ArrayList<TaskListCtrl> listControllers = new ArrayList<>();
     @FXML
     private Label boardTitle;
     @FXML
+    private Button addListButton;
+    @FXML
     private HBox listContainer;
-    private List<TaskListController> tasklists;
 
     /**
      * Creates a new {@link BoardCtrl} object.
@@ -32,7 +39,6 @@ public class BoardCtrl {
     public BoardCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
-        tasklists = new ArrayList<>();
     }
 
     /**
@@ -55,24 +61,15 @@ public class BoardCtrl {
     }
 
     /**
-     * Resets the name of the Board.
+     * Refreshes the name of the Board.
      */
-    private void resetBoardName() {
-        if (board != null) {
-            boardTitle.setText(board.name + " (" + board.id + ")");
-        } else boardTitle.setText("No board to be displayed");
-    }
-
-    /**
-     * Resets the contents of the tasklists and listContainer HBox.
-     */
-    public void resetLists() {
-        listContainer.getChildren().clear();
-        tasklists.clear();
-        if (board != null) {
-            for (TaskList taskList : board.getTaskLists()) {
-                addTaskListToBoard(taskList);
-            }
+    private void refreshBoardHeader() {
+        if(board != null) {
+            boardTitle.setText(board.name + " (id: " + board.id + ")");
+            addListButton.setVisible(true);
+        } else {
+            boardTitle.setText("No board to be displayed");
+            addListButton.setVisible(false);
         }
     }
 
@@ -81,9 +78,35 @@ public class BoardCtrl {
      * This will refresh all task lists and tasks currently rendered.
      */
     public void refresh() {
+        refreshBoardHeader();
+
         this.listContainer.getChildren().clear();
-        resetBoardName();
-        resetLists();
+        this.listControllers = new ArrayList<>();
+
+        if(this.board == null) return;
+
+        this.board.addTaskList(new TaskList("test 1"));
+        this.board.addTaskList(new TaskList("test 2"));
+        this.board.addTaskList(new TaskList("test 3"));
+        this.board.addTaskList(new TaskList("test 4"));
+        this.board.addTaskList(new TaskList("test 5"));
+        this.board.addTaskList(new TaskList("test 6"));
+
+        Set<TaskList> taskLists = this.board.lists;
+        Iterator<TaskList> it = taskLists.stream()
+                .sorted(Comparator.comparingLong(e -> e.id))
+                .iterator();
+        while(it.hasNext()) {
+            TaskList list = it.next();
+
+            Pair<TaskListCtrl, Parent> p = this.mainCtrl.newTaskListView(list);
+
+            TaskListCtrl controller = p.getKey();
+            controller.refresh();
+
+            this.listContainer.getChildren().add(p.getValue());
+            this.listControllers.add(controller);
+        }
     }
 
     /**
@@ -94,57 +117,5 @@ public class BoardCtrl {
             mainCtrl.addTaskList(board);
         }
     }
-
-    /**
-     * Adds a new TaskList to the Board
-     * - method no longer used
-     */
-    public void createTaskList() {
-        if (board != null) {
-            TaskList tlist = new TaskList("tasklist");
-            TaskListController tlc = mainCtrl.loadTaskListController(tlist);
-            listContainer.getChildren().add(tlc.getRoot());
-            tasklists.add(tlc);
-        }
-    }
-
-    /**
-     * Adds a TaskList to the workspace.
-     *
-     * @param newTaskList is the TaskList to be added.
-     */
-    public void addTaskListToBoard(TaskList newTaskList) {
-        TaskListController taskList = mainCtrl.loadTaskListController(newTaskList);
-        listContainer.getChildren().add(taskList.getRoot());
-        tasklists.add(taskList);
-
-    }
-
-    /**
-     * Removed a TaskList from the board.
-     *
-     * @param removed is the TaskList to be removed.
-     */
-    public void removeTaskListFromBoard(TaskList removed) {
-        TaskListController taskList =
-                tasklists.stream().filter(b -> b.getTaskList().equals(removed)).findFirst().get();
-        tasklists.remove(taskList);
-        listContainer.getChildren().remove(taskList.getRoot());
-    }
-
-    /**
-     * Updates a TaskList on the board.
-     *
-     * @param updated is the TaskList to be updated.
-     */
-    public void updateTaskList(TaskList updated) {
-        var toBeUpdated =
-                tasklists.stream().filter(b -> b.getTaskList().equals(updated)).findFirst();
-        if (toBeUpdated.isEmpty()) return;
-        var updatedTaskList = toBeUpdated.get();
-        updatedTaskList.setTaskList(updated);
-        updatedTaskList.refresh();
-    }
-
 
 }

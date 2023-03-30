@@ -10,7 +10,7 @@ import javafx.fxml.FXML;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.stage.Modality;**/
 
-public class EditListCtrl {
+public class EditTaskListCtrl {
     private ServerUtils server;
     private MainCtrl mainCtrl;
     private TaskList taskList;
@@ -18,13 +18,13 @@ public class EditListCtrl {
     private TextField text;
 
     /**
-     * Creates a new {@link EditListCtrl} object.
+     * Creates a new {@link EditTaskListCtrl} object.
      *
      * @param server   is the ServerUtils.
      * @param mainCtrl is the MainCtrl.
      */
     @Inject
-    public EditListCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public EditTaskListCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
@@ -64,7 +64,7 @@ public class EditListCtrl {
     public void edit() {
         this.taskList.name = text.getText();
         // server part to be implemented
-        mainCtrl.updateTaskList(taskList);
+        mainCtrl.getBoardCtrl().refresh();
         mainCtrl.cancel();
     }
 

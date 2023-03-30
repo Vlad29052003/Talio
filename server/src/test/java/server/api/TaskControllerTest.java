@@ -75,19 +75,19 @@ public class TaskControllerTest {
 
     @Test
     public void testInexistentListMoveTask() {
-        assertEquals(taskController.moveTask(4L, 1L, 2L),
+        assertEquals(taskController.moveTask(4L, 1, 2L),
                 ResponseEntity.badRequest().body("Invalid ID."));
         assertEquals(listRepo.calledMethods, List.of("existsById"));
     }
 
     @Test
     public void testMoveTask() {
-        assertEquals(taskController.moveTask(2L, 1L, 2L),
+        assertEquals(taskController.moveTask(2L, 1, 2L),
                 ResponseEntity.ok("Changed successfully!"));
         assertEquals(tasks.get(1).getTaskList(), lists.get(1));
-        assertEquals(tasks.get(1).index, 1L);
-        assertEquals(tasks.get(0).index, 1L);
-        assertEquals(tasks.get(2).index, 2L);
+        assertEquals(tasks.get(1).index, 1);
+        assertEquals(tasks.get(0).index, 1);
+        assertEquals(tasks.get(2).index, 2);
         assertEquals(listRepo.calledMethods,
                 List.of("existsById", "findById"));
         assertEquals(taskRepo.calledMethods, List.of("existsById", "findById", "saveAndFlush"));
@@ -109,10 +109,10 @@ public class TaskControllerTest {
 
     @Test
     public void testCreateTask() {
-        Task newTask = new Task("newTask", 1L, "");
+        Task newTask = new Task("newTask", 1, "");
         assertEquals(taskController.createTask(1L, newTask),
                 ResponseEntity.ok(taskRepo.saveAndFlush(newTask)));
-        assertEquals(newTask.index, 4L);
+        assertEquals(newTask.index, 4);
         assertEquals(newTask.getTaskList(), lists.get(0));
         assertEquals(listRepo.calledMethods, List.of("existsById", "findById", "findById"));
         assertEquals(taskRepo.calledMethods, List.of("saveAndFlush", "saveAndFlush"));
@@ -126,7 +126,7 @@ public class TaskControllerTest {
 
     @Test
     public void testUpdateTask() {
-        Task updatedTask = new Task("Task1Updated", 1L, "this is updated");
+        Task updatedTask = new Task("Task1Updated", 1, "this is updated");
         updatedTask.id = 1L;
         assertEquals(taskController.updateTask(updatedTask), ResponseEntity.ok("Task updated."));
         assertEquals(tasks.get(0).id, 1L);

@@ -5,10 +5,11 @@ import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
-import client.scenes.crud.tasklists.CreateNewListCtrl;
-import client.scenes.crud.tasklists.DeleteListCtrl;
-import client.scenes.crud.tasklists.EditListCtrl;
+import client.scenes.crud.tasklists.CreateTaskListCtrl;
+import client.scenes.crud.tasklists.DeleteTaskListCtrl;
+import client.scenes.crud.tasklists.EditTaskListCtrl;
 import commons.Board;
+import commons.Task;
 import commons.TaskList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,15 +25,15 @@ public class MainCtrl {
     private Scene joinBoard;
     private CreateNewBoardCtrl createBoardCtrl;
     private Scene createBoard;
-    private CreateNewListCtrl createListCtrl;
+    private CreateTaskListCtrl createListCtrl;
     private Scene createList;
     private EditBoardCtrl editBoardCtrl;
     private Scene editBoard;
-    private EditListCtrl editListCtrl;
+    private EditTaskListCtrl editTaskListCtrl;
     private Scene editList;
     private DeleteBoardCtrl deleteBoardCtrl;
     private Scene deleteBoard;
-    private DeleteListCtrl deleteListCtrl;
+    private DeleteTaskListCtrl deleteListCtrl;
     private Scene deleteList;
     private BoardCtrl boardCtrl;
 
@@ -77,6 +78,15 @@ public class MainCtrl {
     }
 
     /**
+     * Get the boardCtrl.
+     *
+     * @return the {@link BoardCtrl} instance we're currently rendering
+     */
+    public BoardCtrl getBoardCtrl() {
+        return boardCtrl;
+    }
+
+    /**
      * Sets the boardCtrl. Used for testing.
      *
      * @param boardCtrl is the BoardCtrl
@@ -117,9 +127,9 @@ public class MainCtrl {
      * @param newTaskList is the Scene for creating a TaskList.
      * @param editTaskList is the Scene for editing a TaskList.
      */
-    public void initializeTaskListCrud(Pair<DeleteListCtrl, Parent> deleteTaskList,
-                                       Pair<CreateNewListCtrl, Parent> newTaskList,
-                                       Pair<EditListCtrl, Parent> editTaskList) {
+    public void initializeTaskListCrud(Pair<DeleteTaskListCtrl, Parent> deleteTaskList,
+                                       Pair<CreateTaskListCtrl, Parent> newTaskList,
+                                       Pair<EditTaskListCtrl, Parent> editTaskList) {
 
         this.deleteListCtrl = deleteTaskList.getKey();
         this.deleteList = new Scene(deleteTaskList.getValue());
@@ -127,7 +137,7 @@ public class MainCtrl {
         this.createListCtrl = newTaskList.getKey();
         this.createList = new Scene(newTaskList.getValue());
 
-        this.editListCtrl = editTaskList.getKey();
+        this.editTaskListCtrl = editTaskList.getKey();
         this.editList = new Scene(editTaskList.getValue());
     }
 
@@ -158,16 +168,6 @@ public class MainCtrl {
     public void removeFromWorkspace(Board removed) {
         workspaceCtrl.removeFromWorkspace(removed);
         boardCtrl.setBoard(null);
-    }
-
-    /**
-     * Removes a TaskList from a Board.
-     *
-     * @param removed is the TaskList to be removed.
-     */
-    public void removeTaskListFromBoard(TaskList removed) {
-        boardCtrl.removeTaskListFromBoard(removed);
-        //boardCtrl.setTaskList(null);
     }
 
     /**
@@ -221,7 +221,7 @@ public class MainCtrl {
      */
     public void editTaskList(TaskList taskList) {
         primaryStage.setScene(editList);
-        editListCtrl.setTaskList(taskList);
+        editTaskListCtrl.setTaskList(taskList);
     }
 
     /**
@@ -257,16 +257,6 @@ public class MainCtrl {
     }
 
     /**
-     * Updates the TaskList with the same id as taskList
-     * from the workspace.
-     *
-     * @param taskList is the taskList to be updated.
-     */
-    public void updateTaskList(TaskList taskList) {
-        boardCtrl.updateTaskList(taskList);
-    }
-
-    /**
      * Checks if the Board is already in the Workspace.
      *
      * @param board the Board.
@@ -291,45 +281,48 @@ public class MainCtrl {
     }
 
     /**
-     * Adds a TaskList to the board.
-     *
-     * @param taskList is the TaskList to be added.
-     */
-    public void addTaskListToBoard(TaskList taskList) {
-        if (taskList != null) {
-            boardCtrl.addTaskListToBoard(taskList);
-        }
-        createListCtrl.reset();
-        boardCtrl.refresh();
-        primaryStage.setScene(workspaceScene);
-    }
-
-    /**
      * Loads the scenes for the BoardListingCtrl.
      *
      * @param newBoard is the Board associated with them.
      * @return the new BoardListingCtrl.
      */
     public Pair<BoardListingCtrl, Parent> newBoardListingView(Board newBoard) {
-        var pair =
-                myFXML.load(BoardListingCtrl.class, "client", "scenes",
-                        "BoardListing.fxml");
+        var pair = myFXML.load(BoardListingCtrl.class,
+                "client", "scenes", "BoardListing.fxml");
         pair.getKey().setBoard(newBoard);
         return pair;
     }
 
     /**
-     * Loads a TaskListController for the TaskList
-     * to be added to the Board
+     * Loads a {@link TaskListCtrl} instance and view.
      *
-     * @param tasklist the TaskList to be added
-     * @return TaskListController for the TaskList
+     * @param newTaskList is the {@link TaskList} associated with them.
+     * @return the new {@link TaskListCtrl} and its view.
      */
-    public TaskListController loadTaskListController(TaskList tasklist) {
-        TaskListController taskListDisplay =
-                myFXML.load(TaskListController.class, "client", "scenes",
-                        "TaskList.fxml").getKey();
-        taskListDisplay.setTasklist(tasklist);
-        return taskListDisplay;
+    public Pair<TaskListCtrl, Parent> newTaskListView(TaskList newTaskList) {
+        var pair = myFXML.load(TaskListCtrl.class,
+                "client", "scenes", "TaskListView.fxml");
+        pair.getKey().setTaskList(newTaskList);
+        return pair;
+    }
+
+    /**
+     * Loads a {@link TaskCtrl} instance and view.
+     *
+     * @param newTask is the {@link Task} associated with them.
+     * @return the new {@link TaskCtrl} and its view.
+     */
+    public Pair<TaskCtrl, Parent> newTaskView(Task newTask) {
+        var pair = myFXML.load(TaskCtrl.class,
+                "client", "scenes", "TaskView.fxml");
+        pair.getKey().setTask(newTask);
+        return pair;
+    }
+
+    /**
+     * Refresh this view.
+     */
+    public void refresh() {
+        this.boardCtrl.refresh();
     }
 }

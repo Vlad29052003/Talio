@@ -42,7 +42,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardCtrl">
+<VBox xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardCtrl">
    <children>
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0">
          <children>
@@ -55,7 +55,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#addTaskList" text="Add Task List">
+            <Button fx:id="addListButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#addTaskList" text="Add Task List" visible="false">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
