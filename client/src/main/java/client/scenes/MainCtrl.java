@@ -5,6 +5,9 @@ import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
+import client.scenes.crud.tasklists.CreateTaskListCtrl;
+import client.scenes.crud.tasklists.DeleteTaskListCtrl;
+import client.scenes.crud.tasklists.EditTaskListCtrl;
 import commons.Board;
 import commons.Task;
 import commons.TaskList;
@@ -22,10 +25,16 @@ public class MainCtrl {
     private Scene joinBoard;
     private CreateNewBoardCtrl createBoardCtrl;
     private Scene createBoard;
+    private CreateTaskListCtrl createListCtrl;
+    private Scene createList;
     private EditBoardCtrl editBoardCtrl;
     private Scene editBoard;
+    private EditTaskListCtrl editTaskListCtrl;
+    private Scene editList;
     private DeleteBoardCtrl deleteBoardCtrl;
     private Scene deleteBoard;
+    private DeleteTaskListCtrl deleteListCtrl;
+    private Scene deleteList;
     private BoardCtrl boardCtrl;
 
     /**
@@ -69,6 +78,15 @@ public class MainCtrl {
     }
 
     /**
+     * Get the boardCtrl.
+     *
+     * @return the {@link BoardCtrl} instance we're currently rendering
+     */
+    public BoardCtrl getBoardCtrl() {
+        return boardCtrl;
+    }
+
+    /**
      * Sets the boardCtrl. Used for testing.
      *
      * @param boardCtrl is the BoardCtrl
@@ -100,6 +118,27 @@ public class MainCtrl {
 
         this.deleteBoardCtrl = deleteBoard.getKey();
         this.deleteBoard = new Scene(deleteBoard.getValue());
+    }
+
+    /**
+     * Initializes the Scenes and Controllers for the CRUD operations regarding TaskList.
+     *
+     * @param deleteTaskList is the Scene for deleting a TaskList.
+     * @param newTaskList is the Scene for creating a TaskList.
+     * @param editTaskList is the Scene for editing a TaskList.
+     */
+    public void initializeTaskListCrud(Pair<DeleteTaskListCtrl, Parent> deleteTaskList,
+                                       Pair<CreateTaskListCtrl, Parent> newTaskList,
+                                       Pair<EditTaskListCtrl, Parent> editTaskList) {
+
+        this.deleteListCtrl = deleteTaskList.getKey();
+        this.deleteList = new Scene(deleteTaskList.getValue());
+
+        this.createListCtrl = newTaskList.getKey();
+        this.createList = new Scene(newTaskList.getValue());
+
+        this.editTaskListCtrl = editTaskList.getKey();
+        this.editList = new Scene(editTaskList.getValue());
     }
 
     /**
@@ -157,6 +196,15 @@ public class MainCtrl {
     }
 
     /**
+     * Switches to the AddTaskList Scene.
+     * @param board
+     */
+    public void addTaskList(Board board) {
+        primaryStage.setScene(createList);
+        createListCtrl.setBoard(board);
+    }
+
+    /**
      * Switches to the EditBoard Scene.
      *
      * @param board is the Board to be edited.
@@ -167,6 +215,16 @@ public class MainCtrl {
     }
 
     /**
+     * Switches to the EditTaskList Scene.
+     *
+     * @param taskList is the TaskList to be edited.
+     */
+    public void editTaskList(TaskList taskList) {
+        primaryStage.setScene(editList);
+        editTaskListCtrl.setTaskList(taskList);
+    }
+
+    /**
      * Switches to the DeleteBoard Scene.
      *
      * @param board is the Board to be deleted.
@@ -174,6 +232,16 @@ public class MainCtrl {
     public void deleteBoard(Board board) {
         primaryStage.setScene(deleteBoard);
         deleteBoardCtrl.setBoard(board);
+    }
+
+    /**
+     * Switches to the DeleteTaskList Scene.
+     *
+     * @param taskList is the TaskList to be deleted.
+     */
+    public void deleteTaskList(TaskList taskList) {
+        primaryStage.setScene(deleteList);
+        deleteListCtrl.setTaskList(taskList);
     }
 
     /**
@@ -249,5 +317,12 @@ public class MainCtrl {
                 "client", "scenes", "TaskView.fxml");
         pair.getKey().setTask(newTask);
         return pair;
+    }
+
+    /**
+     * Refresh this view.
+     */
+    public void refresh() {
+        this.boardCtrl.refresh();
     }
 }

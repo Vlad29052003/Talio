@@ -6,7 +6,7 @@ import commons.Task;
 import commons.TaskList;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
@@ -19,7 +19,7 @@ public class TaskListCtrl {
     private TaskList taskList;
     private ArrayList<TaskCtrl> taskControllers = new ArrayList<>();
     @FXML
-    private TitledPane title;
+    private Label title;
     @FXML
     private VBox taskContainer;
 
@@ -52,6 +52,20 @@ public class TaskListCtrl {
     }
 
     /**
+     * Deletes the TaskList associated with this object.
+     */
+    public void delete() {
+        mainCtrl.deleteTaskList(this.taskList);
+    }
+
+    /**
+     * Edits the TaskList associated with this object.
+     */
+    public void edit() {
+        mainCtrl.editTaskList(this.taskList);
+    }
+
+    /**
      * Re-render the task list view UI.
      * This will refresh all tasks within the list.
      */
@@ -60,6 +74,10 @@ public class TaskListCtrl {
 
         this.taskContainer.getChildren().clear();
         this.taskControllers.clear();
+
+        for (int i = 0; i < 16; i++) {
+            this.taskList.tasks.add(new Task("Task "+i, i, "desc"));
+        }
 
         List<Task> tasks = this.taskList.tasks;
         for (Task task : tasks) {

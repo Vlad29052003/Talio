@@ -7,16 +7,16 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="170.0" prefWidth="340.0" stylesheets="/style/CreateNewList.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.crud.CreateNewTask">
+<AnchorPane prefHeight="170.0" prefWidth="340.0" stylesheets="/style/CreateNewList.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.crud.tasklists.CreateTaskListCtrl">
     <children>
         <Text layoutX="13.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Add list" wrappingWidth="161.33673095703125">
             <font>
                 <Font name="Calibri" size="12.0" />
             </font></Text>
         <Text layoutX="13.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="List name:" />
-        <JFXButton layoutX="104.0" layoutY="123.0" prefHeight="25.0" prefWidth="65.0" styleClass="add-button-list" text="Add" />
-        <JFXButton layoutX="174.0" layoutY="123.0" prefHeight="25.0" prefWidth="65.0" styleClass="cancel-button" text="Cancel" />
+        <JFXButton layoutX="104.0" layoutY="123.0" onAction="#add" prefHeight="25.0" prefWidth="65.0" styleClass="add-button-list" text="Add" />
+        <JFXButton layoutX="174.0" layoutY="123.0" onAction="#cancel" prefHeight="25.0" prefWidth="65.0" styleClass="cancel-button" text="Cancel" />
         <JFXBadge layoutX="184.0" layoutY="59.0" />
-        <TextField layoutX="12.0" layoutY="87.0" prefHeight="26.0" prefWidth="315.0" styleClass="text-field" />
+        <TextField fx:id="text" layoutX="12.0" layoutY="87.0" prefHeight="26.0" prefWidth="315.0" styleClass="text-field" />
     </children>
 </AnchorPane>
