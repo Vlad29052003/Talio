@@ -4,7 +4,7 @@ import commons.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-
+import server.mutations.BoardChangeQueue;
 
 import java.util.List;
 
@@ -18,11 +18,13 @@ public class BoardControllerTest {
 
     private TestBoardRepository repo;
     private BoardController sut;
+    private BoardChangeQueue changes;
 
     @BeforeEach
     public void setup() {
         repo = new TestBoardRepository();
-        sut = new BoardController(repo);
+        changes = new BoardChangeQueue();
+        sut = new BoardController(repo, changes);
     }
 
     @Test

@@ -49,7 +49,6 @@ public class TestDeleteBoardCtrl {
         deleteCtrl.setBoard(board);
         deleteCtrl.confirm();
         verify(mainCtrl, times(1)).cancel();
-        verify(mainCtrl, times(1)).removeFromWorkspace(board);
     }
 
     @Test

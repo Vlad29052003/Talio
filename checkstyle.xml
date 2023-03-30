@@ -23,7 +23,7 @@
         </module>
 
         <module name="MissingJavadocMethod">
-            <property name="allowedAnnotations" value="Override,Test,BeforeEach"/>
+            <property name="allowedAnnotations" value="Override,Test,BeforeEach,AfterEach"/>
         </module>
 
         <module name="CyclomaticComplexity">
