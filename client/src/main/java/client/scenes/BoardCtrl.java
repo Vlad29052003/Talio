@@ -3,6 +3,7 @@ package client.scenes;
 import com.google.inject.Inject;
 import client.utils.ServerUtils;
 import commons.Board;
+import commons.Task;
 import commons.TaskList;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -149,7 +150,7 @@ public class BoardCtrl {
     }
 
     /**
-     * Removed a TaskList from the board.
+     * Removes a TaskList from the board.
      *
      * @param removed is the TaskList to be removed.
      */
@@ -160,6 +161,19 @@ public class BoardCtrl {
         listControllers.remove(taskList);
         listContainer.getChildren().remove(taskList.getRoot());
         board.removeTaskList(removed);
+    }
+
+    /**
+     * Removes a Task from the board.
+     *
+     * @param removed is the removed Task.
+     */
+    public void removeTask(Task removed) {
+        TaskListCtrl taskListCtrl =
+                listControllers.stream().filter(b -> b.getTaskList().tasks.contains(removed)).
+                        findFirst().get();
+        taskListCtrl.getTaskList().removeTask(removed);
+        taskListCtrl.refresh();
     }
 
     /**
@@ -174,5 +188,23 @@ public class BoardCtrl {
         var updatedTaskList = toBeUpdated.get();
         updatedTaskList.setTaskList(updated);
         updatedTaskList.refresh();
+    }
+
+    /**
+     * Updates a Task in the Board.
+     *
+     * @param updated is the updated Task.
+     */
+    public void updateTask(Task updated) {
+        var toBeUpdated =
+                listControllers.stream().filter(b -> b.getTaskList()
+                        .tasks.get(updated.index).id == updated.id).findFirst();
+
+        if (toBeUpdated.isEmpty()) return;
+        TaskListCtrl tlCtrl = toBeUpdated.get();
+        Task found = tlCtrl.getTaskList().tasks.get(updated.index);
+        found.name = updated.name;
+        found.description = updated.description;
+        tlCtrl.refresh();
     }
 }

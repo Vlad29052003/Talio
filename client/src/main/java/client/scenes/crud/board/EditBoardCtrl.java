@@ -62,6 +62,13 @@ public class EditBoardCtrl {
      * to update this board.
      */
     public void confirm() {
+        if(text.getText().isEmpty()) {
+            var alert = new Alert(Alert.AlertType.ERROR);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setContentText("There name cannot be empty!\r");
+            alert.showAndWait();
+            return;
+        }
         this.board.name = text.getText();
         try {
             this.board = server.updateBoard(board);

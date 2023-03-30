@@ -63,6 +63,13 @@ public class CreateTaskListCtrl {
      * Creates a new TaskList.
      */
     public void add() {
+        if(text.getText().isEmpty()) {
+            var alert = new Alert(Alert.AlertType.ERROR);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setContentText("There name cannot be empty!\r");
+            alert.showAndWait();
+            return;
+        }
         try {
             board = server.addTaskList(new TaskList(text.getText()), board.id);
             System.out.println(board);

@@ -35,6 +35,20 @@ public class TaskCtrl {
     }
 
     /**
+     * Switches the scene to Edit Task.
+     */
+    public void edit() {
+        mainCtrl.editTask(task);
+    }
+
+    /**
+     * Switches the scene to Delete Task.
+     */
+    public void delete() {
+        mainCtrl.deleteTask(task);
+    }
+
+    /**
      * Set the {@link Task} to be rendered by this {@link TaskCtrl}.
      *
      * @param task the {@link Task} to be rendered

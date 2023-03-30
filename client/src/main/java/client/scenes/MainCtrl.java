@@ -5,6 +5,9 @@ import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
+import client.scenes.crud.task.CreateTaskCtrl;
+import client.scenes.crud.task.DeleteTaskCtrl;
+import client.scenes.crud.task.EditTaskCtrl;
 import client.scenes.crud.tasklists.CreateTaskListCtrl;
 import client.scenes.crud.tasklists.DeleteTaskListCtrl;
 import client.scenes.crud.tasklists.EditTaskListCtrl;
@@ -43,6 +46,12 @@ public class MainCtrl {
     private Parent boardRoot; // Not a scene as it's to be embedded within the workspaceScene.
     private Node dnd;
     private WebsocketSynchroniser boardSyncroniser;
+    private DeleteTaskCtrl deleteTaskCtrl;
+    private Scene deleteTask;
+    private CreateTaskCtrl createTaskCtrl;
+    private Scene createTask;
+    private EditTaskCtrl editTaskCtrl;
+    private Scene editTask;
 
     /**
      * Sets myFXML.
@@ -136,29 +145,11 @@ public class MainCtrl {
     }
 
     /**
-     * Gets the drag and drop node.
-     *
-     * @return  the drag and drop node.
-     */
-    public Node getDragAndDropNode() {
-        return dnd;
-    }
-
-    /**
-     * Sets the drag and drop node.
-     *
-     * @param dnd is the drag and drop node.
-     */
-    public void setDragAndDropNode(Node dnd) {
-        this.dnd = dnd;
-    }
-
-    /**
      * Initializes the Scenes and Controllers for the CRUD operations regarding TaskList.
      *
      * @param deleteTaskList is the Scene for deleting a TaskList.
-     * @param newTaskList is the Scene for creating a TaskList.
-     * @param editTaskList is the Scene for editing a TaskList.
+     * @param newTaskList    is the Scene for creating a TaskList.
+     * @param editTaskList   is the Scene for editing a TaskList.
      */
     public void initializeTaskListCrud(Pair<DeleteTaskListCtrl, Parent> deleteTaskList,
                                        Pair<CreateTaskListCtrl, Parent> newTaskList,
@@ -175,9 +166,48 @@ public class MainCtrl {
     }
 
     /**
+     * Initializes the controllers and scenes for the
+     * task crud operations.
+     *
+     * @param deleteTask is the Scene for deleting a Task.
+     * @param newTask    is the Scene for creating a Task.
+     * @param editTask   is the Scene for editing a Task.
+     */
+    public void initializeTaskCrud(Pair<DeleteTaskCtrl, Parent> deleteTask,
+                                   Pair<CreateTaskCtrl, Parent> newTask,
+                                   Pair<EditTaskCtrl, Parent> editTask) {
+        this.deleteTaskCtrl = deleteTask.getKey();
+        this.deleteTask = new Scene(deleteTask.getValue());
+
+        this.createTaskCtrl = newTask.getKey();
+        this.createTask = new Scene(newTask.getValue());
+
+        this.editTaskCtrl = editTask.getKey();
+        this.editTask = new Scene(editTask.getValue());
+    }
+
+    /**
+     * Gets the drag and drop node.
+     *
+     * @return the drag and drop node.
+     */
+    public Node getDragAndDropNode() {
+        return dnd;
+    }
+
+    /**
+     * Sets the drag and drop node.
+     *
+     * @param dnd is the drag and drop node.
+     */
+    public void setDragAndDropNode(Node dnd) {
+        this.dnd = dnd;
+    }
+
+    /**
      * Stops all services depending on MainCtrl
      */
-    public void stop(){
+    public void stop() {
         this.boardSyncroniser.stop();
     }
 
@@ -187,7 +217,7 @@ public class MainCtrl {
      * @param board is the Board to be displayed.
      */
     public void switchBoard(Board board) {
-        if(boardCtrl != null)
+        if (boardCtrl != null)
             boardCtrl.setBoard(board);
     }
 
@@ -267,11 +297,22 @@ public class MainCtrl {
 
     /**
      * Switches to the AddTaskList Scene.
+     *
      * @param board
      */
     public void addTaskList(Board board) {
         primaryStage.setScene(createList);
         createListCtrl.setBoard(board);
+    }
+
+    /**
+     * Switches to AddTask Scene.
+     *
+     * @param taskList is the TaskList associated with the scene.
+     */
+    public void addTask(TaskList taskList) {
+        primaryStage.setScene(createTask);
+        createTaskCtrl.setTaskList(taskList);
     }
 
     /**
@@ -295,6 +336,16 @@ public class MainCtrl {
     }
 
     /**
+     * Switches to the EditTask Scene.
+     *
+     * @param task is the Task to be edited.
+     */
+    public void editTask(Task task) {
+        primaryStage.setScene(editTask);
+        editTaskCtrl.setTask(task);
+    }
+
+    /**
      * Switches to the DeleteBoard Scene.
      *
      * @param board is the Board to be deleted.
@@ -312,6 +363,16 @@ public class MainCtrl {
     public void deleteTaskList(TaskList taskList) {
         primaryStage.setScene(deleteList);
         deleteListCtrl.setTaskList(taskList);
+    }
+
+    /**
+     * Switches to the DeleteTask Scene.
+     *
+     * @param task is the Task to be deleted.
+     */
+    public void deleteTask(Task task) {
+        primaryStage.setScene(deleteTask);
+        deleteTaskCtrl.setTask(task);
     }
 
     /**
@@ -381,7 +442,7 @@ public class MainCtrl {
      *
      * @param board is the new board.
      */
-    public void refreshBoard(Board board){
+    public void refreshBoard(Board board) {
         boardCtrl.setBoard(board);
     }
 
@@ -403,6 +464,24 @@ public class MainCtrl {
      */
     public void refresh() {
         this.boardCtrl.refresh();
+    }
+
+    /**
+     * Updates the task in the ListView.
+     *
+     * @param task is the updated Task.
+     */
+    public void updateTaskInList(Task task) {
+        boardCtrl.updateTask(task);
+    }
+
+    /**
+     * Removes the task from ListView.
+     *
+     * @param task is the Task to be removed.
+     */
+    public void removeTask(Task task) {
+        boardCtrl.removeTask(task);
     }
 
     public class MyUpdateHandler extends UpdateHandler {

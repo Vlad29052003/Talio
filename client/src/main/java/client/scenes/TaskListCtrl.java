@@ -90,6 +90,13 @@ public class TaskListCtrl {
     }
 
     /**
+     * Adds a task to this taskList.
+     */
+    public void addTask() {
+        mainCtrl.addTask(this.taskList);
+    }
+
+    /**
      * Re-render the task list view UI.
      * This will refresh all tasks within the list.
      */
@@ -201,5 +208,4 @@ public class TaskListCtrl {
             refresh();
         }
     }
-
 }
