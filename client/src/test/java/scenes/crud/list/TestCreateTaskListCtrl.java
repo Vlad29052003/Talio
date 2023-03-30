@@ -2,11 +2,8 @@ package scenes.crud.list;
 
 import client.scenes.MainCtrl;
 import client.scenes.crud.board.CreateNewBoardCtrl;
-import client.scenes.crud.task.CreateTaskCtrl;
 import client.scenes.crud.tasklists.CreateTaskListCtrl;
 import commons.Board;
-import commons.Task;
-import commons.TaskList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import scenes.ServerUtilsTestingMock;

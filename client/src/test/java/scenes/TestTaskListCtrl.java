@@ -2,7 +2,6 @@ package scenes;
 
 import client.scenes.MainCtrl;
 import client.scenes.TaskListCtrl;
-import commons.Task;
 import commons.TaskList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

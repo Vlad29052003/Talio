@@ -4,13 +4,9 @@ import client.utils.ServerUtils;
 import commons.Board;
 import commons.Task;
 import commons.TaskList;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.Response;
-import org.glassfish.jersey.client.ClientConfig;
 import java.util.ArrayList;
 import java.util.List;
-import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 public class ServerUtilsTestingMock extends ServerUtils {
     private long inc;
@@ -28,10 +24,11 @@ public class ServerUtilsTestingMock extends ServerUtils {
         tasks = new ArrayList<>();
     }
 
-    public List<TaskList> getLists() {
-        return lists;
-    }
-
+    /**
+     * Gets the tasks.
+     *
+     * @return the tasks.
+     */
     public List<Task> getTasks() {
         return tasks;
     }
