@@ -63,14 +63,12 @@ public class CreateNewBoardCtrl {
         Board newBoard = new Board(text.getText(), "");
         try {
             this.board = server.addBoard(newBoard);
-            mainCtrl.addBoardToWorkspace(board);
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.setContentText("There has been an error!\r" + e.getMessage());
             alert.showAndWait();
         }
-        mainCtrl.addBoardToWorkspace(board);
         mainCtrl.cancel();
     }
 

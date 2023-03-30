@@ -21,6 +21,8 @@ public class Main extends Application {
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
 
+    private MainCtrl mainCtrl;
+
     /**
      * The main function. Immediately hands over control to JavaFX.
      * @param args an array of command line arguments given
@@ -69,10 +71,16 @@ public class Main extends Application {
                 EditTaskListCtrl.class,
                 "client", "scenes", "crud", "EditListName.fxml");
 
-        var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
+        mainCtrl = INJECTOR.getInstance(MainCtrl.class);
 
         mainCtrl.initialize(primaryStage, FXML, workspace, board);
         mainCtrl.initializeBoardCrud(joinBoard, createBoard, editBoard, deleteBoard);
         mainCtrl.initializeTaskListCrud(deleteTaskList, newTaskList, editTaskList);
+    }
+
+    @Override
+    public void stop() throws Exception {
+        mainCtrl.stop();
+        super.stop();
     }
 }

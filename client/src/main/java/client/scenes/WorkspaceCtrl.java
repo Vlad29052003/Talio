@@ -9,6 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class WorkspaceCtrl {
     private final ServerUtils server;
@@ -118,6 +119,7 @@ public class WorkspaceCtrl {
      * @param newBoard is the board to be added.
      */
     public void addBoardToWorkspace(Board newBoard) {
+        if(mainCtrl.isPresent(newBoard)) return;
         var pair = mainCtrl.newBoardListingView(newBoard);
         boards.add(pair.getKey());
         boardWorkspace.getChildren().add(pair.getValue());
@@ -139,10 +141,19 @@ public class WorkspaceCtrl {
      * @param removed is the Board to be removed.
      */
     public void removeFromWorkspace(Board removed) {
-        BoardListingCtrl boardListingCtrl =
-                boards.stream().filter(b -> b.getBoard().equals(removed)).findFirst().get();
-        boards.remove(boardListingCtrl);
-        boardWorkspace.getChildren().remove(boardListingCtrl.getRoot());
+        this.removeFromWorkspace(removed.id);
+    }
+
+    /**
+     * Removed a Board from the workspace.
+     *
+     * @param id is the id of the Board to be removed.
+     */
+    public void removeFromWorkspace(long id) {
+        List<BoardListingCtrl> toBeRemoved = boards.stream()
+            .filter(b -> b.getBoard().id == id)
+            .collect(Collectors.toList());
+        toBeRemoved.forEach(this::removeFromWorkspace);
     }
 
     /**

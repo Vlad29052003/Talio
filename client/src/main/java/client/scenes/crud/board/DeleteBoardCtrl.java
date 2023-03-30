@@ -65,7 +65,6 @@ public class DeleteBoardCtrl {
             alert.setContentText("This board does not exist on the server!");
             alert.showAndWait();
         }
-        mainCtrl.removeFromWorkspace(board);
         mainCtrl.cancel();
     }
 

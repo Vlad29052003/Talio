@@ -8,9 +8,12 @@ import client.scenes.crud.board.JoinBoardCtrl;
 import client.scenes.crud.tasklists.CreateTaskListCtrl;
 import client.scenes.crud.tasklists.DeleteTaskListCtrl;
 import client.scenes.crud.tasklists.EditTaskListCtrl;
+import client.utils.UpdateHandler;
+import client.utils.websocket.WebsocketSynchroniser;
 import commons.Board;
 import commons.Task;
 import commons.TaskList;
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -36,6 +39,7 @@ public class MainCtrl {
     private DeleteTaskListCtrl deleteListCtrl;
     private Scene deleteList;
     private BoardCtrl boardCtrl;
+    private WebsocketSynchroniser boardSyncroniser;
 
     /**
      * Initializes the primaryStage, WorkspaceScene
@@ -64,6 +68,9 @@ public class MainCtrl {
         primaryStage.setScene(workspaceScene);
 
         workspaceCtrl.setBoardView(board.getValue());
+
+        this.boardSyncroniser = new WebsocketSynchroniser(new MyUpdateHandler());
+        boardSyncroniser.start();
 
         primaryStage.show();
     }
@@ -142,6 +149,13 @@ public class MainCtrl {
     }
 
     /**
+     * Stops all services depending on MainCtrl
+     */
+    public void stop(){
+        this.boardSyncroniser.stop();
+    }
+
+    /**
      * Embeds a Board within the WorkspaceScene.
      *
      * @param board is the Board to be displayed.
@@ -166,7 +180,16 @@ public class MainCtrl {
      * @param removed is the Board to be removed;
      */
     public void removeFromWorkspace(Board removed) {
-        workspaceCtrl.removeFromWorkspace(removed);
+        this.removeFromWorkspace(removed.id);
+    }
+
+    /**
+     * Removed a Board from the workspace.
+     *
+     * @param id is the id of the Board to be removed;
+     */
+    public void removeFromWorkspace(long id) {
+        workspaceCtrl.removeFromWorkspace(id);
         boardCtrl.setBoard(null);
     }
 
@@ -263,7 +286,7 @@ public class MainCtrl {
      * @return true if present, false otherwise.
      */
     public boolean isPresent(Board board) {
-        return workspaceCtrl.getBoards().stream().anyMatch(w -> w.getBoard().equals(board));
+        return workspaceCtrl.getBoards().stream().anyMatch(w -> w.getBoard().id == board.id);
     }
 
     /**
@@ -325,4 +348,22 @@ public class MainCtrl {
     public void refresh() {
         this.boardCtrl.refresh();
     }
+
+    public class MyUpdateHandler extends UpdateHandler {
+
+        @Override
+        public void onBoardCreated(Board board) {
+        }
+
+        @Override
+        public void onBoardDeleted(long id) {
+            Platform.runLater(() -> removeFromWorkspace(id));
+        }
+
+        @Override
+        public void onBoardUpdated(Board board) {
+            Platform.runLater(() -> updateBoard(board));
+        }
+    }
+
 }
