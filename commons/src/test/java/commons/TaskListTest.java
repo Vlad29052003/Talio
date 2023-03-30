@@ -2,9 +2,8 @@ package commons;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.HashSet;
-
+import java.util.ArrayList;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -30,9 +29,9 @@ public class TaskListTest {
         board1 = new Board("board1", "White");
         board2 = new Board("board2", "White");
         board3 = null;
-        list1 = new TaskList("1", 1);
-        list2 = new TaskList("2", 2);
-        list3 = new TaskList("1",1);
+        list1 = new TaskList("1");
+        list2 = new TaskList("2");
+        list3 = new TaskList("1");
 
 
         t1 = new Task("t1", 0, "this is t1");
@@ -43,14 +42,13 @@ public class TaskListTest {
 
     @Test
     public void testConstructor() {
-        TaskList nulllist = new TaskList();
-        assertNotNull(nulllist);
+        TaskList nullList = new TaskList();
+        assertNotNull(nullList);
 
-        TaskList list = new TaskList("list", 20);
+        TaskList list = new TaskList("list");
         assertNotNull(list);
         assertEquals(list.name, "list");
-        assertEquals(list.index, 20);
-        assertEquals(list.tasks, new HashSet<>());
+        assertEquals(list.tasks, new ArrayList<>());
     }
 
     @Test
@@ -80,7 +78,7 @@ public class TaskListTest {
         assertNotEquals(list1.board,list3.board);
 
         list1.setBoard(board2);
-        assertEquals(list1.board,list3.board);
+        assertEquals(list1.board,list3.getBoard());
     }
 
     @Test
@@ -108,6 +106,20 @@ public class TaskListTest {
 
         list1.removeTask(t1);
         assertTrue(list1.tasks.isEmpty());
+    }
+
+    @Test
+    public void testSort() {
+        t2.index = 0;
+        t4.index = 1;
+        t1.index = 2;
+        list1.addTask(t1);
+        list1.addTask(t2);
+        list1.addTask(t4);
+        ArrayList<Task> expected = new ArrayList<>(List.of(t2, t4, t1));
+
+        list1.sort();
+        assertEquals(list1.tasks, expected);
     }
 
     @Test

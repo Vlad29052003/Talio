@@ -142,7 +142,7 @@ public class TaskListControllerTest {
     }
 
     private TaskList getList(String name) {
-        return new TaskList(name, 0);
+        return new TaskList(name);
     }
 
     private Board getBoard(String name) {

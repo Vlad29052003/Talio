@@ -54,7 +54,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <Button alignment="CENTER_RIGHT" mnemonicParsing="false" text="Add Task List">
+            <Button fx:id="addListButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#addTaskList" text="Add Task List" visible="false">
                <HBox.margin>
                   <Insets />
                </HBox.margin>

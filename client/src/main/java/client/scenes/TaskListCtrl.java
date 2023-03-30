@@ -10,21 +10,19 @@ import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
-import javafx.scene.control.TitledPane;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.util.Duration;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 
 public class TaskListCtrl {
     private final ServerUtils server;
@@ -32,7 +30,7 @@ public class TaskListCtrl {
     private TaskList taskList;
     private ArrayList<TaskCtrl> taskControllers = new ArrayList<>();
     @FXML
-    private TitledPane title;
+    private Label title;
     @FXML
     private VBox taskContainer;
     private Region placeholder;
@@ -70,6 +68,20 @@ public class TaskListCtrl {
     }
 
     /**
+     * Deletes the TaskList associated with this object.
+     */
+    public void delete() {
+        mainCtrl.deleteTaskList(this.taskList);
+    }
+
+    /**
+     * Edits the TaskList associated with this object.
+     */
+    public void edit() {
+        mainCtrl.editTaskList(this.taskList);
+    }
+
+    /**
      * Re-render the task list view UI.
      * This will refresh all tasks within the list.
      */
@@ -79,11 +91,8 @@ public class TaskListCtrl {
         this.taskContainer.getChildren().clear();
         this.taskControllers.clear();
 
-        Set<Task> tasks = this.taskList.tasks;
-        Iterator<Task> it = tasks.stream().sorted(Comparator.comparingInt(o -> o.index)).iterator();
-        while (it.hasNext()) {
-            Task task = it.next();
-
+        List<Task> tasks = this.taskList.tasks;
+        for (Task task : tasks) {
             Pair<TaskCtrl, Parent> p = mainCtrl.newTaskView(task);
 
             TaskCtrl controller = p.getKey();
@@ -129,12 +138,6 @@ public class TaskListCtrl {
             taskContainer.getChildren().add(placeholder);
         } else {
             taskContainer.getChildren().add(index, placeholder);
-            for (int i = index + 1; i < taskContainer.getChildren().size(); i++) {
-                Node node = taskContainer.getChildren().get(i);
-                TranslateTransition tt = new TranslateTransition(Duration.millis(200), node);
-                tt.setToY(tt.getToY() + placeholder.getBoundsInParent().getHeight());
-                tt.play();
-            }
         }
 
         event.consume();

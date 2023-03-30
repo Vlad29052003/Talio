@@ -17,13 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Task {
+public class Task implements Comparable<Task> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public long id;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonBackReference
     TaskList list;
 
@@ -40,6 +40,7 @@ public class Task {
     @SuppressWarnings("unused")
     public Task() {
         // for object mappers
+        subtasks = new ArrayList<>();
     }
 
     /**
@@ -131,5 +132,18 @@ public class Task {
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, SIMPLE_STYLE);
+    }
+
+    /**
+     * Used to compare 2 Task objects.
+     *
+     * @param o the object to be compared.
+     * @return 1 if this is greater, 0 if equal, -1 if o is greater.
+     */
+    @Override
+    public int compareTo(Task o) {
+        if(o == null)
+            throw new NullPointerException();
+        return Long.compare(this.index, o.index);
     }
 }
