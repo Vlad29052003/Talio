@@ -17,6 +17,7 @@ public class TestJoinBoardCtrl {
     private MainCtrl mainCtrl;
     private JoinBoardCtrl joinBoardCtrl;
     private Board board;
+
     @BeforeEach
     public void setUp() {
         this.server = new ServerUtilsTestingMock();

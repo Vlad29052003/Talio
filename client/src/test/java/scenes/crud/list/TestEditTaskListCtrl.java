@@ -16,11 +16,12 @@ public class TestEditTaskListCtrl {
     private ServerUtilsTestingMock server;
     private MainCtrl mainCtrl;
     private EditTaskCtrl editTaskCtrl;
+
     @BeforeEach
     public void setUp() {
         this.server = new ServerUtilsTestingMock();
         this.mainCtrl = mock(MainCtrl.class);
-        this.editTaskCtrl = new EditTaskCtrl(mainCtrl, server);
+        this.editTaskCtrl = new EditTaskCtrl(server, mainCtrl);
     }
 
     @Test

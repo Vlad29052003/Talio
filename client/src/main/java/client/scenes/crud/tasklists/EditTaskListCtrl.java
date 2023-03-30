@@ -10,9 +10,11 @@ import javafx.scene.control.TextField;
 import javafx.fxml.FXML;
 import javafx.stage.Modality;
 
-/**import javafx.scene.control.Alert;
-import jakarta.ws.rs.WebApplicationException;
-import javafx.stage.Modality;**/
+/**
+ * import javafx.scene.control.Alert;
+ * import jakarta.ws.rs.WebApplicationException;
+ * import javafx.stage.Modality;
+ **/
 
 public class EditTaskListCtrl {
     private ServerUtils server;
@@ -66,7 +68,7 @@ public class EditTaskListCtrl {
      * to update this taskList.
      */
     public void edit() {
-        if(text.getText().isEmpty()) {
+        if (text.getText().isEmpty()) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.setContentText("There name cannot be empty!\r");

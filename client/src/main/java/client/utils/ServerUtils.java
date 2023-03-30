@@ -60,7 +60,7 @@ public class ServerUtils {
      * Sends a request to save a TaskList on the server.
      *
      * @param taskList is the TaskList to be saved.
-     * @param id is the id of the board.
+     * @param id       is the id of the board.
      * @return the saved TaskList (after server modifications).
      */
     public Board addTaskList(TaskList taskList, long id) {
@@ -75,7 +75,7 @@ public class ServerUtils {
      * Saves a task on the server.
      *
      * @param task is the Task to be saved.
-     * @param id is the id of the TaskList.
+     * @param id   is the id of the TaskList.
      * @return the saved Task.
      */
     public Task addTask(Task task, long id) {
@@ -187,8 +187,8 @@ public class ServerUtils {
      * Sends a request to update the list and index of a task.
      *
      * @param newListId is the id of the new list.
-     * @param index is the new index.
-     * @param taskId is the id of the task.
+     * @param index     is the new index.
+     * @param taskId    is the id of the task.
      */
     public void dragAndDrop(long newListId, int index, long taskId) {
         String response = null;

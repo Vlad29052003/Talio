@@ -16,11 +16,11 @@ public class DeleteTaskCtrl {
     /**
      * Creates a new {@link DeleteTaskCtrl} object.
      *
+     * @param server   is the ServerUtils.
      * @param mainCtrl is the MainCtrl.
-     * @param server is the ServerUtils.
      */
     @Inject
-    public DeleteTaskCtrl(MainCtrl mainCtrl, ServerUtils server) {
+    public DeleteTaskCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }

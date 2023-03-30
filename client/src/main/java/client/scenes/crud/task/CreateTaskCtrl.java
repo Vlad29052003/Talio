@@ -24,11 +24,11 @@ public class CreateTaskCtrl {
     /**
      * Creates a new {@link CreateTaskCtrl} object.
      *
+     * @param server   is the ServerUtils.
      * @param mainCtrl is the MainCtrl.
-     * @param server is the ServerUtils.
      */
     @Inject
-    public CreateTaskCtrl(MainCtrl mainCtrl, ServerUtils server) {
+    public CreateTaskCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }

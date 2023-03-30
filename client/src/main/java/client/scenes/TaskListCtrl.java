@@ -51,6 +51,7 @@ public class TaskListCtrl {
 
     /**
      * Getter for root.
+     *
      * @return root field
      */
     public VBox getRoot() {
@@ -191,7 +192,7 @@ public class TaskListCtrl {
      * Sends a request to the server to update the list
      * and the index of the moved task.
      *
-     * @param taskId     is the id of the moved Task.
+     * @param taskId   is the id of the moved Task.
      * @param newIndex is the newIndex within the TaskList.
      */
     public void sendMoveRequest(long taskId, int newIndex) {

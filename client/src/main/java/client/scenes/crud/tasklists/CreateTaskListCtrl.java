@@ -11,9 +11,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 
-/**import jakarta.ws.rs.WebApplicationException;
-import javafx.scene.control.Alert;
-import javafx.stage.Modality;**/
+/**
+ * import jakarta.ws.rs.WebApplicationException;
+ * import javafx.scene.control.Alert;
+ * import javafx.stage.Modality;
+ **/
 
 public class CreateTaskListCtrl {
     private ServerUtils server;
@@ -36,6 +38,7 @@ public class CreateTaskListCtrl {
 
     /**
      * Return the board on which this CRUD operation is currently creating a list.
+     *
      * @return the relative {@link Board}
      */
     public Board getBoard() {
@@ -44,6 +47,7 @@ public class CreateTaskListCtrl {
 
     /**
      * Set the board on which this CRUD operation will be creating a list
+     *
      * @param board the relative {@link Board}
      */
     public void setBoard(Board board) {
@@ -64,7 +68,7 @@ public class CreateTaskListCtrl {
      * Creates a new TaskList.
      */
     public void add() {
-        if(text.getText().isEmpty()) {
+        if (text.getText().isEmpty()) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.setContentText("There name cannot be empty!\r");

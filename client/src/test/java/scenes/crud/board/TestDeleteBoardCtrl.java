@@ -19,6 +19,7 @@ public class TestDeleteBoardCtrl {
     private MainCtrl mainCtrl;
     private DeleteBoardCtrl deleteCtrl;
     private Board board;
+
     @BeforeEach
     public void setUp() {
         this.server = new ServerUtilsTestingMock();

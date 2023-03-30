@@ -23,11 +23,11 @@ public class EditTaskCtrl {
     /**
      * Creates a new {@link EditTaskCtrl} object.
      *
-     * @param mainCtrl is the MainCtrl.
      * @param server   is the ServerUtils.
+     * @param mainCtrl is the MainCtrl.
      */
     @Inject
-    public EditTaskCtrl(MainCtrl mainCtrl, ServerUtils server) {
+    public EditTaskCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }

@@ -24,7 +24,7 @@ public class TestDeleteTaskListCtrl {
     public void setUp() {
         this.server = new ServerUtilsTestingMock();
         this.mainCtrl = mock(MainCtrl.class);
-        this.deleteCtrl = new DeleteTaskCtrl(mainCtrl, server);
+        this.deleteCtrl = new DeleteTaskCtrl(server, mainCtrl);
         this.task = new Task("testing", 0, "");
     }
 

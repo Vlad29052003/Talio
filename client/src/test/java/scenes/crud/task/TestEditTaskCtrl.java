@@ -19,6 +19,7 @@ public class TestEditTaskCtrl {
     private ServerUtilsTestingMock server;
     private MainCtrl mainCtrl;
     private EditTaskListCtrl editTaskListCtrl;
+
     @BeforeEach
     public void setUp() {
         this.server = new ServerUtilsTestingMock();

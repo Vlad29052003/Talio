@@ -55,12 +55,13 @@ public class WorkspaceCtrl implements Initializable {
 
         try {
             this.file = new File(System.getProperty("user.home"), "talio_client.dat");
-            if(!file.exists())file.createNewFile();
+            if (!file.exists()) file.createNewFile();
             if (file.length() == 0) {
                 data = new ClientData();
                 data.addJoinedBoardList(new JoinedBoardList("http://localhost:8080/"));
                 new Thread(this::writeToFile).start();
-            } else new Thread(this::readData).start();;
+            } else new Thread(this::readData).start();
+            ;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,7 +73,7 @@ public class WorkspaceCtrl implements Initializable {
      *
      * @param server   is the ServerUtils.
      * @param mainCtrl is the MainCtrl.
-     * @param file is the File.
+     * @param file     is the File.
      */
     public WorkspaceCtrl(ServerUtils server, MainCtrl mainCtrl, File file) {
         this.server = server;
@@ -335,7 +336,7 @@ public class WorkspaceCtrl implements Initializable {
      * @param newBoard is the board to be added.
      */
     public void addBoardToWorkspace(Board newBoard) {
-        if(mainCtrl.isPresent(newBoard)) return;
+        if (mainCtrl.isPresent(newBoard)) return;
         var pair = mainCtrl.newBoardListingView(newBoard);
         boards.add(pair.getKey());
         boardWorkspace.getChildren().add(pair.getValue());
@@ -374,8 +375,8 @@ public class WorkspaceCtrl implements Initializable {
      */
     public void removeFromWorkspace(long id) {
         List<BoardListingCtrl> toBeRemoved = boards.stream()
-            .filter(b -> b.getBoard().id == id)
-            .collect(Collectors.toList());
+                .filter(b -> b.getBoard().id == id)
+                .collect(Collectors.toList());
         toBeRemoved.forEach(this::removeFromWorkspace);
     }
 

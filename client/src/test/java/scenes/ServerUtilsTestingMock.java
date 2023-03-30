@@ -38,6 +38,7 @@ public class ServerUtilsTestingMock extends ServerUtils {
 
     /**
      * Get the list of boards known by this {@link ServerUtils} mock.
+     *
      * @return the list of known boards
      */
     public List<Board> getBoards() {
@@ -59,7 +60,7 @@ public class ServerUtilsTestingMock extends ServerUtils {
 
     @Override
     public Response delete(Board board) {
-        if(boards.contains(board)) {
+        if (boards.contains(board)) {
             boards.remove(board);
             return Response.ok().build();
         }
@@ -69,7 +70,7 @@ public class ServerUtilsTestingMock extends ServerUtils {
     @Override
     public Board updateBoard(Board board) {
         var foundBoard = boards.stream().filter(b -> b.id == board.id).findFirst();
-        if(foundBoard.isPresent()) {
+        if (foundBoard.isPresent()) {
             Board toBeUpdated = foundBoard.get();
             toBeUpdated.name = board.name;
             return toBeUpdated;
@@ -86,7 +87,7 @@ public class ServerUtilsTestingMock extends ServerUtils {
 
     @Override
     public Response delete(Task task) {
-        if(tasks.contains(task)){
+        if (tasks.contains(task)) {
             tasks.remove(task);
             return Response.ok().build();
         }
@@ -102,7 +103,7 @@ public class ServerUtilsTestingMock extends ServerUtils {
 
     @Override
     public Response deleteTaskList(TaskList taskList) {
-        if(tasks.contains(taskList)){
+        if (tasks.contains(taskList)) {
             tasks.remove(taskList);
             return Response.ok().build();
         }

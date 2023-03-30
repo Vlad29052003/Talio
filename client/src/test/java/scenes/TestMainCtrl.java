@@ -154,7 +154,7 @@ public class TestMainCtrl {
         List<Task> added = new ArrayList<>(List.of(t1));
         doAnswer(invocation -> {
             t[0] = invocation.getArgument(0);
-            if(added.contains(t[0]))added.remove(t[0]);
+            if (added.contains(t[0])) added.remove(t[0]);
             return null;
         }).when(boardCtrl).removeTask(Mockito.any(Task.class));
         mainCtrl.removeTask(t1);
@@ -182,7 +182,7 @@ public class TestMainCtrl {
         List<TaskList> added = new ArrayList<>(List.of(t1));
         doAnswer(invocation -> {
             t[0] = invocation.getArgument(0);
-            if(added.contains(t[0]))added.remove(t[0]);
+            if (added.contains(t[0])) added.remove(t[0]);
             return null;
         }).when(boardCtrl).removeTaskListFromBoard(Mockito.any(TaskList.class));
         mainCtrl.removeTaskList(t1);

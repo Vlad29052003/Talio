@@ -26,10 +26,10 @@ public abstract class UpdateHandler {
      *
      * @param update to be dispatched
      */
-    public final void dispatchBoardUpdate(BoardUpdateMessage update){
-        if(!(update.getObject() instanceof Board || update.getObject() == null)) return;
+    public final void dispatchBoardUpdate(BoardUpdateMessage update) {
+        if (!(update.getObject() instanceof Board || update.getObject() == null)) return;
         Board board = (Board) update.getObject();
-        switch(update.getOperation()){
+        switch (update.getOperation()) {
             case CREATED:
                 onBoardCreated(board);
                 break;

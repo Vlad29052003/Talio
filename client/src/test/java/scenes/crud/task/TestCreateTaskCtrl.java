@@ -23,7 +23,7 @@ public class TestCreateTaskCtrl {
     public void setUp() {
         this.server = new ServerUtilsTestingMock();
         this.mainCtrl = mock(MainCtrl.class);
-        this.createTaskCtrl = new CreateTaskCtrl(mainCtrl, server);
+        this.createTaskCtrl = new CreateTaskCtrl(server, mainCtrl);
     }
 
     @Test

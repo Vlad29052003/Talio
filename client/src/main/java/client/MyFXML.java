@@ -20,6 +20,7 @@ public class MyFXML {
 
     /**
      * Instantiate a new {@link MyFXML}. Should only be instantiated by {@link Main}
+     *
      * @param injector the global instance of the {@link Injector} dependency injector
      */
     public MyFXML(Injector injector) {
@@ -28,10 +29,11 @@ public class MyFXML {
 
     /**
      * Load a FXML file and instantiate a controller for it.
-     * @param c the {@link Class} of the relevant controller
+     *
+     * @param c     the {@link Class} of the relevant controller
      * @param parts the path to the FXML file to be loaded
+     * @param <T>   the type of the controller class
      * @return a pair of the instantiated controller and the root node of the loaded view
-     * @param <T> the type of the controller class
      */
     public <T> Pair<T, Parent> load(Class<T> c, String... parts) {
         try {

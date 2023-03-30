@@ -28,6 +28,7 @@ public class Main extends Application {
 
     /**
      * The main function. Immediately hands over control to JavaFX.
+     *
      * @param args an array of command line arguments given
      */
     public static void main(String[] args) {
