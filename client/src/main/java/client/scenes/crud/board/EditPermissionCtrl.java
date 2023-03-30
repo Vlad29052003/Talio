@@ -7,7 +7,7 @@ import commons.Board;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
-public class ReadWritePermissionsCtrl {
+public class EditPermissionCtrl {
     private ServerUtils server;
     private MainCtrl mainCtrl;
     private Board board;
@@ -15,13 +15,13 @@ public class ReadWritePermissionsCtrl {
     private TextField text;
 
     /**
-     * Creates a new {@link ReadWritePermissionsCtrl} object.
+     * Creates a new {@link EditPermissionCtrl} object.
      *
      * @param server   is the ServerUtils.
      * @param mainCtrl is the MainCtrl.
      */
     @Inject
-    public ReadWritePermissionsCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public EditPermissionCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
@@ -53,8 +53,25 @@ public class ReadWritePermissionsCtrl {
             board.edit = true;
             mainCtrl.switchBoard(board);
         }else{
+            reset();
             mainCtrl.accessDenied();
         }
     }
 
+    /**
+     * Resets the fields in this object.
+     */
+    public void reset() {
+        text.setText("");
+        this.board = null;
+    }
+
+    /**
+     * Getter for the selected board.
+     *
+     * @return board
+     */
+    public Board getBoard() {
+        return board;
+    }
 }

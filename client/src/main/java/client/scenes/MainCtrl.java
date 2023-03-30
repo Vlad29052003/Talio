@@ -4,18 +4,20 @@ import client.MyFXML;
 import client.scenes.crud.admin.AccessDeniedCtrl;
 import client.scenes.crud.admin.GrantAdminCtrl;
 import client.scenes.crud.admin.PermissionAdminCtrl;
-import client.scenes.crud.admin.ReadWritePasswordCtrl;
+import client.scenes.crud.admin.EditBoardPasswordCtrl;
 import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
-import client.scenes.crud.board.ReadWritePermissionsCtrl;
+import client.scenes.crud.board.EditPermissionCtrl;
 import client.scenes.crud.board.YouHavePermissionCtrl;
 import commons.Board;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+
+import java.util.List;
 
 public class MainCtrl {
     private Stage primaryStage;
@@ -37,13 +39,12 @@ public class MainCtrl {
     private AccessDeniedCtrl accessDeniedCtrl;
     private Scene permissionAdmin;
     private PermissionAdminCtrl permissionAdminCtrl;
-    private Scene readWritePermissions;
-    private ReadWritePermissionsCtrl readWritePermissionsCtrl;
+    private Scene editPermission;
+    private EditPermissionCtrl editPermissionCtrl;
     private Scene  youHavePermission;
     private YouHavePermissionCtrl youHavePermissionCtrl;
-
-    private Scene readWritePassword;
-    private ReadWritePasswordCtrl readWritePasswordCtrl;
+    private Scene editBoardPassword;
+    private EditBoardPasswordCtrl editBoardPasswordCtrl;
 
     /**
      * Initializes the primaryStage, WorkspaceScene
@@ -101,14 +102,14 @@ public class MainCtrl {
      * @param newBoard    is the Scene for creating a new Board.
      * @param editBoard   is the Scene for editing a Board.
      * @param deleteBoard is the Scene for deleting a Board.
-     * @param readWritePermissions is the Scene for inputting the password of the board.
+     * @param editPermission is the Scene for inputting the password of the board.
      * @param youHavePermission is the Scene for the situation in which you already have permission.
      */
     public void initializeBoardCrud(Pair<JoinBoardCtrl, Parent> joinBoard,
                                     Pair<CreateNewBoardCtrl, Parent> newBoard,
                                     Pair<EditBoardCtrl, Parent> editBoard,
                                     Pair<DeleteBoardCtrl, Parent> deleteBoard,
-                                    Pair<ReadWritePermissionsCtrl, Parent> readWritePermissions,
+                                    Pair<EditPermissionCtrl, Parent> editPermission,
                                     Pair<YouHavePermissionCtrl, Parent> youHavePermission) {
         this.joinBoardCtrl = joinBoard.getKey();
         this.joinBoard = new Scene(joinBoard.getValue());
@@ -122,8 +123,8 @@ public class MainCtrl {
         this.deleteBoardCtrl = deleteBoard.getKey();
         this.deleteBoard = new Scene(deleteBoard.getValue());
 
-        this.readWritePermissionsCtrl = readWritePermissions.getKey();
-        this.readWritePermissions = new Scene(readWritePermissions.getValue());
+        this.editPermissionCtrl = editPermission.getKey();
+        this.editPermission = new Scene(editPermission.getValue());
 
         this.youHavePermissionCtrl = youHavePermission.getKey();
         this.youHavePermission = new Scene(youHavePermission.getValue());
@@ -135,13 +136,13 @@ public class MainCtrl {
      * @param grantAdmin is the Scene for granting admin.
      * @param accessDenied is the scene for not having the administrator permission.
      * @param permissionAdmin is the scene for introducing the correct password.
-     * @param readWritePassword is the scene for the board edit permission.
+     * @param editBoardPassword is the scene for the board edit permission.
      */
 
     public void initializeAdminCrud(Pair<GrantAdminCtrl, Parent> grantAdmin,
                                     Pair<AccessDeniedCtrl, Parent> accessDenied,
                                     Pair<PermissionAdminCtrl, Parent> permissionAdmin,
-                                    Pair<ReadWritePasswordCtrl, Parent> readWritePassword) {
+                                    Pair<EditBoardPasswordCtrl, Parent> editBoardPassword) {
 
         this.grantAdminCtrl = grantAdmin.getKey();
         this.grantAdmin = new Scene(grantAdmin.getValue());
@@ -152,8 +153,8 @@ public class MainCtrl {
         this.permissionAdminCtrl = permissionAdmin.getKey();
         this.permissionAdmin = new Scene(permissionAdmin.getValue());
 
-        this.readWritePasswordCtrl = readWritePassword.getKey();
-        this.readWritePassword = new Scene(readWritePassword.getValue());
+        this.editBoardPasswordCtrl = editBoardPassword.getKey();
+        this.editBoardPassword = new Scene(editBoardPassword.getValue());
     }
 
     /**
@@ -267,6 +268,21 @@ public class MainCtrl {
     }
 
     /**
+     * Adds a List of Board to the workspace.
+     *
+     * @param list is the list of Boards to be added.
+     */
+    public void addBoardListToWorkspace(List<Board> list) {
+        for (Board board : list) {
+            if (board != null) {
+                if(!isPresent(board)) {
+                    workspaceCtrl.addBoardToWorkspace(board);
+                }
+            }
+        }
+        permissionAdmin();
+    }
+    /**
      * Loads the scenes for the BoardListingCtrl.
      *
      * @param newBoard is the Board associated with them.
@@ -297,7 +313,7 @@ public class MainCtrl {
     }
 
     /**
-     * Loads the scene for PermisionAdmin.
+     * Loads the scene for Permision Admin.
      *
      */
     public void permissionAdmin(){
@@ -308,9 +324,9 @@ public class MainCtrl {
      * Loads the scene for Read / Write permissions.
      * @param board for which we check the password.
      */
-    public void readWritePermissions(Board board){
-        readWritePermissionsCtrl.setBoard(board);
-        primaryStage.setScene(readWritePermissions);
+    public void editPermission(Board board){
+        editPermissionCtrl.setBoard(board);
+        primaryStage.setScene(editPermission);
     }
 
     /**
@@ -324,8 +340,8 @@ public class MainCtrl {
      * Edits the board password.
      * @param board the board that is edited.
      */
-    public void editPassword(Board board) {
-        readWritePasswordCtrl.setBoard(board);
-        primaryStage.setScene(readWritePassword);
+    public void editBoardPassword(Board board) {
+        editBoardPasswordCtrl.setBoard(board);
+        primaryStage.setScene(editBoardPassword);
     }
 }

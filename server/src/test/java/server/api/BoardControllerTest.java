@@ -98,7 +98,6 @@ public class BoardControllerTest {
 
         board.name = "updateafter";
         board.password = "passwordafter";
-        board.RWpermission = true;
         board.backgroundColor = "otherColor";
 
         var actual2 = sut.updateBoard(id, board);
@@ -136,7 +135,7 @@ public class BoardControllerTest {
     }
 
     private static Board getBoard(String q) {
-        return new Board(q, q, q, false);
+        return new Board(q, q, q);
     }
 
 

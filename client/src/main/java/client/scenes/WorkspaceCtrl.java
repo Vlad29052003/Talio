@@ -97,7 +97,7 @@ public class WorkspaceCtrl {
      * Switches to the GrantAdmin Scene.
      */
     public void admin() {
-        if(getAdmin() == true){
+        if(getAdmin()){
             mainCtrl.youHavePermission();
         }else{
             mainCtrl.grantAdmin();

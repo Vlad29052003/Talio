@@ -3,8 +3,14 @@ package client.scenes.crud.admin;
 import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Board;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static commons.Password.checkPassword;
 import static commons.Password.getAdmin;
@@ -44,10 +50,30 @@ public class GrantAdminCtrl {
     public void confirm(){
         checkPassword(text.getText());
         if(getAdmin()){
-            mainCtrl.permissionAdmin();
+            String text = server.addAllBoards();
+            List<String> boards = Arrays.asList(text.split("\"id\":"));
+            boards = boards.subList(1,boards.size());
+            List<Long> ids = boards.stream()
+                    .map(x -> x.charAt(0))
+                    .map(x -> Character.getNumericValue(x))
+                    .map(x -> (long)x)
+                    .collect(Collectors.toList());
+            List<Board> list = new ArrayList<>();
+            for(int i = 0; i < ids.size();i++){
+                list.add(server.joinBoard(ids.get(i)));
+            }
+            mainCtrl.addBoardListToWorkspace(list);
         }else{
+            reset();
             mainCtrl.accessDenied();
         }
+    }
+
+    /**
+     * Resets the fields in this object.
+     */
+    private void reset() {
+        text.setText("");
     }
 
 }

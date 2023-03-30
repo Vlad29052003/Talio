@@ -23,7 +23,7 @@ public class BoardTest {
     public void setUp() {
         board1 = new Board("board1", "White");
         board2 = new Board("board2", "Black");
-        board3 = new Board("board1", "White", "",false);
+        board3 = new Board("board1", "White", "");
         list1 = new TaskList("1");
         list2 = new TaskList("2");
         list3 = null;
@@ -35,12 +35,11 @@ public class BoardTest {
         Board nullboard = new Board();
         assertNotNull(nullboard);
 
-        Board board = new Board("board", "White","pass",true);
+        Board board = new Board("board", "White","pass");
         assertNotNull(board);
         assertEquals(board.name, "board");
         assertEquals(board.backgroundColor, "White");
         assertEquals(board.password, "pass");
-        assertTrue(board.RWpermission);
     }
 
     @Test

@@ -8,4 +8,10 @@ public class Tag {
     //just for avoiding errors
     @Id
     public int id;
+
+    /**
+     * Constructor for tag.
+     */
+    public Tag(){
+    }
 }

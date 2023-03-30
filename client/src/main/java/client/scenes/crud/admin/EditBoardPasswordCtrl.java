@@ -7,7 +7,7 @@ import commons.Board;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
-public class ReadWritePasswordCtrl {
+public class EditBoardPasswordCtrl {
 
     private ServerUtils server;
     private MainCtrl mainCtrl;
@@ -16,13 +16,13 @@ public class ReadWritePasswordCtrl {
     private TextField text;
 
     /**
-     * Creates a new {@link ReadWritePasswordCtrl} object.
+     * Creates a new {@link EditBoardPasswordCtrl} object.
      *
      * @param server   is the ServerUtils.
      * @param mainCtrl is the MainCtrl.
      */
     @Inject
-    public ReadWritePasswordCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public EditBoardPasswordCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
@@ -34,7 +34,6 @@ public class ReadWritePasswordCtrl {
      */
     public void setBoard(Board board) {
         this.board = board;
-        this.text.setText(board.name);
     }
 
     /**
@@ -55,10 +54,19 @@ public class ReadWritePasswordCtrl {
             board = new Board(board.name, board.backgroundColor);
         }else{
             board = new Board(board.name, board.backgroundColor,
-                                text.getText(), false);
+                                text.getText());
         }
         server.updateBoard(board);
         mainCtrl.updateBoard(board);
         mainCtrl.cancel();
+    }
+
+    /**
+     * Getter for the Board;
+     *
+     * @return the current board;
+     */
+    public Board getBoard(){
+        return board;
     }
 }

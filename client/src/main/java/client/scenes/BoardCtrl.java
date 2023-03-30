@@ -16,9 +16,9 @@ public class BoardCtrl {
     private final MainCtrl mainCtrl;
     private Board board;
     @FXML
-    private Button readwritepassword;
+    private Button boardpassword;
     @FXML
-    private Button readwrite;
+    private Button editpermission;
     @FXML
     private Label boardTitle;
     @FXML
@@ -79,10 +79,10 @@ public class BoardCtrl {
      * In case you are missing it you have to input it.
      */
     public void editPermissions() {
-        if(board.edit == false) {
-            mainCtrl.readWritePermissions(this.board);
-        }else{
+        if(board.edit) {
             mainCtrl.youHavePermission();
+        }else{
+            mainCtrl.editPermission(board);
         }
     }
 
@@ -90,9 +90,9 @@ public class BoardCtrl {
      * Checks if the user has administrator privileges and edits the board password.
      * If not the scene is changed to the password input.
      */
-    public void passwordEdit() {
-        if(getAdmin() == true){
-            mainCtrl.editPassword(board);
+    public void editBoardPassword() {
+        if(getAdmin()){
+            mainCtrl.editBoardPassword(board);
         }else{
             mainCtrl.grantAdmin();
         }

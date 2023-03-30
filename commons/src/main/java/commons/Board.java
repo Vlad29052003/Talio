@@ -28,8 +28,7 @@ public class Board {
 
     public String name;
     public String backgroundColor;
-    public String password;                 // if no password, no need to check RW permission
-    public boolean RWpermission;            // true - both read and write, false - read only
+    public String password;                 // password for edit permissions of the board.
 
     @OneToMany(cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -52,19 +51,16 @@ public class Board {
      * @param name is the name of the board.
      * @param backgroundColor is the background color of the board.
      * @param password is the password to access the board
-     * @param RWpermission is specifies the read and write permissions.
      */
     public Board(String name,
                  String backgroundColor,
-                 String password,
-                 boolean RWpermission) {
+                 String password) {
         this.name = name;
         this.backgroundColor = backgroundColor;
         this.password = password;
-        this.RWpermission = RWpermission;
         this.lists = new HashSet<>();
         this.tags = new HashSet<>();
-        if(password == ""){
+        if(password.equals("")){
             edit = true;
         }
     }
@@ -77,8 +73,7 @@ public class Board {
     */
     public Board(String name,
                  String backgroundColor) {
-        this(name, backgroundColor, "", false);
-        this.edit = true;
+        this(name, backgroundColor, "");
     }
 
     /**

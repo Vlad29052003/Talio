@@ -9,7 +9,7 @@ import java.util.Random;
 public class Password {
 
     private static boolean admin = false;
-    private static String password = "1";
+    private static String password;
 
     /**
      * Constructor for the class.
@@ -19,14 +19,14 @@ public class Password {
     }
 
     /**
-     * Generates a random 10 character string and sets it as password.
+     * Generates a random number between 0 and 1000000000.
      */
-    public void generatePassword(){
+    private void generatePassword(){
         Random random = new Random();
-        String string = new String(Integer.toString(random.nextInt(1000000000)));
+        String string = Integer.toString(random.nextInt(1000000000));
 
-        this.password = string;
-        System.out.println(string);
+        password = string;
+        System.out.println(password);
     }
 
     /**
@@ -47,6 +47,13 @@ public class Password {
     public static boolean getAdmin(){
         return admin;
     }
+
+    /**
+     * Getter for password.
+     *
+     * @return password.
+     */
+    public static String getPassword(){ return password; }
 
     @Override
     public boolean equals(Object obj) {

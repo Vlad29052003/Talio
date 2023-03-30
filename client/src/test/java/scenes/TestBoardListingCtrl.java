@@ -5,6 +5,7 @@ import client.scenes.MainCtrl;
 import javafx.scene.layout.VBox;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
@@ -36,13 +37,11 @@ public class TestBoardListingCtrl {
         assertNull(display.getRoot());
     }
 
-    /*
     @Test
     public void testView() {
         display.view();
         verify(mainCtrl, times(1)).switchBoard(display.getBoard());
     }
-    */
     @Test
     public void testDelete() {
         display.delete();

@@ -8,12 +8,12 @@ import client.scenes.WorkspaceCtrl;
 import client.scenes.crud.admin.AccessDeniedCtrl;
 import client.scenes.crud.admin.GrantAdminCtrl;
 import client.scenes.crud.admin.PermissionAdminCtrl;
-import client.scenes.crud.admin.ReadWritePasswordCtrl;
+import client.scenes.crud.admin.EditBoardPasswordCtrl;
 import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
-import client.scenes.crud.board.ReadWritePermissionsCtrl;
+import client.scenes.crud.board.EditPermissionCtrl;
 import client.scenes.crud.board.YouHavePermissionCtrl;
 import com.google.inject.Injector;
 import commons.Password;
@@ -55,13 +55,13 @@ public class Main extends Application {
         var permissionAdmin = FXML
                 .load(PermissionAdminCtrl.class,"client", "scenes", "crud", "PermissionAdmin.fxml");
         var readWritePermissions = FXML
-                .load(ReadWritePermissionsCtrl.class,"client", "scenes", "crud",
+                .load(EditPermissionCtrl.class,"client", "scenes", "crud",
                                                         "ReadWritePermissions.fxml");
         var youHavePermission = FXML
                 .load(YouHavePermissionCtrl.class,"client", "scenes", "crud",
                                                         "YouHavePermission.fxml");
         var readWritePassord = FXML
-                .load(ReadWritePasswordCtrl.class, "client", "scenes", "crud",
+                .load(EditBoardPasswordCtrl.class, "client", "scenes", "crud",
                                                         "ReadWritePassword.fxml");
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
