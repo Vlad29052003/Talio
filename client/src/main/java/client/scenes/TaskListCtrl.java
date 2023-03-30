@@ -198,7 +198,7 @@ public class TaskListCtrl {
         try {
             server.dragAndDrop(taskList.id, newIndex, taskId);
             /* TODO until sockets are implemented the client side updates will not happen
-            i will not implement them as they will be totally useless after websockets
+            I will not implement them as they will be totally useless after websockets
              */
         } catch (Exception e) {
             var alert = new Alert(Alert.AlertType.ERROR);

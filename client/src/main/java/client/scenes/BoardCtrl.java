@@ -75,7 +75,7 @@ public class BoardCtrl {
     }
 
     /**
-     * Resets the contents of the tasklists and listContainer HBox.
+     * Resets the contents of the taskLists and listContainer HBox.
      */
     public void resetLists() {
         listContainer.getChildren().clear();
