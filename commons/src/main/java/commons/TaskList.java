@@ -69,11 +69,11 @@ public class TaskList {
 
     /**
      * Get the parent {@link Board} for this list.
-     * @return the {@link Board} this list belongs to main
+     * @return the {@link Board} this list belongs to
      */
     @JsonIgnore
     public Board getBoard() {
-        return board;
+        return this.board;
     }
 
     /**

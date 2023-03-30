@@ -12,19 +12,19 @@ import javafx.stage.Modality;
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;**/
 
-public class DeleteListCtrl {
+public class DeleteTaskListCtrl {
     private ServerUtils server;
     private MainCtrl mainCtrl;
     private TaskList taskList;
 
     /**
-     * Creates a new {@link DeleteListCtrl} object.
+     * Creates a new {@link DeleteTaskListCtrl} object.
      *
      * @param server   is the ServerUtils.
      * @param mainCtrl is the MainCtrl.
      */
     @Inject
-    public DeleteListCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public DeleteTaskListCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
@@ -71,7 +71,7 @@ public class DeleteListCtrl {
             alert.showAndWait();
         }
 
-        mainCtrl.removeTaskListFromBoard(taskList);
+        mainCtrl.deleteTaskList(taskList);
         mainCtrl.cancel();
     }
 

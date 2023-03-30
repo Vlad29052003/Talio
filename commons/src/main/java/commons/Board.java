@@ -37,8 +37,9 @@ public class Board {
      */
     @SuppressWarnings("unused")
     public Board() {
-        lists = new HashSet<>();
-        tags = new HashSet<>();
+        // for object mappers
+        this.lists = new HashSet<>();
+        this.tags = new HashSet<>();
     }
 
     /**
@@ -82,6 +83,7 @@ public class Board {
         if(list == null) return;
         if(list.board != null) list.board.removeTaskList(list);
         this.lists.add(list);
+        // TODO: Assign the list a valid index / check if it's valid.
         list.board = this;
     }
 
@@ -96,6 +98,7 @@ public class Board {
         if(this.lists.remove(list)) {
             list.board = null;
         }
+        // TODO: Update indexes of other lists?
     }
     @Override
     public boolean equals(Object obj) {

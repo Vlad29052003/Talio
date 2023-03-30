@@ -27,8 +27,8 @@ public class TaskController {
 
     /**
      * Instantiate a new {@link TaskController}.
-     * @param taskRepo the {@link TaskRepository} to use
-     * @param listRepo the {@link TaskListRepository} to use
+     * @param taskRepo the {@link TaskRepository} to use.
+     * @param listRepo the {@link TaskListRepository} to use.
      */
     @Autowired
     public TaskController(TaskRepository taskRepo,
@@ -75,7 +75,7 @@ public class TaskController {
     @PostMapping("/{newListId}/{index}/{taskId}")
     @Transactional
     public ResponseEntity<String> moveTask(@PathVariable("newListId") long newListId,
-                                           @PathVariable("index") long index,
+                                           @PathVariable("index") int index,
                                            @PathVariable("taskId") long taskId) {
         if (index < 0 || newListId < 0 || !listRepo.existsById((newListId)) ||
                 taskId < 0 || !taskRepo.existsById(taskId))
@@ -109,10 +109,10 @@ public class TaskController {
             return ResponseEntity.badRequest().body("Invalid ID.");
         if (task == null || task.name == null)
             return ResponseEntity.badRequest().body("Invalid data.");
-        Optional<Long> i = listRepo.findById(listId).get().tasks.stream().
-                map(t -> t.index).max(Long::compare);
+        Optional<Integer> i = listRepo.findById(listId).get().tasks.stream().
+                map(t -> t.index).max(Integer::compare);
 
-        long index = 0;
+        int index = 0;
         if (i.isPresent()) index = i.get() + 1;
         task.index = index;
         task.setTaskList(listRepo.findById(listId).get());
@@ -154,7 +154,7 @@ public class TaskController {
 
         Task deleted = taskRepo.findById(taskId).get();
         TaskList old = deleted.getTaskList();
-        long index = deleted.index;
+        int index = deleted.index;
         taskRepo.delete(deleted);
         taskRepo.flush();
         changeIndexesOldList(old, index);
@@ -168,7 +168,7 @@ public class TaskController {
      * @param list  is the TaskList in which it updates the Task indexes.
      * @param index is the index of the inserted Task.
      */
-    public void changeIndexesNewList(TaskList list, long index) {
+    public void changeIndexesNewList(TaskList list, int index) {
         list.tasks.stream().filter(t -> t.index >= index).forEach(t -> t.index++);
         listRepo.saveAndFlush(list);
     }
@@ -179,7 +179,7 @@ public class TaskController {
      * @param list  is the TaskList in which it decrements the Task indexes.
      * @param index is the index of the removed Task.
      */
-    public void changeIndexesOldList(TaskList list, long index) {
+    public void changeIndexesOldList(TaskList list, int index) {
         list.tasks.stream().filter(t -> t.index > index).forEach(t -> t.index--);
         listRepo.saveAndFlush(list);
     }

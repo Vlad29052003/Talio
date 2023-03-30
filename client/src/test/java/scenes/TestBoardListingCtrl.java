@@ -6,7 +6,6 @@ import javafx.scene.layout.VBox;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -29,11 +28,6 @@ public class TestBoardListingCtrl {
     public void testConstructor() {
         BoardListingCtrl test = new BoardListingCtrl(server, mainCtrl);
         assertNotNull(test);
-    }
-
-    @Test
-    public void testGetSetRoot() {
-        assertNull(display.getRoot());
     }
 
     @Test

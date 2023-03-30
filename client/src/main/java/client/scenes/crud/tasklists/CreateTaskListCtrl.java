@@ -15,7 +15,7 @@ import javafx.stage.Modality;
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;**/
 
-public class CreateNewListCtrl {
+public class CreateTaskListCtrl {
     private ServerUtils server;
     private MainCtrl mainCtrl;
     private Board board;
@@ -23,30 +23,28 @@ public class CreateNewListCtrl {
     TextField text;
 
     /**
-     * Creates a new {@link CreateNewListCtrl} object.
+     * Creates a new {@link CreateTaskListCtrl} object.
      *
      * @param server   is the ServerUtils.
      * @param mainCtrl is the MainCtrl.
      */
     @Inject
-    public CreateNewListCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public CreateTaskListCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
 
     /**
-     * Gets the Board.
-     *
-     * @return Board to be returned.
+     * Return the board on which this CRUD operation is currently creating a list.
+     * @return the relative {@link Board}
      */
     public Board getBoard() {
         return board;
     }
 
     /**
-     * Sets the Board.
-     *
-     * @param board is the Board to be set.
+     * Set the board on which this CRUD operation will be creating a list
+     * @param board the relative {@link Board}
      */
     public void setBoard(Board board) {
         this.board = board;
