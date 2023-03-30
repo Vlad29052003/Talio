@@ -9,7 +9,36 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 public class ServerUtils {
 
-    private static final String SERVER = "http://localhost:8080/";
+    private String server = "http://localhost:8080/";
+
+    /**
+     * Gets the server.
+     *
+     * @return the server.
+     */
+    public String getServer() {
+        return server;
+    }
+
+    /**
+     * Sets the server.
+     *
+     * @param server is the address of another server.
+     */
+    public void setServer(String server) {
+        this.server = server;
+    }
+
+    /**
+     * Sends a request to test the connection with the server.
+     */
+    public void testConnection() {
+        ClientBuilder.newClient(new ClientConfig())
+                .target(server).path("api/test")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get();
+    }
 
     /**
      * Sends a request to save a Board on the server.
@@ -19,7 +48,7 @@ public class ServerUtils {
      */
     public Board addBoard(Board board) {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/boards")
+                .target(server).path("api/boards")
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(board, APPLICATION_JSON), Board.class);
@@ -33,7 +62,7 @@ public class ServerUtils {
      */
     public Board joinBoard(long id) {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/boards/" + id)
+                .target(server).path("api/boards/" + id)
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .get(Board.class);
@@ -47,7 +76,7 @@ public class ServerUtils {
      */
     public Response delete(Board board) {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/boards/" + board.id)
+                .target(server).path("api/boards/" + board.id)
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .delete();
@@ -61,7 +90,7 @@ public class ServerUtils {
      */
     public Board updateBoard(Board board) {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/boards/" + board.id)
+                .target(server).path("api/boards/" + board.id)
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .put(Entity.entity(board, APPLICATION_JSON), Board.class);
@@ -78,7 +107,7 @@ public class ServerUtils {
         String response = null;
         String path = String.valueOf(newListId) + '/' + index + '/' + taskId;
         ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("api/task/" + path)
+                .target(server).path("api/task/" + path)
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(response, APPLICATION_JSON), String.class);

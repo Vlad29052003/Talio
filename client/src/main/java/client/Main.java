@@ -33,6 +33,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
+        mainCtrl.setMyFXML(FXML);
+
 
         var workspace = FXML.load(
                 WorkspaceCtrl.class,
@@ -71,9 +74,7 @@ public class Main extends Application {
                 EditTaskListCtrl.class,
                 "client", "scenes", "crud", "EditListName.fxml");
 
-        mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-
-        mainCtrl.initialize(primaryStage, FXML, workspace, board);
+        mainCtrl.initialize(primaryStage, workspace, board);
         mainCtrl.initializeBoardCrud(joinBoard, createBoard, editBoard, deleteBoard);
         mainCtrl.initializeTaskListCrud(deleteTaskList, newTaskList, editTaskList);
     }

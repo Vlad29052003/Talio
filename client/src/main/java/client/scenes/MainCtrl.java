@@ -45,23 +45,28 @@ public class MainCtrl {
     private WebsocketSynchroniser boardSyncroniser;
 
     /**
+     * Sets myFXML.
+     *
+     * @param myFXML is myFXML.
+     */
+    public void setMyFXML(MyFXML myFXML) {
+        this.myFXML = myFXML;
+    }
+
+    /**
      * Initializes the primaryStage, WorkspaceScene
      * and initial BoardScene Scenes and Controllers for Workspace and
      * initial Board.
      *
      * @param primaryStage is the primary Stage.
-     * @param myFXML       is the FXML loader
      * @param workspace    is the Workspace.
      * @param board        is the initial Board, which is empty.
      */
     public void initialize(
             Stage primaryStage,
-            MyFXML myFXML,
             Pair<WorkspaceCtrl, Parent> workspace,
             Pair<BoardCtrl, Parent> board) {
         this.primaryStage = primaryStage;
-
-        this.myFXML = myFXML;
 
         this.workspaceCtrl = workspace.getKey();
         this.workspaceScene = new Scene(workspace.getValue());
@@ -182,7 +187,8 @@ public class MainCtrl {
      * @param board is the Board to be displayed.
      */
     public void switchBoard(Board board) {
-        boardCtrl.setBoard(board);
+        if(boardCtrl != null)
+            boardCtrl.setBoard(board);
     }
 
     /**
@@ -196,7 +202,7 @@ public class MainCtrl {
     }
 
     /**
-     * Removed a Board from the workspace.
+     * Removes a Board from the workspace.
      *
      * @param removed is the Board to be removed;
      */

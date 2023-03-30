@@ -27,8 +27,8 @@ public class TaskController {
 
     /**
      * Instantiate a new {@link TaskController}.
-     * @param taskRepo the {@link TaskRepository} to use
-     * @param listRepo the {@link TaskListRepository} to use
+     * @param taskRepo the {@link TaskRepository} to use.
+     * @param listRepo the {@link TaskListRepository} to use.
      */
     @Autowired
     public TaskController(TaskRepository taskRepo,
