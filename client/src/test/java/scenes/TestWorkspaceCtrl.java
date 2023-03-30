@@ -1,6 +1,7 @@
 package scenes;
 
 import client.datasaving.ClientData;
+import client.datasaving.JoinedBoardList;
 import client.scenes.BoardListingCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.WorkspaceCtrl;
@@ -10,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -27,46 +29,48 @@ import static org.mockito.Mockito.when;
 public class TestWorkspaceCtrl {
     private WorkspaceCtrl workspaceCtrl;
     private MainCtrl mainCtrl;
+    private File testFile;
     private ServerUtilsTestingMock server;
+    private ClientData cd;
 
     @BeforeEach
     public void setUp() {
+        this.testFile = null;
+        try {
+            testFile = new File("test.txt");
+            testFile.createNewFile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         this.mainCtrl = mock(MainCtrl.class);
         this.server = new ServerUtilsTestingMock();
-        this.workspaceCtrl = new WorkspaceCtrl(server, mainCtrl);
+        this.workspaceCtrl = new WorkspaceCtrl(server, mainCtrl, testFile);
+        this.cd = new ClientData();
+        cd.addJoinedBoardList(new JoinedBoardList("s1"));
+        workspaceCtrl.setData(cd);
+    }
+
+    /**
+     * Deletes the file.
+     */
+    @AfterEach
+    public void reset() {
+        testFile.delete();
     }
 
     @Test
     public void testConstructor() {
         WorkspaceCtrl test = new WorkspaceCtrl(server, mainCtrl);
-
         assertNotNull(test);
     }
 
     @Test
     public void testReadWriteData() {
-        File testFile = null;
-        try {
-            testFile = new File("test.txt");
-            testFile.createNewFile();
-            ClientData cl = new ClientData();
-            cl.setLastActiveOn(100);
-            workspaceCtrl.setFile(testFile);
-            workspaceCtrl.setData(cl);
-            workspaceCtrl.writeToFile();
-
-            //set the data object to null to test if reading restores the initial state
-            workspaceCtrl.setData(null);
-
-            workspaceCtrl.readData();
-            assertEquals(workspaceCtrl.getData(), cl);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            testFile.delete();
-        }
+        ClientData cl = new ClientData();
+        workspaceCtrl.setData(cl);
+        workspaceCtrl.writeToFile();
+        workspaceCtrl.readData();
+        assertEquals(workspaceCtrl.getData(), cl);
     }
 
     @Test
@@ -214,3 +218,4 @@ public class TestWorkspaceCtrl {
     }
 
 }
+

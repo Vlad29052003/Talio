@@ -53,7 +53,8 @@ public class WorkspaceCtrl implements Initializable {
         boards = new ArrayList<>();
 
         try {
-            this.file = new File("client/src/main/resources/files/clientData.txt");
+            this.file = new File(System.getProperty("user.home"), "talio_client.dat");
+            if(!file.exists())file.createNewFile();
             if (file.length() == 0) {
                 data = new ClientData();
                 data.addJoinedBoardList(new JoinedBoardList("http://localhost:8080/"));
@@ -63,6 +64,22 @@ public class WorkspaceCtrl implements Initializable {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Creates a new {@link WorkspaceCtrl} instance.
+     * USed for testing to avoid using the file.
+     *
+     * @param server   is the ServerUtils.
+     * @param mainCtrl is the MainCtrl.
+     * @param file is the File.
+     */
+    public WorkspaceCtrl(ServerUtils server, MainCtrl mainCtrl, File file) {
+        this.server = server;
+        this.mainCtrl = mainCtrl;
+        boards = new ArrayList<>();
+        this.file = file;
+    }
+
 
     /**
      * Initializes this Workspace.
