@@ -74,6 +74,19 @@ public class BoardCtrl {
     }
 
     /**
+     * Resets the contents of the tasklists and listContainer HBox.
+     */
+    public void resetLists() {
+        listContainer.getChildren().clear();
+        listControllers.clear();
+        if (board != null) {
+            for (TaskList taskList : board.lists) {
+                addTaskListToBoard(taskList);
+            }
+        }
+    }
+
+    /**
      * Re-render the board view UI.
      * This will refresh all task lists and tasks currently rendered.
      */
@@ -110,4 +123,56 @@ public class BoardCtrl {
         }
     }
 
+    /**
+     * Adds a new TaskList to the Board
+     * - method no longer used
+     */
+    public void createTaskList() {
+        if (board != null) {
+            TaskList tlist = new TaskList("tasklist");
+            TaskListCtrl tlc = mainCtrl.newTaskListView(tlist).getKey();
+            listContainer.getChildren().add(tlc.getRoot());
+            listControllers.add(tlc);
+        }
+    }
+
+    /**
+     * Adds a TaskList to the workspace.
+     *
+     * @param newTaskList is the TaskList to be added.
+     */
+    public void addTaskListToBoard(TaskList newTaskList) {
+        TaskListCtrl taskList = mainCtrl.newTaskListView(newTaskList).getKey();
+        listContainer.getChildren().add(taskList.getRoot());
+        listControllers.add(taskList);
+
+    }
+
+    /**
+     * Removed a TaskList from the board.
+     *
+     * @param removed is the TaskList to be removed.
+     */
+    public void removeTaskListFromBoard(TaskList removed) {
+        TaskListCtrl taskList =
+                listControllers.stream().filter(b -> b.getTaskList().equals(removed)).
+                        findFirst().get();
+        listControllers.remove(taskList);
+        listContainer.getChildren().remove(taskList.getRoot());
+        board.removeTaskList(removed);
+    }
+
+    /**
+     * Updates a TaskList on the board.
+     *
+     * @param updated is the TaskList to be updated.
+     */
+    public void updateTaskList(TaskList updated) {
+        var toBeUpdated =
+                listControllers.stream().filter(b -> b.getTaskList().id == updated.id).findFirst();
+        if (toBeUpdated.isEmpty()) return;
+        var updatedTaskList = toBeUpdated.get();
+        updatedTaskList.setTaskList(updated);
+        updatedTaskList.refresh();
+    }
 }

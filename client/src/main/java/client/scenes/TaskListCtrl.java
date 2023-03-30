@@ -30,6 +30,8 @@ public class TaskListCtrl {
     @FXML
     private Label title;
     @FXML
+    private VBox root;
+    @FXML
     private VBox taskContainer;
     private Region placeholder;
 
@@ -45,6 +47,14 @@ public class TaskListCtrl {
         this.mainCtrl = mainCtrl;
         placeholder = new Region();
         placeholder.setStyle("-fx-background-color: rgba(79,75,75,0.5);");
+    }
+
+    /**
+     * Getter for root.
+     * @return root field
+     */
+    public VBox getRoot() {
+        return root;
     }
 
     /**

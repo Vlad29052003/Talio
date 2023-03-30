@@ -202,6 +202,26 @@ public class MainCtrl {
     }
 
     /**
+     * Updates the TaskList with the same id as taskList
+     * from the workspace.
+     *
+     * @param taskList is the taskList to be updated.
+     */
+    public void updateTaskList(TaskList taskList) {
+        boardCtrl.updateTaskList(taskList);
+    }
+
+    /**
+     * Removes the TaskList with the same id as taskList
+     * from the workspace.
+     *
+     * @param taskList is the taskList to be removed.
+     */
+    public void removeTaskList(TaskList taskList) {
+        boardCtrl.removeTaskListFromBoard(taskList);
+    }
+
+    /**
      * Removes a Board from the workspace.
      *
      * @param removed is the Board to be removed;
@@ -357,6 +377,15 @@ public class MainCtrl {
     }
 
     /**
+     * Refreshes the Board.
+     *
+     * @param board is the new board.
+     */
+    public void refreshBoard(Board board){
+        boardCtrl.setBoard(board);
+    }
+
+    /**
      * Loads a {@link TaskCtrl} instance and view.
      *
      * @param newTask is the {@link Task} associated with them.
@@ -392,5 +421,4 @@ public class MainCtrl {
             Platform.runLater(() -> updateBoard(board));
         }
     }
-
 }

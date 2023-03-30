@@ -1,6 +1,7 @@
 package client.utils;
 
 import commons.Board;
+import commons.TaskList;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.Response;
@@ -55,6 +56,21 @@ public class ServerUtils {
     }
 
     /**
+     * Sends a request to save a TaskList on the server.
+     *
+     * @param taskList is the TaskList to be saved.
+     * @param id is the id of the board.
+     * @return the saved TaskList (after server modifications).
+     */
+    public Board addTaskList(TaskList taskList, long id) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(server).path("api/task_lists/" + id)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(taskList, APPLICATION_JSON), Board.class);
+    }
+
+    /**
      * Sends a request to get a Board from the server.
      *
      * @param id is the id of the requested board.
@@ -83,6 +99,20 @@ public class ServerUtils {
     }
 
     /**
+     * Sends a request to delete a TaskList from the server.
+     *
+     * @param taskList is the board to be deleted.
+     * @return the status of the request.
+     */
+    public Response deleteTaskList(TaskList taskList) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(server).path("api/task_lists/" + taskList.id)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .delete();
+    }
+
+    /**
      * Sends a request to update a Board on the server.
      *
      * @param board is the updated Board.
@@ -94,6 +124,20 @@ public class ServerUtils {
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .put(Entity.entity(board, APPLICATION_JSON), Board.class);
+    }
+
+    /**
+     * Sends a request to update a TaskList on the server.
+     *
+     * @param taskList is the updated taskList.
+     * @return the updated, saved on the server, TaskList.
+     */
+    public TaskList editTaskList(TaskList taskList) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(server).path("api/task_lists/")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .put(Entity.entity(taskList, APPLICATION_JSON), TaskList.class);
     }
 
     /**

@@ -5,8 +5,12 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
 import commons.TaskList;
+import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
+
 /**import jakarta.ws.rs.WebApplicationException;
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;**/
@@ -59,11 +63,18 @@ public class CreateTaskListCtrl {
      * Creates a new TaskList.
      */
     public void add() {
-        TaskList newTaskList = new TaskList(text.getText());
-        board.addTaskList(newTaskList);
-        // server part to be implemented
-        mainCtrl.getBoardCtrl().refresh();
-        mainCtrl.cancel();
+        try {
+            board = server.addTaskList(new TaskList(text.getText()), board.id);
+            System.out.println(board);
+            mainCtrl.refreshBoard(board);
+            reset();
+            mainCtrl.cancel();
+        } catch (WebApplicationException e) {
+            var alert = new Alert(Alert.AlertType.ERROR);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setContentText("There has been an error!\r" + e.getMessage());
+            alert.showAndWait();
+        }
     }
 
     /**

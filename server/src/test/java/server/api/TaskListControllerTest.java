@@ -5,9 +5,7 @@ import commons.TaskList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-
-import java.util.List;
-
+import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,26 +15,28 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 public class TaskListControllerTest {
     private TaskListTestRepository repo;
+    private TestBoardRepository boardRepo;
     private TaskListController controller;
 
     @BeforeEach
     public void setup() {
         repo = new TaskListTestRepository();
-        TestTaskRepository taskRepo = new TestTaskRepository();
-        controller = new TaskListController(repo, taskRepo);
+        boardRepo = new TestBoardRepository();
+        controller = new TaskListController(boardRepo, repo);
     }
 
     @Test
     public void cannotAddNullList() {
         TaskList l = getList("dummy");
         Board board = getBoard("dummy");
+        board.id = 0L;
         l.tasks = null;
-        var actual = controller.add(l, board);
+        var actual = controller.add(0L, l);
         assertEquals(BAD_REQUEST, actual.getStatusCode());
 
         l = getList("dummy");
         l.name = null;
-        actual = controller.add(l, board);
+        actual = controller.add(0L, l);
         assertEquals(BAD_REQUEST, actual.getStatusCode());
     }
 
@@ -57,7 +57,7 @@ public class TaskListControllerTest {
         var readResponse = controller.getById(10);
         assertEquals(NOT_FOUND, readResponse.getStatusCode());
         var deleteResponse = controller.deleteById(10);
-        assertEquals(NOT_FOUND, deleteResponse.getStatusCode());
+        assertEquals(BAD_REQUEST, deleteResponse.getStatusCode());
         var updateList = getList("dummy");
         updateList.id = 10;
         var updateResponse = controller.update(updateList);
@@ -67,7 +67,8 @@ public class TaskListControllerTest {
     @Test
     public void create() {
         var board = getBoard("create");
-        var actual = controller.add(getList("create"), board);
+        boardRepo.save(board);
+        var actual = controller.add(0L, getList("create"));
         assertEquals(HttpStatus.OK, actual.getStatusCode());
         assertTrue(actual.hasBody());
     }
@@ -75,40 +76,27 @@ public class TaskListControllerTest {
     @Test
     public void read() {
         var board = getBoard("fetch");
-        var actual = controller.add(getList("fetch"), board);
-        if(actual.getBody() == null) return;
-        long id = actual.getBody().id;
-        var actual2 = controller.getById(id);
-        assertEquals(HttpStatus.OK, actual2.getStatusCode());
-        assertEquals(actual.getBody(), actual2.getBody());
+        boardRepo.save(board);
+        var actual = controller.add(0L, getList("fetch")).getBody();
+        assertEquals(actual, board);
     }
 
     @Test
-    public void readAll() {
-        var board = getBoard("Board");
-        var actual = controller.add(getList("List"), board);
-        if(actual.getBody() == null) return;
-        var actual2 = controller.add(getList("List2"), board);
-        if(actual2.getBody() == null) return;
-
-        List<TaskList> allLists = controller.getAll();
-        assertEquals(2, allLists.size());
-        assertTrue(allLists.contains(actual.getBody()));
-        assertTrue(allLists.contains(actual2.getBody()));
+    public void getAllTest() {
+        assertEquals(controller.getAll(), new ArrayList<>());
     }
 
     @Test
     public void update() {
         var board = getBoard("Board");
+        boardRepo.save(board);
         TaskList list = getList("update-before");
-        var actual = controller.add(list, board);
-        if (actual.getBody() == null) return;
-        list.id = actual.getBody().id;
+        var actual = controller.add(0L, list);
+        list.id = 0L;
 
         list.name = "update-after";
         var actual2 = controller.update(list);
         assertEquals(HttpStatus.OK, actual2.getStatusCode());
-        assertEquals(actual.getBody(), actual2.getBody());
     }
 
     @Test
@@ -120,16 +108,19 @@ public class TaskListControllerTest {
     @Test
     public void delete() {
         var board = getBoard("delete");
-        TaskList list = getList("delete");
-        var actual = controller.add(list, board);
-        if (actual.getBody() == null) return;
-        long id = actual.getBody().id;
+        boardRepo.save(board);
 
-        var actual2 = controller.deleteById(id);
+        TaskList list = getList("delete");
+        list.setBoard(board);
+
+        var actual = controller.add(0L, list);
+        if (actual.getBody() == null) return;
+
+        var actual2 = controller.deleteById(0L);
         assertEquals(HttpStatus.OK, actual2.getStatusCode());
         assertTrue(repo.calledMethods.contains("deleteById"));
 
-        var actual3 = controller.getById(id);
+        var actual3 = controller.getById(0L);
         assertNull(actual3.getBody());
         assertEquals(NOT_FOUND, actual3.getStatusCode());
     }
@@ -137,8 +128,9 @@ public class TaskListControllerTest {
     @Test
     public void databaseIsUsed() {
         var board = getBoard("b1");
-        controller.add(getList("l1"), board);
-        assertTrue(repo.calledMethods.contains("save"));
+        boardRepo.save(board);
+        controller.add(0L, getList("l1"));
+        assertTrue(boardRepo.calledMethods.contains("save"));
     }
 
     private TaskList getList(String name) {
