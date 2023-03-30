@@ -81,7 +81,7 @@ public class EditTaskListCtrl {
             return;
         }
 
-        mainCtrl.editTaskList(taskList);
+        mainCtrl.updateTaskList(taskList);
         mainCtrl.cancel();
     }
 

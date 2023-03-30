@@ -155,9 +155,11 @@ public class BoardCtrl {
      */
     public void removeTaskListFromBoard(TaskList removed) {
         TaskListCtrl taskList =
-                listControllers.stream().filter(b -> b.getTaskList().equals(removed)).findFirst().get();
+                listControllers.stream().filter(b -> b.getTaskList().equals(removed)).
+                        findFirst().get();
         listControllers.remove(taskList);
         listContainer.getChildren().remove(taskList.getRoot());
+        board.removeTaskList(removed);
     }
 
     /**

@@ -71,7 +71,7 @@ public class DeleteTaskListCtrl {
             alert.showAndWait();
         }
 
-        mainCtrl.deleteTaskList(taskList);
+        mainCtrl.removeTaskList(taskList);
         mainCtrl.cancel();
     }
 

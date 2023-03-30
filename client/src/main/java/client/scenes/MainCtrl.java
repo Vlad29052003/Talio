@@ -202,6 +202,26 @@ public class MainCtrl {
     }
 
     /**
+     * Updates the TaskList with the same id as taskList
+     * from the workspace.
+     *
+     * @param taskList is the taskList to be updated.
+     */
+    public void updateTaskList(TaskList taskList) {
+        boardCtrl.updateTaskList(taskList);
+    }
+
+    /**
+     * Removes the TaskList with the same id as taskList
+     * from the workspace.
+     *
+     * @param taskList is the taskList to be removed.
+     */
+    public void removeTaskList(TaskList taskList) {
+        boardCtrl.removeTaskListFromBoard(taskList);
+    }
+
+    /**
      * Removes a Board from the workspace.
      *
      * @param removed is the Board to be removed;
