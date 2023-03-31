@@ -262,14 +262,16 @@ public class MainCtrl {
      * Switches to the JoinBoard Scene.
      */
     public void joinBoard() {
-        primaryStage.setScene(joinBoard);
+        popupStage.setTitle("Join a board");
+        popupStage.setScene(joinBoard);
+        popupStage.show();
     }
 
     /**
      * Switches to the AddBoard Scene.
      */
     public void addBoard() {
-        popupStage.setTitle("Create Board");
+        popupStage.setTitle("Create new board");
         popupStage.setScene(createBoard);
         popupStage.show();
     }
@@ -289,8 +291,10 @@ public class MainCtrl {
      * @param board is the Board to be edited.
      */
     public void editBoard(Board board) {
-        primaryStage.setScene(editBoard);
+        popupStage.setTitle("Rename this board");
+        popupStage.setScene(editBoard);
         editBoardCtrl.setBoard(board);
+        popupStage.show();
     }
 
     /**
@@ -309,8 +313,10 @@ public class MainCtrl {
      * @param board is the Board to be deleted.
      */
     public void deleteBoard(Board board) {
-        primaryStage.setScene(deleteBoard);
+        popupStage.setTitle("Delete this board");
+        popupStage.setScene(deleteBoard);
         deleteBoardCtrl.setBoard(board);
+        popupStage.show();
     }
 
     /**

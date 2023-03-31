@@ -65,6 +65,7 @@ public class JoinBoardCtrl {
      */
     public void cancel() {
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**
@@ -106,6 +107,7 @@ public class JoinBoardCtrl {
             return;
         }
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**

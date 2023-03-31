@@ -54,6 +54,7 @@ public class EditBoardCtrl {
      */
     public void cancel() {
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**
@@ -78,6 +79,7 @@ public class EditBoardCtrl {
         }
 
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**
