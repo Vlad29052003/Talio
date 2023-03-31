@@ -49,6 +49,7 @@ public class DeleteBoardCtrl {
      */
     public void cancel() {
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**
@@ -66,6 +67,7 @@ public class DeleteBoardCtrl {
             alert.showAndWait();
         }
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**

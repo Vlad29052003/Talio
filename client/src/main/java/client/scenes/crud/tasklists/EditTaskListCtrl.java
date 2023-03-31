@@ -5,6 +5,7 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.TaskList;
 import jakarta.ws.rs.WebApplicationException;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.fxml.FXML;
@@ -34,6 +35,13 @@ public class EditTaskListCtrl {
     }
 
     /**
+     * Autofocuses the first field.
+     */
+    public void initialize() {
+        Platform.runLater(() -> text.requestFocus());
+    }
+
+    /**
      * Sets the taskList.
      *
      * @param taskList is the TaskList.
@@ -58,6 +66,7 @@ public class EditTaskListCtrl {
      */
     public void cancel() {
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**
@@ -83,6 +92,7 @@ public class EditTaskListCtrl {
 
         mainCtrl.updateTaskList(taskList);
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**
