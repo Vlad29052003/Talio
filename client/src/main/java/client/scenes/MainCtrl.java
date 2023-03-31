@@ -17,6 +17,7 @@ import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -70,6 +71,9 @@ public class MainCtrl {
         this.primaryStage = primaryStage;
 
         this.popupStage = new Stage();
+        popupStage.setResizable(false);
+        popupStage.initModality(Modality.WINDOW_MODAL);
+        popupStage.initOwner(primaryStage);
 
         this.workspaceCtrl = workspace.getKey();
         this.workspaceScene = new Scene(workspace.getValue());
@@ -268,7 +272,6 @@ public class MainCtrl {
         popupStage.setTitle("Create Board");
         popupStage.setScene(createBoard);
         popupStage.show();
-        //primaryStage.setScene(createBoard);            // <------------ first trial popups on this one
     }
 
     /**
@@ -426,6 +429,14 @@ public class MainCtrl {
         public void onBoardUpdated(Board board) {
             Platform.runLater(() -> updateBoard(board));
         }
+    }
+
+    /**
+     * Shows the popup Stage
+     * when it is in use.
+     */
+    public void showPopup(){
+        popupStage.show();
     }
 
     /**

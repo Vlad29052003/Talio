@@ -53,6 +53,7 @@ public class CreateNewBoardCtrl {
      */
     public void cancel() {
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**
@@ -70,6 +71,7 @@ public class CreateNewBoardCtrl {
             alert.showAndWait();
         }
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**
