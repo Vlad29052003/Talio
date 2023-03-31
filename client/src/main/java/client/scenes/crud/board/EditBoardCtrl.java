@@ -5,6 +5,7 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
 import jakarta.ws.rs.WebApplicationException;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -27,6 +28,13 @@ public class EditBoardCtrl {
     public EditBoardCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+    }
+
+    /**
+     * Autofocuses the first field.
+     */
+    public void initialize() {
+        Platform.runLater(() -> text.requestFocus());
     }
 
     /**
@@ -54,6 +62,7 @@ public class EditBoardCtrl {
      */
     public void cancel() {
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**
@@ -85,6 +94,7 @@ public class EditBoardCtrl {
         }
 
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**

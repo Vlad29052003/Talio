@@ -20,11 +20,13 @@ import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
 public class MainCtrl {
     private Stage primaryStage;
+    private Stage popupStage;
     private MyFXML myFXML;
     private WorkspaceCtrl workspaceCtrl;
     private Scene workspaceScene;
@@ -76,6 +78,11 @@ public class MainCtrl {
             Pair<WorkspaceCtrl, Parent> workspace,
             Pair<BoardCtrl, Parent> board) {
         this.primaryStage = primaryStage;
+
+        this.popupStage = new Stage();
+        popupStage.setResizable(false);
+        popupStage.initModality(Modality.WINDOW_MODAL);
+        popupStage.initOwner(primaryStage);
 
         this.workspaceCtrl = workspace.getKey();
         this.workspaceScene = new Scene(workspace.getValue());
@@ -285,14 +292,18 @@ public class MainCtrl {
      * Switches to the JoinBoard Scene.
      */
     public void joinBoard() {
-        primaryStage.setScene(joinBoard);
+        popupStage.setTitle("Join a board");
+        popupStage.setScene(joinBoard);
+        popupStage.show();
     }
 
     /**
      * Switches to the AddBoard Scene.
      */
     public void addBoard() {
-        primaryStage.setScene(createBoard);
+        popupStage.setTitle("Create new board");
+        popupStage.setScene(createBoard);
+        popupStage.show();
     }
 
     /**
@@ -301,8 +312,10 @@ public class MainCtrl {
      * @param board
      */
     public void addTaskList(Board board) {
-        primaryStage.setScene(createList);
+        popupStage.setTitle("Add new list");
+        popupStage.setScene(createList);
         createListCtrl.setBoard(board);
+        popupStage.show();
     }
 
     /**
@@ -321,8 +334,10 @@ public class MainCtrl {
      * @param board is the Board to be edited.
      */
     public void editBoard(Board board) {
-        primaryStage.setScene(editBoard);
+        popupStage.setTitle("Rename board");
+        popupStage.setScene(editBoard);
         editBoardCtrl.setBoard(board);
+        popupStage.show();
     }
 
     /**
@@ -331,8 +346,10 @@ public class MainCtrl {
      * @param taskList is the TaskList to be edited.
      */
     public void editTaskList(TaskList taskList) {
-        primaryStage.setScene(editList);
+        popupStage.setTitle("Rename list");
+        popupStage.setScene(editList);
         editTaskListCtrl.setTaskList(taskList);
+        popupStage.show();
     }
 
     /**
@@ -351,8 +368,10 @@ public class MainCtrl {
      * @param board is the Board to be deleted.
      */
     public void deleteBoard(Board board) {
-        primaryStage.setScene(deleteBoard);
+        popupStage.setTitle("Delete board");
+        popupStage.setScene(deleteBoard);
         deleteBoardCtrl.setBoard(board);
+        popupStage.show();
     }
 
     /**
@@ -361,8 +380,11 @@ public class MainCtrl {
      * @param taskList is the TaskList to be deleted.
      */
     public void deleteTaskList(TaskList taskList) {
-        primaryStage.setScene(deleteList);
+        popupStage.setTitle("Delete list");
+        popupStage.setScene(deleteList);
         deleteListCtrl.setTaskList(taskList);
+        popupStage.show();
+
     }
 
     /**
@@ -499,5 +521,21 @@ public class MainCtrl {
         public void onBoardUpdated(Board board) {
             Platform.runLater(() -> updateBoard(board));
         }
+    }
+
+    /**
+     * Shows the popup Stage
+     * when it is in use.
+     */
+    public void showPopup(){
+        popupStage.show();
+    }
+
+    /**
+     * Hides the popup Stage when
+     * it is not in use.
+     */
+    public void hidePopup(){
+        popupStage.hide();
     }
 }

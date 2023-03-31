@@ -55,6 +55,7 @@ public class DeleteTaskListCtrl {
      */
     public void cancel() {
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**
@@ -75,6 +76,7 @@ public class DeleteTaskListCtrl {
 
         mainCtrl.removeTaskList(taskList);
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**
