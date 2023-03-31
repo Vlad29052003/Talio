@@ -22,6 +22,7 @@ import javafx.util.Pair;
 
 public class MainCtrl {
     private Stage primaryStage;
+    private Stage popupStage;
     private MyFXML myFXML;
     private WorkspaceCtrl workspaceCtrl;
     private Scene workspaceScene;
@@ -67,6 +68,8 @@ public class MainCtrl {
             Pair<WorkspaceCtrl, Parent> workspace,
             Pair<BoardCtrl, Parent> board) {
         this.primaryStage = primaryStage;
+
+        this.popupStage = new Stage();
 
         this.workspaceCtrl = workspace.getKey();
         this.workspaceScene = new Scene(workspace.getValue());
@@ -262,7 +265,10 @@ public class MainCtrl {
      * Switches to the AddBoard Scene.
      */
     public void addBoard() {
-        primaryStage.setScene(createBoard);
+        popupStage.setTitle("Create Board");
+        popupStage.setScene(createBoard);
+        popupStage.show();
+        //primaryStage.setScene(createBoard);            // <------------ first trial popups on this one
     }
 
     /**
@@ -420,5 +426,13 @@ public class MainCtrl {
         public void onBoardUpdated(Board board) {
             Platform.runLater(() -> updateBoard(board));
         }
+    }
+
+    /**
+     * Hides the popup Stage when
+     * it is not in use.
+     */
+    public void hidePopup(){
+        popupStage.hide();
     }
 }
