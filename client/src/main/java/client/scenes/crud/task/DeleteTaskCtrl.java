@@ -57,6 +57,7 @@ public class DeleteTaskCtrl {
             alert.showAndWait();
         }
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**
@@ -64,5 +65,6 @@ public class DeleteTaskCtrl {
      */
     public void cancel() {
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 }

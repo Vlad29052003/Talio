@@ -5,6 +5,7 @@ import client.utils.ServerUtils;
 import commons.Task;
 import commons.TaskList;
 import jakarta.ws.rs.WebApplicationException;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
@@ -32,6 +33,14 @@ public class CreateTaskCtrl {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
+
+    /**
+     * Autofocuses the first field.
+     */
+    public void initialize() {
+        Platform.runLater(() -> name.requestFocus());
+    }
+
 
     /**
      * Gets the TaskList.
@@ -70,6 +79,7 @@ public class CreateTaskCtrl {
             mainCtrl.updateTaskList(taskList);
             refresh();
             mainCtrl.cancel();
+            mainCtrl.hidePopup();
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
@@ -84,6 +94,7 @@ public class CreateTaskCtrl {
     public void cancel() {
         refresh();
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**

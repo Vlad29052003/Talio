@@ -4,6 +4,7 @@ import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
 import commons.Task;
 import jakarta.ws.rs.WebApplicationException;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
@@ -31,6 +32,14 @@ public class EditTaskCtrl {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
+
+    /**
+     * Autofocuses the first field.
+     */
+    public void initialize() {
+        Platform.runLater(() -> name.requestFocus());
+    }
+
 
     /**
      * Gets the task.
@@ -78,6 +87,7 @@ public class EditTaskCtrl {
             return;
         }
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**
@@ -85,6 +95,7 @@ public class EditTaskCtrl {
      */
     public void cancel() {
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**

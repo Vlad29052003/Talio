@@ -324,8 +324,10 @@ public class MainCtrl {
      * @param taskList is the TaskList associated with the scene.
      */
     public void addTask(TaskList taskList) {
-        primaryStage.setScene(createTask);
         createTaskCtrl.setTaskList(taskList);
+        popupStage.setTitle("Create task");
+        popupStage.setScene(createTask);
+        popupStage.show();
     }
 
     /**
@@ -358,8 +360,10 @@ public class MainCtrl {
      * @param task is the Task to be edited.
      */
     public void editTask(Task task) {
-        primaryStage.setScene(editTask);
         editTaskCtrl.setTask(task);
+        popupStage.setTitle("Edit task");
+        popupStage.setScene(editTask);
+        popupStage.show();
     }
 
     /**
@@ -393,8 +397,10 @@ public class MainCtrl {
      * @param task is the Task to be deleted.
      */
     public void deleteTask(Task task) {
-        primaryStage.setScene(deleteTask);
         deleteTaskCtrl.setTask(task);
+        popupStage.setTitle("Delete task");
+        popupStage.setScene(deleteTask);
+        popupStage.show();
     }
 
     /**
