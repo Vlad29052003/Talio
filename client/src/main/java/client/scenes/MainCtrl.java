@@ -281,8 +281,10 @@ public class MainCtrl {
      * @param board
      */
     public void addTaskList(Board board) {
-        primaryStage.setScene(createList);
+        popupStage.setTitle("Add new list");
+        popupStage.setScene(createList);
         createListCtrl.setBoard(board);
+        popupStage.show();
     }
 
     /**
@@ -291,7 +293,7 @@ public class MainCtrl {
      * @param board is the Board to be edited.
      */
     public void editBoard(Board board) {
-        popupStage.setTitle("Rename this board");
+        popupStage.setTitle("Rename board");
         popupStage.setScene(editBoard);
         editBoardCtrl.setBoard(board);
         popupStage.show();
@@ -303,8 +305,10 @@ public class MainCtrl {
      * @param taskList is the TaskList to be edited.
      */
     public void editTaskList(TaskList taskList) {
-        primaryStage.setScene(editList);
+        popupStage.setTitle("Rename list");
+        popupStage.setScene(editList);
         editTaskListCtrl.setTaskList(taskList);
+        popupStage.show();
     }
 
     /**
@@ -313,7 +317,7 @@ public class MainCtrl {
      * @param board is the Board to be deleted.
      */
     public void deleteBoard(Board board) {
-        popupStage.setTitle("Delete this board");
+        popupStage.setTitle("Delete board");
         popupStage.setScene(deleteBoard);
         deleteBoardCtrl.setBoard(board);
         popupStage.show();
@@ -325,8 +329,11 @@ public class MainCtrl {
      * @param taskList is the TaskList to be deleted.
      */
     public void deleteTaskList(TaskList taskList) {
-        primaryStage.setScene(deleteList);
+        popupStage.setTitle("Delete list");
+        popupStage.setScene(deleteList);
         deleteListCtrl.setTaskList(taskList);
+        popupStage.show();
+
     }
 
     /**

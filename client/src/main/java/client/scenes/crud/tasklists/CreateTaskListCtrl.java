@@ -56,6 +56,7 @@ public class CreateTaskListCtrl {
      */
     public void cancel() {
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**
@@ -75,6 +76,7 @@ public class CreateTaskListCtrl {
             alert.setContentText("There has been an error!\r" + e.getMessage());
             alert.showAndWait();
         }
+        mainCtrl.hidePopup();
     }
 
     /**

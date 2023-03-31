@@ -58,6 +58,7 @@ public class EditTaskListCtrl {
      */
     public void cancel() {
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**
@@ -83,6 +84,7 @@ public class EditTaskListCtrl {
 
         mainCtrl.updateTaskList(taskList);
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**
