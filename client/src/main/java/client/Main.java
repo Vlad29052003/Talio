@@ -4,6 +4,7 @@ import static com.google.inject.Guice.createInjector;
 
 import client.scenes.BoardCtrl;
 import client.scenes.MainCtrl;
+import client.scenes.TagOverviewCtrl;
 import client.scenes.WorkspaceCtrl;
 import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
@@ -65,8 +66,10 @@ public class Main extends Application {
                 "client", "scenes", "crud", "CreateNewTask.fxml");
         var editTask = FXML.load(EditTaskCtrl.class,
                 "client", "scenes", "crud", "EditTask.fxml");
+        var tagOverview = FXML.load(TagOverviewCtrl.class,
+                "client", "scenes", "TagOverview.fxml");
 
-        mainCtrl.initialize(primaryStage, workspace, board);
+        mainCtrl.initialize(primaryStage, workspace, board, tagOverview);
         mainCtrl.initializeBoardCrud(joinBoard, createBoard, editBoard, deleteBoard);
         mainCtrl.initializeTaskListCrud(deleteTaskList, newTaskList, editTaskList);
         mainCtrl.initializeTaskCrud(deleteTask, newTask, editTask);

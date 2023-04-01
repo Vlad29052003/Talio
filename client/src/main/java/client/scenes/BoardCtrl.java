@@ -27,6 +27,8 @@ public class BoardCtrl {
     @FXML
     private Button addListButton;
     @FXML
+    private Button tagsButton;
+    @FXML
     private HBox listContainer;
 
     /**
@@ -67,9 +69,11 @@ public class BoardCtrl {
         if (board != null) {
             boardTitle.setText(board.name + " (id: " + board.id + ")");
             addListButton.setVisible(true);
+            tagsButton.setVisible(true);
         } else {
             boardTitle.setText("No board to be displayed");
             addListButton.setVisible(false);
+            tagsButton.setVisible(false);
         }
     }
 
@@ -134,6 +138,10 @@ public class BoardCtrl {
             listContainer.getChildren().add(tlc.getRoot());
             listControllers.add(tlc);
         }
+    }
+
+    public void tagOverview() {
+        mainCtrl.tagOverview(board);
     }
 
     /**

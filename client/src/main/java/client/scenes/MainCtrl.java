@@ -14,6 +14,7 @@ import client.scenes.crud.tasklists.EditTaskListCtrl;
 import client.utils.UpdateHandler;
 import client.utils.websocket.WebsocketSynchroniser;
 import commons.Board;
+import commons.Tag;
 import commons.Task;
 import commons.TaskList;
 import javafx.application.Platform;
@@ -54,6 +55,8 @@ public class MainCtrl {
     private Scene createTask;
     private EditTaskCtrl editTaskCtrl;
     private Scene editTask;
+    private TagOverviewCtrl tagOverviewCtrl;
+    private Scene tagOverview;
 
     /**
      * Sets myFXML.
@@ -76,7 +79,8 @@ public class MainCtrl {
     public void initialize(
             Stage primaryStage,
             Pair<WorkspaceCtrl, Parent> workspace,
-            Pair<BoardCtrl, Parent> board) {
+            Pair<BoardCtrl, Parent> board,
+            Pair<TagOverviewCtrl, Parent> tag) {
         this.primaryStage = primaryStage;
 
         this.popupStage = new Stage();
@@ -86,7 +90,11 @@ public class MainCtrl {
 
         this.workspaceCtrl = workspace.getKey();
         this.workspaceScene = new Scene(workspace.getValue());
+
         this.boardCtrl = board.getKey();
+
+        this.tagOverviewCtrl = tag.getKey();
+        this.tagOverview = new Scene(tag.getValue());
 
         primaryStage.setTitle("Talio");
         primaryStage.setScene(workspaceScene);
@@ -404,6 +412,13 @@ public class MainCtrl {
         popupStage.show();
     }
 
+    public void tagOverview(Board board) {
+        popupStage.setTitle("Tag Overview");
+        tagOverviewCtrl.setBoard(board);
+        popupStage.setScene(tagOverview);
+        popupStage.show();
+    }
+
     /**
      * Updates the Board with the same id as board
      * from the workspace.
@@ -459,6 +474,13 @@ public class MainCtrl {
         var pair = myFXML.load(BoardListingCtrl.class,
                 "client", "scenes", "BoardListing.fxml");
         pair.getKey().setBoard(newBoard);
+        return pair;
+    }
+
+    public Pair<TagListingCtrl, Parent> newTagListingView(Tag tag) {
+        var pair = myFXML.load(TagListingCtrl.class,
+                "client", "scenes", "TagListing.fxml");
+        pair.getKey().setTag(tag);
         return pair;
     }
 

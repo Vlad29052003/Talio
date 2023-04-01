@@ -22,6 +22,7 @@
                   </Label>
                </children>
             </AnchorPane>
+            <Button fx:id="tagsButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#tagOverview" text="Tags" visible="false" />
             <Button fx:id="addListButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#addTaskList" text="Add Task List" visible="false">
                <HBox.margin>
                   <Insets />
