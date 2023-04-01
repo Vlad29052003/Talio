@@ -199,9 +199,6 @@ public class TaskListCtrl {
     public void sendMoveRequest(long taskId, int newIndex) {
         try {
             server.dragAndDrop(taskList.id, newIndex, taskId);
-            /* TODO until sockets are implemented the client side updates will not happen
-            I will not implement them as they will be totally useless after websockets
-             */
         } catch (Exception e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
