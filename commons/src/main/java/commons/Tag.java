@@ -1,15 +1,14 @@
 package commons;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,20 +20,19 @@ public class Tag {
     public long id;
     public String name;
     public String color;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JsonManagedReference
-    public Set<Task> appliedTo;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
+    public Set<Task> tasks;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonIgnore
     public Board board;
 
     /**
      * Creates a new {@link Tag} object.
      */
     public Tag() {
-        //for object mappers
-        this.appliedTo = new HashSet<>();
+        this.tasks = new HashSet<>();
     }
 
     /**
@@ -46,7 +44,7 @@ public class Tag {
     public Tag(String name, String color) {
         this.name = name;
         this.color = color;
-        this.appliedTo = new HashSet<>();
+        this.tasks = new HashSet<>();
     }
 
     /**
@@ -55,7 +53,7 @@ public class Tag {
      * @param task is the task.
      */
     public void applyTo(Task task) {
-        appliedTo.add(task);
+        tasks.add(task);
     }
 
     /**
@@ -63,7 +61,7 @@ public class Tag {
      * @param task
      */
     public void removeFrom(Task task) {
-        appliedTo.remove(task);
+        tasks.remove(task);
     }
 
     @Override

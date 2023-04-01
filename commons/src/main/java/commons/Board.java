@@ -29,8 +29,7 @@ public class Board {
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     @JsonManagedReference
     public Set<TaskList> lists;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     public Set<Tag> tags;
 
     /**

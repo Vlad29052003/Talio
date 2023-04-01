@@ -6,14 +6,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Task implements Comparable<Task> {
@@ -25,6 +29,9 @@ public class Task implements Comparable<Task> {
     @ManyToOne
     @JsonBackReference
     TaskList list;
+
+    @ManyToMany(mappedBy = "tasks", cascade = CascadeType.ALL)
+    public Set<Tag> tags;
 
     public String name;
     public int index;
@@ -38,8 +45,8 @@ public class Task implements Comparable<Task> {
      */
     @SuppressWarnings("unused")
     public Task() {
-        // for object mappers
-        subtasks = new ArrayList<>();
+        this.subtasks = new ArrayList<>();
+        this.tags = new HashSet<>();
     }
 
     /**
@@ -53,7 +60,8 @@ public class Task implements Comparable<Task> {
         this.name = name;
         this.index = index;
         this.description = description;
-        subtasks = new ArrayList<>();
+        this.subtasks = new ArrayList<>();
+        this.tags = new HashSet<>();
     }
 
     /**
