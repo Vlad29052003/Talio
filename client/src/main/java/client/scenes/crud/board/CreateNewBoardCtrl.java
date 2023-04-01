@@ -5,6 +5,7 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
 import jakarta.ws.rs.WebApplicationException;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -27,6 +28,13 @@ public class CreateNewBoardCtrl {
     public CreateNewBoardCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+    }
+
+    /**
+     * Autofocuses the first field.
+     */
+    public void initialize() {
+        Platform.runLater(() -> text.requestFocus());
     }
 
     /**
@@ -53,6 +61,7 @@ public class CreateNewBoardCtrl {
      */
     public void cancel() {
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**
@@ -60,18 +69,24 @@ public class CreateNewBoardCtrl {
      * Creates a new Board.
      */
     public void add() {
+        if (text.getText().isEmpty()) {
+            var alert = new Alert(Alert.AlertType.ERROR);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setContentText("There name cannot be empty!\r");
+            alert.showAndWait();
+            return;
+        }
         Board newBoard = new Board(text.getText(), "");
         try {
             this.board = server.addBoard(newBoard);
-            mainCtrl.addBoardToWorkspace(board);
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.setContentText("There has been an error!\r" + e.getMessage());
             alert.showAndWait();
         }
-        mainCtrl.addBoardToWorkspace(board);
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**

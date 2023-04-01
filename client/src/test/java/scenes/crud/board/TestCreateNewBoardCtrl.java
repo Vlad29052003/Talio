@@ -17,6 +17,7 @@ public class TestCreateNewBoardCtrl {
     private MainCtrl mainCtrl;
     private CreateNewBoardCtrl newBoardCtrl;
     private Board board;
+
     @BeforeEach
     public void setUp() {
         this.server = new ServerUtilsTestingMock();

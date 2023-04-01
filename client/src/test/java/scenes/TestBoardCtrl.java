@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class TestBoardCtrl {
     private BoardCtrl boardCtrl;
@@ -32,5 +34,11 @@ public class TestBoardCtrl {
     @Test
     public void testGetBoard() {
         assertNull(boardCtrl.getBoard());
+    }
+
+    @Test
+    public void testAddTaskList() {
+        boardCtrl.addTaskList();
+        verify(mainCtrl, times(0)).addTaskList(board);
     }
 }

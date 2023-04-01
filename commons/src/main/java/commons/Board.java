@@ -4,18 +4,15 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 @Entity
@@ -29,7 +26,7 @@ public class Board {
     public String password;                 // if no password, no need to check RW permission
     public boolean RWpermission;            // true - both read and write, false - read only
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     @JsonManagedReference
     public Set<TaskList> lists;
     @OneToMany(cascade = CascadeType.ALL)
@@ -42,7 +39,8 @@ public class Board {
     @SuppressWarnings("unused")
     public Board() {
         // for object mappers
-        lists = new HashSet<>();
+        this.lists = new HashSet<>();
+        this.tags = new HashSet<>();
     }
 
     /**
@@ -86,6 +84,7 @@ public class Board {
         if(list == null) return;
         if(list.board != null) list.board.removeTaskList(list);
         this.lists.add(list);
+        // TODO: Assign the list a valid index / check if it's valid.
         list.board = this;
     }
 
@@ -100,8 +99,8 @@ public class Board {
         if(this.lists.remove(list)) {
             list.board = null;
         }
+        // TODO: Update indexes of other lists?
     }
-
     @Override
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj);
