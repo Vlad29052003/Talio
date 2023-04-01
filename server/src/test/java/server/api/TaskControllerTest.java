@@ -1,10 +1,13 @@
 package server.api;
 
+import commons.Board;
 import commons.Task;
 import commons.TaskList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.context.request.async.DeferredResult;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,6 +30,7 @@ public class TaskControllerTest {
         listRepo = new TaskListTestRepository();
         taskRepo = new TestTaskRepository();
         taskController = new TaskController(taskRepo, listRepo);
+        Board b = new Board("test", "");
         TaskList l1 = new TaskList("list1");
         l1.id = 1L;
         TaskList l2 = new TaskList("list2");
@@ -43,6 +47,10 @@ public class TaskControllerTest {
         t2.setTaskList(l1);
         l1.addTask(t3);
         t3.setTaskList(l1);
+        b.addTaskList(l1);
+        l1.setBoard(b);
+        b.addTaskList(l2);
+        l2.setBoard(b);
         lists.addAll(List.of(l1, l2));
         tasks.addAll(List.of(t1, t2, t3));
         taskRepo.tasks.addAll(List.of(t1, t2, t3));
@@ -128,6 +136,7 @@ public class TaskControllerTest {
     public void testUpdateTask() {
         Task updatedTask = new Task("Task1Updated", 1, "this is updated");
         updatedTask.id = 1L;
+
         assertEquals(taskController.updateTask(updatedTask), ResponseEntity.ok("Task updated."));
         assertEquals(tasks.get(0).id, 1L);
         assertEquals(tasks.get(0).name, "Task1Updated");
@@ -148,6 +157,13 @@ public class TaskControllerTest {
                 ResponseEntity.ok("Successfully deleted."));
         assertEquals(taskRepo.calledMethods, List.of("existsById", "findById", "delete", "flush"));
         assertFalse(taskRepo.tasks.contains(tasks.get(0)));
+    }
+
+    @Test
+    public void testGetUpdatesNoUpdates() throws InterruptedException {
+        var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        var res = new DeferredResult<ResponseEntity<Board>>(5000L, noContent);
+        assertEquals(taskController.getUpdates().getResult(), res.getResult());
     }
 
 

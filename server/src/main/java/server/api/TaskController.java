@@ -190,7 +190,7 @@ public class TaskController {
      * @return a Response containing the modified Board.
      */
     @GetMapping("/getUpdates")
-    public DeferredResult<ResponseEntity<Board>> getCreateUpdates() {
+    public DeferredResult<ResponseEntity<Board>> getUpdates() {
         var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         var res = new DeferredResult<ResponseEntity<Board>>(5000L, noContent);
 

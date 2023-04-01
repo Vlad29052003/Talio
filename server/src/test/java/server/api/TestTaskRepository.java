@@ -112,7 +112,7 @@ public class TestTaskRepository implements TaskRepository {
     @Override
     public <S extends Task> S saveAndFlush(S entity) {
         call("saveAndFlush");
-        return null;
+        return entity;
     }
 
     @Override
