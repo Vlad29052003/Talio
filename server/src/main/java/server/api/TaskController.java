@@ -96,7 +96,10 @@ public class TaskController {
         t.setTaskList(newList);
 
         t.index = index;
-        taskRepo.saveAndFlush(t);
+        Task updated = taskRepo.saveAndFlush(t);
+
+        Board board = updated.getTaskList().getBoard();
+        listenCreate.forEach((k, l) -> l.accept(board));
 
         return ResponseEntity.ok("Changed successfully!");
     }
@@ -144,7 +147,10 @@ public class TaskController {
         Task current = taskRepo.findById(task.id).get();
         current.name = task.name;
         current.description = task.description;
-        taskRepo.saveAndFlush(current);
+        Task updated = taskRepo.saveAndFlush(current);
+
+        Board board = updated.getTaskList().getBoard();
+        listenCreate.forEach((k, l) -> l.accept(board));
 
         return ResponseEntity.ok("Task updated.");
     }
@@ -167,6 +173,9 @@ public class TaskController {
         taskRepo.delete(deleted);
         taskRepo.flush();
         changeIndexesOldList(old, index);
+
+        //Board board = listRepo.findById(old.id).get().getBoard();
+        //listenCreate.forEach((k, l) -> l.accept(board));
 
         return ResponseEntity.ok("Successfully deleted.");
     }
@@ -193,7 +202,7 @@ public class TaskController {
         listRepo.saveAndFlush(list);
     }
 
-    @GetMapping("/createUpdates")
+    @GetMapping("/getUpdates")
     public DeferredResult<ResponseEntity<Board>> getCreateUpdates() {
         var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         var res = new DeferredResult<ResponseEntity<Board>>(5000L, noContent);

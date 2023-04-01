@@ -208,7 +208,7 @@ public class ServerUtils {
         EXEC.submit(() -> {
             while (!Thread.interrupted()) {
                 var res = ClientBuilder.newClient(new ClientConfig())
-                        .target(server).path("api/task/createUpdates")
+                        .target(server).path("api/task/getUpdates")
                         .request(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .get(Response.class);

@@ -215,7 +215,7 @@ public class MainCtrl {
      * Stops all services depending on MainCtrl
      */
     public void stop() {
-        boardCtrl.stop();
+        workspaceCtrl.stop();
         this.boardSyncroniser.stop();
     }
 
@@ -438,6 +438,10 @@ public class MainCtrl {
         createBoardCtrl.reset();
         joinBoardCtrl.reset();
         primaryStage.setScene(workspaceScene);
+    }
+
+    public Board getActiveBoard() {
+        return boardCtrl.getBoard();
     }
 
     /**

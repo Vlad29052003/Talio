@@ -5,6 +5,7 @@ import client.datasaving.JoinedBoardList;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -97,6 +98,14 @@ public class WorkspaceCtrl implements Initializable {
         String ip = data.getServers().get(index).getServer();
         serverIP.setText(ip);
         fetch();
+
+        server.registerForCreateTaskUpdates(b -> {
+            Platform.runLater(() -> {
+                updateBoard(b);
+                if(mainCtrl.getActiveBoard() != null && mainCtrl.getActiveBoard().id == b.id)
+                    mainCtrl.switchBoard(b);
+            });
+        });
     }
 
     /**
@@ -413,5 +422,9 @@ public class WorkspaceCtrl implements Initializable {
         boardWorkspace.getChildren().clear();
         boards.clear();
         mainCtrl.switchBoard(null);
+    }
+
+    public void stop() {
+        server.stop();
     }
 }

@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-public class BoardCtrl implements Initializable {
+public class BoardCtrl {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
@@ -43,13 +43,6 @@ public class BoardCtrl implements Initializable {
     public BoardCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        server.registerForCreateTaskUpdates(b -> {
-            //setBoard(b);
-        });
     }
 
     /**
@@ -216,9 +209,5 @@ public class BoardCtrl implements Initializable {
         found.name = updated.name;
         found.description = updated.description;
         tlCtrl.refresh();
-    }
-
-    public void stop() {
-        server.stop();
     }
 }

@@ -87,10 +87,4 @@ public class Main extends Application {
             mainCtrl.stop();
         });
     }
-
-//    @Override
-//    public void stop() throws Exception {
-//        mainCtrl.stop();
-//        super.stop();
-//    }
 }
