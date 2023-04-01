@@ -30,7 +30,7 @@ public class Board {
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
     public Set<TaskList> lists;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public Set<Tag> tags;
 
     /**

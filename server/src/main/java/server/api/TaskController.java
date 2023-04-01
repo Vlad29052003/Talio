@@ -81,7 +81,6 @@ public class TaskController {
      * @return the status of the operation.
      */
     @PostMapping("/{newListId}/{index}/{taskId}")
-    @Transactional
     public ResponseEntity<String> moveTask(@PathVariable("newListId") long newListId,
                                            @PathVariable("index") int index,
                                            @PathVariable("taskId") long taskId) {
@@ -110,7 +109,6 @@ public class TaskController {
      * @return a ResponseEntity containing the new Task.
      */
     @PostMapping("/{listId}")
-    @Transactional
     public ResponseEntity<?> createTask(@PathVariable("listId") long listId,
                                         @RequestBody Task task) {
         if (listId < 0 || !listRepo.existsById(listId))
@@ -139,7 +137,6 @@ public class TaskController {
      * @return a ResponseEntity with the status of the operation.
      */
     @PostMapping(path = {"", "/"})
-    @Transactional
     public ResponseEntity<String> updateTask(@RequestBody Task task) {
         if (task == null || task.id < 0 || !taskRepo.existsById(task.id))
             return ResponseEntity.badRequest().body("Invalid data.");
@@ -159,6 +156,7 @@ public class TaskController {
      * @return a ResponseEntity containing the status of the operation.
      */
     @DeleteMapping("/{taskId}")
+    @Transactional
     public ResponseEntity<String> deleteById(@PathVariable("taskId") long taskId) {
         if (taskId < 0 || !taskRepo.existsById(taskId))
             return ResponseEntity.badRequest().body("Invalid ID.");

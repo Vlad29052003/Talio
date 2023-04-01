@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,7 +31,7 @@ public class Task implements Comparable<Task> {
     public int index;
     public String description;
 
-    @ElementCollection // 1
+    @ElementCollection(fetch = FetchType.EAGER)
     public List<String> subtasks;
 
     /**

@@ -47,7 +47,9 @@ public class BoardCtrl implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        server.registerForCreateTaskUpdates(this::setBoard);
+        server.registerForCreateTaskUpdates(b -> {
+            //setBoard(b);
+        });
     }
 
     /**

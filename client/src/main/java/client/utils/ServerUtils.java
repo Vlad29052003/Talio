@@ -217,8 +217,7 @@ public class ServerUtils {
                     continue;
                 }
                 Board b = res.readEntity(Board.class);
-                System.out.println(b);
-                //consumer.accept(b);
+                consumer.accept(b);
             }
         });
     }
