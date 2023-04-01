@@ -4,15 +4,18 @@ import client.utils.ServerUtils;
 import commons.Tag;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 import javax.inject.Inject;
 
 public class TagListingCtrl {
     private ServerUtils server;
     private MainCtrl mainCtrl;
     private Tag tag;
-
     @FXML
     private Label name;
+    @FXML
+    private Rectangle colorPreview;
 
     /**
      * Creates a new {@link TagListingCtrl} object.
@@ -64,5 +67,8 @@ public class TagListingCtrl {
      */
     public void refresh() {
         this.name.setText(tag.name);
+        Paint paint = Paint.valueOf(tag.color);
+        colorPreview.setFill(paint);
+
     }
 }

@@ -4,6 +4,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <HBox fx:id="root" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="49.0" prefWidth="367.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TagListingCtrl">
@@ -16,6 +17,7 @@
             <Insets left="15.0" />
          </HBox.margin>
       </Label>
+      <Rectangle fx:id="colorPreview" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="28.0" stroke="BLACK" strokeType="INSIDE" width="27.0" />
       <HBox alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="285.0">
          <children>
             <JFXButton onAction="#editTag" text="Edit">
