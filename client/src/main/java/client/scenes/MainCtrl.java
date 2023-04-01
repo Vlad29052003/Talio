@@ -411,6 +411,13 @@ public class MainCtrl {
         popupStage.show();
     }
 
+    public void editTag(Tag tag) {
+        editTagCtrl.setTag(tag);
+        secondPopupStage.setTitle("Edit tag");
+        secondPopupStage.setScene(editTag);
+        secondPopupStage.show();
+    }
+
     /**
      * Switches to the DeleteBoard Scene.
      *
@@ -599,6 +606,14 @@ public class MainCtrl {
     public void removeTag(Tag tag) {
         if(boardCtrl.getBoard() != null) {
             boardCtrl.getBoard().tags.remove(tag);
+            tagOverviewCtrl.refresh();
+        }
+    }
+
+    public void updateTag(Tag old, Tag newest) {
+        if(boardCtrl.getBoard() != null) {
+            int i = boardCtrl.getBoard().tags.indexOf(old);
+            if(i >= 0)boardCtrl.getBoard().tags.set(i, newest);
             tagOverviewCtrl.refresh();
         }
     }

@@ -29,7 +29,7 @@ public class TagListingCtrl {
     }
 
     public void editTag() {
-
+        mainCtrl.editTag(tag);
     }
 
     public void deleteTag() {

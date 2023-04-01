@@ -197,6 +197,19 @@ public class ServerUtils {
     }
 
     /**
+     * Sends a request to update a Tag on the server.
+     *
+     * @param tag is the updated Tag.
+     */
+    public Tag updateTag(Tag tag) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(server).path("api/tag/")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(tag, APPLICATION_JSON), Tag.class);
+    }
+
+    /**
      * Sends a request to update the list and index of a task.
      *
      * @param newListId is the id of the new list.

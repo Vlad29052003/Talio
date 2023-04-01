@@ -59,6 +59,7 @@ public class TagService {
             Tag updated = tagRepo.findById(tag.id).get();
             updated.name = tag.name;
             updated.color = tag.color;
+            updated = tagRepo.saveAndFlush(updated);
             return ResponseEntity.ok(updated);
         }
         return ResponseEntity.badRequest().build();
