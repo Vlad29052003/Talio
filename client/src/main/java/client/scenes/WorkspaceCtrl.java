@@ -424,6 +424,9 @@ public class WorkspaceCtrl implements Initializable {
         mainCtrl.switchBoard(null);
     }
 
+    /**
+     * Ensures the server thread is stopped when the application is closed.
+     */
     public void stop() {
         server.stop();
     }

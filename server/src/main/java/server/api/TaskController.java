@@ -98,9 +98,9 @@ public class TaskController {
         t.index = index;
         Task updated = taskRepo.saveAndFlush(t);
 
-//        Board board = updated.getTaskList().getBoard();
-//        board.toString();
-//        listenCreate.forEach((k, l) -> l.accept(board));
+        Board board = updated.getTaskList().getBoard();
+        board.toString();
+        listenCreate.forEach((k, l) -> l.accept(board));
 
         return ResponseEntity.ok("Changed successfully!");
     }
@@ -185,6 +185,27 @@ public class TaskController {
     }
 
     /**
+     * Handles long polling updates.
+     *
+     * @return a Response containing the modified Board.
+     */
+    @GetMapping("/getUpdates")
+    public DeferredResult<ResponseEntity<Board>> getCreateUpdates() {
+        var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        var res = new DeferredResult<ResponseEntity<Board>>(5000L, noContent);
+
+        var key = new Object();
+        listenCreate.put(key, b -> {
+            res.setResult(ResponseEntity.ok((Board) b));
+        });
+        res.onCompletion(() -> {
+            listenCreate.remove(key);
+        });
+
+        return res;
+    }
+
+    /**
      * Increments indexes larger than index so a new Task can be inserted in the list.
      *
      * @param list  is the TaskList in which it updates the Task indexes.
@@ -204,22 +225,6 @@ public class TaskController {
     public void changeIndexesOldList(TaskList list, int index) {
         list.tasks.stream().filter(t -> t.index > index).forEach(t -> t.index--);
         listRepo.saveAndFlush(list);
-    }
-
-    @GetMapping("/getUpdates")
-    public DeferredResult<ResponseEntity<Board>> getCreateUpdates() {
-        var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        var res = new DeferredResult<ResponseEntity<Board>>(5000L, noContent);
-
-        var key = new Object();
-        listenCreate.put(key, b -> {
-            res.setResult(ResponseEntity.ok((Board) b));
-        });
-        res.onCompletion(() -> {
-            listenCreate.remove(key);
-        });
-
-        return res;
     }
 
 }

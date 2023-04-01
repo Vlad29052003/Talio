@@ -107,6 +107,7 @@ public class TaskListCtrl {
         this.taskContainer.getChildren().clear();
         this.taskControllers.clear();
 
+        taskList.sort();
         List<Task> tasks = this.taskList.tasks;
         for (Task task : tasks) {
             Pair<TaskCtrl, Parent> p = mainCtrl.newTaskView(task);

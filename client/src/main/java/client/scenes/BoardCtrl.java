@@ -6,18 +6,14 @@ import commons.Board;
 import commons.Task;
 import commons.TaskList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.util.Pair;
-
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 public class BoardCtrl {

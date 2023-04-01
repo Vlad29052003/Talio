@@ -440,6 +440,11 @@ public class MainCtrl {
         primaryStage.setScene(workspaceScene);
     }
 
+    /**
+     * Gets the board that is currently being displayed.
+     *
+     * @return the board.
+     */
     public Board getActiveBoard() {
         return boardCtrl.getBoard();
     }

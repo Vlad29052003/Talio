@@ -204,24 +204,35 @@ public class ServerUtils {
                 .post(Entity.entity(response, APPLICATION_JSON), String.class);
     }
 
+    /**
+     * Starts the long polling.
+     *
+     * @param consumer is the Consumer.
+     */
     public void registerForCreateTaskUpdates(Consumer<Board> consumer) {
         EXEC.submit(() -> {
             while (!Thread.interrupted()) {
-                var res = ClientBuilder.newClient(new ClientConfig())
-                        .target(server).path("api/task/getUpdates")
-                        .request(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON)
-                        .get(Response.class);
-                if(res.getStatus() == 204) {
-                    System.out.println(204);
-                    continue;
+                try {
+                    var res = ClientBuilder.newClient(new ClientConfig())
+                            .target(server).path("api/task/getUpdates")
+                            .request(APPLICATION_JSON)
+                            .accept(APPLICATION_JSON)
+                            .get(Response.class);
+                    if (res.getStatus() == 204) {
+                        System.out.println(204);
+                        continue;
+                    }
+                    Board b = res.readEntity(Board.class);
+                    consumer.accept(b);
                 }
-                Board b = res.readEntity(Board.class);
-                consumer.accept(b);
+                catch (Exception ignored) {}
             }
         });
     }
 
+    /**
+     * Ensures the thread stops when the application is closed.
+     */
     public void stop() {
         EXEC.shutdownNow();
     }
