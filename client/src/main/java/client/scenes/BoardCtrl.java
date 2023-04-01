@@ -140,6 +140,9 @@ public class BoardCtrl {
         }
     }
 
+    /**
+     * Displays the tag overview.
+     */
     public void tagOverview() {
         mainCtrl.tagOverview(board);
     }

@@ -85,6 +85,7 @@ public class MainCtrl {
      * @param primaryStage is the primary Stage.
      * @param workspace    is the Workspace.
      * @param board        is the initial Board, which is empty.
+     * @param tag          is the Tag Overview.
      */
     public void initialize(
             Stage primaryStage,
@@ -211,6 +212,14 @@ public class MainCtrl {
         this.editTask = new Scene(editTask.getValue());
     }
 
+    /**
+     * Initializes the controllers and scenes for the
+     * tag crud operations.
+     *
+     * @param deleteTag is the Scene for deleting a Tag.
+     * @param newTag    is the Scene for creating a Tag.
+     * @param editTag   is the Scene for editing a Tag.
+     */
     public void initializeTagCrud(Pair<DeleteTagCtrl, Parent> deleteTag,
                                   Pair<CreateTagCtrl, Parent> newTag,
                                   Pair<EditTagCtrl, Parent> editTag) {
@@ -368,6 +377,11 @@ public class MainCtrl {
         popupStage.show();
     }
 
+    /**
+     * Switches to AddTag Scene.
+     *
+     * @param board is the Board associated with the scene.
+     */
     public void addTag(Board board) {
         createTagCtrl.setBoard(board);
         secondPopupStage.setTitle("Create Tag");
@@ -411,6 +425,11 @@ public class MainCtrl {
         popupStage.show();
     }
 
+    /**
+     * Switches to the EditTag Scene.
+     *
+     * @param tag is the Tag to be edited.
+     */
     public void editTag(Tag tag) {
         editTagCtrl.setTag(tag);
         secondPopupStage.setTitle("Edit tag");
@@ -455,6 +474,11 @@ public class MainCtrl {
         popupStage.show();
     }
 
+    /**
+     * Switches to the DeleteTag Scene.
+     *
+     * @param tag is the Tag to be deleted.
+     */
     public void deleteTag(Tag tag) {
         deleteTagCtrl.setTag(tag);
         secondPopupStage.setTitle("Delete tag");
@@ -462,6 +486,11 @@ public class MainCtrl {
         secondPopupStage.show();
     }
 
+    /**
+     * Displays the tag overview.
+     *
+     * @param board is the Board associated with the scene.
+     */
     public void tagOverview(Board board) {
         popupStage.setTitle("Tag Overview");
         tagOverviewCtrl.setBoard(board);
@@ -527,6 +556,12 @@ public class MainCtrl {
         return pair;
     }
 
+    /**
+     * Loads the scenes for the TagListingCtrl.
+     *
+     * @param tag is the Tag associated with them.
+     * @return the new BoardListingCtrl.
+     */
     public Pair<TagListingCtrl, Parent> newTagListingView(Tag tag) {
         var pair = myFXML.load(TagListingCtrl.class,
                 "client", "scenes", "TagListing.fxml");
@@ -584,8 +619,7 @@ public class MainCtrl {
     public void updateTaskInList(Task task) {
         try {
             boardCtrl.updateTask(task);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -599,21 +633,35 @@ public class MainCtrl {
         boardCtrl.removeTask(task);
     }
 
+    /**
+     * Refreshes the tag overview.
+     */
     public void refreshTagOverview() {
         tagOverviewCtrl.refresh();
     }
 
+    /**
+     * Removes a tag from the overview.
+     *
+     * @param tag is the removed tag.
+     */
     public void removeTag(Tag tag) {
-        if(boardCtrl.getBoard() != null) {
+        if (boardCtrl.getBoard() != null) {
             boardCtrl.getBoard().tags.remove(tag);
             tagOverviewCtrl.refresh();
         }
     }
 
+    /**
+     * Updates a tag in the overview.
+     *
+     * @param old    is the old tag.
+     * @param newest is the new tag.
+     */
     public void updateTag(Tag old, Tag newest) {
-        if(boardCtrl.getBoard() != null) {
+        if (boardCtrl.getBoard() != null) {
             int i = boardCtrl.getBoard().tags.indexOf(old);
-            if(i >= 0)boardCtrl.getBoard().tags.set(i, newest);
+            if (i >= 0) boardCtrl.getBoard().tags.set(i, newest);
             tagOverviewCtrl.refresh();
         }
     }
@@ -636,25 +684,17 @@ public class MainCtrl {
     }
 
     /**
-     * Shows the popup Stage
-     * when it is in use.
+     * Hides the popup Stage when
+     * it is not in use.
      */
-    public void showPopup(){
-        popupStage.show();
-    }
-
-    public void showSecondPopup(){
-        secondPopupStage.show();
+    public void hidePopup() {
+        popupStage.hide();
     }
 
     /**
      * Hides the popup Stage when
      * it is not in use.
      */
-    public void hidePopup(){
-        popupStage.hide();
-    }
-
     public void hideSecondPopup() {
         secondPopupStage.hide();
     }

@@ -4,7 +4,6 @@ import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
 import commons.Board;
 import commons.Tag;
-import commons.Task;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -19,20 +18,39 @@ public class CreateTagCtrl {
     @FXML
     private TextField name;
 
+    /**
+     * Creates a new {@link CreateTagCtrl} object.
+     *
+     * @param server   is the ServerUtils.
+     * @param mainCtrl is the MainCtrl.
+     */
     @Inject
     private CreateTagCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.serverUtils = server;
         this.mainCtrl = mainCtrl;
     }
 
+    /**
+     * Gets the board.
+     *
+     * @return the board.
+     */
     public Board getBoard() {
         return board;
     }
 
+    /**
+     * Sets the board.
+     *
+     * @param board hte board.
+     */
     public void setBoard(Board board) {
         this.board = board;
     }
 
+    /**
+     * Sends a request to create a new tag.
+     */
     public void addTag() {
         if (name.getText().isEmpty()) {
             var alert = new Alert(Alert.AlertType.ERROR);
@@ -55,6 +73,9 @@ public class CreateTagCtrl {
         }
     }
 
+    /**
+     * Cancels the action.
+     */
     public void cancel() {
         name.setText("");
         mainCtrl.hideSecondPopup();

@@ -92,6 +92,21 @@ public class ServerUtils {
     }
 
     /**
+     * Saves a tag on the server.
+     *
+     * @param tag     is the Tag to be saved.
+     * @param boardId is the id of the Board.
+     * @return the saved Tag.
+     */
+    public Tag addTag(Tag tag, long boardId) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(server).path("api/tag/" + boardId)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(tag, APPLICATION_JSON), Tag.class);
+    }
+
+    /**
      * Sends a request to get a Board from the server.
      *
      * @param id is the id of the requested board.
@@ -147,6 +162,12 @@ public class ServerUtils {
                 .delete();
     }
 
+    /**
+     * Sends a request to delete a Tag from the server.
+     *
+     * @param tag is the Tag to be deleted.
+     * @return the status of the request.
+     */
     public Response delete(Tag tag) {
         return ClientBuilder.newClient(new ClientConfig())
                 .target(server).path("api/tag/" + tag.id)
@@ -200,6 +221,7 @@ public class ServerUtils {
      * Sends a request to update a Tag on the server.
      *
      * @param tag is the updated Tag.
+     * @return the updated Tag.
      */
     public Tag updateTag(Tag tag) {
         return ClientBuilder.newClient(new ClientConfig())
@@ -226,14 +248,6 @@ public class ServerUtils {
                 .post(Entity.entity(response, APPLICATION_JSON), String.class);
     }
 
-    public Tag addTag(Tag tag, long boardId) {
-        return ClientBuilder.newClient(new ClientConfig())
-                .target(server).path("api/tag/" + boardId)
-                .request(APPLICATION_JSON)
-                .accept(APPLICATION_JSON)
-                .post(Entity.entity(tag, APPLICATION_JSON), Tag.class);
-    }
-
     /**
      * Starts the long polling.
      *
@@ -253,8 +267,8 @@ public class ServerUtils {
                     }
                     Board b = res.readEntity(Board.class);
                     consumer.accept(b);
+                } catch (Exception ignored) {
                 }
-                catch (Exception ignored) {}
             }
         });
     }

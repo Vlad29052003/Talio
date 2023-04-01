@@ -103,6 +103,9 @@ public class Board {
         // TODO: Update indexes of other lists?
     }
 
+    /**
+     * Sorts the tags.
+     */
     public void sortTags() {
         Collections.sort(tags);
     }

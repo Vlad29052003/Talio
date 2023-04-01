@@ -18,7 +18,8 @@ public class TagService {
     /**
      * Creates a new {@link TagService} object.
      *
-     * @param tagRepo is the TagRepository to be used.
+     * @param tagRepo   is the TagRepository to be used.
+     * @param boardRepo is the BoardRepository to be used.
      */
     @Autowired
     public TagService(TagRepository tagRepo, BoardRepository boardRepo) {
@@ -42,7 +43,7 @@ public class TagService {
      * @return a response, potentially containing the searched Tag.
      */
     public ResponseEntity<?> getById(long id) {
-        if(tagRepo.existsById(id)) {
+        if (tagRepo.existsById(id)) {
             return ResponseEntity.ok(tagRepo.findById(id).get());
         }
         return ResponseEntity.badRequest().build();
@@ -55,7 +56,7 @@ public class TagService {
      * @return a response, potentially containing the updated Tag, if valid.
      */
     public ResponseEntity<?> update(Tag tag) {
-        if(tagRepo.existsById(tag.id)) {
+        if (tagRepo.existsById(tag.id)) {
             Tag updated = tagRepo.findById(tag.id).get();
             updated.name = tag.name;
             updated.color = tag.color;
@@ -68,14 +69,15 @@ public class TagService {
     /**
      * Creates a Tag.
      *
-     * @param tag is the new Tag.
+     * @param tag     is the new Tag.
+     * @param boardId is the id of the Board.
      * @return a response, potentially containing the new Tag, if valid.
      */
     public ResponseEntity<?> create(Tag tag, long boardId) {
-        if(!boardRepo.existsById(boardId) || tag == null)return ResponseEntity.badRequest().build();
+        if (!boardRepo.existsById(boardId) || tag == null)
+            return ResponseEntity.badRequest().build();
         Board board = boardRepo.findById(boardId).get();
         Tag saved = tagRepo.saveAndFlush(tag);
-        System.out.println(tag);
         board.tags.add(saved);
         tag.board = board;
         boardRepo.saveAndFlush(board);
@@ -90,7 +92,7 @@ public class TagService {
      */
     @Transactional
     public ResponseEntity<?> delete(long id) {
-        if(tagRepo.existsById(id)) {
+        if (tagRepo.existsById(id)) {
             tagRepo.deleteById(id);
             tagRepo.flush();
             return ResponseEntity.ok().build();
