@@ -219,7 +219,6 @@ public class ServerUtils {
                             .accept(APPLICATION_JSON)
                             .get(Response.class);
                     if (res.getStatus() == 204) {
-                        System.out.println(204);
                         continue;
                     }
                     Board b = res.readEntity(Board.class);
