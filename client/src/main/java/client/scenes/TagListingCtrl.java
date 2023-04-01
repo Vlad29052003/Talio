@@ -33,7 +33,7 @@ public class TagListingCtrl {
     }
 
     public void deleteTag() {
-
+        mainCtrl.deleteTag(tag);
     }
 
     public void refresh() {

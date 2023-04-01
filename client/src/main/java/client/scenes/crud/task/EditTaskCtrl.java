@@ -79,8 +79,7 @@ public class EditTaskCtrl {
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
-            alert.setContentText("The board was not found on the server!" +
-                    "\rIt will be removed from the workspace!");
+            alert.setContentText("The tag was not found on the server!");
             alert.showAndWait();
             mainCtrl.cancel();
             this.refresh();

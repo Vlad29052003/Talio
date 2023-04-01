@@ -17,17 +17,19 @@ import java.util.Set;
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 @Entity
-public class Tag {
+public class Tag implements Comparable<Tag>{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public long id;
+
     public String name;
     public String color;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     public Set<Task> tasks;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JsonIgnore
     public Board board;
 
@@ -83,5 +85,12 @@ public class Tag {
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
+    }
+
+    @Override
+    public int compareTo(Tag o) {
+        if(o == null)
+            throw new NullPointerException();
+        return Long.compare(this.id, o.id);
     }
 }

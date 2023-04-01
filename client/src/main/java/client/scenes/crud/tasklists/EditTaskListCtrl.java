@@ -80,7 +80,7 @@ public class EditTaskListCtrl {
         if (text.getText().isEmpty()) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
-            alert.setContentText("There name cannot be empty!\r");
+            alert.setContentText("The name cannot be empty!\r");
             alert.showAndWait();
             return;
         }
@@ -90,8 +90,7 @@ public class EditTaskListCtrl {
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
-            alert.setContentText("The list was not found on the server!" +
-                    "\rIt will be removed from the workspace!");
+            alert.setContentText("The list was not found on the server!");
             alert.showAndWait();
             mainCtrl.cancel();
             this.reset();

@@ -22,7 +22,7 @@
       </HBox>
       <ScrollPane hbarPolicy="NEVER" prefHeight="374.0" prefWidth="367.0" vbarPolicy="ALWAYS">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="314.0" prefWidth="364.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="298.0" prefWidth="405.0">
                <children>
                   <VBox fx:id="tagContainer" layoutX="-4.0" layoutY="-1.0" prefHeight="318.0" prefWidth="367.0" />
                </children>

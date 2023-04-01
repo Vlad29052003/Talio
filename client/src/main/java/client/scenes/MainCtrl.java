@@ -448,6 +448,13 @@ public class MainCtrl {
         popupStage.show();
     }
 
+    public void deleteTag(Tag tag) {
+        deleteTagCtrl.setTag(tag);
+        secondPopupStage.setTitle("Delete tag");
+        secondPopupStage.setScene(deleteTag);
+        secondPopupStage.show();
+    }
+
     public void tagOverview(Board board) {
         popupStage.setTitle("Tag Overview");
         tagOverviewCtrl.setBoard(board);
@@ -587,6 +594,13 @@ public class MainCtrl {
 
     public void refreshTagOverview() {
         tagOverviewCtrl.refresh();
+    }
+
+    public void removeTag(Tag tag) {
+        if(boardCtrl.getBoard() != null) {
+            boardCtrl.getBoard().tags.remove(tag);
+            tagOverviewCtrl.refresh();
+        }
     }
 
     public class MyUpdateHandler extends UpdateHandler {

@@ -147,6 +147,14 @@ public class ServerUtils {
                 .delete();
     }
 
+    public Response delete(Tag tag) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(server).path("api/tag/" + tag.id)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .delete();
+    }
+
     /**
      * Sends a request to update a Board on the server.
      *

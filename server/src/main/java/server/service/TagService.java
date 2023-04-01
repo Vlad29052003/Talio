@@ -76,6 +76,7 @@ public class TagService {
         Tag saved = tagRepo.saveAndFlush(tag);
         System.out.println(tag);
         board.tags.add(saved);
+        tag.board = board;
         boardRepo.saveAndFlush(board);
         return ResponseEntity.ok(saved);
     }

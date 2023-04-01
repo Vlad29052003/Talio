@@ -11,7 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
@@ -30,7 +32,7 @@ public class Board {
     @JsonManagedReference
     public Set<TaskList> lists;
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-    public Set<Tag> tags;
+    public List<Tag> tags;
 
     /**
      * Empty constructor for object mappers.
@@ -39,7 +41,7 @@ public class Board {
     public Board() {
         // for object mappers
         this.lists = new HashSet<>();
-        this.tags = new HashSet<>();
+        this.tags = new ArrayList<>();
     }
 
     /**
@@ -59,7 +61,7 @@ public class Board {
         this.password = password;
         this.RWpermission = RWpermission;
         this.lists = new HashSet<>();
-        this.tags = new HashSet<>();
+        this.tags = new ArrayList<>();
     }
 
     /**
@@ -100,6 +102,11 @@ public class Board {
         }
         // TODO: Update indexes of other lists?
     }
+
+    public void sortTags() {
+        Collections.sort(tags);
+    }
+
     @Override
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj);
