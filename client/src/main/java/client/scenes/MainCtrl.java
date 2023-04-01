@@ -510,7 +510,12 @@ public class MainCtrl {
      * @param task is the updated Task.
      */
     public void updateTaskInList(Task task) {
-        boardCtrl.updateTask(task);
+        try {
+            boardCtrl.updateTask(task);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
