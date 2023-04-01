@@ -2,7 +2,6 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import commons.Board;
 import commons.Task;
 import commons.TaskList;
 import javafx.fxml.FXML;
