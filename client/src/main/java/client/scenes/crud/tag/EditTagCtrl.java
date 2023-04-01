@@ -4,9 +4,12 @@ import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
 import commons.Tag;
 import jakarta.ws.rs.WebApplicationException;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javax.inject.Inject;
 
@@ -16,6 +19,8 @@ public class EditTagCtrl {
     private Tag tag;
     @FXML
     private TextField name;
+    @FXML
+    private ColorPicker colorPicker;
 
     /**
      * Creates a new {@link EditTagCtrl} object.
@@ -45,7 +50,9 @@ public class EditTagCtrl {
      */
     public void setTag(Tag tag) {
         this.tag = tag;
+        Platform.runLater(() -> name.requestFocus());
         name.setText(tag.name);
+        colorPicker.setValue(Color.valueOf(tag.color));
     }
 
     /**
@@ -61,6 +68,7 @@ public class EditTagCtrl {
         }
         try {
             tag.name = name.getText();
+            tag.color = colorPicker.getValue().toString();
             Tag edited = server.updateTag(tag);
             mainCtrl.updateTag(tag, edited);
         } catch (WebApplicationException e) {
@@ -87,5 +95,6 @@ public class EditTagCtrl {
      */
     private void reset() {
         name.setText("");
+        colorPicker.setValue(Color.WHITE);
     }
 }

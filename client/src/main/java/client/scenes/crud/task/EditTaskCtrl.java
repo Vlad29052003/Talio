@@ -34,14 +34,6 @@ public class EditTaskCtrl {
     }
 
     /**
-     * Autofocuses the first field.
-     */
-    public void initialize() {
-        Platform.runLater(() -> name.requestFocus());
-    }
-
-
-    /**
      * Gets the task.
      *
      * @return the task.
@@ -57,6 +49,7 @@ public class EditTaskCtrl {
      */
     public void setTask(Task task) {
         this.task = task;
+        Platform.runLater(() -> name.requestFocus());
         refresh();
     }
 

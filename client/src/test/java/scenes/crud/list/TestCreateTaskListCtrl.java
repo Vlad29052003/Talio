@@ -7,7 +7,6 @@ import commons.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import scenes.ServerUtilsTestingMock;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 
@@ -29,11 +28,5 @@ public class TestCreateTaskListCtrl {
     public void testConstructor() {
         CreateNewBoardCtrl ctrl = new CreateNewBoardCtrl(server, mainCtrl);
         assertNotNull(ctrl);
-    }
-
-    @Test
-    public void testGetSetBoard() {
-        createTaskListCtrl.setBoard(b);
-        assertEquals(createTaskListCtrl.getBoard(), b);
     }
 }

@@ -5,9 +5,12 @@ import client.utils.ServerUtils;
 import commons.Board;
 import commons.Tag;
 import jakarta.ws.rs.WebApplicationException;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javax.inject.Inject;
 
@@ -17,6 +20,8 @@ public class CreateTagCtrl {
     private Board board;
     @FXML
     private TextField name;
+    @FXML
+    private ColorPicker colorPicker;
 
     /**
      * Creates a new {@link CreateTagCtrl} object.
@@ -46,6 +51,7 @@ public class CreateTagCtrl {
      */
     public void setBoard(Board board) {
         this.board = board;
+        Platform.runLater(() -> name.requestFocus());
     }
 
     /**
@@ -60,7 +66,7 @@ public class CreateTagCtrl {
             return;
         }
         try {
-            Tag tag = new Tag(name.getText(), "");
+            Tag tag = new Tag(name.getText(), colorPicker.getValue().toString());
             tag = serverUtils.addTag(tag, board.id);
             board.tags.add(tag);
             mainCtrl.refreshTagOverview();
@@ -78,6 +84,7 @@ public class CreateTagCtrl {
      */
     public void cancel() {
         name.setText("");
+        colorPicker.setValue(Color.WHITE);
         mainCtrl.hideSecondPopup();
     }
 }

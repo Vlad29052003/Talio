@@ -35,14 +35,6 @@ public class CreateTaskCtrl {
     }
 
     /**
-     * Autofocuses the first field.
-     */
-    public void initialize() {
-        Platform.runLater(() -> name.requestFocus());
-    }
-
-
-    /**
      * Gets the TaskList.
      *
      * @return the TaskList.
@@ -58,6 +50,7 @@ public class CreateTaskCtrl {
      */
     public void setTaskList(TaskList taskList) {
         this.taskList = taskList;
+        Platform.runLater(() -> name.requestFocus());
     }
 
     /**

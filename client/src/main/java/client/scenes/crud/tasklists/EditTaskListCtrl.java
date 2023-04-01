@@ -37,13 +37,6 @@ public class EditTaskListCtrl {
     }
 
     /**
-     * Autofocuses the first field.
-     */
-    public void initialize() {
-        Platform.runLater(() -> text.requestFocus());
-    }
-
-    /**
      * Sets the taskList.
      *
      * @param taskList is the TaskList.
@@ -51,6 +44,7 @@ public class EditTaskListCtrl {
     public void setTaskList(TaskList taskList) {
         this.taskList = taskList;
         this.text.setText(taskList.name);
+        Platform.runLater(() -> text.requestFocus());
     }
 
     /**
