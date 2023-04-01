@@ -86,7 +86,6 @@ public class CreateTaskListCtrl {
         }
         try {
             board = server.addTaskList(new TaskList(text.getText()), board.id);
-            System.out.println(board);
             mainCtrl.refreshBoard(board);
             reset();
             mainCtrl.cancel();
