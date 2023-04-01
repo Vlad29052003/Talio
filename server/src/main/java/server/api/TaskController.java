@@ -1,9 +1,11 @@
 package server.api;
 
+import commons.Board;
 import commons.Task;
 import commons.TaskList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,18 +14,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.async.DeferredResult;
 import server.database.TaskListRepository;
 import server.database.TaskRepository;
 
 import javax.transaction.Transactional;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 @RestController
 @RequestMapping("/api/task")
 public class TaskController {
     private final TaskRepository taskRepo;
     private final TaskListRepository listRepo;
+    private Map<Object, Consumer<Board>> listenCreate;
 
     /**
      * Instantiate a new {@link TaskController}.
@@ -35,6 +42,7 @@ public class TaskController {
                           TaskListRepository listRepo) {
         this.taskRepo = taskRepo;
         this.listRepo = listRepo;
+        this.listenCreate = new HashMap<>();
     }
 
     /**
@@ -118,6 +126,9 @@ public class TaskController {
         task.setTaskList(listRepo.findById(listId).get());
         Task saved = taskRepo.saveAndFlush(task);
 
+        Board board = saved.getTaskList().getBoard();
+        listenCreate.forEach((k, l) -> l.accept(board));
+
         return ResponseEntity.ok(saved);
     }
 
@@ -163,7 +174,7 @@ public class TaskController {
     }
 
     /**
-     * Indexes indexes larger than index so a new Task can be inserted in the list.
+     * Increments indexes larger than index so a new Task can be inserted in the list.
      *
      * @param list  is the TaskList in which it updates the Task indexes.
      * @param index is the index of the inserted Task.
@@ -182,6 +193,22 @@ public class TaskController {
     public void changeIndexesOldList(TaskList list, int index) {
         list.tasks.stream().filter(t -> t.index > index).forEach(t -> t.index--);
         listRepo.saveAndFlush(list);
+    }
+
+    @GetMapping("/createUpdates")
+    public DeferredResult<ResponseEntity<Board>> getCreateUpdates() {
+        var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        var res = new DeferredResult<ResponseEntity<Board>>(5000L, noContent);
+
+        var key = new Object();
+        listenCreate.put(key, b -> {
+            res.setResult(ResponseEntity.ok((Board) b));
+        });
+        res.onCompletion(() -> {
+            listenCreate.remove(key);
+        });
+
+        return res;
     }
 
 }

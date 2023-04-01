@@ -82,11 +82,15 @@ public class Main extends Application {
         mainCtrl.initializeBoardCrud(joinBoard, createBoard, editBoard, deleteBoard);
         mainCtrl.initializeTaskListCrud(deleteTaskList, newTaskList, editTaskList);
         mainCtrl.initializeTaskCrud(deleteTask, newTask, editTask);
+
+        primaryStage.setOnCloseRequest(e -> {
+            mainCtrl.stop();
+        });
     }
 
-    @Override
-    public void stop() throws Exception {
-        mainCtrl.stop();
-        super.stop();
-    }
+//    @Override
+//    public void stop() throws Exception {
+//        mainCtrl.stop();
+//        super.stop();
+//    }
 }

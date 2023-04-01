@@ -215,6 +215,7 @@ public class MainCtrl {
      * Stops all services depending on MainCtrl
      */
     public void stop() {
+        boardCtrl.stop();
         this.boardSyncroniser.stop();
     }
 
