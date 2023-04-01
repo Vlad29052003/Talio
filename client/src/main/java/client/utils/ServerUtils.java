@@ -1,6 +1,7 @@
 package client.utils;
 
 import commons.Board;
+import commons.Tag;
 import commons.Task;
 import commons.TaskList;
 import jakarta.ws.rs.client.ClientBuilder;
@@ -202,6 +203,14 @@ public class ServerUtils {
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(response, APPLICATION_JSON), String.class);
+    }
+
+    public Tag addTag(Tag tag, long boardId) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(server).path("api/tag/" + boardId)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(tag, APPLICATION_JSON), Tag.class);
     }
 
     /**

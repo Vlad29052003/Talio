@@ -10,6 +10,9 @@ import client.scenes.TaskListCtrl;
 import client.scenes.WorkspaceCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
+import client.scenes.crud.tag.CreateTagCtrl;
+import client.scenes.crud.tag.DeleteTagCtrl;
+import client.scenes.crud.tag.EditTagCtrl;
 import client.scenes.crud.task.CreateTaskCtrl;
 import client.scenes.crud.task.DeleteTaskCtrl;
 import client.scenes.crud.board.CreateNewBoardCtrl;
@@ -49,6 +52,9 @@ public class MyModule implements Module {
         binder.bind(EditTaskCtrl.class).in(Scopes.SINGLETON);
         binder.bind(CreateTaskCtrl.class).in(Scopes.SINGLETON);
 
+        binder.bind(DeleteTagCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(EditTagCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(CreateTagCtrl.class).in(Scopes.SINGLETON);
 
         binder.bind(TaskListCtrl.class).in(Scopes.NO_SCOPE);
         binder.bind(TaskCtrl.class).in(Scopes.NO_SCOPE);

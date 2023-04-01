@@ -1,16 +1,19 @@
 package server.service;
 
+import commons.Board;
 import commons.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import server.database.BoardRepository;
 import server.database.TagRepository;
 import java.util.List;
 
 @Service
 public class TagService {
     private final TagRepository tagRepo;
+    private final BoardRepository boardRepo;
 
     /**
      * Creates a new {@link TagService} object.
@@ -18,8 +21,9 @@ public class TagService {
      * @param tagRepo is the TagRepository to be used.
      */
     @Autowired
-    public TagService(TagRepository tagRepo) {
+    public TagService(TagRepository tagRepo, BoardRepository boardRepo) {
         this.tagRepo = tagRepo;
+        this.boardRepo = boardRepo;
     }
 
     /**
@@ -66,9 +70,13 @@ public class TagService {
      * @param tag is the new Tag.
      * @return a response, potentially containing the new Tag, if valid.
      */
-    public ResponseEntity<?> create(Tag tag) {
-        if(tag.board == null)return ResponseEntity.badRequest().build();
+    public ResponseEntity<?> create(Tag tag, long boardId) {
+        if(!boardRepo.existsById(boardId) || tag == null)return ResponseEntity.badRequest().build();
+        Board board = boardRepo.findById(boardId).get();
         Tag saved = tagRepo.saveAndFlush(tag);
+        System.out.println(tag);
+        board.tags.add(saved);
+        boardRepo.saveAndFlush(board);
         return ResponseEntity.ok(saved);
     }
 

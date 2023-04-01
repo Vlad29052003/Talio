@@ -10,6 +10,9 @@ import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
+import client.scenes.crud.tag.CreateTagCtrl;
+import client.scenes.crud.tag.DeleteTagCtrl;
+import client.scenes.crud.tag.EditTagCtrl;
 import client.scenes.crud.task.CreateTaskCtrl;
 import client.scenes.crud.task.DeleteTaskCtrl;
 import client.scenes.crud.task.EditTaskCtrl;
@@ -41,7 +44,6 @@ public class Main extends Application {
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
         mainCtrl.setMyFXML(FXML);
 
-
         var workspace = FXML.load(WorkspaceCtrl.class,
                 "client", "scenes", "WorkspaceView.fxml");
         var board = FXML.load(BoardCtrl.class,
@@ -66,6 +68,12 @@ public class Main extends Application {
                 "client", "scenes", "crud", "CreateNewTask.fxml");
         var editTask = FXML.load(EditTaskCtrl.class,
                 "client", "scenes", "crud", "EditTask.fxml");
+        var deleteTag = FXML.load(DeleteTagCtrl.class,
+                "client", "scenes", "crud", "ConfirmTagDelete.fxml");
+        var newTag = FXML.load(CreateTagCtrl.class,
+                "client", "scenes", "crud", "CreateNewTag.fxml");
+        var editTag = FXML.load(EditTagCtrl.class,
+                "client", "scenes", "crud", "EditTagName.fxml");
         var tagOverview = FXML.load(TagOverviewCtrl.class,
                 "client", "scenes", "TagOverview.fxml");
 
@@ -73,9 +81,8 @@ public class Main extends Application {
         mainCtrl.initializeBoardCrud(joinBoard, createBoard, editBoard, deleteBoard);
         mainCtrl.initializeTaskListCrud(deleteTaskList, newTaskList, editTaskList);
         mainCtrl.initializeTaskCrud(deleteTask, newTask, editTask);
+        mainCtrl.initializeTagCrud(deleteTag, newTag, editTag);
 
-        primaryStage.setOnCloseRequest(e -> {
-            mainCtrl.stop();
-        });
+        primaryStage.setOnCloseRequest(e -> mainCtrl.stop());
     }
 }

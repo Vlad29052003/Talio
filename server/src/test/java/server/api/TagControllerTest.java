@@ -60,7 +60,7 @@ public class TagControllerTest {
             req.id = inc++;
             tags.add(req);
             return ResponseEntity.ok(req);
-        }).when(tagService).create(Mockito.any(Tag.class));
+        }).when(tagService).create(Mockito.any(Tag.class), Mockito.any(Long.class));
 
         doAnswer(invocation -> {
             Long id = invocation.getArgument(0);
@@ -83,24 +83,24 @@ public class TagControllerTest {
 
     @Test
     public void getById() {
-        tagController.create(t1);
+        tagController.create(1L, t1);
         assertEquals(tagController.getById(0L), ResponseEntity.ok(t1));
         verify(tagService, times(1)).getById(0L);
     }
 
     @Test
     public void testCreate() {
-        assertEquals(tagController.create(t1), ResponseEntity.ok(t1));
+        assertEquals(tagController.create(0L, t1), ResponseEntity.ok(t1));
         assertEquals(t1.id, 0L);
-        verify(tagService, times(1)).create(t1);
+        verify(tagService, times(1)).create(t1, 0L);
     }
 
     @Test
     public void testUpdate() {
-        tagController.create(t1);
-        tagController.create(t2);
-        tagController.create(t3);
-        tagController.create(t4);
+        tagController.create(0L, t1);
+        tagController.create(0L, t2);
+        tagController.create(0L, t3);
+        tagController.create(0L, t4);
 
         Tag updated = new Tag("updated", "red");
         updated.id = 1L;
@@ -112,7 +112,7 @@ public class TagControllerTest {
 
     @Test
     public void testDelete() {
-        tagController.create(t1);
+        tagController.create(0L, t1);
         assertEquals(tagController.delete(t1.id), ResponseEntity.ok().build());
         assertEquals(tags.size(), 0);
         verify(tagService, times(1)).delete(0L);

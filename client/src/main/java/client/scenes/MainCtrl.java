@@ -5,6 +5,9 @@ import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
+import client.scenes.crud.tag.CreateTagCtrl;
+import client.scenes.crud.tag.DeleteTagCtrl;
+import client.scenes.crud.tag.EditTagCtrl;
 import client.scenes.crud.task.CreateTaskCtrl;
 import client.scenes.crud.task.DeleteTaskCtrl;
 import client.scenes.crud.task.EditTaskCtrl;
@@ -57,6 +60,13 @@ public class MainCtrl {
     private Scene editTask;
     private TagOverviewCtrl tagOverviewCtrl;
     private Scene tagOverview;
+    private DeleteTagCtrl deleteTagCtrl;
+    private Scene deleteTag;
+    private CreateTagCtrl createTagCtrl;
+    private Scene createTag;
+    private EditTagCtrl editTagCtrl;
+    private Scene editTag;
+    private Stage secondPopupStage;
 
     /**
      * Sets myFXML.
@@ -201,6 +211,25 @@ public class MainCtrl {
         this.editTask = new Scene(editTask.getValue());
     }
 
+    public void initializeTagCrud(Pair<DeleteTagCtrl, Parent> deleteTag,
+                                  Pair<CreateTagCtrl, Parent> newTag,
+                                  Pair<EditTagCtrl, Parent> editTag) {
+
+        this.secondPopupStage = new Stage();
+        secondPopupStage.setResizable(false);
+        secondPopupStage.initModality(Modality.WINDOW_MODAL);
+        secondPopupStage.initOwner(primaryStage);
+
+        this.deleteTagCtrl = deleteTag.getKey();
+        this.deleteTag = new Scene(deleteTag.getValue());
+
+        this.createTagCtrl = newTag.getKey();
+        this.createTag = new Scene(newTag.getValue());
+
+        this.editTagCtrl = editTag.getKey();
+        this.editTag = new Scene(editTag.getValue());
+    }
+
     /**
      * Gets the drag and drop node.
      *
@@ -337,6 +366,13 @@ public class MainCtrl {
         popupStage.setTitle("Create task");
         popupStage.setScene(createTask);
         popupStage.show();
+    }
+
+    public void addTag(Board board) {
+        createTagCtrl.setBoard(board);
+        secondPopupStage.setTitle("Create Tag");
+        secondPopupStage.setScene(createTag);
+        secondPopupStage.show();
     }
 
     /**
@@ -549,6 +585,10 @@ public class MainCtrl {
         boardCtrl.removeTask(task);
     }
 
+    public void refreshTagOverview() {
+        tagOverviewCtrl.refresh();
+    }
+
     public class MyUpdateHandler extends UpdateHandler {
 
         @Override
@@ -574,11 +614,19 @@ public class MainCtrl {
         popupStage.show();
     }
 
+    public void showSecondPopup(){
+        secondPopupStage.show();
+    }
+
     /**
      * Hides the popup Stage when
      * it is not in use.
      */
     public void hidePopup(){
         popupStage.hide();
+    }
+
+    public void hideSecondPopup() {
+        secondPopupStage.hide();
     }
 }

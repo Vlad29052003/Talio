@@ -53,9 +53,7 @@ public class TagOverviewCtrl implements Initializable {
     }
 
     public void createTag() {
-        Tag newT = new Tag("name", "");
-        board.tags.add(newT);
-        refresh();
+        mainCtrl.addTag(board);
     }
 
     public void close() {

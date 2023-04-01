@@ -6,9 +6,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.http.ResponseEntity;
+import server.database.BoardRepository;
 import server.database.TagRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
@@ -18,6 +20,7 @@ import static org.mockito.Mockito.when;
 
 public class TagServiceTest {
     private TagRepository tagRepo;
+    private BoardRepository boardRepo;
     private TagService tagService;
     private Tag t1;
     private Tag t2;
@@ -33,7 +36,8 @@ public class TagServiceTest {
         t3 = new Tag("t3", "");
         t4 = new Tag("t4", "");
         tagRepo = mock(TagRepository.class);
-        tagService = new TagService(tagRepo);
+        boardRepo = mock(BoardRepository.class);
+        tagService = new TagService(tagRepo, boardRepo);
         tags = new ArrayList<>();
         inc = 0L;
 
@@ -113,16 +117,20 @@ public class TagServiceTest {
     @Test
     public void testCreate() {
         Board b = new Board();
+        when(boardRepo.existsById(0L)).thenReturn(true);
+        when(boardRepo.findById(0L)).thenReturn(Optional.of(b));
         t1.board = b;
-        assertEquals(tagService.create(t1), ResponseEntity.ok(t1));
+        assertEquals(tagService.create(t1, 0L), ResponseEntity.ok(t1));
         assertEquals(t1.id, 0L);
         verify(tagRepo, times(1)).saveAndFlush(t1);
+        verify(boardRepo, times(1)).existsById(0L);
+        verify(boardRepo, times(1)).findById(0L);
     }
 
     @Test
     public void testCreateInvalid() {
         Tag test = new Tag();
-        assertEquals(tagService.create(test), ResponseEntity.badRequest().build());
+        assertEquals(tagService.create(test, 0L), ResponseEntity.badRequest().build());
     }
 
     @Test

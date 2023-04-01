@@ -67,9 +67,10 @@ public class TagController {
      * @param tag is the new Tag.
      * @return a response, potentially containing the new Tag, if valid.
      */
-    @PutMapping(path = {"", "/"})
-    public ResponseEntity<?> create(@RequestBody Tag tag) {
-        return tagService.create(tag);
+    @PostMapping("/{boardId}")
+    public ResponseEntity<?> create(@PathVariable("boardId") long boardId,
+                                    @RequestBody Tag tag) {
+        return tagService.create(tag, boardId);
     }
 
     /**
