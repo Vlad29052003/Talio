@@ -32,7 +32,7 @@ public class TaskList {
     @JsonBackReference
     public Board board;
 
-    @OneToMany(mappedBy = "list", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "list", cascade = CascadeType.ALL)
     @JsonManagedReference
     public List<Task> tasks;
 

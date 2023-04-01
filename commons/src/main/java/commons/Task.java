@@ -32,7 +32,7 @@ public class Task implements Comparable<Task> {
     public int index;
     public String description;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection
     public List<String> subtasks;
 
     /**

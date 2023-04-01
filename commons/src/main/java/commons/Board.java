@@ -27,10 +27,10 @@ public class Board {
     public String password;                 // if no password, no need to check RW permission
     public boolean RWpermission;            // true - both read and write, false - read only
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     @JsonManagedReference
     public Set<TaskList> lists;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL)
     public Set<Tag> tags;
 
     /**

@@ -98,8 +98,9 @@ public class TaskController {
         t.index = index;
         Task updated = taskRepo.saveAndFlush(t);
 
-        Board board = updated.getTaskList().getBoard();
-        listenCreate.forEach((k, l) -> l.accept(board));
+//        Board board = updated.getTaskList().getBoard();
+//        board.toString();
+//        listenCreate.forEach((k, l) -> l.accept(board));
 
         return ResponseEntity.ok("Changed successfully!");
     }
@@ -128,6 +129,7 @@ public class TaskController {
         Task saved = taskRepo.saveAndFlush(task);
 
         Board board = saved.getTaskList().getBoard();
+        board.toString();
         listenCreate.forEach((k, l) -> l.accept(board));
 
         return ResponseEntity.ok(saved);
@@ -150,6 +152,7 @@ public class TaskController {
         Task updated = taskRepo.saveAndFlush(current);
 
         Board board = updated.getTaskList().getBoard();
+        board.toString();
         listenCreate.forEach((k, l) -> l.accept(board));
 
         return ResponseEntity.ok("Task updated.");
@@ -174,8 +177,9 @@ public class TaskController {
         taskRepo.flush();
         changeIndexesOldList(old, index);
 
-        //Board board = listRepo.findById(old.id).get().getBoard();
-        //listenCreate.forEach((k, l) -> l.accept(board));
+        Board board = listRepo.findById(old.id).get().getBoard();
+        board.toString();
+        listenCreate.forEach((k, l) -> l.accept(board));
 
         return ResponseEntity.ok("Successfully deleted.");
     }
