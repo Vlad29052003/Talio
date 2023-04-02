@@ -199,22 +199,4 @@ public class BoardCtrl {
         updatedTaskList.setTaskList(updated);
         updatedTaskList.refresh();
     }
-
-    /**
-     * Updates a Task in the Board.
-     *
-     * @param updated is the updated Task.
-     */
-    public void updateTask(Task updated) {
-        var toBeUpdated =
-                listControllers.stream().filter(b -> b.getTaskList()
-                        .tasks.get(updated.index).id == updated.id).findFirst();
-
-        if (toBeUpdated.isEmpty()) return;
-        TaskListCtrl tlCtrl = toBeUpdated.get();
-        Task found = tlCtrl.getTaskList().tasks.get(updated.index);
-        found.name = updated.name;
-        found.description = updated.description;
-        tlCtrl.refresh();
-    }
 }

@@ -22,9 +22,11 @@ import server.database.TaskRepository;
 
 import javax.transaction.Transactional;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Consumer;
 
 @RestController
@@ -156,13 +158,15 @@ public class TaskController {
         Task current = taskRepo.findById(task.id).get();
         current.name = task.name;
         current.description = task.description;
-        for(Tag tag : current.tags) {
+        Set<Tag> copy = Set.copyOf(current.tags);
+        for(Tag tag : copy) {
             Tag onServer = tagRepo.findById(tag.id).get();
             current.tags.remove(onServer);
             onServer.removeFrom(current);
             tagRepo.saveAndFlush(onServer);
         }
-        for(Tag tag : task.tags) {
+        copy = Set.copyOf(task.tags);
+        for(Tag tag : copy) {
             Tag onServer = tagRepo.findById(tag.id).get();
             current.tags.add(onServer);
             onServer.applyTo(current);

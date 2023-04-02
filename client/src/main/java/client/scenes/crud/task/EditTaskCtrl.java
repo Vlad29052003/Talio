@@ -82,11 +82,11 @@ public class EditTaskCtrl {
             task.name = name.getText();
             task.description = description.getText();
             server.updateTask(task);
-            mainCtrl.updateTaskInList(task);
         } catch (WebApplicationException e) {
+            e.printStackTrace();
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
-            alert.setContentText("The tag was not found on the server!");
+            alert.setContentText("The task was not found on the server!");
             alert.showAndWait();
             mainCtrl.cancel();
             this.refresh();

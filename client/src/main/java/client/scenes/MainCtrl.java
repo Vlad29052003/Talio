@@ -633,19 +633,6 @@ public class MainCtrl {
     }
 
     /**
-     * Updates the task in the ListView.
-     *
-     * @param task is the updated Task.
-     */
-    public void updateTaskInList(Task task) {
-        try {
-            boardCtrl.updateTask(task);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Removes the task from ListView.
      *
      * @param task is the Task to be removed.
