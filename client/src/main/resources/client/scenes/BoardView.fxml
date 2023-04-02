@@ -9,25 +9,26 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardCtrl">
+<?import com.jfoenix.controls.JFXButton?>
+<VBox stylesheets="/style/BoardCtrl.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardCtrl">
    <children>
-      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0">
+      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" spacing="5.0" styleClass="boardMenu">
          <children>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Label fx:id="boardTitle" text="No board to be displayed" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <Label fx:id="boardTitle" styleClass="boardName" text="No board to be displayed" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <font>
                         <Font size="22.0" />
                      </font>
                   </Label>
                </children>
             </AnchorPane>
-            <Button fx:id="tagsButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#tagOverview" text="Tags" visible="false" />
-            <Button fx:id="addListButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#addTaskList" text="Add Task List" visible="false">
+            <JFXButton fx:id="tagsButton" alignment="CENTER" mnemonicParsing="false" onAction="#tagOverview" prefHeight="25.0" prefWidth="86.0" styleClass="whiteButton" text="Tags" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS" visible="false" />
+            <JFXButton fx:id="addListButton" alignment="CENTER" mnemonicParsing="false" onAction="#addTaskList" styleClass="whiteButton" text="Add Task List" textAlignment="CENTER" visible="false">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
-            </Button>
+            </JFXButton>
          </children>
          <VBox.margin>
             <Insets />
