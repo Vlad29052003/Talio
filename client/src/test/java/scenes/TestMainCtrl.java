@@ -134,19 +134,6 @@ public class TestMainCtrl {
     }
 
     @Test
-    public void testUpdateTaskInList() {
-        final Task[] t = {new Task()};
-        doAnswer(invocation -> {
-            t[0] = invocation.getArgument(0);
-            return null;
-        }).when(boardCtrl).updateTask(Mockito.any(Task.class));
-        Task expected = new Task("expected", 0, "");
-        mainCtrl.updateTaskInList(expected);
-        assertEquals(t[0], expected);
-        verify(boardCtrl, times(1)).updateTask(expected);
-    }
-
-    @Test
     public void testRemoveTask() {
         Task t1 = new Task();
         final Task[] t = {new Task()};

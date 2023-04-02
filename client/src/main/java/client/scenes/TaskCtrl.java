@@ -86,6 +86,9 @@ public class TaskCtrl {
         populateTags();
     }
 
+    /**
+     * Adds the visual representation of the tags.
+     */
     public void populateTags() {
         for(Tag tag : task.tags) {
             Rectangle tagRepr = new Rectangle(100, 5);
