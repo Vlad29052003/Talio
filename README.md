@@ -9,14 +9,14 @@ to track and manage group projects and help everyone be on track with his/her ta
 ## Group members
 [](#group-members)
 
-| Profile Picture                                                                                                                                            | Name | Email |
-|------------------------------------------------------------------------------------------------------------------------------------------------------------|---|---|
-| ![birb](./resources/birb.png)                                                                                                                              | Andrei Petre | a.petre-1@student.tudelft.nl |
-| <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Rust_programming_language_black_logo.svg" alt="Rust programming language logo" height="50">  | Jochem Pouwels | j.j.pouwels@student.tudelft.nl |
-| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325)                                                    | Olaf Herman | o.h.s.herman@student.tudelft.nl |
-| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325)                                                    | Jesse Klijnsma | j.b.klijnsma@student.tudelft.nl |
-| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325)                                                    | Lovro Mlikotić | l.mlikotic@student.tudelft.nl |
-| <img src="./resources/vlad.jpeg" height="50">                                                                                                              | Vlad Graure | v.s.graure@student.tudelft.nl |
+| Profile Picture                                                                                                                                           | Name           | Email                           |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------|----------------|---------------------------------|
+| ![birb](./resources/birb.png)                                                                                                                             | Andrei Petre   | a.petre-1@student.tudelft.nl    |
+| <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Rust_programming_language_black_logo.svg" alt="Rust programming language logo" height="50"> | Jochem Pouwels | j.j.pouwels@student.tudelft.nl  |
+| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325)                                                   | Olaf Herman    | o.h.s.herman@student.tudelft.nl |
+| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325)                                                   | Jesse Klijnsma | j.b.klijnsma@student.tudelft.nl |
+| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325)                                                   | Lovro Mlikotić | l.mlikotic@student.tudelft.nl   |
+| <img src="./resources/vlad.jpeg" height="50">                                                                                                             | Vlad Graure    | v.s.graure@student.tudelft.nl   |
 
 ## How to run it
 
@@ -41,7 +41,7 @@ been done correctly so far:
 #### Running the client application
 1. Leave the terminal in which the server is running open.
 2. Follow the same procedure as before: open a new terminal and navigate to the project directory using the `cd` command.
-3. After reaching the directory, while having the server running (the application can be run without the server but it will not have many features as most of them involeve
+3. After reaching the directory, while having the server running (the application can be run without the server, but it will not have many features as most of them involve
 communication with the server) run the following command: `gradlew run`.
 4. Now, the client application has been opened, and the application can be used.
 
