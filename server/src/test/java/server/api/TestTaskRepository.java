@@ -81,7 +81,14 @@ public class TestTaskRepository implements TaskRepository {
     @Override
     public <S extends Task> S save(S entity) {
         call("save");
-        return null;
+        boolean present = tasks.stream().anyMatch(e -> e.id == entity.id);
+        if(present){
+            tasks.replaceAll(t -> t.id == entity.id ? entity : t);
+        }else{
+            entity.id = tasks.size();
+            tasks.add(entity);
+        }
+        return entity;
     }
 
     @Override
@@ -112,7 +119,7 @@ public class TestTaskRepository implements TaskRepository {
     @Override
     public <S extends Task> S saveAndFlush(S entity) {
         call("saveAndFlush");
-        return null;
+        return save(entity);
     }
 
     @Override

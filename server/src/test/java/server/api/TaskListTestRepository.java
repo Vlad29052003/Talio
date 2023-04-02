@@ -83,8 +83,13 @@ public class TaskListTestRepository implements TaskListRepository {
     @Override
     public <S extends TaskList> S save(S entity) {
         call("save");
-        entity.id = lists.size();
-        lists.add(entity);
+        boolean present = lists.stream().anyMatch(e -> e.id == entity.id);
+        if(present){
+            lists.replaceAll(t -> t.id == entity.id ? entity : t);
+        }else{
+            entity.id = lists.size();
+            lists.add(entity);
+        }
         return entity;
     }
 
@@ -112,7 +117,7 @@ public class TaskListTestRepository implements TaskListRepository {
 
     @Override
     public <S extends TaskList> S saveAndFlush(S entity) {
-        return null;
+        return save(entity);
     }
 
     @Override
@@ -142,7 +147,7 @@ public class TaskListTestRepository implements TaskListRepository {
 
     @Override
     public TaskList getById(Long aLong) {
-        return null;
+        return find(aLong).orElse(null);
     }
 
     @Override

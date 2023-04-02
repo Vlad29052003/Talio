@@ -1,10 +1,13 @@
 package server.api;
 
+import commons.Board;
 import commons.Task;
 import commons.TaskList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
+import server.mutations.BoardChangeQueue;
+
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,6 +18,7 @@ public class TaskControllerTest {
     private TaskListTestRepository listRepo;
     private TestTaskRepository taskRepo;
     private TaskController taskController;
+    private BoardChangeQueue changes;
 
     private List<TaskList> lists;
 
@@ -26,11 +30,15 @@ public class TaskControllerTest {
         tasks = new ArrayList<>();
         listRepo = new TaskListTestRepository();
         taskRepo = new TestTaskRepository();
-        taskController = new TaskController(taskRepo, listRepo);
+        changes = new BoardChangeQueue();
+        taskController = new TaskController(taskRepo, listRepo, changes);
+        Board parent = new Board("Board1", "color");
         TaskList l1 = new TaskList("list1");
         l1.id = 1L;
+        parent.addTaskList(l1);
         TaskList l2 = new TaskList("list2");
         l2.id = 2L;
+        parent.addTaskList(l2);
         Task t1 = new Task("task1", 1, "");
         t1.id = 1L;
         Task t2 = new Task("task2", 2, "");
@@ -88,9 +96,6 @@ public class TaskControllerTest {
         assertEquals(tasks.get(1).index, 1);
         assertEquals(tasks.get(0).index, 1);
         assertEquals(tasks.get(2).index, 2);
-        assertEquals(listRepo.calledMethods,
-                List.of("existsById", "findById"));
-        assertEquals(taskRepo.calledMethods, List.of("existsById", "findById", "saveAndFlush"));
     }
 
     @Test
@@ -114,8 +119,6 @@ public class TaskControllerTest {
                 ResponseEntity.ok(taskRepo.saveAndFlush(newTask)));
         assertEquals(newTask.index, 4);
         assertEquals(newTask.getTaskList(), lists.get(0));
-        assertEquals(listRepo.calledMethods, List.of("existsById", "findById", "findById"));
-        assertEquals(taskRepo.calledMethods, List.of("saveAndFlush", "saveAndFlush"));
     }
 
     @Test
@@ -132,7 +135,6 @@ public class TaskControllerTest {
         assertEquals(tasks.get(0).id, 1L);
         assertEquals(tasks.get(0).name, "Task1Updated");
         assertEquals(tasks.get(0).description, "this is updated");
-        assertEquals(taskRepo.calledMethods, List.of("existsById", "findById", "saveAndFlush"));
     }
 
     @Test

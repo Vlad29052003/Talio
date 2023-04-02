@@ -1,5 +1,6 @@
 package server.api;
 
+import commons.Board;
 import commons.Task;
 import commons.TaskList;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import server.database.TaskListRepository;
 import server.database.TaskRepository;
+import server.mutations.BoardChangeQueue;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -24,17 +26,21 @@ import java.util.Optional;
 public class TaskController {
     private final TaskRepository taskRepo;
     private final TaskListRepository listRepo;
+    private final BoardChangeQueue changes;
 
     /**
      * Instantiate a new {@link TaskController}.
      * @param taskRepo the {@link TaskRepository} to use.
      * @param listRepo the {@link TaskListRepository} to use.
+     * @param changes the {@link BoardChangeQueue} to use.
      */
     @Autowired
     public TaskController(TaskRepository taskRepo,
-                          TaskListRepository listRepo) {
+                          TaskListRepository listRepo,
+                          BoardChangeQueue changes) {
         this.taskRepo = taskRepo;
         this.listRepo = listRepo;
+        this.changes = changes;
     }
 
     /**
@@ -89,7 +95,10 @@ public class TaskController {
         t.setTaskList(newList);
 
         t.index = index;
-        taskRepo.saveAndFlush(t);
+        Task saved = taskRepo.saveAndFlush(t);
+
+        Board parent = saved.getTaskList().getBoard();
+        changes.addChanged(parent.id, parent);
 
         return ResponseEntity.ok("Changed successfully!");
     }
@@ -118,6 +127,9 @@ public class TaskController {
         task.setTaskList(listRepo.findById(listId).get());
         Task saved = taskRepo.saveAndFlush(task);
 
+        Board parent = saved.getTaskList().getBoard();
+        changes.addChanged(parent.id, parent);
+
         return ResponseEntity.ok(saved);
     }
 
@@ -136,7 +148,10 @@ public class TaskController {
         Task current = taskRepo.findById(task.id).get();
         current.name = task.name;
         current.description = task.description;
-        taskRepo.saveAndFlush(current);
+        Task saved = taskRepo.saveAndFlush(current);
+
+        Board parent = saved.getTaskList().getBoard();
+        changes.addChanged(parent.id, parent);
 
         return ResponseEntity.ok("Task updated.");
     }
@@ -158,6 +173,9 @@ public class TaskController {
         taskRepo.delete(deleted);
         taskRepo.flush();
         changeIndexesOldList(old, index);
+
+        Board parent = old.getBoard();
+        changes.addChanged(parent.id, parent);
 
         return ResponseEntity.ok("Successfully deleted.");
     }
