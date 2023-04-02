@@ -1,29 +1,26 @@
-package scenes.crud.board;
+package scenes.crud.task;
 
 import client.scenes.MainCtrl;
 import client.scenes.crud.board.CreateNewBoardCtrl;
-import commons.Board;
+import client.scenes.crud.task.CreateTaskCtrl;
+import commons.TaskList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import scenes.ServerUtilsTestingMock;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
-public class TestCreateNewBoardCtrl {
+public class TestCreateTaskCtrl {
     private ServerUtilsTestingMock server;
     private MainCtrl mainCtrl;
-    private CreateNewBoardCtrl newBoardCtrl;
-    private Board board;
+    private CreateTaskCtrl createTaskCtrl;
 
     @BeforeEach
     public void setUp() {
         this.server = new ServerUtilsTestingMock();
         this.mainCtrl = mock(MainCtrl.class);
-        this.newBoardCtrl = new CreateNewBoardCtrl(server, mainCtrl);
-        this.board = new Board("testing", "");
+        this.createTaskCtrl = new CreateTaskCtrl(server, mainCtrl);
     }
 
     @Test
@@ -33,14 +30,9 @@ public class TestCreateNewBoardCtrl {
     }
 
     @Test
-    public void testGetSetBoard() {
-        newBoardCtrl.setBoard(board);
-        assertEquals(newBoardCtrl.getBoard(), board);
-    }
-
-    @Test
-    public void testCancel() {
-        newBoardCtrl.cancel();
-        verify(mainCtrl, times(1)).cancel();
+    public void testGetSetTaskList() {
+        TaskList tl = new TaskList();
+        createTaskCtrl.setTaskList(tl);
+        assertEquals(createTaskCtrl.getTaskList(), tl);
     }
 }

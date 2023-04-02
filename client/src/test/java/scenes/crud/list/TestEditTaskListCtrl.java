@@ -1,44 +1,43 @@
-package scenes;
+package scenes.crud.list;
 
-import client.scenes.BoardCtrl;
 import client.scenes.MainCtrl;
-import commons.Board;
+import client.scenes.crud.board.EditBoardCtrl;
+import client.scenes.crud.task.EditTaskCtrl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import scenes.ServerUtilsTestingMock;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-public class TestBoardCtrl {
-    private BoardCtrl boardCtrl;
-    private MainCtrl mainCtrl;
+public class TestEditTaskListCtrl {
     private ServerUtilsTestingMock server;
-    private Board board;
+    private MainCtrl mainCtrl;
+    private EditTaskCtrl editTaskCtrl;
 
     @BeforeEach
     public void setUp() {
-        this.mainCtrl = mock(MainCtrl.class);
         this.server = new ServerUtilsTestingMock();
-        this.boardCtrl = new BoardCtrl(server, mainCtrl);
-        this.board = new Board("testing", "");
+        this.mainCtrl = mock(MainCtrl.class);
+        this.editTaskCtrl = new EditTaskCtrl(server, mainCtrl);
     }
 
     @Test
     public void testConstructor() {
-        BoardCtrl test = new BoardCtrl(server, mainCtrl);
-        assertNotNull(test);
+        EditBoardCtrl ctrl = new EditBoardCtrl(server, mainCtrl);
+        assertNotNull(ctrl);
     }
 
     @Test
     public void testGetBoard() {
-        assertNull(boardCtrl.getBoard());
+        assertNull(editTaskCtrl.getTask());
     }
 
     @Test
-    public void testAddTaskList() {
-        boardCtrl.addTaskList();
-        verify(mainCtrl, times(0)).addTaskList(board);
+    public void testCancel() {
+        editTaskCtrl.cancel();
+        verify(mainCtrl, times(1)).cancel();
     }
 }

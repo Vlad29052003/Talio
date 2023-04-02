@@ -69,6 +69,13 @@ public class CreateNewBoardCtrl {
      * Creates a new Board.
      */
     public void add() {
+        if (text.getText().isEmpty()) {
+            var alert = new Alert(Alert.AlertType.ERROR);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setContentText("There name cannot be empty!\r");
+            alert.showAndWait();
+            return;
+        }
         Board newBoard = new Board(text.getText(), "");
         try {
             this.board = server.addBoard(newBoard);

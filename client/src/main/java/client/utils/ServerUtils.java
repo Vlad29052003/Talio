@@ -1,6 +1,7 @@
 package client.utils;
 
 import commons.Board;
+import commons.Task;
 import commons.TaskList;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -59,7 +60,7 @@ public class ServerUtils {
      * Sends a request to save a TaskList on the server.
      *
      * @param taskList is the TaskList to be saved.
-     * @param id is the id of the board.
+     * @param id       is the id of the board.
      * @return the saved TaskList (after server modifications).
      */
     public Board addTaskList(TaskList taskList, long id) {
@@ -68,6 +69,21 @@ public class ServerUtils {
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(taskList, APPLICATION_JSON), Board.class);
+    }
+
+    /**
+     * Saves a task on the server.
+     *
+     * @param task is the Task to be saved.
+     * @param id   is the id of the TaskList.
+     * @return the saved Task.
+     */
+    public Task addTask(Task task, long id) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(server).path("api/task/" + id)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(task, APPLICATION_JSON), Task.class);
     }
 
     /**
@@ -87,7 +103,7 @@ public class ServerUtils {
     /**
      * Sends a request to delete a Board from the server.
      *
-     * @param board is the board to be deleted.
+     * @param board is the Board to be deleted.
      * @return the status of the request.
      */
     public Response delete(Board board) {
@@ -101,12 +117,26 @@ public class ServerUtils {
     /**
      * Sends a request to delete a TaskList from the server.
      *
-     * @param taskList is the board to be deleted.
+     * @param taskList is the TaskList to be deleted.
      * @return the status of the request.
      */
     public Response deleteTaskList(TaskList taskList) {
         return ClientBuilder.newClient(new ClientConfig())
                 .target(server).path("api/task_lists/" + taskList.id)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .delete();
+    }
+
+    /**
+     * Sends a request to delete a Task from the server.
+     *
+     * @param task is the Task to be deleted.
+     * @return the status of the request.
+     */
+    public Response delete(Task task) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(server).path("api/task/" + task.id)
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .delete();
@@ -141,11 +171,24 @@ public class ServerUtils {
     }
 
     /**
+     * Sends a request to update a Task on the server.
+     *
+     * @param task is the updated Task.
+     */
+    public void updateTask(Task task) {
+        ClientBuilder.newClient(new ClientConfig())
+                .target(server).path("api/task/")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(task, APPLICATION_JSON), String.class);
+    }
+
+    /**
      * Sends a request to update the list and index of a task.
      *
      * @param newListId is the id of the new list.
-     * @param index is the new index.
-     * @param taskId is the id of the task.
+     * @param index     is the new index.
+     * @param taskId    is the id of the task.
      */
     public void dragAndDrop(long newListId, int index, long taskId) {
         String response = null;

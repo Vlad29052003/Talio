@@ -51,6 +51,7 @@ public class TaskListCtrl {
 
     /**
      * Getter for root.
+     *
      * @return root field
      */
     public VBox getRoot() {
@@ -87,6 +88,13 @@ public class TaskListCtrl {
      */
     public void edit() {
         mainCtrl.editTaskList(this.taskList);
+    }
+
+    /**
+     * Adds a task to this taskList.
+     */
+    public void addTask() {
+        mainCtrl.addTask(this.taskList);
     }
 
     /**
@@ -184,14 +192,14 @@ public class TaskListCtrl {
      * Sends a request to the server to update the list
      * and the index of the moved task.
      *
-     * @param taskId     is the id of the moved Task.
+     * @param taskId   is the id of the moved Task.
      * @param newIndex is the newIndex within the TaskList.
      */
     public void sendMoveRequest(long taskId, int newIndex) {
         try {
             server.dragAndDrop(taskList.id, newIndex, taskId);
             /* TODO until sockets are implemented the client side updates will not happen
-            i will not implement them as they will be totally useless after websockets
+            I will not implement them as they will be totally useless after websockets
              */
         } catch (Exception e) {
             var alert = new Alert(Alert.AlertType.ERROR);
@@ -201,5 +209,4 @@ public class TaskListCtrl {
             refresh();
         }
     }
-
 }

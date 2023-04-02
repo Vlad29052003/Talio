@@ -1,31 +1,34 @@
-package client.scenes.crud.board;
+package client.scenes.crud.task;
 
 import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
-import com.google.inject.Inject;
-import commons.Board;
+import commons.Task;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
+import javax.inject.Inject;
 
-public class EditBoardCtrl {
-    private ServerUtils server;
+public class EditTaskCtrl {
     private MainCtrl mainCtrl;
-    private Board board;
+    private ServerUtils server;
+    private Task task;
     @FXML
-    private TextField text;
+    TextField name;
+    @FXML
+    TextArea description;
 
     /**
-     * Creates a new {@link EditBoardCtrl} object.
+     * Creates a new {@link EditTaskCtrl} object.
      *
      * @param server   is the ServerUtils.
      * @param mainCtrl is the MainCtrl.
      */
     @Inject
-    public EditBoardCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public EditTaskCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
@@ -34,31 +37,61 @@ public class EditBoardCtrl {
      * Autofocuses the first field.
      */
     public void initialize() {
-        Platform.runLater(() -> text.requestFocus());
+        Platform.runLater(() -> name.requestFocus());
     }
 
+
     /**
-     * Sets the board.
+     * Gets the task.
      *
-     * @param board is the Board.
+     * @return the task.
      */
-    public void setBoard(Board board) {
-        this.board = board;
-        this.text.setText(board.name);
+    public Task getTask() {
+        return task;
     }
 
     /**
-     * Gets the board.
+     * Sets the task.
      *
-     * @return the board.
+     * @param task is the task.
      */
-    public Board getBoard() {
-        return board;
+    public void setTask(Task task) {
+        this.task = task;
+        refresh();
     }
 
     /**
-     * Bond to the Cancel button.
-     * Switches back to the workspace Scene.
+     * Initiates the edit operation.
+     */
+    public void edit() {
+        if (name.getText().isEmpty()) {
+            var alert = new Alert(Alert.AlertType.ERROR);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setContentText("There name cannot be empty!\r");
+            alert.showAndWait();
+            return;
+        }
+        try {
+            task.name = name.getText();
+            task.description = description.getText();
+            server.updateTask(task);
+            mainCtrl.updateTaskInList(task);
+        } catch (WebApplicationException e) {
+            var alert = new Alert(Alert.AlertType.ERROR);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setContentText("The board was not found on the server!" +
+                    "\rIt will be removed from the workspace!");
+            alert.showAndWait();
+            mainCtrl.cancel();
+            this.refresh();
+            return;
+        }
+        mainCtrl.cancel();
+        mainCtrl.hidePopup();
+    }
+
+    /**
+     * Cancels the action.
      */
     public void cancel() {
         mainCtrl.cancel();
@@ -66,42 +99,10 @@ public class EditBoardCtrl {
     }
 
     /**
-     * Bound to the Confirm button.
-     * Sends a request to the server
-     * to update this board.
+     * Refreshes the scene.
      */
-    public void confirm() {
-        if (text.getText().isEmpty()) {
-            var alert = new Alert(Alert.AlertType.ERROR);
-            alert.initModality(Modality.APPLICATION_MODAL);
-            alert.setContentText("There name cannot be empty!\r");
-            alert.showAndWait();
-            return;
-        }
-        this.board.name = text.getText();
-        try {
-            this.board = server.updateBoard(board);
-        } catch (WebApplicationException e) {
-            var alert = new Alert(Alert.AlertType.ERROR);
-            alert.initModality(Modality.APPLICATION_MODAL);
-            alert.setContentText("The board was not found on the server!" +
-                    "\rIt will be removed from the workspace!");
-            mainCtrl.removeFromWorkspace(this.board);
-            alert.showAndWait();
-            mainCtrl.cancel();
-            this.reset();
-            return;
-        }
-
-        mainCtrl.cancel();
-        mainCtrl.hidePopup();
-    }
-
-    /**
-     * Resets the fields in this object.
-     */
-    public void reset() {
-        this.board = null;
-        text.setText("");
+    public void refresh() {
+        name.setText(task.name);
+        description.setText(task.description);
     }
 }

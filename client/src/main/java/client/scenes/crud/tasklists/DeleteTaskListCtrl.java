@@ -8,9 +8,11 @@ import jakarta.ws.rs.WebApplicationException;
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 
-/**import jakarta.ws.rs.WebApplicationException;
-import javafx.scene.control.Alert;
-import javafx.stage.Modality;**/
+/**
+ * import jakarta.ws.rs.WebApplicationException;
+ * import javafx.scene.control.Alert;
+ * import javafx.stage.Modality;
+ **/
 
 public class DeleteTaskListCtrl {
     private ServerUtils server;

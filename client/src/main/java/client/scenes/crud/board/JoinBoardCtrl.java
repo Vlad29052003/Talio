@@ -96,7 +96,7 @@ public class JoinBoardCtrl {
         try {
             board = server.joinBoard(id);
 
-            if(mainCtrl.isPresent(board)) {
+            if (mainCtrl.isPresent(board)) {
                 var alert = new Alert(Alert.AlertType.ERROR);
                 alert.initModality(Modality.APPLICATION_MODAL);
                 alert.setContentText("The board is already present in the workspace!");

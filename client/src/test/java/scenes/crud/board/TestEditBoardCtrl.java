@@ -17,6 +17,7 @@ public class TestEditBoardCtrl {
     private MainCtrl mainCtrl;
     private EditBoardCtrl editBoardCtrl;
     private Board board;
+
     @BeforeEach
     public void setUp() {
         this.server = new ServerUtilsTestingMock();

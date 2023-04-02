@@ -8,7 +8,7 @@ import client.scenes.TaskListCtrl;
 import client.scenes.WorkspaceCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
-import client.scenes.crud.task.ConfirmTaskDeleteCtrl;
+import client.scenes.crud.task.DeleteTaskCtrl;
 import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
 import client.scenes.crud.tasklists.CreateTaskListCtrl;
@@ -40,7 +40,7 @@ public class MyModule implements Module {
         binder.bind(DeleteTaskListCtrl.class).in(Scopes.SINGLETON);
         binder.bind(EditTaskListCtrl.class).in(Scopes.SINGLETON);
 
-        binder.bind(ConfirmTaskDeleteCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(DeleteTaskCtrl.class).in(Scopes.SINGLETON);
 
 
         binder.bind(TaskListCtrl.class).in(Scopes.NO_SCOPE);
