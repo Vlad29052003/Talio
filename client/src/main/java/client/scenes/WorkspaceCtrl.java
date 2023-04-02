@@ -256,15 +256,6 @@ public class WorkspaceCtrl implements Initializable {
     }
 
     /**
-     * Sets the file.
-     *
-     * @param file is the file.
-     */
-    public void setFile(File file) {
-        this.file = file;
-    }
-
-    /**
      * Switches to the AddBoard Scene
      */
     public void addBoard() {

@@ -1,13 +1,13 @@
 package scenes.crud.list;
 
 import client.scenes.MainCtrl;
-import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.tasklists.CreateTaskListCtrl;
 import commons.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import scenes.ServerUtilsTestingMock;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 
 public class TestCreateTaskListCtrl {
@@ -25,8 +25,13 @@ public class TestCreateTaskListCtrl {
     }
 
     @Test
+    public void testGetBoard() {
+        assertNull(createTaskListCtrl.getBoard());
+    }
+
+    @Test
     public void testConstructor() {
-        CreateNewBoardCtrl ctrl = new CreateNewBoardCtrl(server, mainCtrl);
+        CreateTaskListCtrl ctrl = new CreateTaskListCtrl(server, mainCtrl);
         assertNotNull(ctrl);
     }
 }

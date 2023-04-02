@@ -2,6 +2,7 @@ package scenes;
 
 import client.utils.ServerUtils;
 import commons.Board;
+import commons.Tag;
 import commons.Task;
 import commons.TaskList;
 import jakarta.ws.rs.core.Response;
@@ -13,6 +14,7 @@ public class ServerUtilsTestingMock extends ServerUtils {
     private List<Board> boards;
     private List<TaskList> lists;
     private List<Task> tasks;
+    private List<Tag> tags;
 
     /**
      * Instantiate a new {@link ServerUtilsTestingMock}.
@@ -22,6 +24,7 @@ public class ServerUtilsTestingMock extends ServerUtils {
         boards = new ArrayList<>();
         lists = new ArrayList<>();
         tasks = new ArrayList<>();
+        tags = new ArrayList<>();
     }
 
     /**
@@ -40,6 +43,24 @@ public class ServerUtilsTestingMock extends ServerUtils {
      */
     public List<Board> getBoards() {
         return this.boards;
+    }
+
+    /**
+     * Gets the lists.
+     *
+     * @return the lists.
+     */
+    public List<TaskList> getTaskLists() {
+        return lists;
+    }
+
+    /**
+     * Gets the list of tags.
+     *
+     * @return the tags.
+     */
+    public List<Tag> getTags() {
+        return tags;
     }
 
     @Override
@@ -100,8 +121,24 @@ public class ServerUtilsTestingMock extends ServerUtils {
 
     @Override
     public Response deleteTaskList(TaskList taskList) {
-        if (tasks.contains(taskList)) {
-            tasks.remove(taskList);
+        if (lists.contains(taskList)) {
+            lists.remove(taskList);
+            return Response.ok().build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    @Override
+    public Tag addTag(Tag tag, long id) {
+        tag.id = inc++;
+        tags.add(tag);
+        return tag;
+    }
+
+    @Override
+    public Response delete(Tag tag) {
+        if (tags.contains(tag)) {
+            tags.remove(tag);
             return Response.ok().build();
         }
         return Response.status(Response.Status.NOT_FOUND).build();

@@ -78,19 +78,6 @@ public class BoardCtrl {
     }
 
     /**
-     * Resets the contents of the taskLists and listContainer HBox.
-     */
-    public void resetLists() {
-        listContainer.getChildren().clear();
-        listControllers.clear();
-        if (board != null) {
-            for (TaskList taskList : board.lists) {
-                addTaskListToBoard(taskList);
-            }
-        }
-    }
-
-    /**
      * Re-render the board view UI.
      * This will refresh all task lists and tasks currently rendered.
      */
@@ -128,35 +115,10 @@ public class BoardCtrl {
     }
 
     /**
-     * Adds a new TaskList to the Board
-     * - method no longer used
-     */
-    public void createTaskList() {
-        if (board != null) {
-            TaskList tlist = new TaskList("tasklist");
-            TaskListCtrl tlc = mainCtrl.newTaskListView(tlist).getKey();
-            listContainer.getChildren().add(tlc.getRoot());
-            listControllers.add(tlc);
-        }
-    }
-
-    /**
      * Displays the tag overview.
      */
     public void tagOverview() {
         mainCtrl.tagOverview(board);
-    }
-
-    /**
-     * Adds a TaskList to the workspace.
-     *
-     * @param newTaskList is the TaskList to be added.
-     */
-    public void addTaskListToBoard(TaskList newTaskList) {
-        TaskListCtrl taskList = mainCtrl.newTaskListView(newTaskList).getKey();
-        listContainer.getChildren().add(taskList.getRoot());
-        listControllers.add(taskList);
-
     }
 
     /**

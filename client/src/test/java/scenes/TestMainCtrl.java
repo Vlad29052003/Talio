@@ -1,5 +1,6 @@
 package scenes;
 
+import client.MyFXML;
 import client.scenes.BoardCtrl;
 import client.scenes.BoardListingCtrl;
 import client.scenes.MainCtrl;
@@ -37,9 +38,11 @@ public class TestMainCtrl {
         this.boardCtrl = mock(BoardCtrl.class);
         this.workspaceCtrl = mock(WorkspaceCtrl.class);
         this.board = new Board("testing", "");
+        MyFXML fxml = mock(MyFXML.class);
 
         mainCtrl.setBoardCtrl(boardCtrl);
         mainCtrl.setWorkspaceCtrl(workspaceCtrl);
+        mainCtrl.setMyFXML(fxml);
 
         doAnswer(invocation -> {
             board = invocation.getArgument(0);
@@ -182,5 +185,11 @@ public class TestMainCtrl {
         removed.id = 0L;
         mainCtrl.removeFromWorkspace(removed);
         verify(workspaceCtrl, times(1)).removeFromWorkspace(0L);
+    }
+
+    @Test
+    public void testGetActiveBoard() {
+        assertEquals(mainCtrl.getActiveBoard(), board);
+        verify(boardCtrl, times(1)).getBoard();
     }
 }

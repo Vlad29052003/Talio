@@ -1,8 +1,8 @@
-package scenes.crud.task;
+package scenes.crud.tag;
 
 import client.scenes.MainCtrl;
-import client.scenes.crud.task.DeleteTaskCtrl;
-import commons.Task;
+import client.scenes.crud.tag.DeleteTagCtrl;
+import commons.Tag;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import scenes.ServerUtilsTestingMock;
@@ -13,44 +13,45 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-public class TestDeleteTaskCtrl {
+public class TestDeleteTagCtrl {
     private ServerUtilsTestingMock server;
     private MainCtrl mainCtrl;
-    private DeleteTaskCtrl deleteCtrl;
-    private Task task;
+    private DeleteTagCtrl deleteCtrl;
+    private Tag tag;
 
     @BeforeEach
     public void setUp() {
         this.server = new ServerUtilsTestingMock();
         this.mainCtrl = mock(MainCtrl.class);
-        this.deleteCtrl = new DeleteTaskCtrl(server, mainCtrl);
-        this.task = new Task("testing", 0, "");
+        this.deleteCtrl = new DeleteTagCtrl(server, mainCtrl);
+        this.tag = new Tag("testing", "");
     }
 
     @Test
     public void testConstructor() {
-        DeleteTaskCtrl ctrl = new DeleteTaskCtrl(server, mainCtrl);
+        DeleteTagCtrl ctrl = new DeleteTagCtrl(server, mainCtrl);
         assertNotNull(ctrl);
     }
 
     @Test
-    public void testGetSetTaskList() {
-        deleteCtrl.setTask(task);
-        assertEquals(deleteCtrl.getTask(), task);
+    public void testGetSetTask() {
+        deleteCtrl.setTag(tag);
+        assertEquals(deleteCtrl.getTag(), tag);
     }
 
     @Test
     public void testCancel() {
         deleteCtrl.cancel();
-        verify(mainCtrl, times(1)).cancel();
+        verify(mainCtrl, times(1)).hideSecondPopup();
     }
 
     @Test
     public void testConfirm() {
-        server.addTask(task, 1L);
-        deleteCtrl.setTask(task);
+        server.addTag(tag, 1L);
+        deleteCtrl.setTag(tag);
         deleteCtrl.delete();
-        assertEquals(server.getTasks(), new ArrayList<>());
-        verify(mainCtrl, times(1)).cancel();
+        assertEquals(server.getTags(), new ArrayList<>());
+        verify(mainCtrl, times(1)).hideSecondPopup();
     }
 }
+

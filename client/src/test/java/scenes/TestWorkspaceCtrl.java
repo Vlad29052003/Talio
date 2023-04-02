@@ -5,6 +5,7 @@ import client.datasaving.JoinedBoardList;
 import client.scenes.BoardListingCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.WorkspaceCtrl;
+import client.utils.ServerUtils;
 import commons.Board;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
@@ -215,6 +216,14 @@ public class TestWorkspaceCtrl {
         workspaceCtrl.setBoardWorkspace(new VBox(new Pane(), new VBox()));
         workspaceCtrl.reset();
         assertEquals(workspaceCtrl.getBoardWorkspace().getChildren().size(), 0);
+    }
+
+    @Test
+    public void testStop() {
+        ServerUtils server = mock(ServerUtils.class);
+        WorkspaceCtrl test = new WorkspaceCtrl(server, mainCtrl);
+        test.stop();
+        verify(server, times(1)).stop();
     }
 
 }

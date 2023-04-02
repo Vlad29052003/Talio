@@ -51,7 +51,6 @@ public class MainCtrl {
     private DeleteTaskListCtrl deleteListCtrl;
     private Scene deleteList;
     private BoardCtrl boardCtrl;
-    private Parent boardRoot; // Not a scene as it's to be embedded within the workspaceScene.
     private Node dnd;
     private WebsocketSynchroniser boardSyncroniser;
     private DeleteTaskCtrl deleteTaskCtrl;

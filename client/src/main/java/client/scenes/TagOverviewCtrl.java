@@ -84,7 +84,6 @@ public class TagOverviewCtrl implements Initializable {
      * Closes the scene.
      */
     public void close() {
-        mainCtrl.cancel();
         mainCtrl.hidePopup();
     }
 

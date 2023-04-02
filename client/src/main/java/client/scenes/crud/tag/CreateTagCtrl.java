@@ -30,7 +30,7 @@ public class CreateTagCtrl {
      * @param mainCtrl is the MainCtrl.
      */
     @Inject
-    private CreateTagCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public CreateTagCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.serverUtils = server;
         this.mainCtrl = mainCtrl;
     }

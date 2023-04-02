@@ -83,6 +83,7 @@ public class WebsocketControllerTest {
         assertEquals(1, receivedUpdates.size());
         BoardUpdateMessage update = receivedUpdates.get(0);
         assertNotNull(update);
+        assertNotNull(update.toString());
         assertEquals(UpdateMessage.Operation.CREATED, update.getOperation());
 
         Board board = (Board) update.getObject();
