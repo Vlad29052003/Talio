@@ -25,7 +25,7 @@ public class Tag implements Comparable<Tag>{
     public String name;
     public String color;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JsonIgnore
     public Set<Task> tasks;
 

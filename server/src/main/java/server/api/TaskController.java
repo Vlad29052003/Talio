@@ -190,6 +190,11 @@ public class TaskController {
         Task deleted = taskRepo.findById(taskId).get();
         TaskList old = deleted.getTaskList();
         int index = deleted.index;
+        for(Tag tag : deleted.tags) {
+            deleted.tags.remove(tag);
+            tag.removeFrom(deleted);
+            tagRepo.saveAndFlush(tag);
+        }
         taskRepo.delete(deleted);
         taskRepo.flush();
         changeIndexesOldList(old, index);
