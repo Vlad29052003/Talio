@@ -22,6 +22,7 @@ import client.scenes.crud.task.addtag.AddTagListingCtrl;
 import client.scenes.crud.tasklists.CreateTaskListCtrl;
 import client.scenes.crud.tasklists.DeleteTaskListCtrl;
 import client.scenes.crud.tasklists.EditTaskListCtrl;
+import client.utils.ServerUtils;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
@@ -36,6 +37,7 @@ public class MyModule implements Module {
     @Override
     public void configure(Binder binder) {
         binder.bind(MainCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(ServerUtils.class).in(Scopes.SINGLETON);
         binder.bind(WorkspaceCtrl.class).in(Scopes.SINGLETON);
         binder.bind(BoardCtrl.class).in(Scopes.SINGLETON);
         binder.bind(TagOverviewCtrl.class).in(Scopes.SINGLETON);

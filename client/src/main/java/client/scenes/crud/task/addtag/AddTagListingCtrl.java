@@ -23,41 +23,73 @@ public class AddTagListingCtrl {
     @FXML
     private JFXButton button;
 
+    /**
+     * Creates a new {@link AddTagListingCtrl} onject.
+     *
+     * @param server is the server.
+     * @param mainCtrl is the mainCtrl.
+     */
     @Inject
     public AddTagListingCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.mainCtrl = mainCtrl;
         this.server = server;
     }
 
+    /**
+     * Gets the task.
+     *
+     * @return the task.
+     */
     public Task getTask() {
         return task;
     }
 
+    /**
+     * Sets the task.
+     *
+     * @param task is the task.
+     */
     public void setTask(Task task) {
         this.task = task;
     }
 
+    /**
+     * Gets the tag.
+     *
+     * @return the tag.
+     */
     public Tag getTag() {
         return tag;
     }
 
+    /**
+     * Sets the tag.
+     *
+     * @param tag is the tag.
+     */
     public void setTag(Tag tag) {
         this.tag = tag;
         refresh();
     }
 
+    /**
+     * Adds the tag to the task.
+     */
     public void add() {
         task.tags.add(tag);
         tag.tasks.add(task);
         refresh();
-        mainCtrl.refreshEditTask(task);
+        mainCtrl.setTaskWithTags(task);
     }
 
+    /**
+     * Removes the tag from the task.
+     */
     public void remove() {
         task.tags.remove(tag);
         tag.tasks.remove(task);
         refresh();
-        mainCtrl.refreshEditTask(task);
+        mainCtrl.setTaskWithTags(task);
     }
 
     /**

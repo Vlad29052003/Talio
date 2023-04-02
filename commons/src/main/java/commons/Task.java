@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,7 +29,7 @@ public class Task implements Comparable<Task> {
     @JsonBackReference
     TaskList list;
 
-    @ManyToMany(mappedBy = "tasks", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "tasks")
     public Set<Tag> tags;
 
     public String name;

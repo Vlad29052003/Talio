@@ -37,8 +37,10 @@ public class TaskController {
 
     /**
      * Instantiate a new {@link TaskController}.
+     *
      * @param taskRepo the {@link TaskRepository} to use.
      * @param listRepo the {@link TaskListRepository} to use.
+     * @param tagRepo the {@link TagRepository} to use.
      */
     @Autowired
     public TaskController(TaskRepository taskRepo,
@@ -190,15 +192,9 @@ public class TaskController {
         Task deleted = taskRepo.findById(taskId).get();
         TaskList old = deleted.getTaskList();
         int index = deleted.index;
-        for(Tag tag : deleted.tags) {
-            deleted.tags.remove(tag);
-            tag.removeFrom(deleted);
-            tagRepo.saveAndFlush(tag);
-        }
         taskRepo.delete(deleted);
         taskRepo.flush();
         changeIndexesOldList(old, index);
-
         Board board = listRepo.findById(old.id).get().getBoard();
         board.toString();
         listenCreate.forEach((k, l) -> l.accept(board));

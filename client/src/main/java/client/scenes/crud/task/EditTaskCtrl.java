@@ -58,6 +58,16 @@ public class EditTaskCtrl {
     }
 
     /**
+     * Sets the task without refreshing the text fields.
+     * Used to add the tags.
+     *
+     * @param task is the task with tags.
+     */
+    public void setTaskWithoutRefreshing(Task task) {
+        this.task = task;
+    }
+
+    /**
      * Initiates the edit operation.
      */
     public void edit() {

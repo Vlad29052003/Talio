@@ -574,6 +574,7 @@ public class MainCtrl {
      * Loads the scenes for the TagListingCtrl.
      *
      * @param tag is the Tag associated with them.
+     * @param task is the Task associated with them.
      * @return the new BoardListingCtrl.
      */
     public Pair<AddTagListingCtrl, Parent> newAddTagListingView(Tag tag, Task task) {
@@ -681,8 +682,13 @@ public class MainCtrl {
         }
     }
 
-    public void refreshEditTask(Task task) {
-        editTaskCtrl.setTask(task);
+    /**
+     * Sets the task with associated tags.
+     *
+     * @param task is the task.
+     */
+    public void setTaskWithTags(Task task) {
+        editTaskCtrl.setTaskWithoutRefreshing(task);
     }
 
     public class MyUpdateHandler extends UpdateHandler {
