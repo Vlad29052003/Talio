@@ -25,6 +25,7 @@ import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -115,6 +116,9 @@ public class MainCtrl {
 
         this.boardSyncroniser = new WebsocketSynchroniser(new MyUpdateHandler());
         boardSyncroniser.start();
+
+        primaryStage.getIcons().add(new Image("/client/icons/logo.png"));
+        popupStage.getIcons().add(new Image("/client/icons/logo.png"));
 
         primaryStage.show();
     }
@@ -229,6 +233,7 @@ public class MainCtrl {
         secondPopupStage.setResizable(false);
         secondPopupStage.initModality(Modality.WINDOW_MODAL);
         secondPopupStage.initOwner(primaryStage);
+        secondPopupStage.getIcons().add(new Image("/client/icons/logo.png"));
 
         this.deleteTagCtrl = deleteTag.getKey();
         this.deleteTag = new Scene(deleteTag.getValue());
