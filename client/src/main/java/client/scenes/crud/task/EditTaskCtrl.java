@@ -2,6 +2,7 @@ package client.scenes.crud.task;
 
 import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
+import commons.Tag;
 import commons.Task;
 import jakarta.ws.rs.WebApplicationException;
 import javafx.application.Platform;
@@ -9,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javax.inject.Inject;
 
@@ -20,6 +22,8 @@ public class EditTaskCtrl {
     TextField name;
     @FXML
     TextArea description;
+    @FXML
+    VBox tagContainer;
 
     /**
      * Creates a new {@link EditTaskCtrl} object.
@@ -96,5 +100,10 @@ public class EditTaskCtrl {
     public void refresh() {
         name.setText(task.name);
         description.setText(task.description);
+        tagContainer.getChildren().clear();
+        for(Tag tag : task.getTaskList().board.tags) {
+            var pair = mainCtrl.newAddTagListingView(tag, task);
+            tagContainer.getChildren().add(pair.getValue());
+        }
     }
 }

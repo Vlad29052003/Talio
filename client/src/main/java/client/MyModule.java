@@ -18,6 +18,7 @@ import client.scenes.crud.task.DeleteTaskCtrl;
 import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
 import client.scenes.crud.task.EditTaskCtrl;
+import client.scenes.crud.task.addtag.AddTagListingCtrl;
 import client.scenes.crud.tasklists.CreateTaskListCtrl;
 import client.scenes.crud.tasklists.DeleteTaskListCtrl;
 import client.scenes.crud.tasklists.EditTaskListCtrl;
@@ -60,5 +61,6 @@ public class MyModule implements Module {
         binder.bind(TaskCtrl.class).in(Scopes.NO_SCOPE);
         binder.bind(BoardListingCtrl.class).in(Scopes.NO_SCOPE);
         binder.bind(TagListingCtrl.class).in(Scopes.NO_SCOPE);
+        binder.bind(AddTagListingCtrl.class).in(Scopes.NO_SCOPE);
     }
 }

@@ -127,6 +127,7 @@ public class Task implements Comparable<Task> {
     public int hashCode() {
         ArrayList<String> exclude = new ArrayList<>();
         exclude.add("list");
+        exclude.add("tags");
         return HashCodeBuilder.reflectionHashCode(this, exclude);
     }
 

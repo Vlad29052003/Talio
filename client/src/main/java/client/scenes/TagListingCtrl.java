@@ -63,12 +63,11 @@ public class TagListingCtrl {
     }
 
     /**
-     * Refreshes the name.
+     * Refreshes the scene.
      */
     public void refresh() {
         this.name.setText(tag.name);
         Paint paint = Paint.valueOf(tag.color);
         colorPreview.setFill(paint);
-
     }
 }

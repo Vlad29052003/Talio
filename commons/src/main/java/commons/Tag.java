@@ -77,8 +77,8 @@ public class Tag implements Comparable<Tag>{
     @Override
     public int hashCode() {
         ArrayList<String> exclude = new ArrayList<>();
-        exclude.add("tags");
-        exclude.add("lists");
+        exclude.add("tasks");
+        exclude.add("board");
         return HashCodeBuilder.reflectionHashCode(this, exclude);
     }
 

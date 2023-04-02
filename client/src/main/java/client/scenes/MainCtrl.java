@@ -11,6 +11,7 @@ import client.scenes.crud.tag.EditTagCtrl;
 import client.scenes.crud.task.CreateTaskCtrl;
 import client.scenes.crud.task.DeleteTaskCtrl;
 import client.scenes.crud.task.EditTaskCtrl;
+import client.scenes.crud.task.addtag.AddTagListingCtrl;
 import client.scenes.crud.tasklists.CreateTaskListCtrl;
 import client.scenes.crud.tasklists.DeleteTaskListCtrl;
 import client.scenes.crud.tasklists.EditTaskListCtrl;
@@ -570,6 +571,20 @@ public class MainCtrl {
     }
 
     /**
+     * Loads the scenes for the TagListingCtrl.
+     *
+     * @param tag is the Tag associated with them.
+     * @return the new BoardListingCtrl.
+     */
+    public Pair<AddTagListingCtrl, Parent> newAddTagListingView(Tag tag, Task task) {
+        var pair = myFXML.load(AddTagListingCtrl.class,
+                "client", "scenes", "crud", "AddTagListing.fxml");
+        pair.getKey().setTask(task);
+        pair.getKey().setTag(tag);
+        return pair;
+    }
+
+    /**
      * Loads a {@link TaskListCtrl} instance and view.
      *
      * @param newTaskList is the {@link TaskList} associated with them.
@@ -664,6 +679,10 @@ public class MainCtrl {
             if (i >= 0) boardCtrl.getBoard().tags.set(i, newest);
             tagOverviewCtrl.refresh();
         }
+    }
+
+    public void refreshEditTask(Task task) {
+        editTaskCtrl.setTask(task);
     }
 
     public class MyUpdateHandler extends UpdateHandler {

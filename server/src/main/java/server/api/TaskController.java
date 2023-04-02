@@ -1,6 +1,7 @@
 package server.api;
 
 import commons.Board;
+import commons.Tag;
 import commons.Task;
 import commons.TaskList;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
+import server.database.TagRepository;
 import server.database.TaskListRepository;
 import server.database.TaskRepository;
 
@@ -30,6 +32,7 @@ import java.util.function.Consumer;
 public class TaskController {
     private final TaskRepository taskRepo;
     private final TaskListRepository listRepo;
+    private final TagRepository tagRepo;
     private Map<Object, Consumer<Board>> listenCreate;
 
     /**
@@ -39,9 +42,11 @@ public class TaskController {
      */
     @Autowired
     public TaskController(TaskRepository taskRepo,
-                          TaskListRepository listRepo) {
+                          TaskListRepository listRepo,
+                          TagRepository tagRepo) {
         this.taskRepo = taskRepo;
         this.listRepo = listRepo;
+        this.tagRepo = tagRepo;
         this.listenCreate = new HashMap<>();
     }
 
@@ -149,6 +154,18 @@ public class TaskController {
         Task current = taskRepo.findById(task.id).get();
         current.name = task.name;
         current.description = task.description;
+        for(Tag tag : current.tags) {
+            Tag onServer = tagRepo.findById(tag.id).get();
+            current.tags.remove(onServer);
+            onServer.removeFrom(current);
+            tagRepo.saveAndFlush(onServer);
+        }
+        for(Tag tag : task.tags) {
+            Tag onServer = tagRepo.findById(tag.id).get();
+            current.tags.add(onServer);
+            onServer.applyTo(current);
+            tagRepo.saveAndFlush(onServer);
+        }
         Task updated = taskRepo.saveAndFlush(current);
 
         Board board = updated.getTaskList().getBoard();
