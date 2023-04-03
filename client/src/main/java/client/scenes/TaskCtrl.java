@@ -124,9 +124,8 @@ public class TaskCtrl {
 
     /**
      * The button to add a subtask is clicked.
-     * @param mouseEvent the mouse even that caused this event.
      */
-    public void onAddTask(MouseEvent mouseEvent) {
+    public void onAddTask() {
         var input = new TextInputDialog();
         input.setTitle("Create new Subtask");
         input.showAndWait();

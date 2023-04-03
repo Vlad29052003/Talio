@@ -5,49 +5,42 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox fx:id="root" alignment="CENTER_LEFT" onDragDetected="#onDragDetected" prefWidth="276.0" spacing="5.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskCtrl">
-   <children>
-      <VBox>
-         <children>
-            <AnchorPane HBox.hgrow="ALWAYS">
-               <children>
-                  <Label fx:id="nameLabel" text="Task Title" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-               </children>
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </AnchorPane>
-            <ListView fx:id="subTaskList" prefHeight="10"/>
-         </children>
-      </VBox>
-      <Button text="add subtask" onMouseClicked="#onAddTask">
-      </Button>
-      <Button mnemonicParsing="false" onAction="#edit">
-         <graphic>
-            <ImageView fitWidth="10.0" pickOnBounds="true" preserveRatio="true" smooth="false">
-               <image>
-                  <Image url="/client/icons/edit.png" />
-               </image>
-               <viewport>
-                  <Rectangle2D />
-               </viewport>
-            </ImageView>
-         </graphic>
-      </Button>
-      <Button layoutX="73.0" layoutY="13.0" mnemonicParsing="false" onAction="#delete">
-         <graphic>
-            <ImageView fitWidth="10.0" pickOnBounds="true" preserveRatio="true" smooth="false">
-               <image>
-                  <Image url="/client/icons/trash.png" />
-               </image>
-               <viewport>
-                  <Rectangle2D />
-               </viewport>
-            </ImageView>
-         </graphic>
-      </Button>
-   </children>
+<HBox fx:id="root" alignment="CENTER_LEFT" onDragDetected="#onDragDetected" prefWidth="276.0" spacing="5.0"
+      xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="client.scenes.TaskCtrl">
    <padding>
-      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
    </padding>
+   <VBox>
+      <AnchorPane HBox.hgrow="ALWAYS">
+         <HBox.margin>
+            <Insets/>
+         </HBox.margin>
+         <Label fx:id="nameLabel" text="Task Title" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+      </AnchorPane>
+      <ListView fx:id="subTaskList" prefHeight="10"/>
+   </VBox>
+   <Button text="add subtask" onMouseClicked="#onAddTask">
+   </Button>
+   <Button mnemonicParsing="false" onAction="#edit">
+      <graphic>
+         <ImageView fitWidth="10.0" pickOnBounds="true" preserveRatio="true" smooth="false">
+            <viewport>
+               <Rectangle2D/>
+            </viewport>
+            <Image url="/client/icons/edit.png"/>
+         </ImageView>
+      </graphic>
+   </Button>
+   <Button layoutX="73.0" layoutY="13.0" mnemonicParsing="false" onAction="#delete">
+      <graphic>
+         <ImageView fitWidth="10.0" pickOnBounds="true" preserveRatio="true" smooth="false">
+            <viewport>
+               <Rectangle2D/>
+            </viewport>
+            <Image url="/client/icons/trash.png"/>
+         </ImageView>
+      </graphic>
+   </Button>
 </HBox>
