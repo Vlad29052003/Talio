@@ -24,7 +24,7 @@
                <graphic>
                   <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../icons/edit.png" />
+                        <Image url="/client/icons/edit.png" />
                      </image>
                      <viewport>
                         <Rectangle2D />
@@ -36,7 +36,7 @@
                <graphic>
                   <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../icons/trash.png" />
+                        <Image url="/client/icons/trash.png" />
                      </image>
                      <viewport>
                         <Rectangle2D />
