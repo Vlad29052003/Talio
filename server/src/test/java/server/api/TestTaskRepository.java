@@ -21,10 +21,20 @@ public class TestTaskRepository implements TaskRepository {
         calledMethods.add(name);
     }
 
+    /**
+     * Gets the tasks.
+     *
+     * @return the called methods.
+     */
     public List<Task> getTasks() {
         return tasks;
     }
 
+    /**
+     * Gets the called methods.
+     *
+     * @return the called methods.
+     */
     public List<String> getCalledMethods() {
         return calledMethods;
     }
