@@ -26,8 +26,8 @@ public class TaskListTest {
 
     @BeforeEach
     public void setUp() {
-        board1 = new Board("board1", "White");
-        board2 = new Board("board2", "White");
+        board1 = new Board("board1", "White", "");
+        board2 = new Board("board2", "White", "");
         board3 = null;
         list1 = new TaskList("1");
         list2 = new TaskList("2");

@@ -36,7 +36,7 @@ public class TestMainCtrl {
         this.server = new ServerUtilsTestingMock();
         this.boardCtrl = mock(BoardCtrl.class);
         this.workspaceCtrl = mock(WorkspaceCtrl.class);
-        this.board = new Board("testing", "");
+        this.board = new Board("testing", "", "");
 
         mainCtrl.setBoardCtrl(boardCtrl);
         mainCtrl.setWorkspaceCtrl(workspaceCtrl);
@@ -75,7 +75,7 @@ public class TestMainCtrl {
 
     @Test
     public void testSwitchBoard() {
-        Board newest = new Board("new", "");
+        Board newest = new Board("new", "", "");
 
         mainCtrl.switchBoard(newest);
         verify(boardCtrl, times(1)).setBoard(newest);
@@ -100,7 +100,7 @@ public class TestMainCtrl {
     @Test
     public void updateBoardTest() {
         board.id = 1L;
-        Board updated = new Board("updated", "");
+        Board updated = new Board("updated", "", "");
         updated.id = 1L;
         mainCtrl.updateBoard(updated);
 
@@ -191,7 +191,7 @@ public class TestMainCtrl {
 
     @Test
     public void testRemoveFromWorkspace() {
-        Board removed = new Board("test", "");
+        Board removed = new Board("test", "", "");
         removed.id = 0L;
         mainCtrl.removeFromWorkspace(removed);
         verify(workspaceCtrl, times(1)).removeFromWorkspace(0L);

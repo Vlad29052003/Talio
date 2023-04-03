@@ -104,7 +104,7 @@ public class WebsocketSynchroniserTest {
     }
 
     private Board getDummyBoard(){
-        return new Board("Board1", "Black", "password", false);
+        return new Board("Board1", "black", "black", "password", false);
     }
 
     private class MyTestUpdateHandler extends UpdateHandler {

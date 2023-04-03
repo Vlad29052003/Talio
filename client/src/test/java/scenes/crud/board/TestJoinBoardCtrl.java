@@ -23,7 +23,7 @@ public class TestJoinBoardCtrl {
         this.server = new ServerUtilsTestingMock();
         this.mainCtrl = mock(MainCtrl.class);
         this.joinBoardCtrl = new JoinBoardCtrl(server, mainCtrl);
-        this.board = new Board("testing", "");
+        this.board = new Board("testing", "", "");
     }
 
     @Test

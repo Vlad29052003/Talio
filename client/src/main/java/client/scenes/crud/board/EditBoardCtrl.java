@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 
 import java.util.function.DoubleFunction;
+import java.util.function.Function;
 
 public class EditBoardCtrl {
     private ServerUtils server;
@@ -22,7 +23,9 @@ public class EditBoardCtrl {
     @FXML
     private TextField text;
     @FXML
-    private ColorPicker colorPicker;
+    private ColorPicker bgColorPicker;
+    @FXML
+    private ColorPicker fontColorPicker;
 
     /**
      * Creates a new {@link EditBoardCtrl} object.
@@ -52,7 +55,8 @@ public class EditBoardCtrl {
         this.board = board;
         this.text.setText(board.name);
         if(this.board.backgroundColor.equals("")) this.board.backgroundColor = "#f4f4f4";
-        this.colorPicker.setValue(Color.valueOf(this.board.backgroundColor));
+        this.bgColorPicker.setValue(Color.valueOf(this.board.backgroundColor));
+        this.fontColorPicker.setValue(Color.valueOf(this.board.fontColor));
     }
 
     /**
@@ -88,15 +92,16 @@ public class EditBoardCtrl {
         }
         this.board.name = text.getText();
 
-        DoubleFunction<String> fmt = (double v) -> {
+        DoubleFunction<String> fmt = v -> {
             String in = Integer.toHexString((int) Math.round(v * 255));
             return in.length() == 1 ? "0" + in : in;
         };
-        Color colorValue = this.colorPicker.getValue();
-        this.board.backgroundColor = "#" + (
-                fmt.apply(colorValue.getRed()) + fmt.apply(colorValue.getGreen())
-                        + fmt.apply(colorValue.getBlue()) + fmt.apply(colorValue.getOpacity())
+        Function<Color, String> toHex = v -> "#" + (
+                fmt.apply(v.getRed()) + fmt.apply(v.getGreen())
+                        + fmt.apply(v.getBlue()) + fmt.apply(v.getOpacity())
         ).toUpperCase();
+        this.board.backgroundColor = toHex.apply(this.bgColorPicker.getValue());
+        this.board.fontColor = toHex.apply(this.fontColorPicker.getValue());
 
         try {
             this.board = server.updateBoard(board);
@@ -122,6 +127,7 @@ public class EditBoardCtrl {
     public void reset() {
         this.board = null;
         text.setText("");
-        colorPicker.setValue(new Color(1.0, 1.0, 1.0, 1.0));
+        this.bgColorPicker.setValue(Color.WHITE);
+        this.fontColorPicker.setValue(Color.WHITE);
     }
 }

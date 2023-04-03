@@ -22,7 +22,7 @@ public class TestCreateTaskListCtrl {
         this.server = new ServerUtilsTestingMock();
         this.mainCtrl = mock(MainCtrl.class);
         this.createTaskListCtrl = new CreateTaskListCtrl(server, mainCtrl);
-        this.b = new Board("testing", "");
+        this.b = new Board("testing", "", "");
     }
 
     @Test

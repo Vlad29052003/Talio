@@ -76,7 +76,7 @@ public class CreateNewBoardCtrl {
             alert.showAndWait();
             return;
         }
-        Board newBoard = new Board(text.getText(), "");
+        Board newBoard = new Board(text.getText());
         try {
             this.board = server.addBoard(newBoard);
         } catch (WebApplicationException e) {
