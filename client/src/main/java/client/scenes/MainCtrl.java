@@ -174,6 +174,11 @@ public class MainCtrl {
         this.editList = new Scene(editTaskList.getValue());
     }
 
+    /**
+     * Initializes the HelpScreen Scene and Contoller.
+     *
+     * @param helpScreen is the Scene for the keyboard shortcuts menu.
+     */
     public void initializeHelpScreen(Pair<HelpScreenCtrl, Parent> helpScreen){
 
         this.helpScreenCtrl = helpScreen.getKey();
