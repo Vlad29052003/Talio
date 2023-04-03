@@ -98,7 +98,6 @@ public class TaskController {
         Task saved = taskRepo.saveAndFlush(t);
 
         Board parent = saved.getTaskList().getBoard();
-        changes.addChanged(parent.id, parent);
 
         return ResponseEntity.ok("Changed successfully!");
     }
@@ -128,7 +127,6 @@ public class TaskController {
         Task saved = taskRepo.saveAndFlush(task);
 
         Board parent = saved.getTaskList().getBoard();
-        changes.addChanged(parent.id, parent);
 
         return ResponseEntity.ok(saved);
     }
@@ -151,7 +149,6 @@ public class TaskController {
         Task saved = taskRepo.saveAndFlush(current);
 
         Board parent = saved.getTaskList().getBoard();
-        changes.addChanged(parent.id, parent);
 
         return ResponseEntity.ok("Task updated.");
     }
@@ -178,7 +175,6 @@ public class TaskController {
         changeIndexesOldList(old, index);
 
         Board parent = savedTaskList.getBoard();
-        changes.addChanged(parent.id, parent);
 
         return ResponseEntity.ok("Successfully deleted.");
     }
