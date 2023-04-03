@@ -137,8 +137,12 @@ public class TaskListController {
         if (id < 0 || !repo.existsById(id))
             return ResponseEntity.badRequest().body("Invalid ID.");
 
-        Board parent = repo.getById(id).getBoard();
-        repo.deleteById(id);
+        TaskList taskList = repo.findById(id).get();
+        Board parent = boardRepo.findById(taskList.getBoard().id).get();
+        parent.removeTaskList(taskList);
+
+        boardRepo.save(parent);
+        repo.delete(taskList);
 
         changes.addChanged(parent.id, parent);
 

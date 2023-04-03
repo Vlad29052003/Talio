@@ -168,13 +168,16 @@ public class TaskController {
             return ResponseEntity.badRequest().body("Invalid ID.");
 
         Task deleted = taskRepo.findById(taskId).get();
-        TaskList old = deleted.getTaskList();
+        TaskList old = listRepo.findById(deleted.getTaskList().id).get();
+        old.removeTask(deleted);
+        TaskList savedTaskList = listRepo.save(old);
+
         int index = deleted.index;
         taskRepo.delete(deleted);
         taskRepo.flush();
         changeIndexesOldList(old, index);
 
-        Board parent = old.getBoard();
+        Board parent = savedTaskList.getBoard();
         changes.addChanged(parent.id, parent);
 
         return ResponseEntity.ok("Successfully deleted.");

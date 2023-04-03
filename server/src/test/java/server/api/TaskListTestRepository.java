@@ -62,7 +62,8 @@ public class TaskListTestRepository implements TaskListRepository {
 
     @Override
     public void delete(TaskList entity) {
-
+        call("delete");
+        deleteById(entity.id);
     }
 
     @Override

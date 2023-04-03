@@ -1,9 +1,11 @@
 package commons;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -18,6 +20,8 @@ import java.util.Set;
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 @Entity
+@Transactional
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,10 +32,11 @@ public class Board {
     public String password;                 // if no password, no need to check RW permission
     public boolean RWpermission;            // true - both read and write, false - read only
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER, orphanRemoval = true)
     @JsonManagedReference
     public Set<TaskList> lists;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     public Set<Tag> tags;
 
     /**

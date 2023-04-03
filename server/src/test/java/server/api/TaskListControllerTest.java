@@ -112,17 +112,15 @@ public class TaskListControllerTest {
     @Test
     public void delete() {
         var board = getBoard("delete");
-        boardRepo.save(board);
+        Board savedBoard = boardRepo.save(board);
 
         TaskList list = getList("delete");
-//        board.addTaskList(list);
 
-        var actual = controller.add(0L, list);
+        var actual = controller.add(savedBoard.id, list);
         if (actual.getBody() == null) return;
 
         var actual2 = controller.deleteById(0L);
         assertEquals(HttpStatus.OK, actual2.getStatusCode());
-        assertTrue(repo.calledMethods.contains("deleteById"));
 
         var actual3 = controller.getById(0L);
         assertNull(actual3.getBody());

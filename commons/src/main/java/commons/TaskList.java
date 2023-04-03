@@ -2,10 +2,12 @@ package commons;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -21,6 +23,8 @@ import java.util.List;
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 @Entity
+@Transactional
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class TaskList {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,11 +32,12 @@ public class TaskList {
 
     public String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
     public Board board;
 
-    @OneToMany(mappedBy = "list", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "list", cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER, orphanRemoval = true)
     @JsonManagedReference
     public List<Task> tasks;
 

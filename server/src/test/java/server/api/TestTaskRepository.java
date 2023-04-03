@@ -55,12 +55,13 @@ public class TestTaskRepository implements TaskRepository {
     @Override
     public void deleteById(Long aLong) {
         call("deleteById");
+        tasks.removeIf((t) -> t.id == aLong);
     }
 
     @Override
     public void delete(Task entity) {
         call("delete");
-        tasks.remove(entity);
+        deleteById(entity.id);
     }
 
     @Override
