@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="root" maxWidth="300.0" minWidth="250.0" prefHeight="201.0" prefWidth="300.0" style="-fx-border-width: 1; -fx-border-color: black;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskListCtrl">
+<VBox fx:id="root" maxWidth="300.0" minWidth="250.0" prefHeight="201.0" prefWidth="300.0" styleClass="rootVbox" stylesheets="/style/ListView.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskListCtrl">
    <children>
-      <HBox alignment="CENTER" maxHeight="80.0" minHeight="35.0" prefHeight="54.0" prefWidth="298.0" spacing="2.0">
+      <HBox alignment="CENTER" maxHeight="80.0" minHeight="35.0" prefHeight="54.0" prefWidth="298.0" spacing="2.0" styleClass="titleBar">
          <children>
             <AnchorPane HBox.hgrow="ALWAYS">
                <children>
@@ -24,11 +24,11 @@
                      </font></Label>
                </children>
             </AnchorPane>
-            <JFXButton onAction="#edit" text="Edit">
+            <JFXButton alignment="CENTER" onAction="#edit" text="Edit" textAlignment="CENTER">
                <graphic>
                   <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../icons/edit.png" />
+                        <Image url="/client/icons/edit.png" />
                      </image>
                      <viewport>
                         <Rectangle2D />
@@ -36,11 +36,11 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <JFXButton layoutX="194.0" layoutY="15.0" onAction="#delete" text="Delete">
+            <JFXButton alignment="CENTER" layoutX="194.0" layoutY="15.0" onAction="#delete" text="Delete" textAlignment="CENTER">
                <graphic>
                   <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../icons/trash.png" />
+                        <Image url="/client/icons/trash.png" />
                      </image>
                      <viewport>
                         <Rectangle2D />
@@ -64,9 +64,9 @@
       </ScrollPane>
       <HBox alignment="CENTER" prefHeight="37.0" prefWidth="298.0">
          <children>
-            <JFXButton onAction="#addTask" prefHeight="43.0" prefWidth="298.0" text="Add Task">
+            <JFXButton onAction="#addTask" prefHeight="43.0" prefWidth="298.0" styleClass="largeButton" text="Add Task">
                <font>
-                  <Font size="15.0" />
+                  <Font size="18.0" />
                </font></JFXButton>
          </children>
       </HBox>
