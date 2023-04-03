@@ -95,8 +95,14 @@ public class BoardCtrl {
         refreshBoardHeader();
 
         this.listContainer.getChildren().clear();
+        this.listContainer.setStyle("-fx-background-color: #f4f4f4");
         this.listControllers = new ArrayList<>();
         if (this.board == null) return;
+
+        if (!this.board.backgroundColor.equals(""))
+        {
+            this.listContainer.setStyle("-fx-background-color: "+this.board.backgroundColor);
+        }
 
         Set<TaskList> taskLists = this.board.lists;
         Iterator<TaskList> it = taskLists.stream()

@@ -8,8 +8,12 @@ import jakarta.ws.rs.WebApplicationException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
+
+import java.util.function.DoubleFunction;
 
 public class EditBoardCtrl {
     private ServerUtils server;
@@ -17,6 +21,8 @@ public class EditBoardCtrl {
     private Board board;
     @FXML
     private TextField text;
+    @FXML
+    private ColorPicker colorPicker;
 
     /**
      * Creates a new {@link EditBoardCtrl} object.
@@ -45,6 +51,8 @@ public class EditBoardCtrl {
     public void setBoard(Board board) {
         this.board = board;
         this.text.setText(board.name);
+        if(this.board.backgroundColor.equals("")) this.board.backgroundColor = "#f4f4f4";
+        this.colorPicker.setValue(Color.valueOf(this.board.backgroundColor));
     }
 
     /**
@@ -79,6 +87,17 @@ public class EditBoardCtrl {
             return;
         }
         this.board.name = text.getText();
+
+        DoubleFunction<String> fmt = (double v) -> {
+            String in = Integer.toHexString((int) Math.round(v * 255));
+            return in.length() == 1 ? "0" + in : in;
+        };
+        Color colorValue = this.colorPicker.getValue();
+        this.board.backgroundColor = "#" + (
+                fmt.apply(colorValue.getRed()) + fmt.apply(colorValue.getGreen())
+                        + fmt.apply(colorValue.getBlue()) + fmt.apply(colorValue.getOpacity())
+        ).toUpperCase();
+
         try {
             this.board = server.updateBoard(board);
         } catch (WebApplicationException e) {
@@ -103,5 +122,6 @@ public class EditBoardCtrl {
     public void reset() {
         this.board = null;
         text.setText("");
+        colorPicker.setValue(new Color(1.0, 1.0, 1.0, 1.0));
     }
 }

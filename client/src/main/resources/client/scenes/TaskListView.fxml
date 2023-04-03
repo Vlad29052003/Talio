@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="root" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" style="-fx-border-width: 1; -fx-border-color: black;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskListCtrl">
+<VBox fx:id="root" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" style="-fx-border-width: 1; -fx-border-color: black; -fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskListCtrl">
    <children>
       <HBox alignment="CENTER" maxHeight="35.0" minHeight="35.0" prefHeight="35.0" spacing="2.0">
          <children>
@@ -58,10 +58,13 @@
             </VBox>
          </content>
       </ScrollPane>
-      <HBox alignment="CENTER" prefHeight="12.0" prefWidth="248.0">
+      <AnchorPane>
          <children>
-            <JFXButton onAction="#addTask" text="Add Task" />
+            <JFXButton onAction="#addTask" text="Add Task" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
          </children>
-      </HBox>
+         <padding>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+         </padding>
+      </AnchorPane>
    </children>
 </VBox>

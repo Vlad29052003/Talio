@@ -55,7 +55,7 @@ public class Main extends Application {
                 "client", "scenes", "crud", "CreateNewBoard.fxml"
         );
         var editBoard = FXML.load(EditBoardCtrl.class,
-                "client", "scenes", "crud", "EditBoardName.fxml"
+                "client", "scenes", "crud", "EditBoard.fxml"
         );
         var deleteBoard = FXML.load(DeleteBoardCtrl.class,
                 "client", "scenes", "crud", "ConfirmBoardDelete.fxml"

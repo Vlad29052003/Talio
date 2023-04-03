@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXBadge?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="224.0" prefWidth="340.0" stylesheets="/style/CreateNewBoard.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.crud.board.EditBoardCtrl">
+    <children>
+        <Text layoutX="12.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Edit board" wrappingWidth="315.0">
+            <font>
+                <Font name="Calibri" size="12.0" />
+            </font></Text>
+        <Text layoutX="13.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Name:" />
+        <JFXButton layoutX="103.0" layoutY="184.0" onAction="#confirm" prefHeight="25.0" prefWidth="65.0" styleClass="add-button-board" text="Edit" />
+        <JFXButton layoutX="173.0" layoutY="184.0" onAction="#cancel" prefHeight="25.0" prefWidth="65.0" styleClass="cancel-button" text="Cancel" />
+        <JFXBadge layoutX="184.0" layoutY="59.0" />
+        <TextField fx:id="text" layoutX="12.0" layoutY="87.0" prefHeight="26.0" prefWidth="315.0" styleClass="text-field" />
+      <ColorPicker fx:id="colorPicker" layoutX="13.0" layoutY="147.0" prefHeight="26.0" prefWidth="315.0" />
+      <Text layoutX="12.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Color:" />
+    </children>
+</AnchorPane>
