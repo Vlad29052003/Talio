@@ -54,6 +54,8 @@ public class MainCtrl {
     private Scene createTask;
     private EditTaskCtrl editTaskCtrl;
     private Scene editTask;
+    private HelpScreenCtrl helpScreenCtrl;
+    private Scene helpScreen;
 
     /**
      * Sets myFXML.
@@ -172,6 +174,12 @@ public class MainCtrl {
         this.editList = new Scene(editTaskList.getValue());
     }
 
+    public void initializeHelpScreen(Pair<HelpScreenCtrl, Parent> helpScreen){
+
+        this.helpScreenCtrl = helpScreen.getKey();
+        this.helpScreen = new Scene(helpScreen.getValue());
+    }
+
     /**
      * Initializes the controllers and scenes for the
      * task crud operations.
@@ -286,6 +294,15 @@ public class MainCtrl {
         }
         createBoardCtrl.reset();
         primaryStage.setScene(workspaceScene);
+    }
+
+    /**
+     * Switches to the HelpScreen Scene.
+     */
+    public void openHelpScreen() {
+        popupStage.setTitle("Help Screen");
+        popupStage.setScene(helpScreen);
+        popupStage.show();
     }
 
     /**

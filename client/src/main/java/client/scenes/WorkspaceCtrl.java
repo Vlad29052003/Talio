@@ -184,6 +184,13 @@ public class WorkspaceCtrl implements Initializable {
     }
 
     /**
+     * Switches to the HelpScreen Scene
+     */
+    public void openHelpScreen() {
+        mainCtrl.openHelpScreen();
+    }
+
+    /**
      * Gets the boards.
      *
      * @return the boards.

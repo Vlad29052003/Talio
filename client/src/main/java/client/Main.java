@@ -3,6 +3,7 @@ package client;
 import static com.google.inject.Guice.createInjector;
 
 import client.scenes.BoardCtrl;
+import client.scenes.HelpScreenCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.WorkspaceCtrl;
 import client.scenes.crud.board.CreateNewBoardCtrl;
@@ -77,11 +78,14 @@ public class Main extends Application {
         );
         var editTask = FXML.load(EditTaskCtrl.class,
                 "client", "scenes", "crud", "EditTask.fxml");
+        var helpScreen = FXML.load(HelpScreenCtrl.class,
+                "client", "scenes", "HelpScreen.fxml");
 
         mainCtrl.initialize(primaryStage, workspace, board);
         mainCtrl.initializeBoardCrud(joinBoard, createBoard, editBoard, deleteBoard);
         mainCtrl.initializeTaskListCrud(deleteTaskList, newTaskList, editTaskList);
         mainCtrl.initializeTaskCrud(deleteTask, newTask, editTask);
+        mainCtrl.initializeHelpScreen(helpScreen);
     }
 
     @Override
