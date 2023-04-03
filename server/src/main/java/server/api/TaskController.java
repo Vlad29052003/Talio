@@ -178,7 +178,6 @@ public class TaskController {
         changeIndexesOldList(old, index);
 
         Board parent = savedTaskList.getBoard();
-        changes.addChanged(parent.id, parent);
 
         return ResponseEntity.ok("Successfully deleted.");
     }
