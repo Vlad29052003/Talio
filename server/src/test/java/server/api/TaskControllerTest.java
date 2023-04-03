@@ -18,7 +18,6 @@ public class TaskControllerTest {
     private TaskListTestRepository listRepo;
     private TestTaskRepository taskRepo;
     private TaskController taskController;
-    private BoardChangeQueue changes;
 
     private List<TaskList> lists;
 
@@ -30,8 +29,7 @@ public class TaskControllerTest {
         tasks = new ArrayList<>();
         listRepo = new TaskListTestRepository();
         taskRepo = new TestTaskRepository();
-        changes = new BoardChangeQueue();
-        taskController = new TaskController(taskRepo, listRepo, changes);
+        taskController = new TaskController(taskRepo, listRepo);
         Board parent = new Board("Board1", "color");
         TaskList l1 = new TaskList("list1");
         l1.id = 1L;
