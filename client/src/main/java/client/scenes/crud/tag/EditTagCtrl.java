@@ -69,8 +69,7 @@ public class EditTagCtrl {
         try {
             tag.name = name.getText();
             tag.color = colorPicker.getValue().toString();
-            Tag edited = server.updateTag(tag);
-            mainCtrl.updateTag(tag, edited);
+            server.updateTag(tag);
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);

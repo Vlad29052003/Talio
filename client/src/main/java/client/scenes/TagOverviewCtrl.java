@@ -45,6 +45,7 @@ public class TagOverviewCtrl implements Initializable {
     public void populate() {
         tagContainer.getChildren().clear();
         board.sortTags();
+        System.out.println(board.tags);
         if (board != null) {
             for (Tag tag : board.tags) {
                 var pair = mainCtrl.newTagListingView(tag);

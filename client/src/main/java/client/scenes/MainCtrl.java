@@ -281,6 +281,16 @@ public class MainCtrl {
     }
 
     /**
+     * Updates the Tag Overview if it is showing.
+     *
+     * @param board is the updated board.
+     */
+    public void checkTagOverviewUpdate(Board board) {
+        if (popupStage.getTitle().equals("Tag Overview"))
+            tagOverviewCtrl.setBoard(board);
+    }
+
+    /**
      * Removes a BoardListingCtrl from the workspace.
      *
      * @param removed is the BoardListingCtrl to be removed.
@@ -577,7 +587,7 @@ public class MainCtrl {
     /**
      * Loads the scenes for the TagListingCtrl.
      *
-     * @param tag is the Tag associated with them.
+     * @param tag  is the Tag associated with them.
      * @param task is the Task associated with them.
      * @return the new BoardListingCtrl.
      */
@@ -638,39 +648,6 @@ public class MainCtrl {
      */
     public void removeTask(Task task) {
         boardCtrl.removeTask(task);
-    }
-
-    /**
-     * Refreshes the tag overview.
-     */
-    public void refreshTagOverview() {
-        tagOverviewCtrl.refresh();
-    }
-
-    /**
-     * Removes a tag from the overview.
-     *
-     * @param tag is the removed tag.
-     */
-    public void removeTag(Tag tag) {
-        if (boardCtrl.getBoard() != null) {
-            boardCtrl.getBoard().tags.remove(tag);
-            tagOverviewCtrl.refresh();
-        }
-    }
-
-    /**
-     * Updates a tag in the overview.
-     *
-     * @param old    is the old tag.
-     * @param newest is the new tag.
-     */
-    public void updateTag(Tag old, Tag newest) {
-        if (boardCtrl.getBoard() != null) {
-            int i = boardCtrl.getBoard().tags.indexOf(old);
-            if (i >= 0) boardCtrl.getBoard().tags.set(i, newest);
-            tagOverviewCtrl.refresh();
-        }
     }
 
     /**

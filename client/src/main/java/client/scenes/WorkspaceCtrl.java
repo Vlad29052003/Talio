@@ -110,6 +110,7 @@ public class WorkspaceCtrl implements Initializable {
             updateBoard(b);
             if(mainCtrl.getActiveBoard() != null && mainCtrl.getActiveBoard().id == b.id)
                 mainCtrl.switchBoard(b);
+            mainCtrl.checkTagOverviewUpdate(b);
         }));
     }
 

@@ -67,9 +67,7 @@ public class CreateTagCtrl {
         }
         try {
             Tag tag = new Tag(name.getText(), colorPicker.getValue().toString());
-            tag = serverUtils.addTag(tag, board.id);
-            board.tags.add(tag);
-            mainCtrl.refreshTagOverview();
+            serverUtils.addTag(tag, board.id);
             cancel();
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);

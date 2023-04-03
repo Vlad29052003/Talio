@@ -49,7 +49,6 @@ public class DeleteTagCtrl {
     public void delete() {
         try {
             server.delete(tag);
-            mainCtrl.removeTag(tag);
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
