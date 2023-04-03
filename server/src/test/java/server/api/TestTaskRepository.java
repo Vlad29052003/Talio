@@ -14,11 +14,19 @@ import java.util.function.Function;
 
 public class TestTaskRepository implements TaskRepository {
 
-    public final List<Task> tasks = new ArrayList<>();
-    public final List<String> calledMethods = new ArrayList<>();
-
+    private final List<Task> tasks = new ArrayList<>();
+    private final List<String> calledMethods = new ArrayList<>();
+    private int inc = 0;
     private void call(String name) {
         calledMethods.add(name);
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public List<String> getCalledMethods() {
+        return calledMethods;
     }
 
     @Override
@@ -99,9 +107,7 @@ public class TestTaskRepository implements TaskRepository {
     @Override
     public boolean existsById(Long aLong) {
         call("existsById");
-        if (tasks.stream().filter(t -> t.id == aLong).findFirst().isEmpty())
-            return false;
-        return true;
+        return tasks.stream().anyMatch(t -> t.id == aLong);
     }
 
     @Override
@@ -112,6 +118,8 @@ public class TestTaskRepository implements TaskRepository {
     @Override
     public <S extends Task> S saveAndFlush(S entity) {
         call("saveAndFlush");
+        entity.id = inc++;
+        tasks.add(entity);
         return entity;
     }
 
