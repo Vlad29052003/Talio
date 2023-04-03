@@ -1,5 +1,6 @@
 package server.api;
 
+import commons.Board;
 import commons.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.async.DeferredResult;
 import server.service.TagService;
 import java.util.List;
 
@@ -82,6 +84,16 @@ public class TagController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") long id) {
         return tagService.delete(id);
+    }
+
+    /**
+     * Handles long polling updates.
+     *
+     * @return a Response containing the modified Board.
+     */
+    @GetMapping("/getUpdates")
+    public DeferredResult<ResponseEntity<Board>> getUpdates() {
+        return tagService.getUpdates();
     }
 
 }

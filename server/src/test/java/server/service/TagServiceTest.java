@@ -5,7 +5,9 @@ import commons.Tag;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.context.request.async.DeferredResult;
 import server.database.BoardRepository;
 import server.database.TagRepository;
 import java.util.ArrayList;
@@ -98,8 +100,11 @@ public class TagServiceTest {
     public void testUpdate() {
         t1.id = 0L;
         t2.id = 1L;
+        Board board = new Board("name", "");
+        board.id = 0L;
         Tag updated = new Tag("updated", "");
         updated.id = 0L;
+        t1.board = board;
         tags.addAll(List.of(t1, t2));
         assertEquals(tagService.update(updated), ResponseEntity.ok(t1));
         verify(tagRepo, times(1)).existsById(0L);
@@ -137,6 +142,10 @@ public class TagServiceTest {
     public void testDelete() {
         t1.id = 0L;
         t2.id = 1L;
+        Board board = new Board("name", "");
+        board.id = 0L;
+        t1.board = board;
+        when(boardRepo.findById(0L)).thenReturn(Optional.of(board));
         tags.addAll(List.of(t1, t2));
         assertEquals(tagService.delete(0L), ResponseEntity.ok().build());
         assertEquals(tags, List.of(t2));
@@ -148,6 +157,13 @@ public class TagServiceTest {
     public void testDeleteInvalid() {
         assertEquals(tagService.delete(0L), ResponseEntity.badRequest().build());
         verify(tagRepo, times(1)).existsById(0L);
+    }
+
+    @Test
+    public void testGetUpdates() {
+        var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        var res = new DeferredResult<ResponseEntity<Board>>(5000L, noContent);
+        assertEquals(res.getResult(), tagService.getUpdates().getResult());
     }
 
 }

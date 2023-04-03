@@ -3,17 +3,22 @@ package server.service;
 import commons.Board;
 import commons.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.async.DeferredResult;
 import server.database.BoardRepository;
 import server.database.TagRepository;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 @Service
 public class TagService {
     private final TagRepository tagRepo;
     private final BoardRepository boardRepo;
+    private Map<Object, Consumer<Board>> listen;
 
     /**
      * Creates a new {@link TagService} object.
@@ -25,6 +30,7 @@ public class TagService {
     public TagService(TagRepository tagRepo, BoardRepository boardRepo) {
         this.tagRepo = tagRepo;
         this.boardRepo = boardRepo;
+        this.listen = new HashMap<>();
     }
 
     /**
@@ -61,6 +67,11 @@ public class TagService {
             updated.name = tag.name;
             updated.color = tag.color;
             updated = tagRepo.saveAndFlush(updated);
+
+            Board board = updated.board;
+            board.toString();
+            listen.forEach((k, l) -> l.accept(board));
+
             return ResponseEntity.ok(updated);
         }
         return ResponseEntity.badRequest().build();
@@ -81,6 +92,10 @@ public class TagService {
         board.tags.add(saved);
         tag.board = board;
         boardRepo.saveAndFlush(board);
+
+        board.toString();
+        listen.forEach((k, l) -> l.accept(board));
+
         return ResponseEntity.ok(saved);
     }
 
@@ -90,13 +105,38 @@ public class TagService {
      * @param id is the id of the Tag to be deleted.
      * @return a response containing the status of the action.
      */
-    @Transactional
     public ResponseEntity<?> delete(long id) {
         if (tagRepo.existsById(id)) {
+            long boardId = tagRepo.findById(id).get().board.id;
             tagRepo.deleteById(id);
             tagRepo.flush();
+            Board board = boardRepo.findById(boardId).get();
+            board.toString();
+            listen.forEach((k, l) -> l.accept(board));
+
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();
+    }
+
+    /**
+     * Handles long polling.
+     *
+     * @return the response containing an updated board,
+     * ot no content if no updates are made.
+     */
+    public DeferredResult<ResponseEntity<Board>> getUpdates() {
+        var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        var res = new DeferredResult<ResponseEntity<Board>>(5000L, noContent);
+
+        var key = new Object();
+        listen.put(key, b -> {
+            res.setResult(ResponseEntity.ok((Board) b));
+        });
+        res.onCompletion(() -> {
+            listen.remove(key);
+        });
+
+        return res;
     }
 }

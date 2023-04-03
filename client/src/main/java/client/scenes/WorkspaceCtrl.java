@@ -86,6 +86,7 @@ public class WorkspaceCtrl implements Initializable {
 
     /**
      * Initializes this Workspace.
+     * Starts the long polling.
      *
      * @param location  The location used to resolve relative paths for the root object, or
      *                  {@code null} if the location is not known.
@@ -99,13 +100,17 @@ public class WorkspaceCtrl implements Initializable {
         serverIP.setText(ip);
         fetch();
 
-        server.registerForCreateTaskUpdates(b -> {
-            Platform.runLater(() -> {
-                updateBoard(b);
-                if(mainCtrl.getActiveBoard() != null && mainCtrl.getActiveBoard().id == b.id)
-                    mainCtrl.switchBoard(b);
-            });
-        });
+        server.registerForTaskUpdates(b -> Platform.runLater(() -> {
+            updateBoard(b);
+            if(mainCtrl.getActiveBoard() != null && mainCtrl.getActiveBoard().id == b.id)
+                mainCtrl.switchBoard(b);
+        }));
+
+        server.registerForTagUpdates(b -> Platform.runLater(() -> {
+            updateBoard(b);
+            if(mainCtrl.getActiveBoard() != null && mainCtrl.getActiveBoard().id == b.id)
+                mainCtrl.switchBoard(b);
+        }));
     }
 
     /**

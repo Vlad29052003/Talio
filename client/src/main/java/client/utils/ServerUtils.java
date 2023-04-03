@@ -16,7 +16,8 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 public class ServerUtils {
 
     private String server = "http://localhost:8080/";
-    private final ExecutorService EXEC = Executors.newSingleThreadExecutor();
+    private final ExecutorService TASK_EXEC = Executors.newSingleThreadExecutor();
+    private final ExecutorService TAG_EXEC = Executors.newSingleThreadExecutor();
 
     /**
      * Gets the server.
@@ -249,12 +250,12 @@ public class ServerUtils {
     }
 
     /**
-     * Starts the long polling.
+     * Starts the long polling for Task updates.
      *
      * @param consumer is the Consumer.
      */
-    public void registerForCreateTaskUpdates(Consumer<Board> consumer) {
-        EXEC.submit(() -> {
+    public void registerForTaskUpdates(Consumer<Board> consumer) {
+        TASK_EXEC.submit(() -> {
             while (!Thread.interrupted()) {
                 try {
                     var res = ClientBuilder.newClient(new ClientConfig())
@@ -274,9 +275,35 @@ public class ServerUtils {
     }
 
     /**
-     * Ensures the thread stops when the application is closed.
+     * Starts the long polling for Tag updates.
+     *
+     * @param consumer is the Consumer.
+     */
+    public void registerForTagUpdates(Consumer<Board> consumer) {
+        TAG_EXEC.submit(() -> {
+            while (!Thread.interrupted()) {
+                try {
+                    var res = ClientBuilder.newClient(new ClientConfig())
+                            .target(server).path("api/tag/getUpdates")
+                            .request(APPLICATION_JSON)
+                            .accept(APPLICATION_JSON)
+                            .get(Response.class);
+                    if (res.getStatus() == 204) {
+                        continue;
+                    }
+                    Board b = res.readEntity(Board.class);
+                    consumer.accept(b);
+                } catch (Exception ignored) {
+                }
+            }
+        });
+    }
+
+    /**
+     * Ensures the threads stop when the application is closed.
      */
     public void stop() {
-        EXEC.shutdownNow();
+        TASK_EXEC.shutdownNow();
+        TAG_EXEC.shutdownNow();
     }
 }

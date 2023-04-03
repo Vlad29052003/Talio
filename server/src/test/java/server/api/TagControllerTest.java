@@ -1,10 +1,13 @@
 package server.api;
 
+import commons.Board;
 import commons.Tag;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.context.request.async.DeferredResult;
 import server.service.TagService;
 import java.util.ArrayList;
 import java.util.List;
@@ -118,4 +121,11 @@ public class TagControllerTest {
         verify(tagService, times(1)).delete(0L);
     }
 
+    @Test
+    public void testGetUpdates() {
+        var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        var res = new DeferredResult<ResponseEntity<Board>>(5000L, noContent);
+        when(tagService.getUpdates()).thenReturn(res);
+        assertEquals(tagController.getUpdates().getResult(), res.getResult());
+    }
 }

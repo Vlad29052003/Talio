@@ -171,7 +171,7 @@ public class TaskControllerTest {
     }
 
     @Test
-    public void testGetUpdatesNoUpdates() throws InterruptedException {
+    public void testGetUpdatesNoUpdates() {
         var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         var res = new DeferredResult<ResponseEntity<Board>>(5000L, noContent);
         assertEquals(taskController.getUpdates().getResult(), res.getResult());
