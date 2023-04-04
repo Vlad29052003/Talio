@@ -49,6 +49,15 @@ public class EditTaskCtrl {
     }
 
     /**
+     * Gets the edited.
+     *
+     * @return the edited task.
+     */
+    public Task getEdited() {
+        return edited;
+    }
+
+    /**
      * Sets the task.
      *
      * @param task is the task.

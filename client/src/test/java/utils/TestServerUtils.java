@@ -17,5 +17,6 @@ public class TestServerUtils {
     public void testSetGetServer() {
         server.setServer("string");
         assertEquals(server.getServer(), "string");
+        server.stop();
     }
 }

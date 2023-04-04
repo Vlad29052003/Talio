@@ -15,6 +15,7 @@ public class ServerUtilsTestingMock extends ServerUtils {
     private List<TaskList> lists;
     private List<Task> tasks;
     private List<Tag> tags;
+    private List<String> calledMethods;
 
     /**
      * Instantiate a new {@link ServerUtilsTestingMock}.
@@ -25,6 +26,7 @@ public class ServerUtilsTestingMock extends ServerUtils {
         lists = new ArrayList<>();
         tasks = new ArrayList<>();
         tags = new ArrayList<>();
+        calledMethods = new ArrayList<>();
     }
 
     /**
@@ -61,6 +63,15 @@ public class ServerUtilsTestingMock extends ServerUtils {
      */
     public List<Tag> getTags() {
         return tags;
+    }
+
+    /**
+     * Gets the list of called methods.
+     *
+     * @return the calledMethods.
+     */
+    public List<String> getCalledMethods() {
+        return calledMethods;
     }
 
     @Override
@@ -142,5 +153,10 @@ public class ServerUtilsTestingMock extends ServerUtils {
             return Response.ok().build();
         }
         return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    @Override
+    public void dragAndDrop(long newListId, int index, long taskId) {
+        calledMethods.add("dragAndDrop");
     }
 }

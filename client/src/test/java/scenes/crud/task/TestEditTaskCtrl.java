@@ -26,10 +26,10 @@ public class TestEditTaskCtrl {
     }
 
     @Test
-    public void testSetWithoutRefresh() {
+    public void testGetTagUpdates() {
         Task test = new Task();
-        editTaskCtrl.setTaskWithoutRefreshing(test);
-        assertEquals(editTaskCtrl.getTask(), test);
+        editTaskCtrl.getTagUpdates(test);
+        assertEquals(editTaskCtrl.getEdited(), test);
     }
 
     @Test
@@ -46,6 +46,6 @@ public class TestEditTaskCtrl {
     @Test
     public void testCancel() {
         editTaskCtrl.cancel();
-        verify(mainCtrl, times(1)).cancel();
+        verify(mainCtrl, times(1)).hidePopup();
     }
 }

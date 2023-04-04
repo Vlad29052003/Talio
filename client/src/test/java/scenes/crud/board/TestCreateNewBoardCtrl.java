@@ -42,5 +42,6 @@ public class TestCreateNewBoardCtrl {
     public void testCancel() {
         newBoardCtrl.cancel();
         verify(mainCtrl, times(1)).cancel();
+        verify(mainCtrl, times(1)).hidePopup();
     }
 }

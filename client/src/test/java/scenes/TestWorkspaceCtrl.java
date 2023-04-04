@@ -12,7 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -30,16 +30,16 @@ import static org.mockito.Mockito.when;
 public class TestWorkspaceCtrl {
     private WorkspaceCtrl workspaceCtrl;
     private MainCtrl mainCtrl;
-    private File testFile;
+    private static File testFile;
     private ServerUtilsTestingMock server;
     private ClientData cd;
 
     @BeforeEach
     public void setUp() {
-        this.testFile = null;
         try {
             testFile = new File("test.txt");
-            testFile.createNewFile();
+            if (!testFile.exists())
+                testFile.createNewFile();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -54,9 +54,10 @@ public class TestWorkspaceCtrl {
     /**
      * Deletes the file.
      */
-    @AfterEach
-    public void reset() {
-        testFile.delete();
+    @AfterAll
+    public static void reset() {
+        boolean deleted = testFile.delete();
+        while (!deleted) testFile.delete();
     }
 
     @Test

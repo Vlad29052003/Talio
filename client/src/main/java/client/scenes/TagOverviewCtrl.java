@@ -35,8 +35,7 @@ public class TagOverviewCtrl implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (board != null)
-            populate();
+        if (board != null) populate();
     }
 
     /**
@@ -71,7 +70,7 @@ public class TagOverviewCtrl implements Initializable {
      */
     public void setBoard(Board board) {
         this.board = board;
-        refresh();
+        populate();
     }
 
     /**
@@ -86,12 +85,5 @@ public class TagOverviewCtrl implements Initializable {
      */
     public void close() {
         mainCtrl.hidePopup();
-    }
-
-    /**
-     * Refreshes the scene.
-     */
-    public void refresh() {
-        populate();
     }
 }
