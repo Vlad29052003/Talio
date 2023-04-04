@@ -18,6 +18,7 @@ public class EditTaskCtrl {
     private MainCtrl mainCtrl;
     private ServerUtils server;
     private Task task;
+    private Task edited;
     @FXML
     TextField name;
     @FXML
@@ -35,6 +36,7 @@ public class EditTaskCtrl {
     public EditTaskCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+        this.edited = new Task();
     }
 
     /**
@@ -63,8 +65,8 @@ public class EditTaskCtrl {
      *
      * @param task is the task with tags.
      */
-    public void setTaskWithoutRefreshing(Task task) {
-        this.task = task;
+    public void getTagUpdates(Task task) {
+        this.edited.tags = task.tags;
     }
 
     /**
@@ -81,6 +83,7 @@ public class EditTaskCtrl {
         try {
             task.name = name.getText();
             task.description = description.getText();
+            task.tags = edited.tags;
             server.updateTask(task);
         } catch (WebApplicationException e) {
             e.printStackTrace();
@@ -92,7 +95,6 @@ public class EditTaskCtrl {
             this.refresh();
             return;
         }
-        mainCtrl.cancel();
         mainCtrl.hidePopup();
     }
 
@@ -100,7 +102,7 @@ public class EditTaskCtrl {
      * Cancels the action.
      */
     public void cancel() {
-        mainCtrl.cancel();
+        this.edited = new Task();
         mainCtrl.hidePopup();
     }
 
@@ -108,11 +110,13 @@ public class EditTaskCtrl {
      * Refreshes the scene.
      */
     public void refresh() {
+        this.edited = new Task();
+        edited.tags.addAll(task.tags);
         name.setText(task.name);
         description.setText(task.description);
         tagContainer.getChildren().clear();
         for(Tag tag : task.getTaskList().board.tags) {
-            var pair = mainCtrl.newAddTagListingView(tag, task);
+            var pair = mainCtrl.newAddTagListingView(tag, edited);
             tagContainer.getChildren().add(pair.getValue());
         }
     }

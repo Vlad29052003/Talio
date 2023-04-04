@@ -656,7 +656,7 @@ public class MainCtrl {
      * @param task is the task.
      */
     public void setTaskWithTags(Task task) {
-        editTaskCtrl.setTaskWithoutRefreshing(task);
+        editTaskCtrl.getTagUpdates(task);
     }
 
     public class MyUpdateHandler extends UpdateHandler {
