@@ -164,9 +164,14 @@ public class TaskControllerTest {
 
     @Test
     public void testDeleteById() {
+        Task t1 = tasks.get(0);
+        Tag tag = new Tag();
+        tag.applyTo(t1);
+        t1.tags.add(tag);
+        taskRepo.tasks.set(0, t1);
         assertEquals(taskController.deleteById(1L),
                 ResponseEntity.ok("Successfully deleted."));
-        assertEquals(taskRepo.calledMethods, List.of("existsById", "findById", "delete", "flush"));
+       assertEquals(taskRepo.calledMethods, List.of("existsById", "findById", "delete", "flush"));
         assertFalse(taskRepo.tasks.contains(tasks.get(0)));
     }
 
