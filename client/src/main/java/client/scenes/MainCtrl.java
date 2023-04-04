@@ -8,6 +8,7 @@ import client.scenes.crud.board.JoinBoardCtrl;
 import client.scenes.crud.task.CreateTaskCtrl;
 import client.scenes.crud.task.DeleteTaskCtrl;
 import client.scenes.crud.task.EditTaskCtrl;
+import client.scenes.crud.task.OpenTaskCtrl;
 import client.scenes.crud.tasklists.CreateTaskListCtrl;
 import client.scenes.crud.tasklists.DeleteTaskListCtrl;
 import client.scenes.crud.tasklists.EditTaskListCtrl;
@@ -54,6 +55,8 @@ public class MainCtrl {
     private Scene createTask;
     private EditTaskCtrl editTaskCtrl;
     private Scene editTask;
+    private OpenTaskCtrl openTaskCtrl;
+    private Scene openTask;
 
     /**
      * Sets myFXML.
@@ -179,10 +182,12 @@ public class MainCtrl {
      * @param deleteTask is the Scene for deleting a Task.
      * @param newTask    is the Scene for creating a Task.
      * @param editTask   is the Scene for editing a Task.
+     * @param openTask   is the Scene for opening a Task.
      */
     public void initializeTaskCrud(Pair<DeleteTaskCtrl, Parent> deleteTask,
                                    Pair<CreateTaskCtrl, Parent> newTask,
-                                   Pair<EditTaskCtrl, Parent> editTask) {
+                                   Pair<EditTaskCtrl, Parent> editTask,
+                                   Pair<OpenTaskCtrl, Parent> openTask) {
         this.deleteTaskCtrl = deleteTask.getKey();
         this.deleteTask = new Scene(deleteTask.getValue());
 
@@ -191,6 +196,9 @@ public class MainCtrl {
 
         this.editTaskCtrl = editTask.getKey();
         this.editTask = new Scene(editTask.getValue());
+
+        this.openTaskCtrl = openTask.getKey();
+        this.openTask = new Scene(openTask.getValue());
     }
 
     /**
@@ -363,6 +371,19 @@ public class MainCtrl {
         editTaskCtrl.setTask(task);
         popupStage.setTitle("Edit task");
         popupStage.setScene(editTask);
+        popupStage.show();
+    }
+
+    /**
+     *
+     * Switches to the OpenTaskScene
+     *
+     * @param task is the Task to be opened.
+     */
+    public void openTask(Task task) {
+        openTaskCtrl.setTask(task);
+        popupStage.setTitle("Task details");
+        popupStage.setScene(openTask);
         popupStage.show();
     }
 

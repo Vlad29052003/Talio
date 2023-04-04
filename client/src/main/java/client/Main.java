@@ -12,6 +12,7 @@ import client.scenes.crud.board.JoinBoardCtrl;
 import client.scenes.crud.task.CreateTaskCtrl;
 import client.scenes.crud.task.DeleteTaskCtrl;
 import client.scenes.crud.task.EditTaskCtrl;
+import client.scenes.crud.task.OpenTaskCtrl;
 import client.scenes.crud.tasklists.CreateTaskListCtrl;
 import client.scenes.crud.tasklists.DeleteTaskListCtrl;
 import client.scenes.crud.tasklists.EditTaskListCtrl;
@@ -78,10 +79,13 @@ public class Main extends Application {
         var editTask = FXML.load(EditTaskCtrl.class,
                 "client", "scenes", "crud", "EditTask.fxml");
 
+        var openTask = FXML.load(OpenTaskCtrl.class,
+                "client", "scenes", "crud", "OpenTask.fxml");
+
         mainCtrl.initialize(primaryStage, workspace, board);
         mainCtrl.initializeBoardCrud(joinBoard, createBoard, editBoard, deleteBoard);
         mainCtrl.initializeTaskListCrud(deleteTaskList, newTaskList, editTaskList);
-        mainCtrl.initializeTaskCrud(deleteTask, newTask, editTask);
+        mainCtrl.initializeTaskCrud(deleteTask, newTask, editTask, openTask);
     }
 
     @Override
