@@ -1,8 +1,8 @@
 ## Description of project
 Talio is a web application designed to help users manage projects and tasks. Talio allows users to organize
-tasks into boards, lists, and cards, making it easy to track progress. With Talio, users can easily
-create new boards, and track progress or set the level of priority using customizable tags. Whether you're working on a personal project
-or managing a team, Talio provides a powerful and intuitive way to organize your tasks and stay productive.
+tasks into different categories represented by boards. Within each board, tasks, represented as cards, can be assigned to different lists, allowing for a better
+organization. With Talio, users can easily create new boards, and track progress or set the level of priority using tags.
+Talio provides a powerful and intuitive way to organize your tasks and stay productive.
 Additionally, Talio offers support for collaborative work, allowing more users to view and edit a board at the same time. This way, we make it easier
 to track and manage group projects and help everyone be on track with his/her tasks.
 
@@ -56,10 +56,11 @@ We welcome contributions from anyone who shares our vision and wants to make tas
 #### How to Contribute
 There are many ways in which you can contribute to our project:
 
-1. Report bugs and issues: If you encounter any issues while using our application, please let us know by opening a new issue on our GitLab repository. Please try to describe the
+1. Report bugs and issues: If you encounter any issues while using our application, please let us know. Please try to describe the
 bug as good as possible, so we can identify it easier.
 2. Suggest new features: If you have any ideas for new features that you think would be valuable, please open a new issue on our GitLab repository.
-3. Submit code: If you are a developer and would like to contribute code to our project, fork our GitLab repository, create a new branch for your changes, and submit a merge request.
+3. Submit code: If you would like to contribute code to our project, fork our GitLab repository, create a new branch for your changes, and submit a merge request. It will be
+ reviewed by our team.
 
 #### Code of Conduct
 In the docs section, the Code of Conduct of our team can be found. We expect everyone that wants to contribute to our project to adhere to the conditions stipulated in this document.
@@ -76,5 +77,3 @@ Users are permitted to use this application for personal purposes, subject to th
 - The application may not be distributed or sold without our permission.
 - The application may not be used for any illegal purposes.
 - Our team is not responsible for any damages resulting from the use of this application.
-
-If you have any questions about the use of this application or its associated materials, please contact us at one of our email addresses.
