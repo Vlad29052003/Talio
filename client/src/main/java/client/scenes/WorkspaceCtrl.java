@@ -99,6 +99,15 @@ public class WorkspaceCtrl implements Initializable {
         int index = data.getLastActiveOn();
         String ip = data.getServers().get(index).getServer();
         serverIP.setText(ip);
+
+        server.registerForCreateTaskUpdates(b -> {
+            Platform.runLater(() -> {
+                updateBoard(b);
+                if(mainCtrl.getActiveBoard() != null && mainCtrl.getActiveBoard().id == b.id)
+                    mainCtrl.switchBoard(b);
+            });
+        });
+
     }
 
     /**
