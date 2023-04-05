@@ -22,6 +22,11 @@ public abstract class UpdateHandler {
     public abstract void onBoardUpdated(Board board);
 
     /**
+     * Gets called when the server disconnects after being connected.
+     */
+    public abstract void onDisconnect();
+
+    /**
      * Dispatches an event to one of the methods
      *
      * @param update to be dispatched

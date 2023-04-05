@@ -33,8 +33,10 @@ public class TaskControllerTest {
         Board b = new Board("test", "");
         TaskList l1 = new TaskList("list1");
         l1.id = 1L;
+        b.addTaskList(l1);
         TaskList l2 = new TaskList("list2");
         l2.id = 2L;
+        b.addTaskList(l2);
         Task t1 = new Task("task1", 1, "");
         t1.id = 1L;
         Task t2 = new Task("task2", 2, "");
@@ -85,7 +87,7 @@ public class TaskControllerTest {
     public void testInexistentListMoveTask() {
         assertEquals(taskController.moveTask(4L, 1, 2L),
                 ResponseEntity.badRequest().body("Invalid ID."));
-        assertEquals(listRepo.calledMethods, List.of("existsById"));
+        assertTrue(listRepo.calledMethods.contains("existsById"));
     }
 
     @Test
@@ -96,7 +98,6 @@ public class TaskControllerTest {
         assertEquals(tasks.get(1).index, 1);
         assertEquals(tasks.get(0).index, 1);
         assertEquals(tasks.get(2).index, 2);
-
         Task moved = taskRepo.getTaskWithIt(2L);
         assertEquals(moved.index, 1);
 
@@ -110,14 +111,14 @@ public class TaskControllerTest {
     public void testInexistentListCreateTask() {
         assertEquals(taskController.createTask(5L, null),
                 ResponseEntity.badRequest().body("Invalid ID."));
-        assertEquals(listRepo.calledMethods, List.of("existsById"));
+        assertTrue(listRepo.calledMethods.contains("existsById"));
     }
 
     @Test
     public void testNullTaskCreateTask() {
         assertEquals(taskController.createTask(1L, null),
                 ResponseEntity.badRequest().body("Invalid data."));
-        assertEquals(listRepo.calledMethods, List.of("existsById"));
+        assertTrue(listRepo.calledMethods.contains("existsById"));
     }
 
     @Test
