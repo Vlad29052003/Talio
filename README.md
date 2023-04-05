@@ -26,7 +26,7 @@ the client application which is built using JavaFX. In order to run the applicat
 #### Downloading the application
 1. Download the project repository and save it in the desired directory. The project can be found [here](https://gitlab.ewi.tudelft.nl/cse1105/2022-2023/teams/oopp-team-48.git).
 2. Open a terminal (for example cmd on Windows). This can be achieved by pressing <kbd>Windows</kbd> + <kbd>R</kbd>. In the menu that opens, type
-cmd` and press <kbd>Enter</kbd>. This will open the Command Prompt.
+`cmd` and press <kbd>Enter</kbd>. This will open the Command Prompt.
 3. Type `cd` followed by the absolute path in the command prompt. For example, `cd C:\Users\Username\Documents\oopp-group-48`. Then press <kbd>Enter</kbd>.
 4. Run the following command `gradlew build`. This will build the project and install the needed dependencies. If the job succeeds, as it should, it will look something like this:
 <img src="./resources/build.jpg" height="400">
