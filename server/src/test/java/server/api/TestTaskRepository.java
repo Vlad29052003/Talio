@@ -17,6 +17,7 @@ public class TestTaskRepository implements TaskRepository {
     private final List<Task> tasks = new ArrayList<>();
     private final List<String> calledMethods = new ArrayList<>();
     private int inc = 0;
+
     private void call(String name) {
         calledMethods.add(name);
     }
@@ -37,6 +38,17 @@ public class TestTaskRepository implements TaskRepository {
      */
     public List<String> getCalledMethods() {
         return calledMethods;
+    }
+
+    /**
+     * Returns the task with the given id.
+     *
+     * @param id is the given id.
+     * @return the task if found.
+     */
+    public Task getTaskWithIt(long id) {
+        var present = tasks.stream().filter(t -> t.id == id).findFirst();
+        return present.orElse(null);
     }
 
     @Override
@@ -128,8 +140,13 @@ public class TestTaskRepository implements TaskRepository {
     @Override
     public <S extends Task> S saveAndFlush(S entity) {
         call("saveAndFlush");
-        entity.id = inc++;
-        tasks.add(entity);
+        boolean present = tasks.stream().anyMatch(t -> t.id == entity.id);
+        if (present) {
+            tasks.replaceAll(t -> t.id == entity.id ? entity : t);
+        } else {
+            entity.id = inc++;
+            tasks.add(entity);
+        }
         return entity;
     }
 

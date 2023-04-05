@@ -96,6 +96,10 @@ public class TaskControllerTest {
         assertEquals(tasks.get(1).index, 1);
         assertEquals(tasks.get(0).index, 1);
         assertEquals(tasks.get(2).index, 2);
+
+        Task moved = taskRepo.getTaskWithIt(2L);
+        assertEquals(moved.index, 1);
+
         assertEquals(listRepo.calledMethods,
                 List.of("existsById", "findById"));
         assertEquals(taskRepo.getCalledMethods(),
@@ -123,6 +127,7 @@ public class TaskControllerTest {
                 ResponseEntity.ok(taskRepo.saveAndFlush(newTask)));
         assertEquals(newTask.index, 4);
         assertEquals(newTask.getTaskList(), lists.get(0));
+        assertTrue(taskRepo.getTasks().contains(newTask));
         assertEquals(listRepo.calledMethods, List.of("existsById", "findById", "findById"));
         assertEquals(taskRepo.getCalledMethods(), List.of("saveAndFlush", "saveAndFlush"));
     }
