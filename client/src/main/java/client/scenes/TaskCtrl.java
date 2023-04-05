@@ -80,6 +80,9 @@ public class TaskCtrl {
      */
     public void refresh() {
         this.nameLabel.setText(this.task.name);
+        this.root.setStyle("-fx-background-color: #f4f4f4");
+        if(!this.task.color.equals(""))
+            this.root.setStyle("-fx-background-color: "+this.task.color);
     }
 
     /**

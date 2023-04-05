@@ -136,6 +136,7 @@ public class TaskController {
         Task current = taskRepo.findById(task.id).get();
         current.name = task.name;
         current.description = task.description;
+        current.color = task.color;
         taskRepo.saveAndFlush(current);
 
         return ResponseEntity.ok("Task updated.");

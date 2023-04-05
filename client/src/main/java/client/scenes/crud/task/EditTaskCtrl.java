@@ -7,10 +7,14 @@ import jakarta.ws.rs.WebApplicationException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javax.inject.Inject;
+import java.util.function.DoubleFunction;
+import java.util.function.Function;
 
 public class EditTaskCtrl {
     private MainCtrl mainCtrl;
@@ -20,6 +24,8 @@ public class EditTaskCtrl {
     TextField name;
     @FXML
     TextArea description;
+    @FXML
+    ColorPicker colorPicker;
 
     /**
      * Creates a new {@link EditTaskCtrl} object.
@@ -35,11 +41,18 @@ public class EditTaskCtrl {
 
     /**
      * Autofocuses the first field.
+     * @param task The {@link Task} we're editing
      */
-    public void initialize() {
+    public void initialize(Task task) {
+        this.setTask(task);
+        this.name.setText(task.name);
+        this.description.setText(task.description);
+        if(this.task.color.equals(""))
+            this.colorPicker.setValue(Color.valueOf("#f4f4f4"));
+        else
+            this.colorPicker.setValue(Color.valueOf(this.task.color));
         Platform.runLater(() -> name.requestFocus());
     }
-
 
     /**
      * Gets the task.
@@ -57,7 +70,6 @@ public class EditTaskCtrl {
      */
     public void setTask(Task task) {
         this.task = task;
-        refresh();
     }
 
     /**
@@ -71,9 +83,21 @@ public class EditTaskCtrl {
             alert.showAndWait();
             return;
         }
+
+        DoubleFunction<String> fmt = v -> {
+            String in = Integer.toHexString((int) Math.round(v * 255));
+            return in.length() == 1 ? "0" + in : in;
+        };
+        Function<Color, String> toHex = v -> "#" + (
+                fmt.apply(v.getRed()) + fmt.apply(v.getGreen())
+                        + fmt.apply(v.getBlue()) + fmt.apply(v.getOpacity())
+        ).toUpperCase();
+        String taskColor = toHex.apply(this.colorPicker.getValue());
+
         try {
             task.name = name.getText();
             task.description = description.getText();
+            task.color = taskColor;
             server.updateTask(task);
             mainCtrl.updateTaskInList(task);
         } catch (WebApplicationException e) {
@@ -83,7 +107,6 @@ public class EditTaskCtrl {
                     "\rIt will be removed from the workspace!");
             alert.showAndWait();
             mainCtrl.cancel();
-            this.refresh();
             return;
         }
         mainCtrl.cancel();
@@ -96,13 +119,5 @@ public class EditTaskCtrl {
     public void cancel() {
         mainCtrl.cancel();
         mainCtrl.hidePopup();
-    }
-
-    /**
-     * Refreshes the scene.
-     */
-    public void refresh() {
-        name.setText(task.name);
-        description.setText(task.description);
     }
 }
