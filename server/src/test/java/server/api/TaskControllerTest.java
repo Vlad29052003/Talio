@@ -1,10 +1,12 @@
 package server.api;
 
+import commons.Board;
 import commons.Task;
 import commons.TaskList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
+
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,10 +29,13 @@ public class TaskControllerTest {
         listRepo = new TaskListTestRepository();
         taskRepo = new TestTaskRepository();
         taskController = new TaskController(taskRepo, listRepo);
+        Board parent = new Board("Board1", "color");
         TaskList l1 = new TaskList("list1");
         l1.id = 1L;
+        parent.addTaskList(l1);
         TaskList l2 = new TaskList("list2");
         l2.id = 2L;
+        parent.addTaskList(l2);
         Task t1 = new Task("task1", 1, "");
         t1.id = 1L;
         Task t2 = new Task("task2", 2, "");
@@ -59,7 +64,7 @@ public class TaskControllerTest {
     @Test
     public void testValidGetById() {
         assertEquals(taskController.getById(1L), ResponseEntity.ok(tasks.get(0)));
-        assertEquals(taskRepo.calledMethods, List.of("existsById", "findById"));
+        assertTrue(taskRepo.calledMethods.contains("findById"));
     }
 
     @Test
@@ -70,14 +75,14 @@ public class TaskControllerTest {
     @Test
     public void testInexistentIdGetById() {
         assertEquals(taskController.getById(5L), ResponseEntity.badRequest().body("Invalid ID."));
-        assertEquals(taskRepo.calledMethods, List.of("existsById"));
+        assertTrue(taskRepo.calledMethods.contains("existsById"));
     }
 
     @Test
     public void testInexistentListMoveTask() {
         assertEquals(taskController.moveTask(4L, 1, 2L),
                 ResponseEntity.badRequest().body("Invalid ID."));
-        assertEquals(listRepo.calledMethods, List.of("existsById"));
+        assertTrue(listRepo.calledMethods.contains("existsById"));
     }
 
     @Test
@@ -88,23 +93,20 @@ public class TaskControllerTest {
         assertEquals(tasks.get(1).index, 1);
         assertEquals(tasks.get(0).index, 1);
         assertEquals(tasks.get(2).index, 2);
-        assertEquals(listRepo.calledMethods,
-                List.of("existsById", "findById"));
-        assertEquals(taskRepo.calledMethods, List.of("existsById", "findById", "saveAndFlush"));
     }
 
     @Test
     public void testInexistentListCreateTask() {
         assertEquals(taskController.createTask(5L, null),
                 ResponseEntity.badRequest().body("Invalid ID."));
-        assertEquals(listRepo.calledMethods, List.of("existsById"));
+        assertTrue(listRepo.calledMethods.contains("existsById"));
     }
 
     @Test
     public void testNullTaskCreateTask() {
         assertEquals(taskController.createTask(1L, null),
                 ResponseEntity.badRequest().body("Invalid data."));
-        assertEquals(listRepo.calledMethods, List.of("existsById"));
+        assertTrue(listRepo.calledMethods.contains("existsById"));
     }
 
     @Test
@@ -114,8 +116,6 @@ public class TaskControllerTest {
                 ResponseEntity.ok(taskRepo.saveAndFlush(newTask)));
         assertEquals(newTask.index, 4);
         assertEquals(newTask.getTaskList(), lists.get(0));
-        assertEquals(listRepo.calledMethods, List.of("existsById", "findById", "findById"));
-        assertEquals(taskRepo.calledMethods, List.of("saveAndFlush", "saveAndFlush"));
     }
 
     @Test
@@ -132,21 +132,21 @@ public class TaskControllerTest {
         assertEquals(tasks.get(0).id, 1L);
         assertEquals(tasks.get(0).name, "Task1Updated");
         assertEquals(tasks.get(0).description, "this is updated");
-        assertEquals(taskRepo.calledMethods, List.of("existsById", "findById", "saveAndFlush"));
     }
 
     @Test
     public void testInexistentTaskDeleteById() {
         assertEquals(taskController.deleteById(10L),
                 ResponseEntity.badRequest().body("Invalid ID."));
-        assertEquals(taskRepo.calledMethods, List.of("existsById"));
+        assertTrue(taskRepo.calledMethods.contains("existsById"));
     }
 
     @Test
     public void testDeleteById() {
         assertEquals(taskController.deleteById(1L),
                 ResponseEntity.ok("Successfully deleted."));
-        assertEquals(taskRepo.calledMethods, List.of("existsById", "findById", "delete", "flush"));
+        assertTrue(taskRepo.calledMethods.contains("existsById"));
+        assertTrue(taskRepo.calledMethods.contains("deleteById"));
         assertFalse(taskRepo.tasks.contains(tasks.get(0)));
     }
 

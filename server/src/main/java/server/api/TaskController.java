@@ -89,7 +89,7 @@ public class TaskController {
         t.setTaskList(newList);
 
         t.index = index;
-        taskRepo.saveAndFlush(t);
+        Task saved = taskRepo.saveAndFlush(t);
 
         return ResponseEntity.ok("Changed successfully!");
     }
@@ -136,7 +136,7 @@ public class TaskController {
         Task current = taskRepo.findById(task.id).get();
         current.name = task.name;
         current.description = task.description;
-        taskRepo.saveAndFlush(current);
+        Task saved = taskRepo.saveAndFlush(current);
 
         return ResponseEntity.ok("Task updated.");
     }
@@ -153,7 +153,10 @@ public class TaskController {
             return ResponseEntity.badRequest().body("Invalid ID.");
 
         Task deleted = taskRepo.findById(taskId).get();
-        TaskList old = deleted.getTaskList();
+        TaskList old = listRepo.findById(deleted.getTaskList().id).get();
+        old.removeTask(deleted);
+        TaskList savedTaskList = listRepo.save(old);
+
         int index = deleted.index;
         taskRepo.delete(deleted);
         taskRepo.flush();
