@@ -54,9 +54,14 @@ public class EditBoardCtrl {
     public void setBoard(Board board) {
         this.board = board;
         this.text.setText(board.name);
-        if(this.board.backgroundColor.equals("")) this.board.backgroundColor = "#f4f4f4";
-        this.bgColorPicker.setValue(Color.valueOf(this.board.backgroundColor));
-        this.fontColorPicker.setValue(Color.valueOf(this.board.fontColor));
+        if(this.board.backgroundColor.equals(""))
+            this.bgColorPicker.setValue(Color.valueOf("#f4f4f4"));
+        else
+            this.bgColorPicker.setValue(Color.valueOf(this.board.backgroundColor));
+        if(this.board.fontColor.equals(""))
+            this.fontColorPicker.setValue(Color.valueOf("#000000"));
+        else
+            this.fontColorPicker.setValue(Color.valueOf(this.board.fontColor));
     }
 
     /**
