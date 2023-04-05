@@ -304,6 +304,7 @@ public class MainCtrl {
         popupStage.setTitle("Create new board");
         popupStage.setScene(createBoard);
         popupStage.show();
+        this.createBoardCtrl.initialize();
     }
 
     /**
