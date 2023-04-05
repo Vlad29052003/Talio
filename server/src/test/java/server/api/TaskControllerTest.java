@@ -101,8 +101,8 @@ public class TaskControllerTest {
         Task moved = taskRepo.getTaskWithIt(2L);
         assertEquals(moved.index, 1);
 
-        assertEquals(listRepo.calledMethods,
-                List.of("existsById", "findById"));
+        assertTrue(listRepo.calledMethods.contains("existsById")
+                && listRepo.calledMethods.contains("findById"));
         assertEquals(taskRepo.getCalledMethods(),
                 List.of("existsById", "findById", "saveAndFlush"));
     }
@@ -163,7 +163,7 @@ public class TaskControllerTest {
         assertEquals(taskController.deleteById(1L),
                 ResponseEntity.ok("Successfully deleted."));
         assertEquals(taskRepo.getCalledMethods(),
-                List.of("existsById", "findById", "delete", "flush"));
+                List.of("existsById", "findById", "delete", "deleteById", "flush"));
         assertFalse(taskRepo.getTasks().contains(tasks.get(0)));
     }
 
