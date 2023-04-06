@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 public class Task implements Comparable<Task> {
@@ -30,7 +31,7 @@ public class Task implements Comparable<Task> {
     public int index;
     public String description;
 
-    @ElementCollection // 1
+    @ElementCollection
     public List<String> subtasks;
 
     /**
@@ -85,7 +86,8 @@ public class Task implements Comparable<Task> {
      * @param subTask is the subtask.
      */
     public void addSubTask(String subTask){
-        this.subtasks.add(subTask);
+        // we append a zero to show that the subtask has not been completed yet.
+        this.subtasks.add(subTask.concat("0"));
     }
 
     /**
@@ -97,6 +99,49 @@ public class Task implements Comparable<Task> {
      */
     public boolean removeSubTask(String subTask) {
         return this.subtasks.remove(subTask);
+    }
+
+    /**
+     * changes the value of a subtask.
+     * @param subTask the name of the subtask.
+     * @param newValue the new value of the subtask.
+     */
+    public void setSubTask(String subTask, boolean newValue) {
+        Optional<String> value = this.subtasks.stream()
+                .filter(x -> x.startsWith(subTask)).findFirst();
+
+        if (!value.isPresent()) {
+            return;
+        }
+
+        String oldValue = value.get();
+        String newConcat = "0";
+        if (newValue) {
+            newConcat = "1";
+        }
+
+        String newString = oldValue.substring(0, oldValue.length() - 1).concat(newConcat);
+
+        int index = this.subtasks.indexOf(oldValue);
+        this.subtasks.set(index, newString);
+    }
+
+    /**
+     * Returns the progress of the subtasks.
+     *
+     * @return a value from 0 to 1 that determines how many of the subtasks have been completed.
+     */
+    public double calculateProgress() {
+        if (subtasks.size() == 0) {
+            return 1.0;
+        }
+
+        return subtasks.stream().map(x -> {
+            if (x.endsWith("1")) {
+                return 1.0;
+            }
+            return 0.0;
+        }).reduce((x, y) -> x + y).orElse(0.0) / (double)subtasks.size();
     }
 
     /**

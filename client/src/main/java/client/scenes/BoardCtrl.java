@@ -205,6 +205,7 @@ public class BoardCtrl {
         Task found = tlCtrl.getTaskList().tasks.get(updated.index);
         found.name = updated.name;
         found.description = updated.description;
+        found.subtasks = updated.subtasks;
         tlCtrl.refresh();
     }
 }
