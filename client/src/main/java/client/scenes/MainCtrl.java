@@ -217,6 +217,7 @@ public class MainCtrl {
      * Stops all services depending on MainCtrl
      */
     public void stop() {
+        workspaceCtrl.stop();
         this.boardSyncroniser.stop();
     }
 
@@ -442,6 +443,15 @@ public class MainCtrl {
     }
 
     /**
+     * Gets the board that is currently being displayed.
+     *
+     * @return the board.
+     */
+    public Board getActiveBoard() {
+        return boardCtrl.getBoard();
+    }
+
+    /**
      * Loads the scenes for the BoardListingCtrl.
      *
      * @param newBoard is the Board associated with them.
@@ -502,7 +512,12 @@ public class MainCtrl {
      * @param task is the updated Task.
      */
     public void updateTaskInList(Task task) {
-        boardCtrl.updateTask(task);
+        try {
+            boardCtrl.updateTask(task);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

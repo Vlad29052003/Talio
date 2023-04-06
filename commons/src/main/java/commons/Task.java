@@ -1,6 +1,6 @@
 package commons;
 
-import static org.apache.commons.lang3.builder.ToStringStyle.SIMPLE_STYLE;
+import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -36,7 +36,7 @@ public class Task implements Comparable<Task> {
     public int index;
     public String description;
 
-    @ElementCollection(fetch = FetchType.EAGER) // 1
+    @ElementCollection
     public List<String> subtasks;
 
     /**
@@ -136,7 +136,7 @@ public class Task implements Comparable<Task> {
      */
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this, SIMPLE_STYLE);
+        return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
     }
 
     /**

@@ -99,6 +99,15 @@ public class WorkspaceCtrl implements Initializable {
         int index = data.getLastActiveOn();
         String ip = data.getServers().get(index).getServer();
         serverIP.setText(ip);
+
+        server.registerForCreateTaskUpdates(b -> {
+            Platform.runLater(() -> {
+                updateBoard(b);
+                if(mainCtrl.getActiveBoard() != null && mainCtrl.getActiveBoard().id == b.id)
+                    mainCtrl.switchBoard(b);
+            });
+        });
+
     }
 
     /**
@@ -463,5 +472,12 @@ public class WorkspaceCtrl implements Initializable {
         boardWorkspace.getChildren().clear();
         boards.clear();
         mainCtrl.switchBoard(null);
+    }
+
+    /**
+     * Ensures the server thread is stopped when the application is closed.
+     */
+    public void stop() {
+        server.stop();
     }
 }

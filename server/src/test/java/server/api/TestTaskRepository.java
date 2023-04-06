@@ -14,11 +14,41 @@ import java.util.function.Function;
 
 public class TestTaskRepository implements TaskRepository {
 
-    public final List<Task> tasks = new ArrayList<>();
-    public final List<String> calledMethods = new ArrayList<>();
+    private final List<Task> tasks = new ArrayList<>();
+    private final List<String> calledMethods = new ArrayList<>();
+    private int inc = 0;
 
     private void call(String name) {
         calledMethods.add(name);
+    }
+
+    /**
+     * Gets the tasks.
+     *
+     * @return the called methods.
+     */
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    /**
+     * Gets the called methods.
+     *
+     * @return the called methods.
+     */
+    public List<String> getCalledMethods() {
+        return calledMethods;
+    }
+
+    /**
+     * Returns the task with the given id.
+     *
+     * @param id is the given id.
+     * @return the task if found.
+     */
+    public Task getTaskWithIt(long id) {
+        var present = tasks.stream().filter(t -> t.id == id).findFirst();
+        return present.orElse(null);
     }
 
     @Override
@@ -107,9 +137,7 @@ public class TestTaskRepository implements TaskRepository {
     @Override
     public boolean existsById(Long aLong) {
         call("existsById");
-        if (tasks.stream().filter(t -> t.id == aLong).findFirst().isEmpty())
-            return false;
-        return true;
+        return tasks.stream().anyMatch(t -> t.id == aLong);
     }
 
     @Override
@@ -120,7 +148,14 @@ public class TestTaskRepository implements TaskRepository {
     @Override
     public <S extends Task> S saveAndFlush(S entity) {
         call("saveAndFlush");
-        return save(entity);
+        boolean present = tasks.stream().anyMatch(t -> t.id == entity.id);
+        if (present) {
+            tasks.replaceAll(t -> t.id == entity.id ? entity : t);
+        } else {
+            entity.id = inc++;
+            tasks.add(entity);
+        }
+        return entity;
     }
 
     @Override

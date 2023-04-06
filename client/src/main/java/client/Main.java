@@ -42,39 +42,27 @@ public class Main extends Application {
 
 
         var workspace = FXML.load(WorkspaceCtrl.class,
-                "client", "scenes", "WorkspaceView.fxml"
-        );
+                "client", "scenes", "WorkspaceView.fxml");
         var board = FXML.load(BoardCtrl.class,
-                "client", "scenes", "BoardView.fxml"
-        );
-
+                "client", "scenes", "BoardView.fxml");
         var joinBoard = FXML.load(JoinBoardCtrl.class,
-                "client", "scenes", "crud", "JoinBoard.fxml"
-        );
+                "client", "scenes", "crud", "JoinBoard.fxml");
         var createBoard = FXML.load(CreateNewBoardCtrl.class,
-                "client", "scenes", "crud", "CreateNewBoard.fxml"
-        );
+                "client", "scenes", "crud", "CreateNewBoard.fxml");
         var editBoard = FXML.load(EditBoardCtrl.class,
-                "client", "scenes", "crud", "EditBoardName.fxml"
-        );
+                "client", "scenes", "crud", "EditBoardName.fxml");
         var deleteBoard = FXML.load(DeleteBoardCtrl.class,
-                "client", "scenes", "crud", "ConfirmBoardDelete.fxml"
-        );
+                "client", "scenes", "crud", "ConfirmBoardDelete.fxml");
         var deleteTaskList = FXML.load(DeleteTaskListCtrl.class,
-                "client", "scenes", "crud", "ConfirmListDelete.fxml"
-        );
+                "client", "scenes", "crud", "ConfirmListDelete.fxml");
         var newTaskList = FXML.load(CreateTaskListCtrl.class,
-                "client", "scenes", "crud", "CreateNewList.fxml"
-        );
+                "client", "scenes", "crud", "CreateNewList.fxml");
         var editTaskList = FXML.load(EditTaskListCtrl.class,
                 "client", "scenes", "crud", "EditListName.fxml");
-
         var deleteTask = FXML.load(DeleteTaskCtrl.class,
-                "client", "scenes", "crud", "ConfirmTaskDelete.fxml"
-        );
+                "client", "scenes", "crud", "ConfirmTaskDelete.fxml");
         var newTask = FXML.load(CreateTaskCtrl.class,
-                "client", "scenes", "crud", "CreateNewTask.fxml"
-        );
+                "client", "scenes", "crud", "CreateNewTask.fxml");
         var editTask = FXML.load(EditTaskCtrl.class,
                 "client", "scenes", "crud", "EditTask.fxml");
 
@@ -82,11 +70,9 @@ public class Main extends Application {
         mainCtrl.initializeBoardCrud(joinBoard, createBoard, editBoard, deleteBoard);
         mainCtrl.initializeTaskListCrud(deleteTaskList, newTaskList, editTaskList);
         mainCtrl.initializeTaskCrud(deleteTask, newTask, editTask);
-    }
 
-    @Override
-    public void stop() throws Exception {
-        mainCtrl.stop();
-        super.stop();
+        primaryStage.setOnCloseRequest(e -> {
+            mainCtrl.stop();
+        });
     }
 }

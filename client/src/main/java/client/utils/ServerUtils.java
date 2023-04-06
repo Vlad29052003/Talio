@@ -7,10 +7,14 @@ import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 public class ServerUtils {
 
+    private final ExecutorService EXEC = Executors.newSingleThreadExecutor();
     private ServerURL url = new ServerURL("localhost", 8080);
 
     /**
@@ -210,5 +214,37 @@ public class ServerUtils {
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .post(Entity.entity(response, APPLICATION_JSON), String.class);
+    }
+
+    /**
+     * Starts the long polling.
+     *
+     * @param consumer is the Consumer.
+     */
+    public void registerForCreateTaskUpdates(Consumer<Board> consumer) {
+        EXEC.submit(() -> {
+            while (!Thread.interrupted()) {
+                try {
+                    var res = ClientBuilder.newClient(new ClientConfig())
+                            .target(getServerAddress()).path("api/task/getUpdates")
+                            .request(APPLICATION_JSON)
+                            .accept(APPLICATION_JSON)
+                            .get(Response.class);
+                    if (res.getStatus() == 204) {
+                        continue;
+                    }
+                    Board b = res.readEntity(Board.class);
+                    consumer.accept(b);
+                }
+                catch (Exception ignored) {}
+            }
+        });
+    }
+
+    /**
+     * Ensures the thread stops when the application is closed.
+     */
+    public void stop() {
+        EXEC.shutdownNow();
     }
 }
