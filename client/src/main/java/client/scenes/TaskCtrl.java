@@ -64,12 +64,18 @@ public class TaskCtrl {
 
         // key event handler to the root node that only works when the HBox is focused
         this.root.setOnKeyPressed(event -> {
-            if (isFocused && event.getCode() == KeyCode.E) {
-                // call the edit() method when the "E" key is pressed
-                edit();
-                event.consume();
+            if (isFocused) {
+                KeyCode keyCode = event.getCode();
+                if (keyCode == KeyCode.E) {
+                    edit();
+                    event.consume();
+                } else if (keyCode == KeyCode.BACK_SPACE || keyCode == KeyCode.DELETE) {
+                    delete();
+                    event.consume();
+                }
             }
         });
+
     }
 
     /**
