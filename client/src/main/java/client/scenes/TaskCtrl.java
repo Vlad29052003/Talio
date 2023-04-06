@@ -4,19 +4,19 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Task;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.*;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
+import javafx.scene.input.ClipboardContent;
 
 public class TaskCtrl {
     private final ServerUtils server;
