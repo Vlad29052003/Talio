@@ -57,9 +57,6 @@ public class WebsocketSynchroniser {
 
         sessionHandler = new WebsocketUpdateListener(this);
 
-        if(scheduler != null && !scheduler.isShutdown()){
-            scheduler.shutdownNow();
-        }
         scheduler = Executors.newScheduledThreadPool(1);
         scheduler.execute(this::connect);
         syncTask = scheduler.scheduleAtFixedRate(this::applyUpdates,
@@ -77,6 +74,9 @@ public class WebsocketSynchroniser {
         if(stompClient != null) stompClient.stop();
         if(sessionHandler != null) sessionHandler.reset();
         if(syncTask != null) syncTask.cancel(false);
+        if(scheduler != null && !scheduler.isShutdown()){
+            scheduler.shutdownNow();
+        }
     }
 
     /**
