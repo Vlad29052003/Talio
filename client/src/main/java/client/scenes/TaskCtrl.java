@@ -2,9 +2,11 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Board;
 import commons.Task;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.WritableImage;
@@ -14,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.input.ClipboardContent;
+import javafx.stage.Modality;
 
 public class TaskCtrl {
     private final ServerUtils server;
@@ -25,7 +28,6 @@ public class TaskCtrl {
     private Label nameLabel;
     @FXML
     private ListView<String> subTaskList;
-    boolean isFocused = false;
 
     private static final int LIST_CELL_HEIGHT = 30;
 
@@ -50,29 +52,77 @@ public class TaskCtrl {
         // event handlers to make the HBox highlight itself when the mouse hovers above it
         this.root.setOnMouseEntered(e -> {
             this.root.setStyle("-fx-background-color: lightgray;");
-            isFocused = true;
             root.requestFocus();
+            mainCtrl.setIsFocused(task);
+
+            Board currentBoard = task.getTaskList().board;
+            currentBoard.lists.stream().flatMap(l -> l.tasks.stream()).
+                    filter(t -> t.focused = true).map(t -> t.focused = false);
+            task.focused = true;
         });
 
-        this.root.setOnMouseExited(e -> {
-            this.root.setStyle("-fx-background-color: transparent;");
-            isFocused = false;
-        });
+//        this.root.setOnMouseExited(e -> {
+//            this.root.setStyle("-fx-background-color: transparent;");
+//        });
 
         // key event handler to the root node that only works when the HBox is focused
         this.root.setOnKeyPressed(event -> {
-            if (isFocused) {
+            if (task.focused) {
                 KeyCode keyCode = event.getCode();
                 if (keyCode == KeyCode.E) {
                     edit();
                     event.consume();
-                } else if (keyCode == KeyCode.BACK_SPACE || keyCode == KeyCode.DELETE) {
+                }
+                else if (keyCode == KeyCode.BACK_SPACE || keyCode == KeyCode.DELETE) {
                     delete();
+                    event.consume();
+                }
+                else if (keyCode == KeyCode.DOWN && event.isShiftDown()) {
+                    int index = task.index;
+                    index++;
+
+                    if (index >= 0 && index < task.getTaskList().tasks.size()){
+                        sendMoveRequest(index);
+                    }
+
+                    event.consume();
+                }
+                else if (keyCode == KeyCode.UP && event.isShiftDown()) {
+                    int index = task.index;
+                    index--;
+
+                    if (index >= 0 && index < task.getTaskList().tasks.size()){
+                        sendMoveRequest(index);
+                    }
+
                     event.consume();
                 }
             }
         });
 
+    }
+
+    public void requestFocus(){
+        root.requestFocus();
+        task.focused = true;
+    }
+
+    /**
+     * Sends a request to the server to update the list
+     * and the index of the moved task.
+     *
+     * @param newIndex is the newIndex within the TaskList.
+     */
+    public void sendMoveRequest(int newIndex) {
+        try {
+            server.dragAndDrop(task.getTaskList().id, newIndex, task.id);
+        } catch (Exception e) {
+            var alert = new Alert(Alert.AlertType.ERROR);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setContentText("There has been an error!\r" + e.getMessage());
+            alert.showAndWait();
+            refresh();
+        }
     }
 
     /**

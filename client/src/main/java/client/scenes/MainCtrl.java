@@ -56,6 +56,15 @@ public class MainCtrl {
     private Scene editTask;
     private HelpScreenCtrl helpScreenCtrl;
     private Scene helpScreen;
+    private Task isFocused;
+
+    public Task getIsFocused() {
+        return isFocused;
+    }
+
+    public void setIsFocused(Task isFocused) {
+        this.isFocused = isFocused;
+    }
 
     /**
      * Sets myFXML.

@@ -117,6 +117,10 @@ public class TaskListCtrl {
 
             this.taskContainer.getChildren().add(p.getValue());
             this.taskControllers.add(controller);
+
+            if (task.equals(mainCtrl.getIsFocused())){
+                p.getKey().requestFocus();
+            }
         }
     }
 

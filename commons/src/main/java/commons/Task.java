@@ -9,13 +9,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +32,9 @@ public class Task implements Comparable<Task> {
 
     @ElementCollection
     public List<String> subtasks;
+
+    @Transient
+    public boolean focused = false;
 
     /**
      * Empty constructor for object mappers.
