@@ -11,10 +11,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.util.Pair;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Set;
+
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class BoardCtrl {
 
@@ -205,5 +205,63 @@ public class BoardCtrl {
         found.name = updated.name;
         found.description = updated.description;
         tlCtrl.refresh();
+    }
+
+    public void resetFocus() {
+        listControllers.stream().flatMap(lc -> lc.getTaskControllers().stream()).filter(tc -> tc.getTask().focused)
+                .forEach(TaskCtrl::resetFocus);
+    }
+
+    public void getNextIndex(TaskList taskList, int index) {
+        listControllers.stream().
+                filter(tlc -> tlc.getTaskList().id == taskList.id)
+                .forEach(tlc -> tlc.getNextIndex(index));
+    }
+
+    public void getNeighbourIndex(TaskList taskList, int index, boolean isRight) {
+        Comparator<TaskList> idComparator = Comparator.comparingLong(tl -> tl.id);
+        List<TaskList> sortedTaskList = board.lists.stream().sorted(idComparator).collect(Collectors.toList());
+        int i = sortedTaskList.indexOf(taskList);
+
+        TaskList nextTaskList = null;
+
+        if (isRight){
+            if (i == board.lists.size() - 1){
+                nextTaskList = sortedTaskList.get(0);
+            }
+            else{
+                nextTaskList = sortedTaskList.get(i + 1);
+            }
+        }
+        else{
+            if (i == 0){
+                nextTaskList = sortedTaskList.get(board.lists.size() - 1);
+            }
+            else{
+                nextTaskList = sortedTaskList.get(i - 1);
+            }
+        }
+
+        int step = 0;
+        while(step < sortedTaskList.size() && nextTaskList.tasks.size() == 0){
+            if(isRight) {
+                i++;
+            }
+            else {
+                i--;
+            }
+            if (i >= sortedTaskList.size()){
+                i = 0;
+            }
+            if (i < 0){
+                i = sortedTaskList.size() - 1;
+            }
+            nextTaskList = sortedTaskList.get(i);
+        }
+
+        TaskList finalNextTaskList = nextTaskList;
+        listControllers.stream()
+                .filter(lc -> lc.getTaskList().id == finalNextTaskList.id)
+                .forEach(lc -> lc.getNeighbour(index));
     }
 }

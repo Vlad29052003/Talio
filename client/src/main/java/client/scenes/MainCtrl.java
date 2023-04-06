@@ -560,6 +560,18 @@ public class MainCtrl {
         boardCtrl.removeTask(task);
     }
 
+    public void resetFocus() {
+        boardCtrl.resetFocus();
+    }
+
+    public void getNextIndex(TaskList taskList, int index) {
+        boardCtrl.getNextIndex(taskList, index);
+    }
+
+    public void getNeighbourIndex(TaskList taskList, int index, boolean isRight) {
+        boardCtrl.getNeighbourIndex(taskList, index, isRight);
+    }
+
     public class MyUpdateHandler extends UpdateHandler {
 
         @Override

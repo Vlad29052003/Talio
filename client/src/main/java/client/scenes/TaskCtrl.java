@@ -51,19 +51,14 @@ public class TaskCtrl {
 
         // event handlers to make the HBox highlight itself when the mouse hovers above it
         this.root.setOnMouseEntered(e -> {
+            mainCtrl.resetFocus();
+
             this.root.setStyle("-fx-background-color: lightgray;");
             root.requestFocus();
             mainCtrl.setIsFocused(task);
 
-            Board currentBoard = task.getTaskList().board;
-            currentBoard.lists.stream().flatMap(l -> l.tasks.stream()).
-                    filter(t -> t.focused = true).map(t -> t.focused = false);
             task.focused = true;
         });
-
-//        this.root.setOnMouseExited(e -> {
-//            this.root.setStyle("-fx-background-color: transparent;");
-//        });
 
         // key event handler to the root node that only works when the HBox is focused
         this.root.setOnKeyPressed(event -> {
@@ -97,6 +92,26 @@ public class TaskCtrl {
 
                     event.consume();
                 }
+                else if (keyCode == KeyCode.DOWN) {
+                    mainCtrl.resetFocus();
+                    mainCtrl.getNextIndex(task.getTaskList(), task.index + 1);
+                    event.consume();
+                }
+                else if (keyCode == KeyCode.UP) {
+                    mainCtrl.resetFocus();
+                    mainCtrl.getNextIndex(task.getTaskList(), task.index - 1);
+                    event.consume();
+                }
+                else if (keyCode == KeyCode.LEFT) {
+                    mainCtrl.resetFocus();
+                    mainCtrl.getNeighbourIndex(task.getTaskList(), task.index, false);
+                    event.consume();
+                }
+                else if (keyCode == KeyCode.RIGHT) {
+                    mainCtrl.resetFocus();
+                    mainCtrl.getNeighbourIndex(task.getTaskList(), task.index, true);
+                    event.consume();
+                }
             }
         });
 
@@ -105,6 +120,7 @@ public class TaskCtrl {
     public void requestFocus(){
         root.requestFocus();
         task.focused = true;
+        this.root.setStyle("-fx-background-color: lightgray;");
     }
 
     /**
@@ -196,5 +212,9 @@ public class TaskCtrl {
         event.consume();
     }
 
+    public void resetFocus() {
+        root.setStyle("-fx-background-color: transparent;");
+        task.focused = false;
+    }
 
 }
