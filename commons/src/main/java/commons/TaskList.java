@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -65,8 +64,8 @@ public class TaskList {
      * @param board is the parent board of this list.
      */
     public void setBoard(Board board) {
-        if(board == null) return;
-        if(this.board != null) {
+        if (board == null) return;
+        if (this.board != null) {
             this.board.removeTaskList(this);
         }
         board.addTaskList(this);
@@ -74,6 +73,7 @@ public class TaskList {
 
     /**
      * Get the parent {@link Board} for this list.
+     *
      * @return the {@link Board} this list belongs to
      */
     @JsonIgnore
@@ -87,8 +87,8 @@ public class TaskList {
      * @param task is the task that is added to the list.
      */
     public void addTask(Task task) {
-        if(task == null) return;
-        if(task.list != null) task.list.removeTask(task);
+        if (task == null) return;
+        if (task.list != null) task.list.removeTask(task);
         this.tasks.add(task);
         task.list = this;
     }
@@ -99,8 +99,8 @@ public class TaskList {
      * @param task is the removed task.
      */
     public void removeTask(Task task) {
-        if(task == null) return;
-        if(this.tasks.remove(task)) {
+        if (task == null) return;
+        if (this.tasks.remove(task)) {
             task.list = null;
         }
     }

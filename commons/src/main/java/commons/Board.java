@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -54,10 +53,10 @@ public class Board {
     /**
      * Create a new {@link Board board}
      *
-     * @param name is the name of the board.
+     * @param name            is the name of the board.
      * @param backgroundColor is the background color of the board.
-     * @param password is the password to access the board
-     * @param RWpermission is specifies the read and write permissions.
+     * @param password        is the password to access the board
+     * @param RWpermission    is specifies the read and write permissions.
      */
     public Board(String name,
                  String backgroundColor,
@@ -74,9 +73,9 @@ public class Board {
     /**
      * Create a new {@link Board board}
      *
-     * @param name is the name of the board.
+     * @param name            is the name of the board.
      * @param backgroundColor is the background color of the board.
-    */
+     */
     public Board(String name,
                  String backgroundColor) {
         this(name, backgroundColor, "", false);
@@ -87,10 +86,9 @@ public class Board {
      *
      * @param list is the list that is added to the board.
      */
-    public void addTaskList(TaskList list)
-    {
-        if(list == null) return;
-        if(list.board != null) list.board.removeTaskList(list);
+    public void addTaskList(TaskList list) {
+        if (list == null) return;
+        if (list.board != null) list.board.removeTaskList(list);
         this.lists.add(list);
         // TODO: Assign the list a valid index / check if it's valid.
         list.board = this;
@@ -101,10 +99,9 @@ public class Board {
      *
      * @param list is the list that is removed from the board.
      */
-    public void removeTaskList(TaskList list)
-    {
-        if(list == null) return;
-        if(this.lists.remove(list)) {
+    public void removeTaskList(TaskList list) {
+        if (list == null) return;
+        if (this.lists.remove(list)) {
             list.board = null;
         }
         // TODO: Update indexes of other lists?

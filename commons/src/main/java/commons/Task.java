@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -57,8 +56,8 @@ public class Task implements Comparable<Task> {
     /**
      * Creates a new {@link Task task}.
      *
-     * @param name is the name of the task.
-     * @param index is the position within the TaskList.
+     * @param name        is the name of the task.
+     * @param index       is the position within the TaskList.
      * @param description is the description.
      */
     public Task(String name, int index, String description) {
@@ -97,7 +96,7 @@ public class Task implements Comparable<Task> {
      *
      * @param subTask is the subtask.
      */
-    public void addSubTask(String subTask){
+    public void addSubTask(String subTask) {
         this.subtasks.add(subTask);
     }
 
@@ -155,7 +154,7 @@ public class Task implements Comparable<Task> {
      */
     @Override
     public int compareTo(Task o) {
-        if(o == null)
+        if (o == null)
             throw new NullPointerException();
         return Long.compare(this.index, o.index);
     }
