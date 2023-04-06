@@ -50,14 +50,16 @@ public class EditBoardPasswordCtrl {
      * to replace the password.
      */
     public void confirm(){
-        if(text.getText() == ""){
-            board = new Board(board.name, board.backgroundColor);
-        }else{
-            board = new Board(board.name, board.backgroundColor,
-                                text.getText());
+        if(board != null){
+            if (text.getText() == "") {
+                board = new Board(board.name, board.backgroundColor);
+            } else {
+                board = new Board(board.name, board.backgroundColor,
+                        text.getText());
+            }
+            server.updateBoard(board);
+            mainCtrl.updateBoard(board);
         }
-        server.updateBoard(board);
-        mainCtrl.updateBoard(board);
         mainCtrl.cancel();
     }
 
