@@ -19,9 +19,9 @@ public class PasswordTest {
     @Test
     public void GeneratePasswordTest(){
         Password pass = new Password();
-        String firstpassword = pass.getPassword();
+        String password = pass.getPassword();
         pass = new Password();
-        assertNotEquals(firstpassword, pass.getPassword());
+        assertNotEquals(password, pass.getPassword());
     }
 
     @Test

@@ -60,7 +60,7 @@
                   <Insets />
                </HBox.margin>
             </Button>
-            <Button fx:id="editpermission" alignment="CENTER_RIGHT" mnemonicParsing="false" text="Edit Permission" onAction="#editPermissions">
+            <Button fx:id="editpermission" alignment="CENTER_RIGHT" mnemonicParsing="false" text="Edit Permissions" onAction="#editPermissions">
                <HBox.margin>
                   <Insets />
                </HBox.margin>

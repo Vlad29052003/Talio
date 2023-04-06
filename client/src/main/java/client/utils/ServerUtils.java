@@ -43,7 +43,7 @@ public class ServerUtils {
     /**
      * Sends a request to get all Boards from the server.
      *
-     * @return astring with all boards.
+     * @return a string with all boards.
      */
     public String addAllBoards() {
         return ClientBuilder.newClient(new ClientConfig())

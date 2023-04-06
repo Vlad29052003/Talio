@@ -42,6 +42,7 @@ public class TestBoardListingCtrl {
         display.view();
         verify(mainCtrl, times(1)).switchBoard(display.getBoard());
     }
+
     @Test
     public void testDelete() {
         display.delete();
