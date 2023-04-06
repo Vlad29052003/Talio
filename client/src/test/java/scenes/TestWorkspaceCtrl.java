@@ -73,9 +73,9 @@ public class TestWorkspaceCtrl {
     }
 
     @Test
-    public void testAdmin() {
+    public void testAdminFalse() {
         workspaceCtrl.admin();
-        //verify(mainCtrl, times(1)).grantAdmin();
+        verify(mainCtrl, times(1)).grantAdmin();
 
         mainCtrl.setAdminTrue();
         workspaceCtrl.admin();

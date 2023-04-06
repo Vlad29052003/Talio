@@ -46,7 +46,7 @@ public class MainCtrl {
     private Scene editBoardPassword;
     private EditBoardPasswordCtrl editBoardPasswordCtrl;
 
-    private static boolean admin = false;
+    private boolean admin = false;
 
     /**
      * Initializes the primaryStage, WorkspaceScene

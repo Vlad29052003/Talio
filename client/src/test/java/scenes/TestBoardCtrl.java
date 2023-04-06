@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class TestBoardCtrl {
     private BoardCtrl boardCtrl;
@@ -38,11 +40,11 @@ public class TestBoardCtrl {
     @Test
     public void testEditBoardPassword(){
         boardCtrl.editBoardPassword();
-        //verify(mainCtrl, times(1)).grantAdmin();
+        verify(mainCtrl, times(1)).grantAdmin();
 
         mainCtrl.setAdminTrue();
         boardCtrl.editBoardPassword();
-        //verify(mainCtrl, times(1)).editBoardPassword(boardCtrl.getBoard());
+        //verify(mainCtrl, times(0)).editBoardPassword(boardCtrl.getBoard());
 
     }
 }
