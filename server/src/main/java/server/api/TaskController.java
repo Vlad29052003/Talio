@@ -193,7 +193,10 @@ public class TaskController {
             return ResponseEntity.badRequest().body("Invalid ID.");
 
         Task deleted = taskRepo.findById(taskId).get();
-        TaskList old = deleted.getTaskList();
+        TaskList old = listRepo.findById(deleted.getTaskList().id).get();
+        old.removeTask(deleted);
+        TaskList savedTaskList = listRepo.save(old);
+
         int index = deleted.index;
 
         for(Tag tag : deleted.tags) {

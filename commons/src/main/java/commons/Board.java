@@ -1,11 +1,15 @@
 package commons;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +22,8 @@ import java.util.Set;
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 @Entity
+@Transactional
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,6 +37,7 @@ public class Board {
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     @JsonManagedReference
     public Set<TaskList> lists;
+
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     public List<Tag> tags;
 

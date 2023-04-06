@@ -365,3 +365,70 @@ The most important tasks for the next sprint are:
 
 #### Closing Time
 - Some team members decided to stay over to merge some MRs and discuss future steps
+
+
+## Meeting 6 (by `Olaf Herman`)
+### Agenda OOPP Group 48 Meeting 28/03
+*per the agenda template presented in OOPP materials*
+
+* Location: DW PC1 cubicle 11
+* Date: April 4th 2023
+* Time: 13:45-14:10
+* Attendees:
+    * Rareș Toader (Scrum Master)
+    * Vlad Graure
+    * Olaf Herman (Notetaker)
+    * Jesse Klijnsma (Chair 🪑)
+    * Lovro Mlikotić
+    * Andrei Petre
+    * Jochem Pouwels
+
+#### Talking points
+- [13:45] Open by Chair.
+- [13:45-13:46] Check-in: how is everyone doing?
+- [13:46-13:47] Approval of the agenda: does anyone have any additions to the agenda?
+- [13:47-13:50] Product progress: showcasing the current state of our project to the TA.
+- [13:50-13:56] HUE:
+    - Settle on changes we want to make to the app.
+    - Assign tasks for completing the report.
+- [13:56-14:03] Contribution deadline - Final merge requests:
+    - Set deadline for opening merge requests.
+    - Set deadline for merging merge requests.
+    - Discuss what final features and fixes we'll implement.
+- [14:03-14:08] Discuss Product Pitch
+    - Agree upon date and time to record video.
+    - Create a script or list of bullet points.
+- [14:08-14:10] Task assignments: each member of the team receives a task and a deadline.
+- [14:10] Closure by Chair.
+
+#### Additions to the Agenda
+- None, it's a really dense agenda already :)
+
+#### Showcasing our work so far to the TA
+- The tags feature works, and we have working long-polling.
+
+#### HUE
+- We received the feedback from the other team. What changes will we make?:
+  - We already renamed "remove" to "leave" for boards.
+  - We will add customization to boards and tasks.
+  - We will add functionality to file / edit / view buttons in the taskbar.
+  - We already added missing tags functionality and their input.
+  - Constrain task(list) names as not to overflow their labels.
+
+#### Contribution deadline
+- There might be a deadline extension from the course for the project code.
+- The deadline for opening merge requests will be Wednesday April 5th at 18:00
+- There is no merging deadline: Merge asap
+- As there will most probably be a deadline extension, we will not finally settle on which features to or not to include.
+
+#### Discuss Product Pitch
+- We will create a list of bullet points to talk about, everyone will record their own part and will be edited into a final video.
+
+#### Task Assignments
+- We will try to have all code finished by friday, and use the weekend to create the product pitch. (It was just announced that the deadline *will* be extended to next Tuesday.) We have not settled on exactly who does what.
+
+#### Feedback from the TA
+- All code related contributions are looking fine.
+
+#### Closing Time
+- Some team members decided to stay over to merge some MRs and discuss future steps

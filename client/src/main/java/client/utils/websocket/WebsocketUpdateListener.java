@@ -13,6 +13,8 @@ public class WebsocketUpdateListener implements StompSessionHandler {
 
     private final WebsocketSynchroniser synchroniser;
 
+    private boolean wasConnected = false;
+
     /**
      * Creates a new {@link WebsocketUpdateListener} object
      *
@@ -22,8 +24,16 @@ public class WebsocketUpdateListener implements StompSessionHandler {
         this.synchroniser = synchroniser;
     }
 
+    /**
+     * Resets the handler to its initial state
+     */
+    public void reset(){
+        wasConnected = false;
+    }
+
     @Override
     public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
+        wasConnected = true;
         session.subscribe("/topic/boards/", new StompFrameHandler() {
             public Type getPayloadType(StompHeaders headers) {
                 return BoardUpdateMessage.class;
@@ -44,13 +54,17 @@ public class WebsocketUpdateListener implements StompSessionHandler {
                                 StompHeaders headers,
                                 byte[] payload,
                                 Throwable exception) {
-
+        if (exception instanceof RuntimeException) {
+            throw (RuntimeException) exception;
+        } else if (exception instanceof Error) {
+            throw (Error) exception;
+        }
     }
 
     @Override
     public void handleTransportError(StompSession session, Throwable exception) {
-        if(!session.isConnected()){
-            synchroniser.connect();
+        if(!session.isConnected() && wasConnected){
+            synchroniser.reconnect();
         }
     }
 

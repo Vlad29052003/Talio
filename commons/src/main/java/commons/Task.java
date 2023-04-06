@@ -3,11 +3,15 @@ package commons;
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +23,8 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@Transactional
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Task implements Comparable<Task> {
 
     @Id

@@ -114,7 +114,9 @@ public class MainCtrl {
         workspaceCtrl.setBoardView(board.getValue());
 
         this.boardSyncroniser = new WebsocketSynchroniser(new MyUpdateHandler());
-        boardSyncroniser.start();
+
+        // Connect
+        workspaceCtrl.fetch();
 
         primaryStage.getIcons().add(new Image("/client/icons/logo.png"));
         popupStage.getIcons().add(new Image("/client/icons/logo.png"));
@@ -674,6 +676,18 @@ public class MainCtrl {
         public void onBoardUpdated(Board board) {
             Platform.runLater(() -> updateBoard(board));
         }
+
+        @Override
+        public void onDisconnect() {
+            workspaceCtrl.tryConnect(workspaceCtrl.getServer());
+        }
+    }
+
+    /**
+     * @return The {@link WebsocketSynchroniser} associated with this {@link MainCtrl}
+     */
+    public WebsocketSynchroniser getWebsocketSynchroniser(){
+        return boardSyncroniser;
     }
 
     /**
