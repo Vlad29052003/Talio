@@ -1,13 +1,17 @@
 package commons;
 
-import static org.apache.commons.lang3.builder.ToStringStyle.SIMPLE_STYLE;
+import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,13 +21,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Entity
+@Transactional
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Task implements Comparable<Task> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
     TaskList list;
 
@@ -175,7 +181,7 @@ public class Task implements Comparable<Task> {
      */
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this, SIMPLE_STYLE);
+        return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
     }
 
     /**

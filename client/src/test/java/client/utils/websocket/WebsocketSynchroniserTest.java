@@ -123,6 +123,11 @@ public class WebsocketSynchroniserTest {
         public void onBoardUpdated(Board board) {
             updated.complete(board);
         }
+
+        @Override
+        public void onDisconnect() {
+
+        }
     }
     
 }

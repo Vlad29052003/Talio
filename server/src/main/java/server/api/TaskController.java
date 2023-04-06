@@ -1,9 +1,11 @@
 package server.api;
 
+import commons.Board;
 import commons.Task;
 import commons.TaskList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,18 +14,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.async.DeferredResult;
 import server.database.TaskListRepository;
 import server.database.TaskRepository;
 
 import javax.transaction.Transactional;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 @RestController
 @RequestMapping("/api/task")
 public class TaskController {
     private final TaskRepository taskRepo;
     private final TaskListRepository listRepo;
+    private Map<Object, Consumer<Board>> listenCreate;
 
     /**
      * Instantiate a new {@link TaskController}.
@@ -35,6 +42,7 @@ public class TaskController {
                           TaskListRepository listRepo) {
         this.taskRepo = taskRepo;
         this.listRepo = listRepo;
+        this.listenCreate = new HashMap<>();
     }
 
     /**
@@ -73,7 +81,6 @@ public class TaskController {
      * @return the status of the operation.
      */
     @PostMapping("/{newListId}/{index}/{taskId}")
-    @Transactional
     public ResponseEntity<String> moveTask(@PathVariable("newListId") long newListId,
                                            @PathVariable("index") int index,
                                            @PathVariable("taskId") long taskId) {
@@ -89,7 +96,11 @@ public class TaskController {
         t.setTaskList(newList);
 
         t.index = index;
-        taskRepo.saveAndFlush(t);
+        Task updated = taskRepo.saveAndFlush(t);
+
+        Board board = updated.getTaskList().getBoard();
+        board.toString();
+        listenCreate.forEach((k, l) -> l.accept(board));
 
         return ResponseEntity.ok("Changed successfully!");
     }
@@ -102,7 +113,6 @@ public class TaskController {
      * @return a ResponseEntity containing the new Task.
      */
     @PostMapping("/{listId}")
-    @Transactional
     public ResponseEntity<?> createTask(@PathVariable("listId") long listId,
                                         @RequestBody Task task) {
         if (listId < 0 || !listRepo.existsById(listId))
@@ -118,6 +128,10 @@ public class TaskController {
         task.setTaskList(listRepo.findById(listId).get());
         Task saved = taskRepo.saveAndFlush(task);
 
+        Board board = saved.getTaskList().getBoard();
+        board.toString();
+        listenCreate.forEach((k, l) -> l.accept(board));
+
         return ResponseEntity.ok(saved);
     }
 
@@ -128,7 +142,6 @@ public class TaskController {
      * @return a ResponseEntity with the status of the operation.
      */
     @PostMapping(path = {"", "/"})
-    @Transactional
     public ResponseEntity<String> updateTask(@RequestBody Task task) {
         if (task == null || task.id < 0 || !taskRepo.existsById(task.id))
             return ResponseEntity.badRequest().body("Invalid data.");
@@ -137,7 +150,12 @@ public class TaskController {
         current.name = task.name;
         current.description = task.description;
         current.subtasks = task.subtasks;
-        taskRepo.saveAndFlush(current);
+
+        Task updated = taskRepo.saveAndFlush(current);
+
+        Board board = updated.getTaskList().getBoard();
+        board.toString();
+        listenCreate.forEach((k, l) -> l.accept(board));
 
         return ResponseEntity.ok("Task updated.");
     }
@@ -149,22 +167,51 @@ public class TaskController {
      * @return a ResponseEntity containing the status of the operation.
      */
     @DeleteMapping("/{taskId}")
+    @Transactional
     public ResponseEntity<String> deleteById(@PathVariable("taskId") long taskId) {
         if (taskId < 0 || !taskRepo.existsById(taskId))
             return ResponseEntity.badRequest().body("Invalid ID.");
 
         Task deleted = taskRepo.findById(taskId).get();
-        TaskList old = deleted.getTaskList();
+        TaskList old = listRepo.findById(deleted.getTaskList().id).get();
+        old.removeTask(deleted);
+        TaskList savedTaskList = listRepo.save(old);
+
         int index = deleted.index;
         taskRepo.delete(deleted);
         taskRepo.flush();
         changeIndexesOldList(old, index);
 
+        Board board = listRepo.findById(old.id).get().getBoard();
+        board.toString();
+        listenCreate.forEach((k, l) -> l.accept(board));
+
         return ResponseEntity.ok("Successfully deleted.");
     }
 
     /**
-     * Indexes indexes larger than index so a new Task can be inserted in the list.
+     * Handles long polling updates.
+     *
+     * @return a Response containing the modified Board.
+     */
+    @GetMapping("/getUpdates")
+    public DeferredResult<ResponseEntity<Board>> getUpdates() {
+        var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        var res = new DeferredResult<ResponseEntity<Board>>(5000L, noContent);
+
+        var key = new Object();
+        listenCreate.put(key, b -> {
+            res.setResult(ResponseEntity.ok((Board) b));
+        });
+        res.onCompletion(() -> {
+            listenCreate.remove(key);
+        });
+
+        return res;
+    }
+
+    /**
+     * Increments indexes larger than index so a new Task can be inserted in the list.
      *
      * @param list  is the TaskList in which it updates the Task indexes.
      * @param index is the index of the inserted Task.

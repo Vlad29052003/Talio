@@ -11,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.util.Pair;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
