@@ -4,14 +4,18 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Task;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 
 public class TaskCtrl {
@@ -24,6 +28,7 @@ public class TaskCtrl {
     private Label nameLabel;
     @FXML
     private ListView<String> subTaskList;
+    boolean isFocused = false;
 
     private static final int LIST_CELL_HEIGHT = 30;
 
@@ -44,13 +49,26 @@ public class TaskCtrl {
      */
     @FXML
     private void initialize() {
-        // add event handlers to make the HBox highlight itself when the mouse hovers above it
+
+        // event handlers to make the HBox highlight itself when the mouse hovers above it
         this.root.setOnMouseEntered(e -> {
             this.root.setStyle("-fx-background-color: lightgray;");
+            isFocused = true;
+            root.requestFocus();
         });
 
         this.root.setOnMouseExited(e -> {
             this.root.setStyle("-fx-background-color: transparent;");
+            isFocused = false;
+        });
+
+        // key event handler to the root node that only works when the HBox is focused
+        this.root.setOnKeyPressed(event -> {
+            if (isFocused && event.getCode() == KeyCode.E) {
+                // call the edit() method when the "E" key is pressed
+                edit();
+                event.consume();
+            }
         });
     }
 
