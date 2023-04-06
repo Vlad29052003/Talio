@@ -175,7 +175,7 @@ public class TaskControllerTest {
         Tag tag = new Tag();
         tag.applyTo(t1);
         t1.tags.add(tag);
-        taskRepo.tasks.set(0, t1);
+        taskRepo.getTasks().set(0, t1);
         assertEquals(taskController.deleteById(1L),
                 ResponseEntity.ok("Successfully deleted."));
         assertEquals(taskRepo.getCalledMethods(),
