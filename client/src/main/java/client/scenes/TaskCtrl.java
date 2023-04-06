@@ -11,10 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
 
 public class TaskCtrl {
@@ -40,6 +37,21 @@ public class TaskCtrl {
     public TaskCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+    }
+
+    /**
+     * Initializes the TaskCtrl FXML controller.
+     */
+    @FXML
+    private void initialize() {
+        // add event handlers to make the HBox highlight itself when the mouse hovers above it
+        this.root.setOnMouseEntered(e -> {
+            this.root.setStyle("-fx-background-color: lightgray;");
+        });
+
+        this.root.setOnMouseExited(e -> {
+            this.root.setStyle("-fx-background-color: transparent;");
+        });
     }
 
     /**
