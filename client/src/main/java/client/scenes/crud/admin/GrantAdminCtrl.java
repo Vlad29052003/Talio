@@ -12,9 +12,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static commons.Password.checkPassword;
-import static commons.Password.getAdmin;
-
 public class GrantAdminCtrl {
     private ServerUtils server;
     private MainCtrl mainCtrl;
@@ -48,10 +45,10 @@ public class GrantAdminCtrl {
      * to test the password.
      */
     public void confirm(){
-        checkPassword(text.getText());
-        if(getAdmin()){
-            String text = server.addAllBoards();
-            List<String> boards = Arrays.asList(text.split("\"id\":"));
+        if(text.getText().equals(server.getPassword())){
+            mainCtrl.setAdminTrue();
+            String boardlist = server.addAllBoards();
+            List<String> boards = Arrays.asList(boardlist.split("\"id\":"));
             boards = boards.subList(1,boards.size());
             List<Long> ids = boards.stream()
                     .map(x -> x.charAt(0))
@@ -63,6 +60,7 @@ public class GrantAdminCtrl {
                 list.add(server.joinBoard(ids.get(i)));
             }
             mainCtrl.addBoardListToWorkspace(list);
+            mainCtrl.permissionAdmin();
         }else{
             reset();
             mainCtrl.accessDenied();

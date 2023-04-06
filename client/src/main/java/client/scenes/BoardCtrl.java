@@ -8,8 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
-import static commons.Password.getAdmin;
-
 public class BoardCtrl {
 
     private final ServerUtils server;
@@ -91,7 +89,7 @@ public class BoardCtrl {
      * If not the scene is changed to the password input.
      */
     public void editBoardPassword() {
-        if(getAdmin()){
+        if(mainCtrl.getAdmin()){
             mainCtrl.editBoardPassword(board);
         }else{
             mainCtrl.grantAdmin();

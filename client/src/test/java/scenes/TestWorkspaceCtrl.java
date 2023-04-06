@@ -4,7 +4,6 @@ import client.scenes.BoardListingCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.WorkspaceCtrl;
 import commons.Board;
-import commons.Password;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -14,8 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import java.util.ArrayList;
 
-import static commons.Password.checkPassword;
-import static commons.Password.getPassword;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -77,11 +74,10 @@ public class TestWorkspaceCtrl {
 
     @Test
     public void testAdmin() {
-        Password pass = new Password();
         workspaceCtrl.admin();
         //verify(mainCtrl, times(1)).grantAdmin();
 
-        checkPassword(getPassword());
+        mainCtrl.setAdminTrue();
         workspaceCtrl.admin();
         //verify(mainCtrl, times(1)).youHavePermission();
     }

@@ -16,13 +16,10 @@ import client.scenes.crud.board.JoinBoardCtrl;
 import client.scenes.crud.board.EditPermissionCtrl;
 import client.scenes.crud.board.YouHavePermissionCtrl;
 import com.google.inject.Injector;
-import commons.Password;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-
-    private static Password password = new Password();
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
 
@@ -54,13 +51,13 @@ public class Main extends Application {
                 .load(AccessDeniedCtrl.class,"client", "scenes", "crud", "AccessDenied.fxml");
         var permissionAdmin = FXML
                 .load(PermissionAdminCtrl.class,"client", "scenes", "crud", "PermissionAdmin.fxml");
-        var readWritePermissions = FXML
+        var editPermission = FXML
                 .load(EditPermissionCtrl.class,"client", "scenes", "crud",
                                                         "ReadWritePermissions.fxml");
         var youHavePermission = FXML
                 .load(YouHavePermissionCtrl.class,"client", "scenes", "crud",
                                                         "YouHavePermission.fxml");
-        var readWritePassord = FXML
+        var editBoardPassord = FXML
                 .load(EditBoardPasswordCtrl.class, "client", "scenes", "crud",
                                                         "ReadWritePassword.fxml");
 
@@ -68,8 +65,8 @@ public class Main extends Application {
 
         mainCtrl.initialize(primaryStage, FXML, workspace, board);
         mainCtrl.initializeBoardCrud(joinBoard, createBoard, editBoard, deleteBoard,
-                                        readWritePermissions, youHavePermission);
-        mainCtrl.initializeAdminCrud(grantAdmin, accessDenied, permissionAdmin, readWritePassord);
+                                        editPermission, youHavePermission);
+        mainCtrl.initializeAdminCrud(grantAdmin, accessDenied, permissionAdmin, editBoardPassord);
 
     }
 }

@@ -46,6 +46,8 @@ public class MainCtrl {
     private Scene editBoardPassword;
     private EditBoardPasswordCtrl editBoardPasswordCtrl;
 
+    private static boolean admin = false;
+
     /**
      * Initializes the primaryStage, WorkspaceScene
      * and initial BoardScene Scenes and Controllers for Workspace and
@@ -280,7 +282,6 @@ public class MainCtrl {
                 }
             }
         }
-        permissionAdmin();
     }
     /**
      * Loads the scenes for the BoardListingCtrl.
@@ -343,5 +344,22 @@ public class MainCtrl {
     public void editBoardPassword(Board board) {
         editBoardPasswordCtrl.setBoard(board);
         primaryStage.setScene(editBoardPassword);
+    }
+
+    /**
+     * Getter for the admin permission.
+     *
+     * @return admin.
+     */
+    public boolean getAdmin(){
+        return admin;
+    }
+
+    /**
+     * Sets admin to true.
+     *
+     */
+    public void setAdminTrue(){
+        this.admin = true;
     }
 }

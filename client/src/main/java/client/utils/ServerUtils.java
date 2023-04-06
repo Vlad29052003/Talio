@@ -52,6 +52,7 @@ public class ServerUtils {
                 .accept(APPLICATION_JSON)
                 .get(String.class);
     }
+
     /**
      * Sends a request to delete a Board from the server.
      *
@@ -78,5 +79,20 @@ public class ServerUtils {
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .put(Entity.entity(board, APPLICATION_JSON), Board.class);
+    }
+
+    /**
+     * Sends a request to get the password from the server.
+     *
+     * @return the password.
+     */
+    public String getPassword() {
+        String pass = ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("api/password")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(String.class);
+        pass = pass.substring(14,pass.length()-3);
+        return pass;
     }
 }

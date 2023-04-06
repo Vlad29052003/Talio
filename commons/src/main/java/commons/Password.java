@@ -3,13 +3,18 @@ package commons;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Random;
 
-
+@Entity
 public class Password {
-
-    private static boolean admin = false;
-    private static String password;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private String password;
 
     /**
      * Constructor for the class.
@@ -30,30 +35,11 @@ public class Password {
     }
 
     /**
-     * Checks if the introduced text is the same as the password.
-     * If they match it gives administrator privileges.
-     *
-     * @param text introduced string
-     */
-    public static void checkPassword(String text){
-        admin = password.equals(text);
-    }
-
-    /**
-     * Getter for admin.
-     *
-     * @return admin
-     */
-    public static boolean getAdmin(){
-        return admin;
-    }
-
-    /**
      * Getter for password.
      *
      * @return password.
      */
-    public static String getPassword(){ return password; }
+    public String getPassword(){ return password; }
 
     @Override
     public boolean equals(Object obj) {
