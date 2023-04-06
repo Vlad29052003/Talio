@@ -3,13 +3,10 @@ package client.scenes;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Task;
-import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyCode;
@@ -124,14 +121,6 @@ public class TaskCtrl {
      */
     public void refresh() {
         this.nameLabel.setText(this.task.name);
-        this.subTaskList.setItems(FXCollections.observableList(this.task.subtasks));
-
-        // make it so that the subtask list automatically resizes
-        // when elements are added or removed.
-        var itemListProperty = this.subTaskList.getItems();
-        this.subTaskList.prefHeightProperty()
-                .bind(Bindings.size(itemListProperty).multiply(LIST_CELL_HEIGHT));
-        this.subTaskList.refresh();
     }
 
     /**
@@ -158,18 +147,4 @@ public class TaskCtrl {
     }
 
 
-    /**
-     * The button to add a subtask is clicked.
-     */
-    public void onAddTask() {
-        var input = new TextInputDialog();
-        input.setTitle("Create new Subtask");
-        input.showAndWait();
-
-        var name = input.getEditor().getText();
-
-        //TODO update this on the server
-        this.task.addSubTask(name);
-        this.refresh();
-    }
 }

@@ -96,7 +96,9 @@ public class MainCtrl {
         workspaceCtrl.setBoardView(board.getValue());
 
         this.boardSyncroniser = new WebsocketSynchroniser(new MyUpdateHandler());
-        boardSyncroniser.start();
+
+        // Connect
+        workspaceCtrl.fetch();
 
         primaryStage.show();
     }
@@ -228,6 +230,7 @@ public class MainCtrl {
      * Stops all services depending on MainCtrl
      */
     public void stop() {
+        workspaceCtrl.stop();
         this.boardSyncroniser.stop();
     }
 
@@ -462,6 +465,15 @@ public class MainCtrl {
     }
 
     /**
+     * Gets the board that is currently being displayed.
+     *
+     * @return the board.
+     */
+    public Board getActiveBoard() {
+        return boardCtrl.getBoard();
+    }
+
+    /**
      * Loads the scenes for the BoardListingCtrl.
      *
      * @param newBoard is the Board associated with them.
@@ -522,7 +534,12 @@ public class MainCtrl {
      * @param task is the updated Task.
      */
     public void updateTaskInList(Task task) {
-        boardCtrl.updateTask(task);
+        try {
+            boardCtrl.updateTask(task);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -549,6 +566,18 @@ public class MainCtrl {
         public void onBoardUpdated(Board board) {
             Platform.runLater(() -> updateBoard(board));
         }
+
+        @Override
+        public void onDisconnect() {
+            workspaceCtrl.tryConnect(workspaceCtrl.getServer());
+        }
+    }
+
+    /**
+     * @return The {@link WebsocketSynchroniser} associated with this {@link MainCtrl}
+     */
+    public WebsocketSynchroniser getWebsocketSynchroniser(){
+        return boardSyncroniser;
     }
 
     /**

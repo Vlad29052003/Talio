@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import server.database.BoardRepository;
 import server.database.TaskListRepository;
+import server.mutations.BoardChangeQueue;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,17 +25,22 @@ import java.util.Optional;
 public class TaskListController {
     private final TaskListRepository repo;
     private final BoardRepository boardRepo;
+    private final BoardChangeQueue changes;
 
     /**
      * Instantiate a new {@link TaskListController}.
      *
      * @param boardRepo the {@link BoardRepository} to use.
      * @param repo the {@link TaskListRepository} to use.
+     * @param changes the {@link BoardChangeQueue} to use.
      */
     @Autowired
-    public TaskListController(BoardRepository boardRepo, TaskListRepository repo) {
+    public TaskListController(BoardRepository boardRepo,
+                              TaskListRepository repo,
+                              BoardChangeQueue changes) {
         this.boardRepo = boardRepo;
         this.repo = repo;
+        this.changes = changes;
     }
 
     /**
@@ -86,6 +92,9 @@ public class TaskListController {
 
         TaskList saved = repo.save(localList);
 
+        Board parent = saved.getBoard();
+        changes.addChanged(parent.id, parent);
+
         return ResponseEntity.ok(saved);
     }
 
@@ -106,8 +115,12 @@ public class TaskListController {
         }
 
         Board board = boardRepo.findById(boardId).get();
-        list.setBoard(board);
-        repo.save(list);
+        board.addTaskList(list);
+//        list.setBoard(board);
+        TaskList saved = repo.save(list);
+
+        Board parent = board;
+        changes.addChanged(parent.id, parent);
 
         return ResponseEntity.ok(boardRepo.findById(boardId).get());
     }
@@ -123,7 +136,16 @@ public class TaskListController {
     public ResponseEntity<String> deleteById(@PathVariable("taskListId") long id) {
         if (id < 0 || !repo.existsById(id))
             return ResponseEntity.badRequest().body("Invalid ID.");
-        repo.deleteById(id);
+
+        TaskList taskList = repo.findById(id).get();
+        Board parent = boardRepo.findById(taskList.getBoard().id).get();
+        parent.removeTaskList(taskList);
+
+        boardRepo.save(parent);
+        repo.delete(taskList);
+
+        changes.addChanged(parent.id, parent);
+
         return ResponseEntity.ok().build();
     }
 
