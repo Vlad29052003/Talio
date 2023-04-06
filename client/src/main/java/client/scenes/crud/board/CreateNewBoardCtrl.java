@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
 
 public class CreateNewBoardCtrl {
@@ -32,9 +33,22 @@ public class CreateNewBoardCtrl {
 
     /**
      * Autofocuses the first field.
+     * Sets the keyboard shortcuts for ENTER and ESC.
      */
     public void initialize() {
         Platform.runLater(() -> text.requestFocus());
+
+        this.text.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+            if (keyCode == KeyCode.ENTER) {
+                add();
+                event.consume();
+            }
+            else if (keyCode == KeyCode.ESCAPE) {
+                cancel();
+                event.consume();
+            }
+        });
     }
 
     /**
