@@ -1,0 +1,42 @@
+.vbox {
+    -fx-font-family: "Roboto Thin";
+}
+
+.label {
+    -fx-font-family: "Roboto Thin";
+    -fx-text-fill: white;
+}
+
+.vbox{
+    -fx-background-color: #DCDCDC;
+}
+.button{
+    -fx-background-color: #000000;
+    -fx-font-size: 8pt;
+    -fx-text-fill: white;
+    -fx-shape: "M 200 250 L 500 250 Q 550 250 550 300 Q 550 350 500 350 L 200 350 Q 150 350 150 300 Q 150 250 200 250"
+}
+.button:hover{
+    -fx-background-color: #b6b6b6;
+    -fx-text-fill: black;
+}
+
+.scroll-pane {
+    -fx-background-color: white;
+    -fx-border-color: black;
+}
+
+.scroll-pane .scroll-bar:vertical {
+    -fx-background-color: white;
+    -fx-background-insets: 0;
+}
+
+.scroll-pane .increment-arrow,
+.scroll-pane .decrement-arrow {
+    -fx-background-color: black; /* set the color of the arrows */
+}
+
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: black;
+}
+

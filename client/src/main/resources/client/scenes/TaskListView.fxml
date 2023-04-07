@@ -10,17 +10,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox fx:id="root" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" style="-fx-border-width: 1; -fx-border-color: black;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskListCtrl">
+<VBox fx:id="root" maxWidth="300.0" minWidth="250.0" prefHeight="201.0" prefWidth="300.0" styleClass="rootVbox" stylesheets="/style/ListView.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskListCtrl">
    <children>
-      <HBox alignment="CENTER" maxHeight="35.0" minHeight="35.0" prefHeight="35.0" spacing="2.0">
+      <HBox alignment="CENTER" maxHeight="80.0" minHeight="35.0" prefHeight="54.0" prefWidth="298.0" spacing="2.0" styleClass="titleBar">
          <children>
             <AnchorPane HBox.hgrow="ALWAYS">
                <children>
-                  <Label fx:id="title" text="Name" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <Label fx:id="title" text="Name" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <font>
+                        <Font size="20.0" />
+                     </font></Label>
                </children>
             </AnchorPane>
-            <JFXButton onAction="#edit" text="Edit">
+            <JFXButton alignment="CENTER" onAction="#edit" text="Edit" textAlignment="CENTER">
                <graphic>
                   <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -32,7 +36,7 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <JFXButton layoutX="194.0" layoutY="15.0" onAction="#delete" text="Delete">
+            <JFXButton alignment="CENTER" layoutX="194.0" layoutY="15.0" onAction="#delete" text="Delete" textAlignment="CENTER">
                <graphic>
                   <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -58,9 +62,12 @@
             </VBox>
          </content>
       </ScrollPane>
-      <HBox alignment="CENTER" prefHeight="12.0" prefWidth="248.0">
+      <HBox alignment="CENTER" prefHeight="37.0" prefWidth="298.0">
          <children>
-            <JFXButton onAction="#addTask" text="Add Task" />
+            <JFXButton onAction="#addTask" prefHeight="43.0" prefWidth="298.0" styleClass="largeButton" text="Add Task">
+               <font>
+                  <Font size="18.0" />
+               </font></JFXButton>
          </children>
       </HBox>
    </children>

@@ -60,10 +60,9 @@ public class JoinBoardCtrl {
      *
      * @return the id.
      */
-    public Long getID() throws Exception {
+    public Long getID() {
         String idText = text.getText();
-        long id = 0L;
-        id = Long.parseLong(idText);
+        long id = Long.parseLong(idText);
         return id;
     }
 

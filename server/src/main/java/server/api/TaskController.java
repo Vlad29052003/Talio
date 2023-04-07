@@ -1,6 +1,7 @@
 package server.api;
 
 import commons.Board;
+import commons.Tag;
 import commons.Task;
 import commons.TaskList;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
+import server.database.TagRepository;
 import server.database.TaskListRepository;
 import server.database.TaskRepository;
 
@@ -23,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Consumer;
 
 @RestController
@@ -30,18 +33,23 @@ import java.util.function.Consumer;
 public class TaskController {
     private final TaskRepository taskRepo;
     private final TaskListRepository listRepo;
+    private final TagRepository tagRepo;
     private Map<Object, Consumer<Board>> listenCreate;
 
     /**
      * Instantiate a new {@link TaskController}.
+     *
      * @param taskRepo the {@link TaskRepository} to use.
      * @param listRepo the {@link TaskListRepository} to use.
+     * @param tagRepo the {@link TagRepository} to use.
      */
     @Autowired
     public TaskController(TaskRepository taskRepo,
-                          TaskListRepository listRepo) {
+                          TaskListRepository listRepo,
+                          TagRepository tagRepo) {
         this.taskRepo = taskRepo;
         this.listRepo = listRepo;
+        this.tagRepo = tagRepo;
         this.listenCreate = new HashMap<>();
     }
 
@@ -149,6 +157,20 @@ public class TaskController {
         Task current = taskRepo.findById(task.id).get();
         current.name = task.name;
         current.description = task.description;
+        Set<Tag> copy = Set.copyOf(current.tags);
+        for(Tag tag : copy) {
+            Tag onServer = tagRepo.findById(tag.id).get();
+            current.tags.remove(onServer);
+            onServer.removeFrom(current);
+            tagRepo.saveAndFlush(onServer);
+        }
+        copy = Set.copyOf(task.tags);
+        for(Tag tag : copy) {
+            Tag onServer = tagRepo.findById(tag.id).get();
+            current.tags.add(onServer);
+            onServer.applyTo(current);
+            tagRepo.saveAndFlush(onServer);
+        }
         Task updated = taskRepo.saveAndFlush(current);
 
         Board board = updated.getTaskList().getBoard();
@@ -176,10 +198,15 @@ public class TaskController {
         TaskList savedTaskList = listRepo.save(old);
 
         int index = deleted.index;
+
+        for(Tag tag : deleted.tags) {
+            tag.removeFrom(deleted);
+            tagRepo.saveAndFlush(tag);
+        }
+
         taskRepo.delete(deleted);
         taskRepo.flush();
         changeIndexesOldList(old, index);
-
         Board board = listRepo.findById(old.id).get().getBoard();
         board.toString();
         listenCreate.forEach((k, l) -> l.accept(board));

@@ -38,13 +38,6 @@ public class CreateTaskListCtrl {
     }
 
     /**
-     * Autofocuses the first field.
-     */
-    public void initialize() {
-        Platform.runLater(() -> text.requestFocus());
-    }
-
-    /**
      * Return the board on which this CRUD operation is currently creating a list.
      *
      * @return the relative {@link Board}
@@ -60,6 +53,7 @@ public class CreateTaskListCtrl {
      */
     public void setBoard(Board board) {
         this.board = board;
+        Platform.runLater(() -> text.requestFocus());
     }
 
     /**

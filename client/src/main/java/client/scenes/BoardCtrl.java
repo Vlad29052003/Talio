@@ -27,6 +27,8 @@ public class BoardCtrl {
     @FXML
     private Button addListButton;
     @FXML
+    private Button tagsButton;
+    @FXML
     private HBox listContainer;
 
     /**
@@ -67,22 +69,11 @@ public class BoardCtrl {
         if (board != null) {
             boardTitle.setText(board.name + " (id: " + board.id + ")");
             addListButton.setVisible(true);
+            tagsButton.setVisible(true);
         } else {
             boardTitle.setText("No board to be displayed");
             addListButton.setVisible(false);
-        }
-    }
-
-    /**
-     * Resets the contents of the taskLists and listContainer HBox.
-     */
-    public void resetLists() {
-        listContainer.getChildren().clear();
-        listControllers.clear();
-        if (board != null) {
-            for (TaskList taskList : board.lists) {
-                addTaskListToBoard(taskList);
-            }
+            tagsButton.setVisible(false);
         }
     }
 
@@ -124,28 +115,10 @@ public class BoardCtrl {
     }
 
     /**
-     * Adds a new TaskList to the Board
-     * - method no longer used
+     * Displays the tag overview.
      */
-    public void createTaskList() {
-        if (board != null) {
-            TaskList tlist = new TaskList("tasklist");
-            TaskListCtrl tlc = mainCtrl.newTaskListView(tlist).getKey();
-            listContainer.getChildren().add(tlc.getRoot());
-            listControllers.add(tlc);
-        }
-    }
-
-    /**
-     * Adds a TaskList to the workspace.
-     *
-     * @param newTaskList is the TaskList to be added.
-     */
-    public void addTaskListToBoard(TaskList newTaskList) {
-        TaskListCtrl taskList = mainCtrl.newTaskListView(newTaskList).getKey();
-        listContainer.getChildren().add(taskList.getRoot());
-        listControllers.add(taskList);
-
+    public void tagOverview() {
+        mainCtrl.tagOverview(board);
     }
 
     /**
@@ -187,23 +160,5 @@ public class BoardCtrl {
         var updatedTaskList = toBeUpdated.get();
         updatedTaskList.setTaskList(updated);
         updatedTaskList.refresh();
-    }
-
-    /**
-     * Updates a Task in the Board.
-     *
-     * @param updated is the updated Task.
-     */
-    public void updateTask(Task updated) {
-        var toBeUpdated =
-                listControllers.stream().filter(b -> b.getTaskList()
-                        .tasks.get(updated.index).id == updated.id).findFirst();
-
-        if (toBeUpdated.isEmpty()) return;
-        TaskListCtrl tlCtrl = toBeUpdated.get();
-        Task found = tlCtrl.getTaskList().tasks.get(updated.index);
-        found.name = updated.name;
-        found.description = updated.description;
-        tlCtrl.refresh();
     }
 }

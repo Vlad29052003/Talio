@@ -1,0 +1,11 @@
+.hbox {
+    -fx-font-family: "Roboto Thin";
+    -fx-border-color: lightgrey;
+    -fx-border-width: 0 0 1 0;
+    -fx-text-fill: black;
+}
+
+.label {
+    -fx-text-fill: black;
+}
+
