@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javax.inject.Inject;
 
@@ -19,12 +20,13 @@ public class EditTaskCtrl {
     private ServerUtils server;
     private Task task;
     private Task edited;
+    private Text noTagStatus;
     @FXML
-    TextField name;
+    private TextField name;
     @FXML
-    TextArea description;
+    private TextArea description;
     @FXML
-    VBox tagContainer;
+    private VBox tagContainer;
 
     /**
      * Creates a new {@link EditTaskCtrl} object.
@@ -123,8 +125,12 @@ public class EditTaskCtrl {
         edited.tags.addAll(task.tags);
         name.setText(task.name);
         description.setText(task.description);
+        noTagStatus = new Text("   There are no tags associated with this board.");
         tagContainer.getChildren().clear();
-        for(Tag tag : task.getTaskList().board.tags) {
+        if (task.getTaskList().board.tags.size() == 0) {
+            tagContainer.getChildren().add(noTagStatus);
+        }
+        for (Tag tag : task.getTaskList().board.tags) {
             var pair = mainCtrl.newAddTagListingView(tag, edited);
             tagContainer.getChildren().add(pair.getValue());
         }
