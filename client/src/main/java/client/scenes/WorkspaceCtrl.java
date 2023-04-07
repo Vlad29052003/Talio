@@ -89,6 +89,7 @@ public class WorkspaceCtrl implements Initializable {
 
     /**
      * Initializes this Workspace.
+     * Starts the long polling.
      *
      * @param location  The location used to resolve relative paths for the root object, or
      *                  {@code null} if the location is not known.
@@ -101,13 +102,11 @@ public class WorkspaceCtrl implements Initializable {
         String ip = data.getServers().get(index).getServer();
         serverIP.setText(ip);
 
-        server.registerForCreateTaskUpdates(b -> {
-            Platform.runLater(() -> {
-                updateBoard(b);
-                if(mainCtrl.getActiveBoard() != null && mainCtrl.getActiveBoard().id == b.id)
-                    mainCtrl.switchBoard(b);
-            });
-        });
+        server.registerForTaskUpdates(b -> Platform.runLater(() -> {
+            updateBoard(b);
+            if(mainCtrl.getActiveBoard() != null && mainCtrl.getActiveBoard().id == b.id)
+                mainCtrl.switchBoard(b);
+        }));
 
         this.boardViewPane.setOnKeyPressed(event -> {
             KeyCode keyCode = event.getCode();
@@ -117,6 +116,12 @@ public class WorkspaceCtrl implements Initializable {
             }
         });
 
+        server.registerForTagUpdates(b -> Platform.runLater(() -> {
+            updateBoard(b);
+            if(mainCtrl.getActiveBoard() != null && mainCtrl.getActiveBoard().id == b.id)
+                mainCtrl.switchBoard(b);
+            mainCtrl.checkTagOverviewUpdate(b);
+        }));
     }
 
     /**
@@ -267,15 +272,6 @@ public class WorkspaceCtrl implements Initializable {
      */
     public void setBoardWorkspace(VBox boardWorkspace) {
         this.boardWorkspace = boardWorkspace;
-    }
-
-    /**
-     * Sets the file.
-     *
-     * @param file is the file.
-     */
-    public void setFile(File file) {
-        this.file = file;
     }
 
     /**

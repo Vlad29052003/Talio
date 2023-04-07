@@ -74,6 +74,7 @@ public class CreateTaskListCtrl {
      */
     public void setBoard(Board board) {
         this.board = board;
+        Platform.runLater(() -> text.requestFocus());
     }
 
     /**

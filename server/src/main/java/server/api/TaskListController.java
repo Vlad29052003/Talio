@@ -93,6 +93,7 @@ public class TaskListController {
         TaskList saved = repo.save(localList);
 
         Board parent = saved.getBoard();
+        parent.toString();
         changes.addChanged(parent.id, parent);
 
         return ResponseEntity.ok(saved);
@@ -116,10 +117,10 @@ public class TaskListController {
 
         Board board = boardRepo.findById(boardId).get();
         board.addTaskList(list);
-//        list.setBoard(board);
-        TaskList saved = repo.save(list);
+        repo.save(list);
 
         Board parent = board;
+        parent.toString();
         changes.addChanged(parent.id, parent);
 
         return ResponseEntity.ok(boardRepo.findById(boardId).get());
@@ -144,6 +145,7 @@ public class TaskListController {
         boardRepo.save(parent);
         repo.delete(taskList);
 
+        parent.toString();
         changes.addChanged(parent.id, parent);
 
         return ResponseEntity.ok().build();

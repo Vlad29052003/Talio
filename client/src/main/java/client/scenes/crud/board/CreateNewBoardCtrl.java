@@ -88,7 +88,7 @@ public class CreateNewBoardCtrl {
         if (text.getText().isEmpty()) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
-            alert.setContentText("There name cannot be empty!\r");
+            alert.setContentText("The name cannot be empty!\r");
             alert.showAndWait();
             return;
         }

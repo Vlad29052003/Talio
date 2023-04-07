@@ -1,38 +1,35 @@
 package scenes.crud.list;
 
 import client.scenes.MainCtrl;
-import client.scenes.crud.board.EditBoardCtrl;
-import client.scenes.crud.task.EditTaskCtrl;
+import client.scenes.crud.tasklists.EditTaskListCtrl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import scenes.ServerUtilsTestingMock;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
-//import static org.mockito.Mockito.times;
-//import static org.mockito.Mockito.verify;
 
 public class TestEditTaskListCtrl {
     private ServerUtilsTestingMock server;
     private MainCtrl mainCtrl;
-    private EditTaskCtrl editTaskCtrl;
+    private EditTaskListCtrl editCtrl;
 
     @BeforeEach
     public void setUp() {
         this.server = new ServerUtilsTestingMock();
         this.mainCtrl = mock(MainCtrl.class);
-        this.editTaskCtrl = new EditTaskCtrl(server, mainCtrl);
+        this.editCtrl = new EditTaskListCtrl(server, mainCtrl);
     }
 
     @Test
     public void testConstructor() {
-        EditBoardCtrl ctrl = new EditBoardCtrl(server, mainCtrl);
+        EditTaskListCtrl ctrl = new EditTaskListCtrl(server, mainCtrl);
         assertNotNull(ctrl);
     }
 
     @Test
     public void testGetBoard() {
-        assertNull(editTaskCtrl.getTask());
+        assertNull(editCtrl.getTaskList());
     }
 
 //    @Test

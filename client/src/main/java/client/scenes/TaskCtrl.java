@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Tag;
 import commons.Task;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
@@ -13,16 +14,18 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.HBox;
 import javafx.scene.input.ClipboardContent;
 import javafx.stage.Modality;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 
 public class TaskCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private Task task;
     @FXML
-    private HBox root;
+    private VBox root;
     @FXML
     private Label nameLabel;
     @FXML
@@ -181,7 +184,7 @@ public class TaskCtrl {
      *
      * @return the root.
      */
-    public HBox getRoot() {
+    public VBox getRoot() {
         return root;
     }
 
@@ -190,6 +193,19 @@ public class TaskCtrl {
      */
     public void refresh() {
         this.nameLabel.setText(this.task.name);
+        populateTags();
+    }
+
+    /**
+     * Adds the visual representation of the tags.
+     */
+    public void populateTags() {
+        for(Tag tag : task.tags) {
+            Rectangle tagRepr = new Rectangle(100, 5);
+            Paint paint = Paint.valueOf(tag.color);
+            tagRepr.setFill(paint);
+            root.getChildren().add(tagRepr);
+        }
     }
 
     /**
@@ -201,7 +217,7 @@ public class TaskCtrl {
      * @param event is the mouse event.
      */
     public void onDragDetected(MouseEvent event) {
-        HBox sourceNode = (HBox) event.getSource();
+        VBox sourceNode = (VBox) event.getSource();
 
         Dragboard db = sourceNode.startDragAndDrop(TransferMode.MOVE);
         ClipboardContent content = new ClipboardContent();

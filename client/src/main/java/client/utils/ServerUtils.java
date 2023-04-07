@@ -1,6 +1,7 @@
 package client.utils;
 
 import commons.Board;
+import commons.Tag;
 import commons.Task;
 import commons.TaskList;
 import jakarta.ws.rs.client.ClientBuilder;
@@ -13,8 +14,8 @@ import java.util.function.Consumer;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 public class ServerUtils {
-
-    private final ExecutorService EXEC = Executors.newSingleThreadExecutor();
+    private final ExecutorService TASK_EXEC = Executors.newSingleThreadExecutor();
+    private final ExecutorService TAG_EXEC = Executors.newSingleThreadExecutor();
     private ServerURL url = new ServerURL("localhost", 8080);
 
     /**
@@ -103,6 +104,21 @@ public class ServerUtils {
     }
 
     /**
+     * Saves a tag on the server.
+     *
+     * @param tag     is the Tag to be saved.
+     * @param boardId is the id of the Board.
+     * @return the saved Tag.
+     */
+    public Tag addTag(Tag tag, long boardId) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(getServerAddress()).path("api/tag/" + boardId)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(tag, APPLICATION_JSON), Tag.class);
+    }
+
+    /**
      * Sends a request to get a Board from the server.
      *
      * @param id is the id of the requested board.
@@ -159,6 +175,20 @@ public class ServerUtils {
     }
 
     /**
+     * Sends a request to delete a Tag from the server.
+     *
+     * @param tag is the Tag to be deleted.
+     * @return the status of the request.
+     */
+    public Response delete(Tag tag) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(getServerAddress()).path("api/tag/" + tag.id)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .delete();
+    }
+
+    /**
      * Sends a request to update a Board on the server.
      *
      * @param board is the updated Board.
@@ -200,6 +230,20 @@ public class ServerUtils {
     }
 
     /**
+     * Sends a request to update a Tag on the server.
+     *
+     * @param tag is the updated Tag.
+     * @return the updated Tag.
+     */
+    public Tag updateTag(Tag tag) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(getServerAddress()).path("api/tag/")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .post(Entity.entity(tag, APPLICATION_JSON), Tag.class);
+    }
+
+    /**
      * Sends a request to update the list and index of a task.
      *
      * @param newListId is the id of the new list.
@@ -217,12 +261,12 @@ public class ServerUtils {
     }
 
     /**
-     * Starts the long polling.
+     * Starts the long polling for Task updates.
      *
      * @param consumer is the Consumer.
      */
-    public void registerForCreateTaskUpdates(Consumer<Board> consumer) {
-        EXEC.submit(() -> {
+    public void registerForTaskUpdates(Consumer<Board> consumer) {
+        TASK_EXEC.submit(() -> {
             while (!Thread.interrupted()) {
                 try {
                     var res = ClientBuilder.newClient(new ClientConfig())
@@ -235,16 +279,42 @@ public class ServerUtils {
                     }
                     Board b = res.readEntity(Board.class);
                     consumer.accept(b);
+                } catch (Exception ignored) {
                 }
-                catch (Exception ignored) {}
             }
         });
     }
 
     /**
-     * Ensures the thread stops when the application is closed.
+     * Starts the long polling for Tag updates.
+     *
+     * @param consumer is the Consumer.
+     */
+    public void registerForTagUpdates(Consumer<Board> consumer) {
+        TAG_EXEC.submit(() -> {
+            while (!Thread.interrupted()) {
+                try {
+                    var res = ClientBuilder.newClient(new ClientConfig())
+                            .target(getServerAddress()).path("api/tag/getUpdates")
+                            .request(APPLICATION_JSON)
+                            .accept(APPLICATION_JSON)
+                            .get(Response.class);
+                    if (res.getStatus() == 204) {
+                        continue;
+                    }
+                    Board b = res.readEntity(Board.class);
+                    consumer.accept(b);
+                } catch (Exception ignored) {
+                }
+            }
+        });
+    }
+
+    /**
+     * Ensures the threads stop when the application is closed.
      */
     public void stop() {
-        EXEC.shutdownNow();
+        TASK_EXEC.shutdownNow();
+        TAG_EXEC.shutdownNow();
     }
 }

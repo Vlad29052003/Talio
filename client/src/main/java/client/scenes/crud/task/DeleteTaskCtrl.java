@@ -79,7 +79,7 @@ public class DeleteTaskCtrl {
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
-            alert.setContentText("This board does not exist on the server!");
+            alert.setContentText("This task does not exist on the server!");
             alert.showAndWait();
         }
         mainCtrl.cancel();

@@ -13,7 +13,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -138,6 +137,7 @@ public class TaskListCtrl {
                 });
             }
         }
+
     }
 
     /**
@@ -152,7 +152,7 @@ public class TaskListCtrl {
             taskContainer.getChildren().remove(placeholder);
         }
 
-        placeholder.setPrefSize(0, ((HBox) event.getGestureSource()).getHeight());
+        placeholder.setPrefSize(0, ((VBox) event.getGestureSource()).getHeight());
 
         event.acceptTransferModes(TransferMode.MOVE);
         double y = event.getY();
@@ -195,7 +195,7 @@ public class TaskListCtrl {
      * @param event is the drag event.
      */
     public void onDragDropped(DragEvent event) {
-        HBox source = (HBox) mainCtrl.getDragAndDropNode();
+        VBox source = (VBox) mainCtrl.getDragAndDropNode();
         Dragboard db = event.getDragboard();
 
         if (source.getParent() == taskContainer) taskContainer.getChildren().remove(source);
