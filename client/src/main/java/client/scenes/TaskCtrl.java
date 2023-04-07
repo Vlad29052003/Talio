@@ -56,7 +56,8 @@ public class TaskCtrl {
         this.root.setOnMouseEntered(e -> {
             mainCtrl.resetFocus();
 
-            this.root.setStyle("-fx-background-color: lightgray;");
+            this.root.setStyle("-fx-border-color: red;");
+            //this.root.setStyle("-fx-border-width: 3px;");
             root.requestFocus();
             mainCtrl.setIsFocused(task);
 
@@ -126,7 +127,10 @@ public class TaskCtrl {
     public void requestFocus(){
         root.requestFocus();
         task.focused = true;
-        this.root.setStyle("-fx-background-color: lightgray;");
+        mainCtrl.setIsFocused(task);
+        this.root.setStyle("-fx-border-color: red;");
+        //this.root.setStyle("-fx-border-width: 3px;");
+
     }
 
     /**
@@ -236,7 +240,7 @@ public class TaskCtrl {
      * Background resets to transparent.
      */
     public void resetFocus() {
-        root.setStyle("-fx-background-color: transparent;");
+        root.setStyle("-fx-border-color: #a8a8a8;");
         task.focused = false;
     }
 
