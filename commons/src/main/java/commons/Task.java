@@ -8,17 +8,19 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.ElementCollection;
+import javax.persistence.Transient;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Entity
 @Transactional
@@ -29,9 +31,12 @@ public class Task implements Comparable<Task> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JsonBackReference
     TaskList list;
+
+    @ManyToMany(mappedBy = "tasks")
+    public Set<Tag> tags;
 
     public String name;
     public int index;
@@ -40,27 +45,31 @@ public class Task implements Comparable<Task> {
     @ElementCollection
     public List<String> subtasks;
 
+    @Transient
+    public boolean focused = false;
+
     /**
      * Empty constructor for object mappers.
      */
     @SuppressWarnings("unused")
     public Task() {
-        // for object mappers
-        subtasks = new ArrayList<>();
+        this.subtasks = new ArrayList<>();
+        this.tags = new HashSet<>();
     }
 
     /**
      * Creates a new {@link Task task}.
      *
-     * @param name is the name of the task.
-     * @param index is the position within the TaskList.
+     * @param name        is the name of the task.
+     * @param index       is the position within the TaskList.
      * @param description is the description.
      */
     public Task(String name, int index, String description) {
         this.name = name;
         this.index = index;
         this.description = description;
-        subtasks = new ArrayList<>();
+        this.subtasks = new ArrayList<>();
+        this.tags = new HashSet<>();
     }
 
     /**
@@ -172,6 +181,7 @@ public class Task implements Comparable<Task> {
     public int hashCode() {
         ArrayList<String> exclude = new ArrayList<>();
         exclude.add("list");
+        exclude.add("tags");
         return HashCodeBuilder.reflectionHashCode(this, exclude);
     }
 
@@ -194,7 +204,7 @@ public class Task implements Comparable<Task> {
      */
     @Override
     public int compareTo(Task o) {
-        if(o == null)
+        if (o == null)
             throw new NullPointerException();
         return Long.compare(this.index, o.index);
     }

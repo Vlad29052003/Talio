@@ -4,6 +4,7 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Task;
 import commons.TaskList;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
@@ -12,7 +13,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -47,6 +47,14 @@ public class TaskListCtrl {
         this.mainCtrl = mainCtrl;
         placeholder = new Region();
         placeholder.setStyle("-fx-background-color: rgba(79,75,75,0.5);");
+    }
+
+    /**
+     * Getter for TaskControllers.
+     * @return ArrayList
+     */
+    public ArrayList<TaskCtrl> getTaskControllers() {
+        return taskControllers;
     }
 
     /**
@@ -117,7 +125,19 @@ public class TaskListCtrl {
 
             this.taskContainer.getChildren().add(p.getValue());
             this.taskControllers.add(controller);
+
+            if (mainCtrl.getIsFocused() != null && task.id == mainCtrl.getIsFocused().id){
+                Platform.runLater(() -> {
+                    try {
+                        Thread.sleep(75);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    p.getKey().requestFocus();
+                });
+            }
         }
+
     }
 
     /**
@@ -132,7 +152,7 @@ public class TaskListCtrl {
             taskContainer.getChildren().remove(placeholder);
         }
 
-        placeholder.setPrefSize(0, ((HBox) event.getGestureSource()).getHeight());
+        placeholder.setPrefSize(0, ((VBox) event.getGestureSource()).getHeight());
 
         event.acceptTransferModes(TransferMode.MOVE);
         double y = event.getY();
@@ -175,7 +195,7 @@ public class TaskListCtrl {
      * @param event is the drag event.
      */
     public void onDragDropped(DragEvent event) {
-        HBox source = (HBox) mainCtrl.getDragAndDropNode();
+        VBox source = (VBox) mainCtrl.getDragAndDropNode();
         Dragboard db = event.getDragboard();
 
         if (source.getParent() == taskContainer) taskContainer.getChildren().remove(source);
@@ -206,5 +226,41 @@ public class TaskListCtrl {
             alert.showAndWait();
             refresh();
         }
+    }
+
+    /**
+     * Gets the index of the following task.
+     * @param index of the Task.
+     */
+    public void getNextIndex(int index) {
+        if (index < 0 ){
+            index = taskList.tasks.size() - 1;
+        }
+        if (index >= taskList.tasks.size()){
+            index = 0;
+        }
+
+        Task task = taskList.tasks.get(index);
+        taskControllers.stream().filter(tc -> tc.getTask().id == task.id)
+                .forEach(tc -> tc.requestFocus());
+    }
+
+    /**
+     * Gets the index of the neighbouring task.
+     * @param index of the Task.
+     */
+    public void getNeighbour(int index) {
+        if (index >= taskList.tasks.size()){
+            index = taskList.tasks.size() - 1;
+        }
+        if (index < 0){
+            return;
+        }
+        else{
+            Task task = taskList.tasks.get(index);
+            taskControllers.stream().filter(tc -> tc.getTask().id == task.id)
+                    .forEach(tc -> tc.requestFocus());
+        }
+
     }
 }

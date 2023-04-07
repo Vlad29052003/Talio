@@ -1,6 +1,7 @@
 package server.api;
 
 import commons.Board;
+import commons.Tag;
 import commons.Task;
 import commons.TaskList;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,17 +9,21 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.async.DeferredResult;
+import server.database.TagRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class TaskControllerTest {
     private TaskListTestRepository listRepo;
     private TestTaskRepository taskRepo;
     private TaskController taskController;
-
+    private TagRepository tagRepo;
     private List<TaskList> lists;
 
     private List<Task> tasks;
@@ -29,7 +34,8 @@ public class TaskControllerTest {
         tasks = new ArrayList<>();
         listRepo = new TaskListTestRepository();
         taskRepo = new TestTaskRepository();
-        taskController = new TaskController(taskRepo, listRepo);
+        tagRepo = mock(TagRepository.class);
+        taskController = new TaskController(taskRepo, listRepo, tagRepo);
         Board b = new Board("test", "");
         TaskList l1 = new TaskList("list1");
         l1.id = 1L;
@@ -142,6 +148,11 @@ public class TaskControllerTest {
     @Test
     public void testUpdateTask() {
         Task updatedTask = new Task("Task1Updated", 1, "this is updated");
+        Tag tag = new Tag();
+        tag.id = 0L;
+        when(tagRepo.findById(0L)).thenReturn(Optional.of(tag));
+        updatedTask.tags.add(tag);
+        tasks.get(0).tags.add(tag);
         updatedTask.id = 1L;
 
         assertEquals(taskController.updateTask(updatedTask), ResponseEntity.ok("Task updated."));
@@ -160,6 +171,11 @@ public class TaskControllerTest {
 
     @Test
     public void testDeleteById() {
+        Task t1 = tasks.get(0);
+        Tag tag = new Tag();
+        tag.applyTo(t1);
+        t1.tags.add(tag);
+        taskRepo.getTasks().set(0, t1);
         assertEquals(taskController.deleteById(1L),
                 ResponseEntity.ok("Successfully deleted."));
         assertEquals(taskRepo.getCalledMethods(),
@@ -168,7 +184,7 @@ public class TaskControllerTest {
     }
 
     @Test
-    public void testGetUpdatesNoUpdates() throws InterruptedException {
+    public void testGetUpdatesNoUpdates() {
         var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         var res = new DeferredResult<ResponseEntity<Board>>(5000L, noContent);
         assertEquals(taskController.getUpdates().getResult(), res.getResult());

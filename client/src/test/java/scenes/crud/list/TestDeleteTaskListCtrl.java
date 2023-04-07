@@ -1,15 +1,15 @@
 package scenes.crud.list;
 
 import client.scenes.MainCtrl;
-import client.scenes.crud.board.DeleteBoardCtrl;
-import client.scenes.crud.task.DeleteTaskCtrl;
-import commons.Task;
+import client.scenes.crud.tasklists.DeleteTaskListCtrl;
+import commons.TaskList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import scenes.ServerUtilsTestingMock;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -17,27 +17,27 @@ import static org.mockito.Mockito.verify;
 public class TestDeleteTaskListCtrl {
     private ServerUtilsTestingMock server;
     private MainCtrl mainCtrl;
-    private DeleteTaskCtrl deleteCtrl;
-    private Task task;
+    private DeleteTaskListCtrl deleteCtrl;
+    private TaskList taskList;
 
     @BeforeEach
     public void setUp() {
         this.server = new ServerUtilsTestingMock();
         this.mainCtrl = mock(MainCtrl.class);
-        this.deleteCtrl = new DeleteTaskCtrl(server, mainCtrl);
-        this.task = new Task("testing", 0, "");
+        this.deleteCtrl = new DeleteTaskListCtrl(server, mainCtrl);
+        this.taskList = new TaskList("testing");
     }
 
     @Test
     public void testConstructor() {
-        DeleteBoardCtrl ctrl = new DeleteBoardCtrl(server, mainCtrl);
+        DeleteTaskListCtrl ctrl = new DeleteTaskListCtrl(server, mainCtrl);
         assertNotNull(ctrl);
     }
 
     @Test
     public void testGetSetTask() {
-        deleteCtrl.setTask(task);
-        assertEquals(deleteCtrl.getTask(), task);
+        deleteCtrl.setTaskList(taskList);
+        assertEquals(deleteCtrl.getTaskList(), taskList);
     }
 
     @Test
@@ -48,10 +48,16 @@ public class TestDeleteTaskListCtrl {
 
     @Test
     public void testConfirm() {
-        server.addTask(task, 1L);
-        deleteCtrl.setTask(task);
-        deleteCtrl.delete();
-        assertEquals(server.getTasks(), new ArrayList<>());
+        server.addTaskList(taskList, 1L);
+        deleteCtrl.setTaskList(taskList);
+        deleteCtrl.confirm();
+        assertEquals(server.getTaskLists(), new ArrayList<>());
         verify(mainCtrl, times(1)).cancel();
+    }
+
+    @Test
+    public void testReset() {
+        deleteCtrl.reset();
+        assertNull(deleteCtrl.getTaskList());
     }
 }

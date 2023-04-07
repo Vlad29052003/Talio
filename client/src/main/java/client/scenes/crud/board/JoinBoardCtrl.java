@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
 
 public class JoinBoardCtrl {
@@ -32,9 +33,22 @@ public class JoinBoardCtrl {
 
     /**
      * Autofocuses the first field.
+     * Sets the keyboard shortcuts for ENTER and ESC.
      */
     public void initialize() {
         Platform.runLater(() -> text.requestFocus());
+
+        this.text.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+            if (keyCode == KeyCode.ENTER) {
+                confirm();
+                event.consume();
+            }
+            else if (keyCode == KeyCode.ESCAPE) {
+                cancel();
+                event.consume();
+            }
+        });
     }
 
     /**
@@ -60,10 +74,9 @@ public class JoinBoardCtrl {
      *
      * @return the id.
      */
-    public Long getID() throws Exception {
+    public Long getID() {
         String idText = text.getText();
-        long id = 0L;
-        id = Long.parseLong(idText);
+        long id = Long.parseLong(idText);
         return id;
     }
 
@@ -72,6 +85,7 @@ public class JoinBoardCtrl {
      * Switches back to the workspace Scene.
      */
     public void cancel() {
+        Platform.runLater(() -> text.requestFocus());
         mainCtrl.cancel();
         mainCtrl.hidePopup();
     }
@@ -82,6 +96,7 @@ public class JoinBoardCtrl {
      * to get the Board with the entered id.
      */
     public void confirm() {
+        Platform.runLater(() -> text.requestFocus());
         long id;
         try {
             id = getID();

@@ -21,5 +21,6 @@ public class TestServerUtils {
         server.setServer(url);
         assertEquals(server.getServer(), url);
         assertEquals(server.getServerAddress(), "http://string:123");
+        server.stop();
     }
 }

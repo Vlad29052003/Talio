@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -88,6 +89,7 @@ public class WorkspaceCtrl implements Initializable {
 
     /**
      * Initializes this Workspace.
+     * Starts the long polling.
      *
      * @param location  The location used to resolve relative paths for the root object, or
      *                  {@code null} if the location is not known.
@@ -100,14 +102,26 @@ public class WorkspaceCtrl implements Initializable {
         String ip = data.getServers().get(index).getServer();
         serverIP.setText(ip);
 
-        server.registerForCreateTaskUpdates(b -> {
-            Platform.runLater(() -> {
-                updateBoard(b);
-                if(mainCtrl.getActiveBoard() != null && mainCtrl.getActiveBoard().id == b.id)
-                    mainCtrl.switchBoard(b);
-            });
+        server.registerForTaskUpdates(b -> Platform.runLater(() -> {
+            updateBoard(b);
+            if(mainCtrl.getActiveBoard() != null && mainCtrl.getActiveBoard().id == b.id)
+                mainCtrl.switchBoard(b);
+        }));
+
+        this.boardViewPane.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+            if (keyCode == KeyCode.SLASH && event.isShiftDown()) {
+                openHelpScreen();
+                event.consume();
+            }
         });
 
+        server.registerForTagUpdates(b -> Platform.runLater(() -> {
+            updateBoard(b);
+            if(mainCtrl.getActiveBoard() != null && mainCtrl.getActiveBoard().id == b.id)
+                mainCtrl.switchBoard(b);
+            mainCtrl.checkTagOverviewUpdate(b);
+        }));
     }
 
     /**
@@ -191,6 +205,13 @@ public class WorkspaceCtrl implements Initializable {
     }
 
     /**
+     * Switches to the HelpScreen Scene
+     */
+    public void openHelpScreen() {
+        mainCtrl.openHelpScreen();
+    }
+
+    /**
      * Gets the boards.
      *
      * @return the boards.
@@ -251,15 +272,6 @@ public class WorkspaceCtrl implements Initializable {
      */
     public void setBoardWorkspace(VBox boardWorkspace) {
         this.boardWorkspace = boardWorkspace;
-    }
-
-    /**
-     * Sets the file.
-     *
-     * @param file is the file.
-     */
-    public void setFile(File file) {
-        this.file = file;
     }
 
     /**

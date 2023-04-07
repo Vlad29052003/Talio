@@ -10,6 +10,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
 
 /**
@@ -39,9 +40,22 @@ public class CreateTaskListCtrl {
 
     /**
      * Autofocuses the first field.
+     * Sets the keyboard shortcuts for ENTER and ESC.
      */
     public void initialize() {
         Platform.runLater(() -> text.requestFocus());
+
+        this.text.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+            if (keyCode == KeyCode.ENTER) {
+                add();
+                event.consume();
+            }
+            else if (keyCode == KeyCode.ESCAPE) {
+                cancel();
+                event.consume();
+            }
+        });
     }
 
     /**
@@ -60,6 +74,7 @@ public class CreateTaskListCtrl {
      */
     public void setBoard(Board board) {
         this.board = board;
+        Platform.runLater(() -> text.requestFocus());
     }
 
     /**
@@ -67,6 +82,7 @@ public class CreateTaskListCtrl {
      * Switches back to the workspace Scene.
      */
     public void cancel() {
+        Platform.runLater(() -> text.requestFocus());
         reset();
         mainCtrl.cancel();
         mainCtrl.hidePopup();
@@ -77,6 +93,7 @@ public class CreateTaskListCtrl {
      * Creates a new TaskList.
      */
     public void add() {
+        Platform.runLater(() -> text.requestFocus());
         if (text.getText().isEmpty()) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);

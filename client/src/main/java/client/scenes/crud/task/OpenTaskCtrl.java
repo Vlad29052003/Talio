@@ -180,7 +180,6 @@ public class OpenTaskCtrl implements Initializable {
     private void updateTask() {
         try {
             server.updateTask(task);
-            mainCtrl.updateTaskInList(task);
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
