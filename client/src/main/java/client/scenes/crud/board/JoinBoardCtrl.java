@@ -86,6 +86,7 @@ public class JoinBoardCtrl {
      * Switches back to the workspace Scene.
      */
     public void cancel() {
+        Platform.runLater(() -> text.requestFocus());
         mainCtrl.cancel();
         mainCtrl.hidePopup();
     }
@@ -96,6 +97,7 @@ public class JoinBoardCtrl {
      * to get the Board with the entered id.
      */
     public void confirm() {
+        Platform.runLater(() -> text.requestFocus());
         long id;
         try {
             id = getID();
