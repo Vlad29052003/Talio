@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<HBox fx:id="root" alignment="CENTER_LEFT" maxHeight="30.0" minHeight="30.0" onDragDetected="#onDragDetected" prefHeight="30.0" spacing="5.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskCtrl">
+<HBox fx:id="root" alignment="CENTER_LEFT" maxHeight="30.0" minHeight="30.0" onDragDetected="#onDragDetected" onMouseClicked="#open" prefHeight="30.0" spacing="5.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskCtrl">
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
    </padding>
