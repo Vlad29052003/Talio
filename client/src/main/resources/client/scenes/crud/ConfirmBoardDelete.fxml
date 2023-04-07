@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="90.0" prefWidth="400.0" stylesheets="/style/ConfirmTaskDelete.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.crud.board.DeleteBoardCtrl">
+<AnchorPane fx:id ="root" prefHeight="90.0" prefWidth="400.0" stylesheets="/style/ConfirmTaskDelete.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.crud.board.DeleteBoardCtrl">
     <children>
         <JFXButton layoutX="247.0" layoutY="50.0" onAction="#cancel" prefHeight="25.0" prefWidth="65.0" styleClass="cancel-button" text="Cancel" />
         <JFXButton layoutX="320.0" layoutY="50.0" onAction="#confirm" prefHeight="25.0" prefWidth="65.0" styleClass="delete-button-board" text="Delete" />

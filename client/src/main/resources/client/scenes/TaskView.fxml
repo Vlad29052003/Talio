@@ -7,44 +7,49 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.image.Image?>
-<HBox fx:id="root" alignment="CENTER_LEFT" maxHeight="30.0" minHeight="30.0" onDragDetected="#onDragDetected" prefHeight="30.0" spacing="5.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskCtrl">
-   <children>
-      <AnchorPane HBox.hgrow="ALWAYS">
-         <children>
-            <Label fx:id="nameLabel" text="Task Title" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-         </children>
-         <HBox.margin>
-            <Insets />
-         </HBox.margin>
-      </AnchorPane>
-      <Button mnemonicParsing="false" onAction="#edit">
-         <graphic>
-            <ImageView fitWidth="10.0" pickOnBounds="true" preserveRatio="true" smooth="false">
-               <image>
-                  <Image url="/client/icons/edit.png" />
-               </image>
-               <viewport>
-                  <Rectangle2D />
-               </viewport>
-            </ImageView>
-         </graphic>
-      </Button>
-      <Button layoutX="73.0" layoutY="13.0" mnemonicParsing="false" onAction="#delete">
-         <graphic>
-            <ImageView fitWidth="10.0" pickOnBounds="true" preserveRatio="true" smooth="false">
-               <image>
-                  <Image url="/client/icons/trash.png" />
-               </image>
-               <viewport>
-                  <Rectangle2D />
-               </viewport>
-            </ImageView>
-         </graphic>
-      </Button>
-   </children>
-   <padding>
-      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-   </padding>
-</HBox>
+<VBox fx:id="root" alignment="TOP_CENTER" minHeight="30.0" onDragDetected="#onDragDetected" spacing="5.0" styleClass="rootNode" stylesheets="/style/TaskView.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskCtrl">
+    <children>
+        <HBox fx:id="rootHBox" alignment="CENTER_LEFT" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" spacing="5.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+            <children>
+                <AnchorPane HBox.hgrow="ALWAYS">
+                    <children>
+                        <Label fx:id="nameLabel" text="Task Title" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                    </children>
+                    <HBox.margin>
+                        <Insets />
+                    </HBox.margin>
+                </AnchorPane>
+                <Button mnemonicParsing="false" onAction="#edit">
+                    <graphic>
+                        <ImageView fitWidth="10.0" pickOnBounds="true" preserveRatio="true" smooth="false">
+                            <image>
+                                <Image url="/client/icons/edit.png"/>
+                            </image>
+                            <viewport>
+                                <Rectangle2D />
+                            </viewport>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button layoutX="73.0" layoutY="13.0" mnemonicParsing="false" onAction="#delete">
+                    <graphic>
+                        <ImageView fitWidth="10.0" pickOnBounds="true" preserveRatio="true" smooth="false">
+                            <image>
+                                <Image url="/client/icons/trash.png"/>
+                            </image>
+                            <viewport>
+                                <Rectangle2D />
+                            </viewport>
+                        </ImageView>
+                    </graphic>
+                </Button>
+            </children>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+        </HBox>
+    </children>
+</VBox>

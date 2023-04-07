@@ -5,6 +5,7 @@ import client.scenes.TaskListCtrl;
 import commons.TaskList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -63,5 +64,14 @@ public class TestTaskListCtrl {
         listCtrl.setTaskList(list);
         listCtrl.addTask();
         verify(mainCtrl, times(1)).addTask(list);
+    }
+
+    @Test
+    public void testSendMoveRequest() {
+        TaskList taskList = new TaskList();
+        taskList.id = 0L;
+        listCtrl.setTaskList(taskList);
+        listCtrl.sendMoveRequest(0L, 1);
+        assertEquals(server.getCalledMethods(), List.of("dragAndDrop"));
     }
 }

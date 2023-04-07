@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="root" alignment="CENTER" stylesheets="/style/BoardListing.css" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardListingCtrl">
+<VBox fx:id="root" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="56.0" prefWidth="234.0" stylesheets="/style/BoardListing.css" VBox.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardListingCtrl">
    <children>
       <Label fx:id="label" text="Label" textAlignment="CENTER">
          <font>
@@ -16,22 +16,22 @@
       </Label>
       <HBox alignment="CENTER" prefHeight="29.0" prefWidth="220.0" styleClass="hbox">
          <children>
-            <JFXButton mnemonicParsing="false" onAction="#view" text="View" styleClass="button">
+            <JFXButton alignment="CENTER" mnemonicParsing="false" onAction="#view" prefHeight="25.0" prefWidth="51.0" styleClass="button" text="View">
                <HBox.margin>
                   <Insets left="3.0" right="3.0" />
                </HBox.margin>
             </JFXButton>
-            <JFXButton mnemonicParsing="false" onAction="#remove" text="Remove" styleClass="button">
+            <JFXButton alignment="CENTER" mnemonicParsing="false" onAction="#remove" prefHeight="25.0" prefWidth="51.0" styleClass="button" text="Leave">
                <HBox.margin>
                   <Insets left="3.0" right="3.0" />
                </HBox.margin>
             </JFXButton>
-            <JFXButton mnemonicParsing="false" onAction="#edit" text="Edit" styleClass="button">
+            <JFXButton alignment="CENTER" mnemonicParsing="false" onAction="#edit" prefHeight="25.0" prefWidth="51.0" styleClass="button" text="Edit">
                <HBox.margin>
                   <Insets left="3.0" right="3.0" />
                </HBox.margin>
             </JFXButton>
-            <JFXButton mnemonicParsing="false" onAction="#delete" text="Delete" styleClass="button">
+            <JFXButton alignment="CENTER" mnemonicParsing="false" onAction="#delete" prefHeight="25.0" prefWidth="51.0" styleClass="deleteButton" text="Delete">
                <HBox.margin>
                   <Insets left="3.0" right="3.0" />
                </HBox.margin>

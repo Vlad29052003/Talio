@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="241.0" prefWidth="314.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.HelpScreenCtrl">
+   <children>
+      <Text layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Keyboard Shortcuts" textAlignment="CENTER" wrappingWidth="314.0" />
+      <JFXButton layoutX="135.0" layoutY="201.0" onAction="#cancel" text="Close" />
+      <Text layoutX="9.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[Up/Down/Left/Right] - move the task highlight" wrappingWidth="296.788330078125" />
+      <Text layoutX="9.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[Shift+Up/Down] - change the order of the tasks" wrappingWidth="296.788330078125" />
+      <Text layoutX="9.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[E] - edit the task title" wrappingWidth="296.788330078125" />
+      <Text layoutX="9.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[Del/Backspace] - delete a task" wrappingWidth="296.788330078125" />
+      <Text layoutX="9.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[Enter] - open task details" wrappingWidth="296.788330078125" />
+      <Text layoutX="9.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[Esc] - close task details" wrappingWidth="296.788330078125" />
+      <Text layoutX="9.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[T] - popup for adding tags" wrappingWidth="296.788330078125" />
+      <Text layoutX="9.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="[C] - popup for color preset selection" wrappingWidth="296.788330078125" />
+   </children>
+</AnchorPane>

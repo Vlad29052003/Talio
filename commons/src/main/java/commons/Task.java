@@ -1,21 +1,32 @@
 package commons;
 
-import static org.apache.commons.lang3.builder.ToStringStyle.SIMPLE_STYLE;
+import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import javax.persistence.ElementCollection;
+import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.ElementCollection;
+import javax.persistence.Transient;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
+@Transactional
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Task implements Comparable<Task> {
 
     @Id
@@ -26,28 +37,34 @@ public class Task implements Comparable<Task> {
     @JsonBackReference
     TaskList list;
 
+    @ManyToMany(mappedBy = "tasks")
+    public Set<Tag> tags;
+
     public String name;
     public int index;
     public String description;
     public String color;
 
-    @ElementCollection // 1
+    @ElementCollection
     public List<String> subtasks;
+
+    @Transient
+    public boolean focused = false;
 
     /**
      * Empty constructor for object mappers.
      */
     @SuppressWarnings("unused")
     public Task() {
-        // for object mappers
-        subtasks = new ArrayList<>();
+        this.subtasks = new ArrayList<>();
+        this.tags = new HashSet<>();
     }
 
     /**
      * Creates a new {@link Task task}.
      *
-     * @param name is the name of the task.
-     * @param index is the position within the TaskList.
+     * @param name        is the name of the task.
+     * @param index       is the position within the TaskList.
      * @param description is the description.
      * @param color is the color of the task.
      */
@@ -57,6 +74,7 @@ public class Task implements Comparable<Task> {
         this.description = description;
         this.subtasks = new ArrayList<>();
         this.color = color;
+        this.tags = new HashSet<>();
     }
 
     /**
@@ -98,7 +116,7 @@ public class Task implements Comparable<Task> {
      *
      * @param subTask is the subtask.
      */
-    public void addSubTask(String subTask){
+    public void addSubTask(String subTask) {
         this.subtasks.add(subTask);
     }
 
@@ -133,6 +151,7 @@ public class Task implements Comparable<Task> {
     public int hashCode() {
         ArrayList<String> exclude = new ArrayList<>();
         exclude.add("list");
+        exclude.add("tags");
         return HashCodeBuilder.reflectionHashCode(this, exclude);
     }
 
@@ -144,7 +163,7 @@ public class Task implements Comparable<Task> {
      */
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this, SIMPLE_STYLE);
+        return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
     }
 
     /**
@@ -155,7 +174,7 @@ public class Task implements Comparable<Task> {
      */
     @Override
     public int compareTo(Task o) {
-        if(o == null)
+        if (o == null)
             throw new NullPointerException();
         return Long.compare(this.index, o.index);
     }
