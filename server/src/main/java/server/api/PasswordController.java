@@ -23,7 +23,9 @@ public class PasswordController {
      */
     @Autowired
     public PasswordController(PasswordRepository repo){
-        repo.save(new Password());
+        Password pass = new Password();
+        System.out.println("\n\nAdmin Password: " + pass.getPassword() + "\n\n");
+        repo.save(pass);
         this.repo = repo;
     }
 
