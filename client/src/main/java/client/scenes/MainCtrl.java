@@ -5,21 +5,27 @@ import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
+import client.scenes.crud.tag.CreateTagCtrl;
+import client.scenes.crud.tag.DeleteTagCtrl;
+import client.scenes.crud.tag.EditTagCtrl;
 import client.scenes.crud.task.CreateTaskCtrl;
 import client.scenes.crud.task.DeleteTaskCtrl;
 import client.scenes.crud.task.EditTaskCtrl;
+import client.scenes.crud.task.addtag.AddTagListingCtrl;
 import client.scenes.crud.tasklists.CreateTaskListCtrl;
 import client.scenes.crud.tasklists.DeleteTaskListCtrl;
 import client.scenes.crud.tasklists.EditTaskListCtrl;
 import client.utils.UpdateHandler;
 import client.utils.websocket.WebsocketSynchroniser;
 import commons.Board;
+import commons.Tag;
 import commons.Task;
 import commons.TaskList;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -45,7 +51,6 @@ public class MainCtrl {
     private DeleteTaskListCtrl deleteListCtrl;
     private Scene deleteList;
     private BoardCtrl boardCtrl;
-    private Parent boardRoot; // Not a scene as it's to be embedded within the workspaceScene.
     private Node dnd;
     private WebsocketSynchroniser boardSyncroniser;
     private DeleteTaskCtrl deleteTaskCtrl;
@@ -54,6 +59,34 @@ public class MainCtrl {
     private Scene createTask;
     private EditTaskCtrl editTaskCtrl;
     private Scene editTask;
+    private HelpScreenCtrl helpScreenCtrl;
+    private Scene helpScreen;
+    private Task isFocused;
+    private TagOverviewCtrl tagOverviewCtrl;
+    private Scene tagOverview;
+    private DeleteTagCtrl deleteTagCtrl;
+    private Scene deleteTag;
+    private CreateTagCtrl createTagCtrl;
+    private Scene createTag;
+    private EditTagCtrl editTagCtrl;
+    private Scene editTag;
+    private Stage secondPopupStage;
+
+    /**
+     * Getter for isFocused
+     * @return Task
+     */
+    public Task getIsFocused() {
+        return isFocused;
+    }
+
+    /**
+     * Setter for isFocused
+     * @param isFocused
+     */
+    public void setIsFocused(Task isFocused) {
+        this.isFocused = isFocused;
+    }
 
     /**
      * Sets myFXML.
@@ -72,11 +105,13 @@ public class MainCtrl {
      * @param primaryStage is the primary Stage.
      * @param workspace    is the Workspace.
      * @param board        is the initial Board, which is empty.
+     * @param tag          is the Tag Overview.
      */
     public void initialize(
             Stage primaryStage,
             Pair<WorkspaceCtrl, Parent> workspace,
-            Pair<BoardCtrl, Parent> board) {
+            Pair<BoardCtrl, Parent> board,
+            Pair<TagOverviewCtrl, Parent> tag) {
         this.primaryStage = primaryStage;
 
         this.popupStage = new Stage();
@@ -86,7 +121,11 @@ public class MainCtrl {
 
         this.workspaceCtrl = workspace.getKey();
         this.workspaceScene = new Scene(workspace.getValue());
+
         this.boardCtrl = board.getKey();
+
+        this.tagOverviewCtrl = tag.getKey();
+        this.tagOverview = new Scene(tag.getValue());
 
         primaryStage.setTitle("Talio");
         primaryStage.setScene(workspaceScene);
@@ -94,7 +133,12 @@ public class MainCtrl {
         workspaceCtrl.setBoardView(board.getValue());
 
         this.boardSyncroniser = new WebsocketSynchroniser(new MyUpdateHandler());
-        boardSyncroniser.start();
+
+        // Connect
+        workspaceCtrl.fetch();
+
+        primaryStage.getIcons().add(new Image("/client/icons/logo.png"));
+        popupStage.getIcons().add(new Image("/client/icons/logo.png"));
 
         primaryStage.show();
     }
@@ -173,6 +217,17 @@ public class MainCtrl {
     }
 
     /**
+     * Initializes the HelpScreen Scene and Contoller.
+     *
+     * @param helpScreen is the Scene for the keyboard shortcuts menu.
+     */
+    public void initializeHelpScreen(Pair<HelpScreenCtrl, Parent> helpScreen){
+
+        this.helpScreenCtrl = helpScreen.getKey();
+        this.helpScreen = new Scene(helpScreen.getValue());
+    }
+
+    /**
      * Initializes the controllers and scenes for the
      * task crud operations.
      *
@@ -191,6 +246,34 @@ public class MainCtrl {
 
         this.editTaskCtrl = editTask.getKey();
         this.editTask = new Scene(editTask.getValue());
+    }
+
+    /**
+     * Initializes the controllers and scenes for the
+     * tag crud operations.
+     *
+     * @param deleteTag is the Scene for deleting a Tag.
+     * @param newTag    is the Scene for creating a Tag.
+     * @param editTag   is the Scene for editing a Tag.
+     */
+    public void initializeTagCrud(Pair<DeleteTagCtrl, Parent> deleteTag,
+                                  Pair<CreateTagCtrl, Parent> newTag,
+                                  Pair<EditTagCtrl, Parent> editTag) {
+
+        this.secondPopupStage = new Stage();
+        secondPopupStage.setResizable(false);
+        secondPopupStage.initModality(Modality.WINDOW_MODAL);
+        secondPopupStage.initOwner(primaryStage);
+        secondPopupStage.getIcons().add(new Image("/client/icons/logo.png"));
+
+        this.deleteTagCtrl = deleteTag.getKey();
+        this.deleteTag = new Scene(deleteTag.getValue());
+
+        this.createTagCtrl = newTag.getKey();
+        this.createTag = new Scene(newTag.getValue());
+
+        this.editTagCtrl = editTag.getKey();
+        this.editTag = new Scene(editTag.getValue());
     }
 
     /**
@@ -215,6 +298,7 @@ public class MainCtrl {
      * Stops all services depending on MainCtrl
      */
     public void stop() {
+        workspaceCtrl.stop();
         this.boardSyncroniser.stop();
     }
 
@@ -226,6 +310,16 @@ public class MainCtrl {
     public void switchBoard(Board board) {
         if (boardCtrl != null)
             boardCtrl.setBoard(board);
+    }
+
+    /**
+     * Updates the Tag Overview if it is showing.
+     *
+     * @param board is the updated board.
+     */
+    public void checkTagOverviewUpdate(Board board) {
+        if (popupStage.getTitle().equals("Tag Overview"))
+            tagOverviewCtrl.setBoard(board);
     }
 
     /**
@@ -289,6 +383,15 @@ public class MainCtrl {
     }
 
     /**
+     * Switches to the HelpScreen Scene.
+     */
+    public void openHelpScreen() {
+        popupStage.setTitle("Help Screen");
+        popupStage.setScene(helpScreen);
+        popupStage.show();
+    }
+
+    /**
      * Switches to the JoinBoard Scene.
      */
     public void joinBoard() {
@@ -332,6 +435,18 @@ public class MainCtrl {
     }
 
     /**
+     * Switches to AddTag Scene.
+     *
+     * @param board is the Board associated with the scene.
+     */
+    public void addTag(Board board) {
+        createTagCtrl.setBoard(board);
+        secondPopupStage.setTitle("Create Tag");
+        secondPopupStage.setScene(createTag);
+        secondPopupStage.show();
+    }
+
+    /**
      * Switches to the EditBoard Scene.
      *
      * @param board is the Board to be edited.
@@ -365,6 +480,18 @@ public class MainCtrl {
         popupStage.setTitle("Edit task");
         popupStage.setScene(editTask);
         popupStage.show();
+    }
+
+    /**
+     * Switches to the EditTag Scene.
+     *
+     * @param tag is the Tag to be edited.
+     */
+    public void editTag(Tag tag) {
+        editTagCtrl.setTag(tag);
+        secondPopupStage.setTitle("Edit tag");
+        secondPopupStage.setScene(editTag);
+        secondPopupStage.show();
     }
 
     /**
@@ -405,6 +532,30 @@ public class MainCtrl {
     }
 
     /**
+     * Switches to the DeleteTag Scene.
+     *
+     * @param tag is the Tag to be deleted.
+     */
+    public void deleteTag(Tag tag) {
+        deleteTagCtrl.setTag(tag);
+        secondPopupStage.setTitle("Delete tag");
+        secondPopupStage.setScene(deleteTag);
+        secondPopupStage.show();
+    }
+
+    /**
+     * Displays the tag overview.
+     *
+     * @param board is the Board associated with the scene.
+     */
+    public void tagOverview(Board board) {
+        popupStage.setTitle("Tag Overview");
+        tagOverviewCtrl.setBoard(board);
+        popupStage.setScene(tagOverview);
+        popupStage.show();
+    }
+
+    /**
      * Updates the Board with the same id as board
      * from the workspace.
      *
@@ -441,6 +592,15 @@ public class MainCtrl {
     }
 
     /**
+     * Gets the board that is currently being displayed.
+     *
+     * @return the board.
+     */
+    public Board getActiveBoard() {
+        return boardCtrl.getBoard();
+    }
+
+    /**
      * Loads the scenes for the BoardListingCtrl.
      *
      * @param newBoard is the Board associated with them.
@@ -450,6 +610,34 @@ public class MainCtrl {
         var pair = myFXML.load(BoardListingCtrl.class,
                 "client", "scenes", "BoardListing.fxml");
         pair.getKey().setBoard(newBoard);
+        return pair;
+    }
+
+    /**
+     * Loads the scenes for the TagListingCtrl.
+     *
+     * @param tag is the Tag associated with them.
+     * @return the new BoardListingCtrl.
+     */
+    public Pair<TagListingCtrl, Parent> newTagListingView(Tag tag) {
+        var pair = myFXML.load(TagListingCtrl.class,
+                "client", "scenes", "TagListing.fxml");
+        pair.getKey().setTag(tag);
+        return pair;
+    }
+
+    /**
+     * Loads the scenes for the TagListingCtrl.
+     *
+     * @param tag  is the Tag associated with them.
+     * @param task is the Task associated with them.
+     * @return the new BoardListingCtrl.
+     */
+    public Pair<AddTagListingCtrl, Parent> newAddTagListingView(Tag tag, Task task) {
+        var pair = myFXML.load(AddTagListingCtrl.class,
+                "client", "scenes", "crud", "AddTagListing.fxml");
+        pair.getKey().setTask(task);
+        pair.getKey().setTag(tag);
         return pair;
     }
 
@@ -496,21 +684,47 @@ public class MainCtrl {
     }
 
     /**
-     * Updates the task in the ListView.
-     *
-     * @param task is the updated Task.
-     */
-    public void updateTaskInList(Task task) {
-        boardCtrl.updateTask(task);
-    }
-
-    /**
      * Removes the task from ListView.
      *
      * @param task is the Task to be removed.
      */
     public void removeTask(Task task) {
         boardCtrl.removeTask(task);
+    }
+
+    /**
+     * Resets focus.
+     */
+    public void resetFocus() {
+        boardCtrl.resetFocus();
+    }
+
+    /**
+     * Gets the Index of the following TaskList.
+     * @param taskList TaskList
+     * @param index int
+     */
+    public void getNextIndex(TaskList taskList, int index) {
+        boardCtrl.getNextIndex(taskList, index);
+    }
+
+    /**
+     * Gets the index of the neighbouring Task.
+     * @param taskList of the Task
+     * @param index of the Task
+     * @param isRight right/left TaskList
+     */
+    public void getNeighbourIndex(TaskList taskList, int index, boolean isRight) {
+        boardCtrl.getNeighbourIndex(taskList, index, isRight);
+    }
+
+    /**
+     * Sets the task with associated tags.
+     *
+     * @param task is the task.
+     */
+    public void setTaskWithTags(Task task) {
+        editTaskCtrl.getTagUpdates(task);
     }
 
     public class MyUpdateHandler extends UpdateHandler {
@@ -528,21 +742,33 @@ public class MainCtrl {
         public void onBoardUpdated(Board board) {
             Platform.runLater(() -> updateBoard(board));
         }
+
+        @Override
+        public void onDisconnect() {
+            workspaceCtrl.tryConnect(workspaceCtrl.getServer());
+        }
     }
 
     /**
-     * Shows the popup Stage
-     * when it is in use.
+     * @return The {@link WebsocketSynchroniser} associated with this {@link MainCtrl}
      */
-    public void showPopup(){
-        popupStage.show();
+    public WebsocketSynchroniser getWebsocketSynchroniser(){
+        return boardSyncroniser;
     }
 
     /**
      * Hides the popup Stage when
      * it is not in use.
      */
-    public void hidePopup(){
+    public void hidePopup() {
         popupStage.hide();
+    }
+
+    /**
+     * Hides the popup Stage when
+     * it is not in use.
+     */
+    public void hideSecondPopup() {
+        secondPopupStage.hide();
     }
 }

@@ -5,6 +5,8 @@ import commons.TaskList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+import server.mutations.BoardChangeQueue;
+
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -17,12 +19,14 @@ public class TaskListControllerTest {
     private TaskListTestRepository repo;
     private TestBoardRepository boardRepo;
     private TaskListController controller;
+    private BoardChangeQueue changes;
 
     @BeforeEach
     public void setup() {
         repo = new TaskListTestRepository();
         boardRepo = new TestBoardRepository();
-        controller = new TaskListController(boardRepo, repo);
+        changes = new BoardChangeQueue();
+        controller = new TaskListController(boardRepo, repo, changes);
     }
 
     @Test
@@ -108,17 +112,15 @@ public class TaskListControllerTest {
     @Test
     public void delete() {
         var board = getBoard("delete");
-        boardRepo.save(board);
+        Board savedBoard = boardRepo.save(board);
 
         TaskList list = getList("delete");
-        list.setBoard(board);
 
-        var actual = controller.add(0L, list);
+        var actual = controller.add(savedBoard.id, list);
         if (actual.getBody() == null) return;
 
         var actual2 = controller.deleteById(0L);
         assertEquals(HttpStatus.OK, actual2.getStatusCode());
-        assertTrue(repo.calledMethods.contains("deleteById"));
 
         var actual3 = controller.getById(0L);
         assertNull(actual3.getBody());

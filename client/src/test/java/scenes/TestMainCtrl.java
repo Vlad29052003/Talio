@@ -1,5 +1,6 @@
 package scenes;
 
+import client.MyFXML;
 import client.scenes.BoardCtrl;
 import client.scenes.BoardListingCtrl;
 import client.scenes.MainCtrl;
@@ -37,9 +38,11 @@ public class TestMainCtrl {
         this.boardCtrl = mock(BoardCtrl.class);
         this.workspaceCtrl = mock(WorkspaceCtrl.class);
         this.board = new Board("testing", "", "");
+        MyFXML fxml = mock(MyFXML.class);
 
         mainCtrl.setBoardCtrl(boardCtrl);
         mainCtrl.setWorkspaceCtrl(workspaceCtrl);
+        mainCtrl.setMyFXML(fxml);
 
         doAnswer(invocation -> {
             board = invocation.getArgument(0);
@@ -134,19 +137,6 @@ public class TestMainCtrl {
     }
 
     @Test
-    public void testUpdateTaskInList() {
-        final Task[] t = {new Task()};
-        doAnswer(invocation -> {
-            t[0] = invocation.getArgument(0);
-            return null;
-        }).when(boardCtrl).updateTask(Mockito.any(Task.class));
-        Task expected = new Task("expected", 0, "");
-        mainCtrl.updateTaskInList(expected);
-        assertEquals(t[0], expected);
-        verify(boardCtrl, times(1)).updateTask(expected);
-    }
-
-    @Test
     public void testRemoveTask() {
         Task t1 = new Task();
         final Task[] t = {new Task()};
@@ -195,5 +185,11 @@ public class TestMainCtrl {
         removed.id = 0L;
         mainCtrl.removeFromWorkspace(removed);
         verify(workspaceCtrl, times(1)).removeFromWorkspace(0L);
+    }
+
+    @Test
+    public void testGetActiveBoard() {
+        assertEquals(mainCtrl.getActiveBoard(), board);
+        verify(boardCtrl, times(1)).getBoard();
     }
 }

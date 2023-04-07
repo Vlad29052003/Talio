@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
 
 import java.util.function.DoubleFunction;
@@ -41,9 +42,22 @@ public class EditBoardCtrl {
 
     /**
      * Autofocuses the first field.
+     * Sets the keyboard shortcuts for ENTER and ESC.
      */
     public void initialize() {
         Platform.runLater(() -> text.requestFocus());
+
+        this.text.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+            if (keyCode == KeyCode.ENTER) {
+                confirm();
+                event.consume();
+            }
+            else if (keyCode == KeyCode.ESCAPE) {
+                cancel();
+                event.consume();
+            }
+        });
     }
 
     /**
@@ -78,6 +92,7 @@ public class EditBoardCtrl {
      * Switches back to the workspace Scene.
      */
     public void cancel() {
+        Platform.runLater(() -> text.requestFocus());
         mainCtrl.cancel();
         mainCtrl.hidePopup();
     }
@@ -88,10 +103,11 @@ public class EditBoardCtrl {
      * to update this board.
      */
     public void confirm() {
+        Platform.runLater(() -> text.requestFocus());
         if (text.getText().isEmpty()) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
-            alert.setContentText("There name cannot be empty!\r");
+            alert.setContentText("The name cannot be empty!\r");
             alert.showAndWait();
             return;
         }

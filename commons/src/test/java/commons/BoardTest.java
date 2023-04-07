@@ -3,6 +3,7 @@ package commons;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -97,6 +98,18 @@ public class BoardTest {
     @Test
     public void testToString() {
         assertNotNull(board1.toString());
+    }
+
+    @Test
+    public void testSortTags() {
+        Tag t1 = new Tag();
+        Tag t2 = new Tag();
+        t1.id = 5L;
+        t2.id = 0L;
+        board1.tags.add(t1);
+        board1.tags.add(t2);
+        board1.sortTags();
+        assertEquals(board1.tags, List.of(t2, t1));
     }
 
 }

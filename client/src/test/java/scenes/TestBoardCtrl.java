@@ -41,4 +41,10 @@ public class TestBoardCtrl {
         boardCtrl.addTaskList();
         verify(mainCtrl, times(0)).addTaskList(board);
     }
+
+    @Test
+    public void testTagOverview() {
+        boardCtrl.tagOverview();
+        verify(mainCtrl, times(1)).tagOverview(null);
+    }
 }

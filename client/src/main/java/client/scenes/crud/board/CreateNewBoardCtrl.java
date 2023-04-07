@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
 
 import java.util.function.DoubleFunction;
@@ -41,11 +42,24 @@ public class CreateNewBoardCtrl {
 
     /**
      * Autofocuses the first field.
+     * Sets the keyboard shortcuts for ENTER and ESC.
      */
     public void initialize() {
         Platform.runLater(() -> text.requestFocus());
         this.bgColorPicker.setValue(Color.valueOf("#f4f4f4"));
         this.fontColorPicker.setValue(Color.BLACK);
+
+        this.text.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+            if (keyCode == KeyCode.ENTER) {
+                add();
+                event.consume();
+            }
+            else if (keyCode == KeyCode.ESCAPE) {
+                cancel();
+                event.consume();
+            }
+        });
     }
 
     /**

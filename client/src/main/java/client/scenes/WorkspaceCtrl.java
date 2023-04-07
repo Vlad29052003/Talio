@@ -2,15 +2,18 @@ package client.scenes;
 
 import client.datasaving.ClientData;
 import client.datasaving.JoinedBoardList;
+import client.utils.ServerURL;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -28,6 +31,7 @@ import java.util.stream.Collectors;
 
 public class WorkspaceCtrl implements Initializable {
     private final ServerUtils server;
+    private ServerURL url;
     private final MainCtrl mainCtrl;
     private List<BoardListingCtrl> boards;
     private ClientData data;
@@ -85,6 +89,7 @@ public class WorkspaceCtrl implements Initializable {
 
     /**
      * Initializes this Workspace.
+     * Starts the long polling.
      *
      * @param location  The location used to resolve relative paths for the root object, or
      *                  {@code null} if the location is not known.
@@ -96,7 +101,27 @@ public class WorkspaceCtrl implements Initializable {
         int index = data.getLastActiveOn();
         String ip = data.getServers().get(index).getServer();
         serverIP.setText(ip);
-        fetch();
+
+        server.registerForTaskUpdates(b -> Platform.runLater(() -> {
+            updateBoard(b);
+            if(mainCtrl.getActiveBoard() != null && mainCtrl.getActiveBoard().id == b.id)
+                mainCtrl.switchBoard(b);
+        }));
+
+        this.boardViewPane.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+            if (keyCode == KeyCode.SLASH && event.isShiftDown()) {
+                openHelpScreen();
+                event.consume();
+            }
+        });
+
+        server.registerForTagUpdates(b -> Platform.runLater(() -> {
+            updateBoard(b);
+            if(mainCtrl.getActiveBoard() != null && mainCtrl.getActiveBoard().id == b.id)
+                mainCtrl.switchBoard(b);
+            mainCtrl.checkTagOverviewUpdate(b);
+        }));
     }
 
     /**
@@ -158,29 +183,32 @@ public class WorkspaceCtrl implements Initializable {
         reset();
         ArrayList<Long> toBeRemoved = new ArrayList<>();
         boolean modified = false;
-        int index = data.getLastActiveOn();
 
-        if (determineConnectionStatus()) {
-            for (long id : data.getServers().get(index).getBoardIDs()) {
-                try {
-                    Board b = server.joinBoard(id);
-                    var pair = mainCtrl.newBoardListingView(b);
-                    boards.add(pair.getKey());
-                    boardWorkspace.getChildren().add(pair.getValue());
-                } catch (Exception e) {
-                    toBeRemoved.add(id);
-                    modified = true;
-                }
+        int index = data.getLastActiveOn();
+        for (long id : data.getServers().get(index).getBoardIDs()) {
+            try {
+                Board b = server.joinBoard(id);
+                var pair = mainCtrl.newBoardListingView(b);
+                boards.add(pair.getKey());
+                boardWorkspace.getChildren().add(pair.getValue());
+            } catch (Exception e) {
+                toBeRemoved.add(id);
+                modified = true;
             }
-            if (modified) {
-                for (long id : toBeRemoved) {
-                    data.getServers().get(index).removeBoard(id);
-                }
-                new Thread(this::writeToFile).start();
-            }
-        } else {
-            displayError("Previously joined boards cannot be loaded if the server is offline!");
         }
+        if (modified) {
+            for (long id : toBeRemoved) {
+                data.getServers().get(index).removeBoard(id);
+            }
+            new Thread(this::writeToFile).start();
+        }
+    }
+
+    /**
+     * Switches to the HelpScreen Scene
+     */
+    public void openHelpScreen() {
+        mainCtrl.openHelpScreen();
     }
 
     /**
@@ -247,15 +275,6 @@ public class WorkspaceCtrl implements Initializable {
     }
 
     /**
-     * Sets the file.
-     *
-     * @param file is the file.
-     */
-    public void setFile(File file) {
-        this.file = file;
-    }
-
-    /**
      * Switches to the AddBoard Scene
      */
     public void addBoard() {
@@ -267,38 +286,90 @@ public class WorkspaceCtrl implements Initializable {
      * established. Executed when Fetch button is pressed.
      */
     public void fetch() {
-        server.setServer(serverIP.getText());
-        Optional<JoinedBoardList> jbl = data.getServers()
-                .stream().filter(s -> s.getServer().equals(serverIP.getText())).findFirst();
-        if (jbl.isPresent()) {
-            int index = data.getJoinedBoardPosition(jbl.get());
-            data.setLastActiveOn(index);
-            new Thread(this::writeToFile).start();
-            loadBoardsFromFile();
-        } else {
-            data.addJoinedBoardList(new JoinedBoardList(serverIP.getText()));
-            new Thread(this::writeToFile).start();
-            reset();
+        ServerURL url = ServerURL.parseURL(serverIP.getText());
+        if(url == null) {
+            connectionStatus.setStyle("-fx-text-fill: #880606;");
+            connectionStatus.setText("Server address invalid");
+            return;
         }
+
+        this.url = url;
+
+        tryConnect(url);
     }
 
     /**
-     * Determines if the server can be reached and sets the connectionStatus label
-     * to display an informative message.
-     *
-     * @return true if the server can be reached,
-     * false otherwise.
+     * @return the active {@link ServerURL}
      */
-    public boolean determineConnectionStatus() {
-        try {
-            server.testConnection();
-            connectionStatus.setText("The server is up and running!");
+    public ServerURL getServer(){
+        return url;
+    }
+
+    /**
+     * Initiate connection to the new server
+     * and displays information on the UI
+     *
+     * @param url address of the server
+     */
+    public void tryConnect(ServerURL url){
+        if(!Platform.isFxApplicationThread()){
+            Platform.runLater(() -> tryConnect(url));
+            return;
+        }
+        reset();
+        server.setServer(url);
+        mainCtrl.getWebsocketSynchroniser().stop();
+
+        connectionStatus.setText("Connecting...");
+        connectionStatus.setStyle("-fx-text-fill: #000000;");
+
+        new Thread(() -> {
+            try {
+                Thread.sleep(200L);
+            } catch (InterruptedException e) {
+            }
+            boolean connected = server.testConnection();
+            Platform.runLater(() -> {
+                updateConnectionStatus(connected);
+
+                if(!connected) return;
+
+                mainCtrl.getWebsocketSynchroniser().switchServer(url);
+
+                Optional<JoinedBoardList> jbl = data.getServers()
+                        .stream().filter(s -> s.getServer().equals(url.toString())).findFirst();
+                if (jbl.isPresent()) {
+                    int index = data.getJoinedBoardPosition(jbl.get());
+                    data.setLastActiveOn(index);
+                    new Thread(this::writeToFile).start();
+                    loadBoardsFromFile();
+                } else {
+                    data.addJoinedBoardList(new JoinedBoardList(url.toString()));
+                    new Thread(this::writeToFile).start();
+                    reset();
+                }
+            });
+
+        }).start();
+    }
+
+    /**
+     * Puts an info message on the text label
+     *
+     * @param connected
+     */
+    public void updateConnectionStatus(boolean connected){
+        if(!Platform.isFxApplicationThread()){
+            Platform.runLater(() -> updateConnectionStatus(connected));
+            return;
+        }
+
+        if(connected){
+            connectionStatus.setText("Connected to server");
             connectionStatus.setStyle("-fx-text-fill: #046600;");
-            return true;
-        } catch (Exception e) {
+        }else{
             connectionStatus.setStyle("-fx-text-fill: #880606;");
-            connectionStatus.setText("The IP may be incorrect or the server may be offline.");
-            return false;
+            connectionStatus.setText("Server not found");
         }
     }
 
@@ -413,5 +484,12 @@ public class WorkspaceCtrl implements Initializable {
         boardWorkspace.getChildren().clear();
         boards.clear();
         mainCtrl.switchBoard(null);
+    }
+
+    /**
+     * Ensures the server thread is stopped when the application is closed.
+     */
+    public void stop() {
+        server.stop();
     }
 }

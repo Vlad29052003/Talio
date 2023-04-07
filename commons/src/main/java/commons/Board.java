@@ -1,9 +1,12 @@
 package commons;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,11 +14,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 
 @Entity
+@Transactional
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,8 +37,9 @@ public class Board {
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     @JsonManagedReference
     public Set<TaskList> lists;
-    @OneToMany(cascade = CascadeType.ALL)
-    public Set<Tag> tags;
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    public List<Tag> tags;
 
     /**
      * Empty constructor for object mappers.
@@ -40,17 +48,17 @@ public class Board {
     public Board() {
         // for object mappers
         this.lists = new HashSet<>();
-        this.tags = new HashSet<>();
+        this.tags = new ArrayList<>();
     }
 
     /**
      * Create a new {@link Board board}
      *
-     * @param name is the name of the board.
+     * @param name            is the name of the board.
      * @param backgroundColor is the background color of the board.
-     * @param fontColor is the font color of the board.
-     * @param password is the password to access the board
-     * @param RWpermission is specifies the read and write permissions.
+     * @param fontColor       is the font color of the board.
+     * @param password        is the password to access the board
+     * @param RWpermission    is specifies the read and write permissions.
      */
     public Board(String name,
                  String backgroundColor,
@@ -63,16 +71,16 @@ public class Board {
         this.password = password;
         this.RWpermission = RWpermission;
         this.lists = new HashSet<>();
-        this.tags = new HashSet<>();
+        this.tags = new ArrayList<>();
     }
 
     /**
      * Create a new {@link Board board}
      *
-     * @param name is the name of the board.
+     * @param name            is the name of the board.
      * @param backgroundColor is the background color of the board.
      * @param fontColor is the font color of the board.
-    */
+     */
     public Board(String name,
                  String backgroundColor,
                  String fontColor) {
@@ -93,10 +101,9 @@ public class Board {
      *
      * @param list is the list that is added to the board.
      */
-    public void addTaskList(TaskList list)
-    {
-        if(list == null) return;
-        if(list.board != null) list.board.removeTaskList(list);
+    public void addTaskList(TaskList list) {
+        if (list == null) return;
+        if (list.board != null) list.board.removeTaskList(list);
         this.lists.add(list);
         // TODO: Assign the list a valid index / check if it's valid.
         list.board = this;
@@ -107,14 +114,21 @@ public class Board {
      *
      * @param list is the list that is removed from the board.
      */
-    public void removeTaskList(TaskList list)
-    {
-        if(list == null) return;
-        if(this.lists.remove(list)) {
+    public void removeTaskList(TaskList list) {
+        if (list == null) return;
+        if (this.lists.remove(list)) {
             list.board = null;
         }
         // TODO: Update indexes of other lists?
     }
+
+    /**
+     * Sorts the tags.
+     */
+    public void sortTags() {
+        Collections.sort(tags);
+    }
+
     @Override
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj);

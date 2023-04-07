@@ -5,13 +5,14 @@ import client.datasaving.JoinedBoardList;
 import client.scenes.BoardListingCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.WorkspaceCtrl;
+import client.utils.ServerUtils;
 import commons.Board;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -29,16 +30,16 @@ import static org.mockito.Mockito.when;
 public class TestWorkspaceCtrl {
     private WorkspaceCtrl workspaceCtrl;
     private MainCtrl mainCtrl;
-    private File testFile;
+    private static File testFile;
     private ServerUtilsTestingMock server;
     private ClientData cd;
 
     @BeforeEach
     public void setUp() {
-        this.testFile = null;
         try {
             testFile = new File("test.txt");
-            testFile.createNewFile();
+            if (!testFile.exists())
+                testFile.createNewFile();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -53,9 +54,10 @@ public class TestWorkspaceCtrl {
     /**
      * Deletes the file.
      */
-    @AfterEach
-    public void reset() {
-        testFile.delete();
+    @AfterAll
+    public static void reset() {
+        boolean deleted = testFile.delete();
+        while (!deleted) testFile.delete();
     }
 
     @Test
@@ -215,6 +217,14 @@ public class TestWorkspaceCtrl {
         workspaceCtrl.setBoardWorkspace(new VBox(new Pane(), new VBox()));
         workspaceCtrl.reset();
         assertEquals(workspaceCtrl.getBoardWorkspace().getChildren().size(), 0);
+    }
+
+    @Test
+    public void testStop() {
+        ServerUtils server = mock(ServerUtils.class);
+        WorkspaceCtrl test = new WorkspaceCtrl(server, mainCtrl);
+        test.stop();
+        verify(server, times(1)).stop();
     }
 
 }

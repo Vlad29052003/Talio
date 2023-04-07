@@ -1,14 +1,24 @@
 .hbox{
     -fx-background-color: #DCDCDC;
 }
+
+.label {
+    -fx-font-family: "Roboto Thin";
+    -fx-text-fill: black;
+}
+
 .button{
-    -fx-background-color: #A9A9A9;
+    -fx-background-color: #000000;
     -fx-font-size: 8pt;
     -fx-text-fill: white;
     -fx-shape: "M 200 250 L 500 250 Q 550 250 550 300 Q 550 350 500 350 L 200 350 Q 150 350 150 300 Q 150 250 200 250"
 }
+
+.deleteButton {
+    -fx-background-color: #b00909;
+}
 .button:hover{
-    -fx-background-color: #FFFAF0;
+    -fx-background-color: #b6b6b6;
     -fx-text-fill: black;
     /* shadow */
 	/*-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 5.0, 5.0);*/
