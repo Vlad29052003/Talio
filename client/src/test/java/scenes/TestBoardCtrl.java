@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class TestBoardCtrl {
     private BoardCtrl boardCtrl;
@@ -42,9 +43,9 @@ public class TestBoardCtrl {
         boardCtrl.editBoardPassword();
         verify(mainCtrl, times(1)).grantAdmin();
 
-        mainCtrl.setAdminTrue();
+        when(mainCtrl.getAdmin()).thenReturn(true);
         boardCtrl.editBoardPassword();
-        //verify(mainCtrl, times(0)).editBoardPassword(boardCtrl.getBoard());
+        verify(mainCtrl, times(1)).editBoardPassword(boardCtrl.getBoard());
 
     }
 }

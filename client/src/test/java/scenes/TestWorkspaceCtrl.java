@@ -77,9 +77,9 @@ public class TestWorkspaceCtrl {
         workspaceCtrl.admin();
         verify(mainCtrl, times(1)).grantAdmin();
 
-        mainCtrl.setAdminTrue();
+        when(mainCtrl.getAdmin()).thenReturn(true);
         workspaceCtrl.admin();
-        //verify(mainCtrl, times(1)).youHavePermission();
+        verify(mainCtrl, times(1)).youHavePermission();
     }
 
     @Test
