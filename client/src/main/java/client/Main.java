@@ -74,7 +74,6 @@ public class Main extends Application {
         mainCtrl.initializeBoardCrud(joinBoard, createBoard, editBoard, deleteBoard);
         mainCtrl.initializeTaskListCrud(deleteTaskList, newTaskList, editTaskList);
         mainCtrl.initializeTaskCrud(deleteTask, newTask, editTask, openTask);
-    }
 
         primaryStage.setOnCloseRequest(e -> {
             mainCtrl.stop();
