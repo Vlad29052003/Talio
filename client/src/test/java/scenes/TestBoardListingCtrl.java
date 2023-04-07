@@ -44,6 +44,11 @@ public class TestBoardListingCtrl {
     }
 
     @Test
+    public void testDelete() {
+        //to be implemented with the other edit tests
+    }
+
+    @Test
     public void testRemove() {
         display.remove();
         verify(mainCtrl, times(1)).removeFromWorkspace(display);
