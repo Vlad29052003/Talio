@@ -52,7 +52,7 @@ public class WebsocketControllerTest {
 
     private List<BoardUpdateMessage> receivedUpdates;
     private CountDownLatch done = new CountDownLatch(1);
-    private WebSocketStompClient stompClient; 
+    private WebSocketStompClient stompClient;
     private StompSession stompSession;
 
     @BeforeEach

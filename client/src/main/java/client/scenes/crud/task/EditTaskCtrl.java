@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -42,6 +43,30 @@ public class EditTaskCtrl {
     }
 
     /**
+<<<<<<< HEAD
+     * Autofocuses the first field.
+     * Sets the keyboard shortcuts for ENTER and ESC.
+     */
+    public void initialize() {
+        Platform.runLater(() -> name.requestFocus());
+
+        this.name.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+            if (keyCode == KeyCode.ENTER) {
+                edit();
+                event.consume();
+            }
+            else if (keyCode == KeyCode.ESCAPE) {
+                cancel();
+                event.consume();
+            }
+        });
+    }
+
+
+    /**
+=======
+>>>>>>> main
      * Gets the task.
      *
      * @return the task.
@@ -84,6 +109,7 @@ public class EditTaskCtrl {
      * Initiates the edit operation.
      */
     public void edit() {
+        Platform.runLater(() -> name.requestFocus());
         if (name.getText().isEmpty()) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
@@ -113,7 +139,9 @@ public class EditTaskCtrl {
      * Cancels the action.
      */
     public void cancel() {
+        Platform.runLater(() -> name.requestFocus());
         this.edited = new Task();
+        mainCtrl.cancel();
         mainCtrl.hidePopup();
     }
 

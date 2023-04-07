@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -107,6 +108,14 @@ public class WorkspaceCtrl implements Initializable {
                 mainCtrl.switchBoard(b);
         }));
 
+        this.boardViewPane.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+            if (keyCode == KeyCode.SLASH && event.isShiftDown()) {
+                openHelpScreen();
+                event.consume();
+            }
+        });
+
         server.registerForTagUpdates(b -> Platform.runLater(() -> {
             updateBoard(b);
             if(mainCtrl.getActiveBoard() != null && mainCtrl.getActiveBoard().id == b.id)
@@ -193,6 +202,13 @@ public class WorkspaceCtrl implements Initializable {
             }
             new Thread(this::writeToFile).start();
         }
+    }
+
+    /**
+     * Switches to the HelpScreen Scene
+     */
+    public void openHelpScreen() {
+        mainCtrl.openHelpScreen();
     }
 
     /**

@@ -1,5 +1,4 @@
 package client.scenes;
-
 import com.google.inject.Inject;
 import client.utils.ServerUtils;
 import commons.Board;
@@ -14,7 +13,9 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class BoardCtrl {
 
@@ -160,5 +161,98 @@ public class BoardCtrl {
         var updatedTaskList = toBeUpdated.get();
         updatedTaskList.setTaskList(updated);
         updatedTaskList.refresh();
+    }
+
+    /**
+     * Updates a Task in the Board.
+     *
+     * @param updated is the updated Task.
+     */
+    public void updateTask(Task updated) {
+        var toBeUpdated =
+                listControllers.stream().filter(b -> b.getTaskList()
+                        .tasks.get(updated.index).id == updated.id).findFirst();
+
+        if (toBeUpdated.isEmpty()) return;
+        TaskListCtrl tlCtrl = toBeUpdated.get();
+        Task found = tlCtrl.getTaskList().tasks.get(updated.index);
+        found.name = updated.name;
+        found.description = updated.description;
+        tlCtrl.refresh();
+    }
+
+    /**
+     * Resets the background to transparent.
+     * (removes the highlight)
+     */
+    public void resetFocus() {
+        listControllers.stream().flatMap(lc -> lc.getTaskControllers()
+                        .stream()).filter(tc -> tc.getTask().focused)
+                        .forEach(TaskCtrl::resetFocus);
+    }
+
+    /**
+     * Gets the index of the next TaskList
+     * @param taskList current TaskList
+     * @param index of the current TaskList
+     */
+    public void getNextIndex(TaskList taskList, int index) {
+        listControllers.stream().
+                filter(tlc -> tlc.getTaskList().id == taskList.id)
+                .forEach(tlc -> tlc.getNextIndex(index));
+    }
+
+    /**
+     * Gets the neighbouring index from the adjacent TaskList
+     * @param taskList current TaskList
+     * @param index of the current TaskList
+     * @param isRight right/left TaskList
+     */
+    public void getNeighbourIndex(TaskList taskList, int index, boolean isRight) {
+        Comparator<TaskList> idComparator = Comparator.comparingLong(tl -> tl.id);
+        List<TaskList> sortedTaskList = board.lists.stream()
+                .sorted(idComparator).collect(Collectors.toList());
+        int i = sortedTaskList.indexOf(taskList);
+
+        TaskList nextTaskList = null;
+
+        if (isRight){
+            if (i == board.lists.size() - 1){
+                nextTaskList = sortedTaskList.get(0);
+            }
+            else{
+                nextTaskList = sortedTaskList.get(i + 1);
+            }
+        }
+        else{
+            if (i == 0){
+                nextTaskList = sortedTaskList.get(board.lists.size() - 1);
+            }
+            else{
+                nextTaskList = sortedTaskList.get(i - 1);
+            }
+        }
+
+        int step = 0;
+        while(step < sortedTaskList.size() && nextTaskList.tasks.size() == 0){
+            if(isRight) {
+                i++;
+            }
+            else {
+                i--;
+            }
+            if (i >= sortedTaskList.size()){
+                i = 0;
+            }
+            if (i < 0){
+                i = sortedTaskList.size() - 1;
+            }
+            nextTaskList = sortedTaskList.get(i);
+        }
+
+        TaskList finalNextTaskList = nextTaskList;
+        listControllers.stream()
+                .filter(lc -> lc.getTaskList().id == finalNextTaskList.id)
+                .forEach(lc -> lc.getNeighbour(index));
     }
 }

@@ -59,6 +59,9 @@ public class MainCtrl {
     private Scene createTask;
     private EditTaskCtrl editTaskCtrl;
     private Scene editTask;
+    private HelpScreenCtrl helpScreenCtrl;
+    private Scene helpScreen;
+    private Task isFocused;
     private TagOverviewCtrl tagOverviewCtrl;
     private Scene tagOverview;
     private DeleteTagCtrl deleteTagCtrl;
@@ -68,6 +71,22 @@ public class MainCtrl {
     private EditTagCtrl editTagCtrl;
     private Scene editTag;
     private Stage secondPopupStage;
+
+    /**
+     * Getter for isFocused
+     * @return Task
+     */
+    public Task getIsFocused() {
+        return isFocused;
+    }
+
+    /**
+     * Setter for isFocused
+     * @param isFocused
+     */
+    public void setIsFocused(Task isFocused) {
+        this.isFocused = isFocused;
+    }
 
     /**
      * Sets myFXML.
@@ -195,6 +214,17 @@ public class MainCtrl {
 
         this.editTaskListCtrl = editTaskList.getKey();
         this.editList = new Scene(editTaskList.getValue());
+    }
+
+    /**
+     * Initializes the HelpScreen Scene and Contoller.
+     *
+     * @param helpScreen is the Scene for the keyboard shortcuts menu.
+     */
+    public void initializeHelpScreen(Pair<HelpScreenCtrl, Parent> helpScreen){
+
+        this.helpScreenCtrl = helpScreen.getKey();
+        this.helpScreen = new Scene(helpScreen.getValue());
     }
 
     /**
@@ -350,6 +380,15 @@ public class MainCtrl {
         }
         createBoardCtrl.reset();
         primaryStage.setScene(workspaceScene);
+    }
+
+    /**
+     * Switches to the HelpScreen Scene.
+     */
+    public void openHelpScreen() {
+        popupStage.setTitle("Help Screen");
+        popupStage.setScene(helpScreen);
+        popupStage.show();
     }
 
     /**
@@ -650,6 +689,32 @@ public class MainCtrl {
      */
     public void removeTask(Task task) {
         boardCtrl.removeTask(task);
+    }
+
+    /**
+     * Resets focus.
+     */
+    public void resetFocus() {
+        boardCtrl.resetFocus();
+    }
+
+    /**
+     * Gets the Index of the following TaskList.
+     * @param taskList TaskList
+     * @param index int
+     */
+    public void getNextIndex(TaskList taskList, int index) {
+        boardCtrl.getNextIndex(taskList, index);
+    }
+
+    /**
+     * Gets the index of the neighbouring Task.
+     * @param taskList of the Task
+     * @param index of the Task
+     * @param isRight right/left TaskList
+     */
+    public void getNeighbourIndex(TaskList taskList, int index, boolean isRight) {
+        boardCtrl.getNeighbourIndex(taskList, index, isRight);
     }
 
     /**

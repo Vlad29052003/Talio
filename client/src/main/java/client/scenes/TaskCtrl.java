@@ -6,12 +6,16 @@ import commons.Tag;
 import commons.Task;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.input.ClipboardContent;
+import javafx.stage.Modality;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -24,6 +28,10 @@ public class TaskCtrl {
     private VBox root;
     @FXML
     private Label nameLabel;
+    @FXML
+    private ListView<String> subTaskList;
+
+    private static final int LIST_CELL_HEIGHT = 30;
 
     /**
      * Creates a new {@link TaskCtrl} object.
@@ -35,6 +43,112 @@ public class TaskCtrl {
     public TaskCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+    }
+
+    /**
+     * Initializes the TaskCtrl FXML controller.
+     */
+    @SuppressWarnings("checkstyle:MetodLength")
+    @FXML
+    private void initialize() {
+
+        // event handlers to make the HBox highlight itself when the mouse hovers above it
+        this.root.setOnMouseEntered(e -> {
+            mainCtrl.resetFocus();
+
+            this.root.setStyle("-fx-border-color: red;");
+            //this.root.setStyle("-fx-border-width: 3px;");
+            root.requestFocus();
+            mainCtrl.setIsFocused(task);
+
+            task.focused = true;
+        });
+
+        // key event handler to the root node that only works when the HBox is focused
+        this.root.setOnKeyPressed(event -> {
+            if (task.focused) {
+                KeyCode keyCode = event.getCode();
+                if (keyCode == KeyCode.E) {
+                    edit();
+                    event.consume();
+                }
+                else if (keyCode == KeyCode.BACK_SPACE || keyCode == KeyCode.DELETE) {
+                    delete();
+                    event.consume();
+                }
+                else if (keyCode == KeyCode.DOWN && event.isShiftDown()) {
+                    int index = task.index;
+                    index++;
+
+                    if (index >= 0 && index < task.getTaskList().tasks.size()){
+                        sendMoveRequest(index);
+                    }
+
+                    event.consume();
+                }
+                else if (keyCode == KeyCode.UP && event.isShiftDown()) {
+                    int index = task.index;
+                    index--;
+
+                    if (index >= 0 && index < task.getTaskList().tasks.size()){
+                        sendMoveRequest(index);
+                    }
+
+                    event.consume();
+                }
+                else if (keyCode == KeyCode.DOWN) {
+                    mainCtrl.resetFocus();
+                    mainCtrl.getNextIndex(task.getTaskList(), task.index + 1);
+                    event.consume();
+                }
+                else if (keyCode == KeyCode.UP) {
+                    mainCtrl.resetFocus();
+                    mainCtrl.getNextIndex(task.getTaskList(), task.index - 1);
+                    event.consume();
+                }
+                else if (keyCode == KeyCode.LEFT) {
+                    mainCtrl.resetFocus();
+                    mainCtrl.getNeighbourIndex(task.getTaskList(), task.index, false);
+                    event.consume();
+                }
+                else if (keyCode == KeyCode.RIGHT) {
+                    mainCtrl.resetFocus();
+                    mainCtrl.getNeighbourIndex(task.getTaskList(), task.index, true);
+                    event.consume();
+                }
+            }
+        });
+
+    }
+
+    /**
+     * Requests focus.
+     */
+    public void requestFocus(){
+        root.requestFocus();
+        task.focused = true;
+        mainCtrl.setIsFocused(task);
+        this.root.setStyle("-fx-border-color: red;");
+        //this.root.setStyle("-fx-border-width: 3px;");
+
+    }
+
+    /**
+     * Sends a request to the server to update the list
+     * and the index of the moved task.
+     *
+     * @param newIndex is the newIndex within the TaskList.
+     */
+    public void sendMoveRequest(int newIndex) {
+        try {
+            server.dragAndDrop(task.getTaskList().id, newIndex, task.id);
+        } catch (Exception e) {
+            var alert = new Alert(Alert.AlertType.ERROR);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.setContentText("There has been an error!\r" + e.getMessage());
+            alert.showAndWait();
+            refresh();
+        }
     }
 
     /**
@@ -121,5 +235,13 @@ public class TaskCtrl {
         event.consume();
     }
 
+    /**
+     * Resets focus.
+     * Background resets to transparent.
+     */
+    public void resetFocus() {
+        root.setStyle("-fx-border-color: #a8a8a8;");
+        task.focused = false;
+    }
 
 }
