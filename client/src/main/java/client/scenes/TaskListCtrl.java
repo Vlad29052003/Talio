@@ -50,6 +50,10 @@ public class TaskListCtrl {
         placeholder.setStyle("-fx-background-color: rgba(79,75,75,0.5);");
     }
 
+    /**
+     * Getter for TaskControllers.
+     * @return ArrayList
+     */
     public ArrayList<TaskCtrl> getTaskControllers() {
         return taskControllers;
     }
@@ -224,6 +228,10 @@ public class TaskListCtrl {
         }
     }
 
+    /**
+     * Gets the index of the following task.
+     * @param index of the Task.
+     */
     public void getNextIndex(int index) {
         if (index < 0 ){
             index = taskList.tasks.size() - 1;
@@ -233,9 +241,14 @@ public class TaskListCtrl {
         }
 
         Task task = taskList.tasks.get(index);
-        taskControllers.stream().filter(tc -> tc.getTask().id == task.id).forEach(tc -> tc.requestFocus());
+        taskControllers.stream().filter(tc -> tc.getTask().id == task.id)
+                .forEach(tc -> tc.requestFocus());
     }
 
+    /**
+     * Gets the index of the neighbouring task.
+     * @param index of the Task.
+     */
     public void getNeighbour(int index) {
         if (index >= taskList.tasks.size()){
             index = taskList.tasks.size() - 1;
@@ -245,7 +258,8 @@ public class TaskListCtrl {
         }
         else{
             Task task = taskList.tasks.get(index);
-            taskControllers.stream().filter(tc -> tc.getTask().id == task.id).forEach(tc -> tc.requestFocus());
+            taskControllers.stream().filter(tc -> tc.getTask().id == task.id)
+                    .forEach(tc -> tc.requestFocus());
         }
 
     }

@@ -2,7 +2,6 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import commons.Board;
 import commons.Task;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
@@ -46,6 +45,7 @@ public class TaskCtrl {
     /**
      * Initializes the TaskCtrl FXML controller.
      */
+    @SuppressWarnings("checkstyle:MetodLength")
     @FXML
     private void initialize() {
 
@@ -117,6 +117,9 @@ public class TaskCtrl {
 
     }
 
+    /**
+     * Requests focus.
+     */
     public void requestFocus(){
         root.requestFocus();
         task.focused = true;
@@ -212,6 +215,10 @@ public class TaskCtrl {
         event.consume();
     }
 
+    /**
+     * Resets focus.
+     * Background resets to transparent.
+     */
     public void resetFocus() {
         root.setStyle("-fx-background-color: transparent;");
         task.focused = false;

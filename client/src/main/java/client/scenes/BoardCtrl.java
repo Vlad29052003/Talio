@@ -1,5 +1,4 @@
 package client.scenes;
-
 import com.google.inject.Inject;
 import client.utils.ServerUtils;
 import commons.Board;
@@ -11,10 +10,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.util.Pair;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class BoardCtrl {
 
@@ -207,20 +208,37 @@ public class BoardCtrl {
         tlCtrl.refresh();
     }
 
+    /**
+     * Resets the background to transparent.
+     * (removes the highlight)
+     */
     public void resetFocus() {
-        listControllers.stream().flatMap(lc -> lc.getTaskControllers().stream()).filter(tc -> tc.getTask().focused)
-                .forEach(TaskCtrl::resetFocus);
+        listControllers.stream().flatMap(lc -> lc.getTaskControllers()
+                        .stream()).filter(tc -> tc.getTask().focused)
+                        .forEach(TaskCtrl::resetFocus);
     }
 
+    /**
+     * Gets the index of the next TaskList
+     * @param taskList current TaskList
+     * @param index of the current TaskList
+     */
     public void getNextIndex(TaskList taskList, int index) {
         listControllers.stream().
                 filter(tlc -> tlc.getTaskList().id == taskList.id)
                 .forEach(tlc -> tlc.getNextIndex(index));
     }
 
+    /**
+     * Gets the neighbouring index from the adjacent TaskList
+     * @param taskList current TaskList
+     * @param index of the current TaskList
+     * @param isRight right/left TaskList
+     */
     public void getNeighbourIndex(TaskList taskList, int index, boolean isRight) {
         Comparator<TaskList> idComparator = Comparator.comparingLong(tl -> tl.id);
-        List<TaskList> sortedTaskList = board.lists.stream().sorted(idComparator).collect(Collectors.toList());
+        List<TaskList> sortedTaskList = board.lists.stream()
+                .sorted(idComparator).collect(Collectors.toList());
         int i = sortedTaskList.indexOf(taskList);
 
         TaskList nextTaskList = null;

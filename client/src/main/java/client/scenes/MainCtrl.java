@@ -58,10 +58,18 @@ public class MainCtrl {
     private Scene helpScreen;
     private Task isFocused;
 
+    /**
+     * Getter for isFocused
+     * @return Task
+     */
     public Task getIsFocused() {
         return isFocused;
     }
 
+    /**
+     * Setter for isFocused
+     * @param isFocused
+     */
     public void setIsFocused(Task isFocused) {
         this.isFocused = isFocused;
     }
@@ -560,14 +568,28 @@ public class MainCtrl {
         boardCtrl.removeTask(task);
     }
 
+    /**
+     * Resets focus.
+     */
     public void resetFocus() {
         boardCtrl.resetFocus();
     }
 
+    /**
+     * Gets the Index of the following TaskList.
+     * @param taskList TaskList
+     * @param index int
+     */
     public void getNextIndex(TaskList taskList, int index) {
         boardCtrl.getNextIndex(taskList, index);
     }
 
+    /**
+     * Gets the index of the neighbouring Task.
+     * @param taskList of the Task
+     * @param index of the Task
+     * @param isRight right/left TaskList
+     */
     public void getNeighbourIndex(TaskList taskList, int index, boolean isRight) {
         boardCtrl.getNeighbourIndex(taskList, index, isRight);
     }
