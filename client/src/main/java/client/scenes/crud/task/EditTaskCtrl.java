@@ -78,6 +78,7 @@ public class EditTaskCtrl {
      * Initiates the edit operation.
      */
     public void edit() {
+        Platform.runLater(() -> name.requestFocus());
         if (name.getText().isEmpty()) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
@@ -108,6 +109,7 @@ public class EditTaskCtrl {
      * Cancels the action.
      */
     public void cancel() {
+        Platform.runLater(() -> name.requestFocus());
         mainCtrl.cancel();
         mainCtrl.hidePopup();
     }

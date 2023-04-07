@@ -81,6 +81,7 @@ public class EditTaskListCtrl {
      * Switches back to the workspace Scene.
      */
     public void cancel() {
+        Platform.runLater(() -> text.requestFocus());
         mainCtrl.cancel();
         mainCtrl.hidePopup();
     }
@@ -91,6 +92,7 @@ public class EditTaskListCtrl {
      * to update this taskList.
      */
     public void edit() {
+        Platform.runLater(() -> text.requestFocus());
         if (text.getText().isEmpty()) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);

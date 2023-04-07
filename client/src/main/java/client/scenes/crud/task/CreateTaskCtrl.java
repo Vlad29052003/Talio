@@ -78,6 +78,7 @@ public class CreateTaskCtrl {
      * Saves the Task on the server.
      */
     public void add() {
+        Platform.runLater(() -> name.requestFocus());
         if (name.getText().isEmpty()) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
@@ -106,6 +107,7 @@ public class CreateTaskCtrl {
      * Cancels the action.
      */
     public void cancel() {
+        Platform.runLater(() -> name.requestFocus());
         refresh();
         mainCtrl.cancel();
         mainCtrl.hidePopup();
