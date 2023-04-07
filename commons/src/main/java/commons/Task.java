@@ -104,7 +104,9 @@ public class Task implements Comparable<Task> {
      * false otherwise.
      */
     public boolean removeSubTask(String subTask) {
-        return this.subtasks.remove(subTask);
+        return this.subtasks
+                .removeIf(x -> x.startsWith(subTask) &&
+                        x.length() == subTask.length() + 1);
     }
 
     /**

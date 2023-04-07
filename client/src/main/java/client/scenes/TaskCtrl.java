@@ -32,6 +32,8 @@ public class TaskCtrl {
     public TaskCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+
+        root.setOnMouseClicked(x -> this.open());
     }
 
     /**

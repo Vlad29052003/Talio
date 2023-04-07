@@ -67,7 +67,9 @@ public class TaskTest {
     public void testAddSubtask() {
         t1.addSubTask("s1");
         List<String> expected = new ArrayList<>();
-        expected.add("s1");
+        // a zero or one is appended to the name
+        // to show whether the subtask is completed.
+        expected.add("s10");
         assertEquals(expected, t1.subtasks);
     }
 
@@ -83,7 +85,7 @@ public class TaskTest {
     public void testRemoveNonExistingSubtask() {
         t1.addSubTask("s1");
         List<String> expected = new ArrayList<>();
-        expected.add("s1");
+        expected.add("s10");
         assertFalse(t1.removeSubTask("s2"));
         assertEquals(t1.subtasks, expected);
     }

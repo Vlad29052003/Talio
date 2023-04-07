@@ -12,6 +12,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ProgressBar;
@@ -23,11 +24,18 @@ import javafx.stage.Modality;
 import javafx.util.Callback;
 
 import javax.inject.Inject;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class OpenTaskCtrl {
+public class OpenTaskCtrl implements Initializable {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+    }
+
     public static class SubTask {
         private final StringProperty name = new SimpleStringProperty();
         private final BooleanProperty completed = new SimpleBooleanProperty();
