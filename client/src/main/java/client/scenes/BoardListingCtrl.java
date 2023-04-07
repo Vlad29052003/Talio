@@ -66,7 +66,15 @@ public class BoardListingCtrl {
      * Deletes the Board associated with this object.
      */
     public void delete() {
-        mainCtrl.deleteBoard(this.board);
+        if(this.board.password != null) {
+            if(mainCtrl.getAdmin() || this.board.edit){
+                mainCtrl.deleteBoard(this.board);
+            }else{
+                mainCtrl.editPermission(this.board);
+            }
+        }else{
+            mainCtrl.deleteBoard(this.board);
+        }
     }
 
     /**

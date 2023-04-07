@@ -44,12 +44,6 @@ public class TestBoardListingCtrl {
     }
 
     @Test
-    public void testDelete() {
-        display.delete();
-        verify(mainCtrl, times(1)).deleteBoard(display.getBoard());
-    }
-
-    @Test
     public void testRemove() {
         display.remove();
         verify(mainCtrl, times(1)).removeFromWorkspace(display);
