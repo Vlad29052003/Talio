@@ -4,6 +4,7 @@ import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
 import commons.Task;
 import jakarta.ws.rs.WebApplicationException;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -20,6 +21,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.CheckBoxListCell;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
 import javafx.util.Callback;
 
@@ -33,7 +35,23 @@ import java.util.stream.Collectors;
 public class OpenTaskCtrl implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Platform.runLater(() -> name.requestFocus());
 
+        this.name.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+            if (keyCode == KeyCode.ESCAPE) {
+                cancel();
+                event.consume();
+            }
+        });
+    }
+
+    /**
+     * Cancels the action.
+     */
+    public void cancel() {
+        mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     public static class SubTask {
