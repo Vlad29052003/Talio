@@ -158,6 +158,7 @@ public class TaskController {
         current.name = task.name;
         current.description = task.description;
         current.subtasks = task.subtasks;
+        current.color = task.color;
 
         Set<Tag> copy = Set.copyOf(current.tags);
         for(Tag tag : copy) {

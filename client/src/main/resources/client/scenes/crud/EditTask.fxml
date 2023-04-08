@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXBadge?>
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -15,21 +16,23 @@
 and label later
    -Lovro -->
 
-<AnchorPane prefHeight="473.0" prefWidth="340.0" stylesheets="/style/CreateNewTask.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.crud.task.EditTaskCtrl">
+<AnchorPane prefHeight="531.0" prefWidth="340.0" stylesheets="/style/CreateNewTask.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.crud.task.EditTaskCtrl">
     <children>
         <Text layoutX="13.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Edit task" wrappingWidth="161.33673095703125">
             <font>
                 <Font name="Calibri" size="12.0" />
             </font></Text>
         <Text layoutX="13.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="New name:" />
-        <JFXButton layoutX="102.0" layoutY="434.0" onAction="#edit" prefHeight="25.0" prefWidth="65.0" styleClass="add-button-task" text="Edit" />
-        <JFXButton layoutX="174.0" layoutY="434.0" onAction="#cancel" prefHeight="25.0" prefWidth="65.0" styleClass="cancel-button" text="Cancel" />
+        <JFXButton layoutX="102.0" layoutY="491.0" onAction="#edit" prefHeight="25.0" prefWidth="65.0" styleClass="add-button-task" text="Edit" />
+        <JFXButton layoutX="174.0" layoutY="491.0" onAction="#cancel" prefHeight="25.0" prefWidth="65.0" styleClass="cancel-button" text="Cancel" />
         <JFXBadge layoutX="184.0" layoutY="59.0" />
-        <TextField fx:id="name" layoutX="12.0" layoutY="87.0" prefHeight="26.0" prefWidth="315.0" styleClass="text-field" />
-        <TextArea fx:id="description" layoutX="12.0" layoutY="151.0" prefHeight="100.0" prefWidth="315.0" />
-        <Text layoutX="13.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="New description:" />
-        <Text layoutX="14.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Add tags:" wrappingWidth="65.59999999999991" />
-      <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" layoutX="10.0" layoutY="284.0" prefHeight="143.0" prefWidth="315.0" vbarPolicy="ALWAYS">
+        <TextField fx:id="name" layoutX="12.0" layoutY="85.0" prefHeight="26.0" prefWidth="315.0" styleClass="text-field" />
+        <TextArea fx:id="description" layoutX="11.0" layoutY="209.0" prefHeight="100.0" prefWidth="315.0" />
+        <Text layoutX="13.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Color:" wrappingWidth="227.169921875" />
+        <ColorPicker fx:id="colorPicker" layoutX="13.0" layoutY="147.0" prefHeight="26.0" prefWidth="315.0" />
+        <Text layoutX="12.0" layoutY="198.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="New description:" />
+        <Text layoutX="15.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Add tags:" wrappingWidth="65.59999999999991" />
+      <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" layoutX="11.0" layoutY="340.0" prefHeight="143.0" prefWidth="315.0" vbarPolicy="ALWAYS">
          <content>
             <AnchorPane prefHeight="141.0" prefWidth="136.0" HBox.hgrow="ALWAYS">
                <children>

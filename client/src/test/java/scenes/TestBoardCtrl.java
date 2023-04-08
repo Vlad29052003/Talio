@@ -22,7 +22,7 @@ public class TestBoardCtrl {
         this.mainCtrl = mock(MainCtrl.class);
         this.server = new ServerUtilsTestingMock();
         this.boardCtrl = new BoardCtrl(server, mainCtrl);
-        this.board = new Board("testing", "");
+        this.board = new Board("testing", "", "");
     }
 
     @Test

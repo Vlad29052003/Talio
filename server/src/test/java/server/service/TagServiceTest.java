@@ -100,7 +100,7 @@ public class TagServiceTest {
     public void testUpdate() {
         t1.id = 0L;
         t2.id = 1L;
-        Board board = new Board("name", "");
+        Board board = new Board("name", "", "");
         board.id = 0L;
         Tag updated = new Tag("updated", "");
         updated.id = 0L;
@@ -142,7 +142,7 @@ public class TagServiceTest {
     public void testDelete() {
         t1.id = 0L;
         t2.id = 1L;
-        Board board = new Board("name", "");
+        Board board = new Board("name", "", "");
         board.id = 0L;
         t1.board = board;
         when(boardRepo.findById(0L)).thenReturn(Optional.of(board));

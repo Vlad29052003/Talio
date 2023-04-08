@@ -140,6 +140,6 @@ public class TaskListControllerTest {
     }
 
     private Board getBoard(String name) {
-        return new Board(name, name);
+        return new Board(name, name, "");
     }
 }
