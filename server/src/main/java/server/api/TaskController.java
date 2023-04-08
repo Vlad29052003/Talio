@@ -157,18 +157,19 @@ public class TaskController {
         Task current = taskRepo.findById(task.id).get();
         current.name = task.name;
         current.description = task.description;
+        current.subtasks = task.subtasks;
         current.color = task.color;
 
         Set<Tag> copy = Set.copyOf(current.tags);
         for(Tag tag : copy) {
-            Tag onServer = tagRepo.findById(tag.id).get();
+            Tag onServer = tagRepo.findById((long) tag.id).get();
             current.tags.remove(onServer);
             onServer.removeFrom(current);
             tagRepo.saveAndFlush(onServer);
         }
         copy = Set.copyOf(task.tags);
         for(Tag tag : copy) {
-            Tag onServer = tagRepo.findById(tag.id).get();
+            Tag onServer = tagRepo.findById((long) tag.id).get();
             current.tags.add(onServer);
             onServer.applyTo(current);
             tagRepo.saveAndFlush(onServer);

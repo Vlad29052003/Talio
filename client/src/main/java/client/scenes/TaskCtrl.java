@@ -10,9 +10,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.TransferMode;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.paint.Color;
@@ -273,4 +274,20 @@ public class TaskCtrl {
         task.focused = false;
     }
 
+    /**
+     * Open a task's extra details like `description` and `subtasks`.
+     *
+     * @param event the mouse event that caused this function to be called.
+     */
+    public void open(MouseEvent event) {
+        if (!event.getButton().equals(MouseButton.PRIMARY)) {
+            return;
+        }
+
+        if (event.getClickCount() != 2) {
+            return;
+        }
+
+        mainCtrl.openTask(task);
+    }
 }
