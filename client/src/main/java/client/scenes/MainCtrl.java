@@ -428,10 +428,10 @@ public class MainCtrl {
      * @param taskList is the TaskList associated with the scene.
      */
     public void addTask(TaskList taskList) {
-        createTaskCtrl.setTaskList(taskList);
         popupStage.setTitle("Create task");
         popupStage.setScene(createTask);
         popupStage.show();
+        createTaskCtrl.initialize(taskList);
     }
 
     /**
@@ -476,7 +476,7 @@ public class MainCtrl {
      * @param task is the Task to be edited.
      */
     public void editTask(Task task) {
-        editTaskCtrl.setTask(task);
+        editTaskCtrl.initialize(task);
         popupStage.setTitle("Edit task");
         popupStage.setScene(editTask);
         popupStage.show();

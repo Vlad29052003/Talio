@@ -157,6 +157,8 @@ public class TaskController {
         Task current = taskRepo.findById(task.id).get();
         current.name = task.name;
         current.description = task.description;
+        current.color = task.color;
+
         Set<Tag> copy = Set.copyOf(current.tags);
         for(Tag tag : copy) {
             Tag onServer = tagRepo.findById(tag.id).get();

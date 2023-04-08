@@ -19,9 +19,9 @@ public class TaskTest {
 
     @BeforeEach
     public void setUp() {
-        t1 = new Task("t1", 0, "this is t1");
-        t2 = new Task("t2", 1, "this is t2");
-        t3 = new Task("t1", 0, "this is t1");
+        t1 = new Task("t1", 0, "this is t1", "#ff00ff");
+        t2 = new Task("t2", 1, "this is t2", "#ff66ff");
+        t3 = new Task("t1", 0, "this is t1", "#ff00ff");
     }
 
     @Test
@@ -32,12 +32,13 @@ public class TaskTest {
 
     @Test
     public void testNonEmptyConstructor() {
-        Task t = new Task("t", 5, "this is t");
+        Task t = new Task("t", 5, "this is t", "#112233");
         assertNotNull(t);
         assertEquals(t.name, "t");
         assertEquals(t.index, 5);
         assertEquals(t.description, "this is t");
         assertEquals(t.subtasks, new ArrayList<String>());
+        assertEquals(t.color, "#112233");
     }
 
     @Test
