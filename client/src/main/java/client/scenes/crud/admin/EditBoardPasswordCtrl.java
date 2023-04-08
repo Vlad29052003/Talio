@@ -41,6 +41,7 @@ public class EditBoardPasswordCtrl {
      * Switches back to the workspace Scene.
      */
     public void cancel() {
+        reset();
         mainCtrl.cancel();
     }
 
@@ -52,14 +53,16 @@ public class EditBoardPasswordCtrl {
     public void confirm(){
         if(board != null){
             if (text.getText() == "") {
-                board = new Board(board.name, board.backgroundColor);
+                board.password = text.getText();
+                board.edit = true;
             } else {
-                board = new Board(board.name, board.backgroundColor,
-                        text.getText());
+                board.password = text.getText();
+                board.edit = false;
             }
             server.updateBoard(board);
             mainCtrl.updateBoard(board);
         }
+        reset();
         mainCtrl.cancel();
     }
 
@@ -70,5 +73,12 @@ public class EditBoardPasswordCtrl {
      */
     public Board getBoard(){
         return board;
+    }
+
+    /**
+     * Resets the fields in this object.
+     */
+    private void reset() {
+        text.setText("");
     }
 }

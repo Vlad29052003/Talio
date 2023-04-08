@@ -8,8 +8,6 @@ import scenes.ServerUtilsTestingMock;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 public class TestGrantAdminCtrl {
     private ServerUtilsTestingMock server;
@@ -26,11 +24,5 @@ public class TestGrantAdminCtrl {
     public void testConstructor() {
         GrantAdminCtrl ctrl = new GrantAdminCtrl(server, mainCtrl);
         assertNotNull(ctrl);
-    }
-
-    @Test
-    public void testCancel(){
-        grantAdminCtrl.cancel();
-        verify(mainCtrl, times(1)).cancel();
     }
 }

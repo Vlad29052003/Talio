@@ -36,6 +36,7 @@ public class GrantAdminCtrl {
      * Switches back to the workspace Scene.
      */
     public void cancel() {
+        reset();
         mainCtrl.cancel();
     }
 
