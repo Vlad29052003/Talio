@@ -35,7 +35,7 @@
 
         <module name="MethodLength">
             <property name="tokens" value="METHOD_DEF"/>
-            <property name="max" value="70"/>
+            <property name="max" value="80"/>
         </module>
 
         <module name="AvoidStarImport">

@@ -69,12 +69,20 @@ public class TaskCtrl {
         this.root.setOnKeyPressed(event -> {
             if (task.focused) {
                 KeyCode keyCode = event.getCode();
-                if (keyCode == KeyCode.E) {
+                if (keyCode == KeyCode.E || keyCode == KeyCode.C) {
                     edit();
                     event.consume();
                 }
                 else if (keyCode == KeyCode.BACK_SPACE || keyCode == KeyCode.DELETE) {
                     delete();
+                    event.consume();
+                }
+                else if (keyCode == KeyCode.ENTER) {
+                    openTaskOverview();
+                    event.consume();
+                }
+                else if (keyCode == KeyCode.T) {
+                    tagOverview();
                     event.consume();
                 }
                 else if (keyCode == KeyCode.DOWN && event.isShiftDown()) {
@@ -122,6 +130,10 @@ public class TaskCtrl {
 
     }
 
+    private void openTaskOverview() {
+        mainCtrl.openTask(task);
+    }
+
     /**
      * Requests focus.
      */
@@ -155,6 +167,13 @@ public class TaskCtrl {
      */
     public void edit() {
         mainCtrl.editTask(task);
+    }
+
+    /**
+     * Switches the scene to Edit Task.
+     */
+    public void tagOverview() {
+        mainCtrl.tagOverview(task.getTaskList().board);
     }
 
     /**
