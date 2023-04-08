@@ -15,7 +15,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.input.ClipboardContent;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.scene.layout.VBox;
@@ -28,8 +27,6 @@ public class TaskCtrl {
     private Task task;
     @FXML
     private VBox root;
-    @FXML
-    private HBox rootHBox;
     @FXML
     private Label nameLabel;
     @FXML
@@ -60,7 +57,7 @@ public class TaskCtrl {
         this.root.setOnMouseEntered(e -> {
             mainCtrl.resetFocus();
 
-            this.root.setStyle("-fx-border-color: red;");
+            this.root.setStyle("-fx-border-color: red; " + this.getBackgroundStyle());
             root.requestFocus();
             mainCtrl.setIsFocused(task);
 
@@ -127,11 +124,11 @@ public class TaskCtrl {
     /**
      * Requests focus.
      */
-    public void requestFocus(){
+    public void requestFocus() {
         root.requestFocus();
         task.focused = true;
         mainCtrl.setIsFocused(task);
-        this.root.setStyle("-fx-border-color: red;");
+        this.root.setStyle("-fx-border-color: red; " + this.getBackgroundStyle());
     }
 
     /**
@@ -194,21 +191,40 @@ public class TaskCtrl {
     }
 
     /**
-     * Re-render the task view UI.
+     * Get the css for the task background color.
+     * @return a {@link String} containing the CSS for this task background.
      */
-    public void refresh() {
-        this.nameLabel.setText(this.task.name);
-        this.rootHBox.setStyle("-fx-background-color: #f4f4f4;");
-        this.nameLabel.setStyle("-fx-text-fill: #000000");
+    public String getBackgroundStyle() {
+        if(!this.task.color.equals("")) {
+            return "-fx-background-color: " + this.task.color + ";";
+        }
+        return "-fx-background-color: #f4f4f4;";
+    }
+
+    /**
+     * Get the css for the task font color.
+     * @return a {@link String} containing the CSS for this task font color.
+     */
+    public String getFontStyle() {
         if(!this.task.color.equals("")) {
             Color c = Color.valueOf(this.task.color);
             String textColor = "#000000";
             // Magic text contrast function
             if((c.getRed()*255.0*0.299 + c.getGreen()*255.0*0.587 + c.getBlue()*255.0*0.114) < 160)
                 textColor = "#ffffff";
-            this.rootHBox.setStyle("-fx-background-color: " + this.task.color+";");
-            this.nameLabel.setStyle("-fx-text-fill: "+textColor);
+            return "-fx-text-fill: " + textColor + ";";
         }
+        return "-fx-text-fill: #000000";
+    }
+
+    /**
+     * Re-render the task view UI.
+     */
+    public void refresh() {
+        this.nameLabel.setText(this.task.name);
+        this.nameLabel.setStyle(this.getFontStyle());
+
+        this.resetFocus();
 
         populateTags();
     }
@@ -253,7 +269,7 @@ public class TaskCtrl {
      * Background resets to transparent.
      */
     public void resetFocus() {
-        root.setStyle("-fx-border-color: #a8a8a8;");
+        root.setStyle("-fx-border-color: #a8a8a8; " + this.getBackgroundStyle());
         task.focused = false;
     }
 
