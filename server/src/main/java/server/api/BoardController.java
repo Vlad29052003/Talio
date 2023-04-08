@@ -97,6 +97,8 @@ public class BoardController {
         localBoard.password = board.password;
         localBoard.backgroundColor = board.backgroundColor;
         localBoard.fontColor = board.fontColor;
+        localBoard.listBackgroundColor = board.listBackgroundColor;
+        localBoard.listFontColor = board.listFontColor;
         localBoard.RWpermission = board.RWpermission;
 
         Board saved = repo.save(localBoard);

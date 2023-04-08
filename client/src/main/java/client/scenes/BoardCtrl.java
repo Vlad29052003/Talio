@@ -1,4 +1,5 @@
 package client.scenes;
+
 import com.google.inject.Inject;
 import client.utils.ServerUtils;
 import commons.Board;
@@ -8,6 +9,8 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Paint;
 import javafx.util.Pair;
@@ -34,6 +37,10 @@ public class BoardCtrl {
     private Button tagsButton;
     @FXML
     private HBox listContainer;
+    @FXML
+    private ScrollPane scrollPane;
+    @FXML
+    private AnchorPane anchorPane;
 
     /**
      * Creates a new {@link BoardCtrl} object.
@@ -89,19 +96,25 @@ public class BoardCtrl {
         refreshBoardHeader();
 
         this.listContainer.getChildren().clear();
-        this.listContainer.setStyle("-fx-background-color: #f4f4f4");
-        this.header.setStyle("-fx-background-color: #f4f4f4");
+        this.listContainer.setStyle("-fx-background-color: #f4f4f4;");
+        this.header.setStyle("-fx-background-color: #f4f4f4;" +
+                "-fx-border-color: black;" +
+                "-fx-border-width: 0 0 1 0;");
         this.boardTitle.setTextFill(Paint.valueOf("#000000"));
         this.listControllers = new ArrayList<>();
+        this.scrollPane.setStyle("-fx-border-color: white;");
+        this.anchorPane.setStyle("-fx-border-color: white;");
         if (this.board == null) return;
 
-        if (!this.board.backgroundColor.equals(""))
-        {
-            this.listContainer.setStyle("-fx-background-color: "+this.board.backgroundColor);
-            this.header.setStyle("-fx-background-color: "+this.board.backgroundColor);
+        if (!this.board.backgroundColor.equals("")) {
+            this.listContainer.setStyle("-fx-background-color: " + this.board.backgroundColor);
+            this.header.setStyle("-fx-background-color: " + this.board.backgroundColor +
+                    ";-fx-border-color: " + this.board.fontColor +
+                    ";-fx-border-width: 0 0 1 0;");
+            this.scrollPane.setStyle("-fx-border-color: " + this.board.backgroundColor);
+            this.anchorPane.setStyle("-fx-border-color: " + this.board.backgroundColor);
         }
-        if (!this.board.fontColor.equals(""))
-        {
+        if (!this.board.fontColor.equals("")) {
             this.boardTitle.setTextFill(Paint.valueOf(this.board.fontColor));
         }
 
@@ -205,13 +218,14 @@ public class BoardCtrl {
     public void resetFocus() {
         listControllers.stream().flatMap(lc -> lc.getTaskControllers()
                         .stream()).filter(tc -> tc.getTask().focused)
-                        .forEach(TaskCtrl::resetFocus);
+                .forEach(TaskCtrl::resetFocus);
     }
 
     /**
      * Gets the index of the next TaskList
+     *
      * @param taskList current TaskList
-     * @param index of the current TaskList
+     * @param index    of the current TaskList
      */
     public void getNextIndex(TaskList taskList, int index) {
         listControllers.stream().
@@ -221,9 +235,10 @@ public class BoardCtrl {
 
     /**
      * Gets the neighbouring index from the adjacent TaskList
+     *
      * @param taskList current TaskList
-     * @param index of the current TaskList
-     * @param isRight right/left TaskList
+     * @param index    of the current TaskList
+     * @param isRight  right/left TaskList
      */
     public void getNeighbourIndex(TaskList taskList, int index, boolean isRight) {
         Comparator<TaskList> idComparator = Comparator.comparingLong(tl -> tl.id);
@@ -233,35 +248,31 @@ public class BoardCtrl {
 
         TaskList nextTaskList = null;
 
-        if (isRight){
-            if (i == board.lists.size() - 1){
+        if (isRight) {
+            if (i == board.lists.size() - 1) {
                 nextTaskList = sortedTaskList.get(0);
-            }
-            else{
+            } else {
                 nextTaskList = sortedTaskList.get(i + 1);
             }
-        }
-        else{
-            if (i == 0){
+        } else {
+            if (i == 0) {
                 nextTaskList = sortedTaskList.get(board.lists.size() - 1);
-            }
-            else{
+            } else {
                 nextTaskList = sortedTaskList.get(i - 1);
             }
         }
 
         int step = 0;
-        while(step < sortedTaskList.size() && nextTaskList.tasks.size() == 0){
-            if(isRight) {
+        while (step < sortedTaskList.size() && nextTaskList.tasks.size() == 0) {
+            if (isRight) {
                 i++;
-            }
-            else {
+            } else {
                 i--;
             }
-            if (i >= sortedTaskList.size()){
+            if (i >= sortedTaskList.size()) {
                 i = 0;
             }
-            if (i < 0){
+            if (i < 0) {
                 i = sortedTaskList.size() - 1;
             }
             nextTaskList = sortedTaskList.get(i);

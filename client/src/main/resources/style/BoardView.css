@@ -3,7 +3,15 @@
 }
 
 .boardMenu {
-    -fx-background-color: black;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-border-style: none;
+}
+
+.anchorPane {
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-border-color: transparent;
 }
 
 .orangeButton{
@@ -20,8 +28,9 @@
 }
 
 .scroll-pane {
-    -fx-background-color: white;
-    -fx-border-color: white;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-border-style: none;
 }
 
 .scroll-pane .scroll-bar:horizontal {

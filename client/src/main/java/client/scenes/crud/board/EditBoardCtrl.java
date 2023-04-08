@@ -24,9 +24,13 @@ public class EditBoardCtrl {
     @FXML
     private TextField text;
     @FXML
-    private ColorPicker bgColorPicker;
+    private ColorPicker boardBgColorPicker;
     @FXML
-    private ColorPicker fontColorPicker;
+    private ColorPicker boardFontColorPicker;
+    @FXML
+    private ColorPicker listBgColorPicker;
+    @FXML
+    private ColorPicker listFontColorPicker;
 
     /**
      * Creates a new {@link EditBoardCtrl} object.
@@ -69,13 +73,22 @@ public class EditBoardCtrl {
         this.board = board;
         this.text.setText(board.name);
         if(this.board.backgroundColor.equals(""))
-            this.bgColorPicker.setValue(Color.valueOf("#f4f4f4"));
+            this.boardBgColorPicker.setValue(Color.WHITE);
         else
-            this.bgColorPicker.setValue(Color.valueOf(this.board.backgroundColor));
+            this.boardBgColorPicker.setValue(Color.valueOf(this.board.backgroundColor));
         if(this.board.fontColor.equals(""))
-            this.fontColorPicker.setValue(Color.valueOf("#000000"));
+            this.boardFontColorPicker.setValue(Color.valueOf("#000000"));
         else
-            this.fontColorPicker.setValue(Color.valueOf(this.board.fontColor));
+            this.boardFontColorPicker.setValue(Color.valueOf(this.board.fontColor));
+
+        if(this.board.listBackgroundColor.equals(""))
+            this.listBgColorPicker.setValue(Color.WHITE);
+        else
+            this.listBgColorPicker.setValue(Color.valueOf(this.board.listBackgroundColor));
+        if(this.board.listFontColor.equals(""))
+            this.listFontColorPicker.setValue(Color.valueOf("#000000"));
+        else
+            this.listFontColorPicker.setValue(Color.valueOf(this.board.listFontColor));
     }
 
     /**
@@ -121,8 +134,10 @@ public class EditBoardCtrl {
                 fmt.apply(v.getRed()) + fmt.apply(v.getGreen())
                         + fmt.apply(v.getBlue()) + fmt.apply(v.getOpacity())
         ).toUpperCase();
-        this.board.backgroundColor = toHex.apply(this.bgColorPicker.getValue());
-        this.board.fontColor = toHex.apply(this.fontColorPicker.getValue());
+        this.board.backgroundColor = toHex.apply(this.boardBgColorPicker.getValue());
+        this.board.fontColor = toHex.apply(this.boardFontColorPicker.getValue());
+        this.board.listBackgroundColor = toHex.apply(this.listBgColorPicker.getValue());
+        this.board.listFontColor = toHex.apply(this.listFontColorPicker.getValue());
 
         try {
             this.board = server.updateBoard(board);
@@ -143,12 +158,28 @@ public class EditBoardCtrl {
     }
 
     /**
+     * Resets the board colors to the default ones.
+     */
+    public void resetBoardStyle() {
+        boardBgColorPicker.setValue(Color.WHITE);
+        boardFontColorPicker.setValue(Color.BLACK);
+    }
+
+    /**
+     * Resets the list colors to the default ones.
+     */
+    public void resetListStyle() {
+        listBgColorPicker.setValue(Color.WHITE);
+        listFontColorPicker.setValue(Color.BLACK);
+    }
+
+    /**
      * Resets the fields in this object.
      */
     public void reset() {
         this.board = null;
         text.setText("");
-        this.bgColorPicker.setValue(Color.WHITE);
-        this.fontColorPicker.setValue(Color.WHITE);
+        this.boardBgColorPicker.setValue(Color.WHITE);
+        this.boardFontColorPicker.setValue(Color.WHITE);
     }
 }

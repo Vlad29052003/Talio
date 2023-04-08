@@ -8,7 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
@@ -16,6 +17,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.TransferMode;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.scene.layout.VBox;
@@ -30,10 +32,9 @@ public class TaskCtrl {
     private VBox root;
     @FXML
     private Label nameLabel;
-    @FXML
-    private ListView<String> subTaskList;
-
-    private static final int LIST_CELL_HEIGHT = 30;
+    private ImageView hasDescription;
+    private final HBox description = new HBox();
+    private final HBox progress = new HBox();
 
     /**
      * Creates a new {@link TaskCtrl} object.
@@ -53,6 +54,7 @@ public class TaskCtrl {
     @SuppressWarnings("checkstyle:MethodLength")
     @FXML
     private void initialize() {
+        this.hasDescription = new ImageView(new Image("/client/icons/details.png"));
 
         // event handlers to make the HBox highlight itself when the mouse hovers above it
         this.root.setOnMouseEntered(e -> {
@@ -190,6 +192,13 @@ public class TaskCtrl {
      */
     public void setTask(Task task) {
         this.task = task;
+        if(task.description != null && task.description.length() > 0) {
+            description.getChildren().add(hasDescription);
+        }
+        if(task.subtasks.size() > 0) {
+            String info = "(" + task.completedSubtasks() + "/" + task.subtasks.size() + " done)";
+            progress.getChildren().add(new Label(info));
+        }
     }
 
     /**
@@ -259,6 +268,8 @@ public class TaskCtrl {
             tagRepr.setFill(paint);
             root.getChildren().add(tagRepr);
         }
+        root.getChildren().add(progress);
+        root.getChildren().add(description);
     }
 
     /**

@@ -19,6 +19,9 @@
                      <font>
                         <Font size="22.0" />
                      </font>
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
                   </Label>
                </children>
             </AnchorPane>
@@ -36,9 +39,9 @@
             <Insets left="15.0" right="15.0" />
          </padding>
       </HBox>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+      <AnchorPane fx:id="anchorPane" prefHeight="200.0" prefWidth="200.0" styleClass="anchorPane" VBox.vgrow="ALWAYS">
          <children>
-            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <content>
                   <HBox fx:id="listContainer" scaleShape="false" spacing="20.0">
                      <padding>

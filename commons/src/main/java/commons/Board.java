@@ -31,6 +31,8 @@ public class Board {
     public String name;
     public String backgroundColor;
     public String fontColor;
+    public String listBackgroundColor = "";
+    public String listFontColor = "";
     public String password;                 // if no password, no need to check RW permission
     public boolean RWpermission;            // true - both read and write, false - read only
 
