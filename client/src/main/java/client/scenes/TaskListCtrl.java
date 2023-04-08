@@ -59,6 +59,7 @@ public class TaskListCtrl {
 
     /**
      * Getter for TaskControllers.
+     *
      * @return ArrayList
      */
     public ArrayList<TaskCtrl> getTaskControllers() {
@@ -131,11 +132,13 @@ public class TaskListCtrl {
 
         if (!board.listBackgroundColor.equals("")) {
             this.taskContainer.setStyle("-fx-background-color: " + board.listBackgroundColor);
-            this.header.setStyle("-fx-background-color: " + board.listBackgroundColor + "; -fx-background-radius: 15 15 0 0;" + "-fx-border-color: " + board.listFontColor + ";");
-            this.root.setStyle("-fx-border-color: " + board.listFontColor);
+            this.header.setStyle("-fx-background-color: " + board.listBackgroundColor +
+                    "; -fx-background-radius: 15 15 0 0;" +
+                    "-fx-border-color: " + board.listFontColor + ";");
+            this.root.setStyle("-fx-border-color: " + board.listFontColor + ";");
         }
         if (!board.listFontColor.equals("")) {
-            this.title.setStyle("-fx-text-fill: " + board.listFontColor);
+            this.title.setStyle("-fx-text-fill: " + board.listFontColor + ";");
         }
 
         this.taskContainer.getChildren().clear();
@@ -152,7 +155,7 @@ public class TaskListCtrl {
             this.taskContainer.getChildren().add(p.getValue());
             this.taskControllers.add(controller);
 
-            if (mainCtrl.getIsFocused() != null && task.id == mainCtrl.getIsFocused().id){
+            if (mainCtrl.getIsFocused() != null && task.id == mainCtrl.getIsFocused().id) {
                 Platform.runLater(() -> {
                     try {
                         Thread.sleep(75);
@@ -256,13 +259,14 @@ public class TaskListCtrl {
 
     /**
      * Gets the index of the following task.
+     *
      * @param index of the Task.
      */
     public void getNextIndex(int index) {
-        if (index < 0 ){
+        if (index < 0) {
             index = taskList.tasks.size() - 1;
         }
-        if (index >= taskList.tasks.size()){
+        if (index >= taskList.tasks.size()) {
             index = 0;
         }
 
@@ -273,16 +277,16 @@ public class TaskListCtrl {
 
     /**
      * Gets the index of the neighbouring task.
+     *
      * @param index of the Task.
      */
     public void getNeighbour(int index) {
-        if (index >= taskList.tasks.size()){
+        if (index >= taskList.tasks.size()) {
             index = taskList.tasks.size() - 1;
         }
-        if (index < 0){
+        if (index < 0) {
             return;
-        }
-        else{
+        } else {
             Task task = taskList.tasks.get(index);
             taskControllers.stream().filter(tc -> tc.getTask().id == task.id)
                     .forEach(tc -> tc.requestFocus());

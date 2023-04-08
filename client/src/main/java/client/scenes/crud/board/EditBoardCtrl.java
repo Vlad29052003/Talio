@@ -157,11 +157,17 @@ public class EditBoardCtrl {
         mainCtrl.hidePopup();
     }
 
+    /**
+     * Resets the board colors to the default ones.
+     */
     public void resetBoardStyle() {
         boardBgColorPicker.setValue(Color.WHITE);
         boardFontColorPicker.setValue(Color.BLACK);
     }
 
+    /**
+     * Resets the list colors to the default ones.
+     */
     public void resetListStyle() {
         listBgColorPicker.setValue(Color.WHITE);
         listFontColorPicker.setValue(Color.BLACK);

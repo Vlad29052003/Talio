@@ -186,6 +186,11 @@ public class Task implements Comparable<Task> {
         }).reduce(Double::sum).orElse(0.0) / (double)subtasks.size();
     }
 
+    /**
+     * Gets the number of completed subtasks.
+     *
+     * @return the number of completed subtasks.
+     */
     public int completedSubtasks() {
         return (int) subtasks.stream().filter(st -> st.endsWith("1")).count();
     }
