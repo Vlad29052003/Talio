@@ -147,23 +147,25 @@ public class Task implements Comparable<Task> {
      * @param newValue the new value of the subtask.
      */
     public void setSubTask(String subTask, boolean newValue) {
+        String booleanSearched = "1";
+        if(newValue) booleanSearched = "0";
+        String searched = subTask + booleanSearched;
+
         Optional<String> value = this.subtasks.stream()
-                .filter(x -> x.startsWith(subTask)).findFirst();
+                .filter(x -> x.equals(searched)).findFirst();
 
         if (value.isEmpty()) {
             return;
         }
 
-        String oldValue = value.get();
         String newConcat = "0";
         if (newValue) {
             newConcat = "1";
         }
-
-        String newString = oldValue.substring(0, oldValue.length() - 1).concat(newConcat);
+        String oldValue = value.get();
 
         int index = this.subtasks.indexOf(oldValue);
-        this.subtasks.set(index, newString);
+        this.subtasks.set(index, subTask + newConcat);
     }
 
     /**
@@ -182,6 +184,10 @@ public class Task implements Comparable<Task> {
             }
             return 0.0;
         }).reduce(Double::sum).orElse(0.0) / (double)subtasks.size();
+    }
+
+    public int completedSubtasks() {
+        return (int) subtasks.stream().filter(st -> st.endsWith("1")).count();
     }
 
     /**
