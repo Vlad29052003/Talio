@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Board;
 import commons.Task;
 import commons.TaskList;
 import javafx.application.Platform;
@@ -10,12 +11,15 @@ import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
 import javafx.util.Pair;
 
@@ -33,6 +37,10 @@ public class TaskListCtrl {
     private VBox root;
     @FXML
     private VBox taskContainer;
+    @FXML
+    private ScrollPane scrollPane;
+    @FXML
+    private HBox header;
     private Region placeholder;
 
     /**
@@ -51,6 +59,7 @@ public class TaskListCtrl {
 
     /**
      * Getter for TaskControllers.
+     *
      * @return ArrayList
      */
     public ArrayList<TaskCtrl> getTaskControllers() {
@@ -112,6 +121,26 @@ public class TaskListCtrl {
     public void refresh() {
         this.title.setText(this.taskList.name);
 
+        taskContainer.prefHeightProperty().bind(scrollPane.heightProperty());
+
+        this.taskContainer.setStyle("-fx-background-color: #f4f4f4;");
+        this.root.setStyle("-fx-background-color: #f4f4f4;");
+        this.header.setStyle("-fx-border-color: #a8a8a8");
+        this.title.setTextFill(Paint.valueOf("#000000"));
+
+        Board board = taskList.board;
+
+        if (!board.listBackgroundColor.equals("")) {
+            this.taskContainer.setStyle("-fx-background-color: " + board.listBackgroundColor);
+            this.header.setStyle("-fx-background-color: " + board.listBackgroundColor +
+                    "; -fx-background-radius: 15 15 0 0;" +
+                    "-fx-border-color: " + board.listFontColor + ";");
+            this.root.setStyle("-fx-border-color: " + board.listFontColor + ";");
+        }
+        if (!board.listFontColor.equals("")) {
+            this.title.setStyle("-fx-text-fill: " + board.listFontColor + ";");
+        }
+
         this.taskContainer.getChildren().clear();
         this.taskControllers.clear();
 
@@ -126,7 +155,7 @@ public class TaskListCtrl {
             this.taskContainer.getChildren().add(p.getValue());
             this.taskControllers.add(controller);
 
-            if (mainCtrl.getIsFocused() != null && task.id == mainCtrl.getIsFocused().id){
+            if (mainCtrl.getIsFocused() != null && task.id == mainCtrl.getIsFocused().id) {
                 Platform.runLater(() -> {
                     try {
                         Thread.sleep(75);
@@ -230,13 +259,14 @@ public class TaskListCtrl {
 
     /**
      * Gets the index of the following task.
+     *
      * @param index of the Task.
      */
     public void getNextIndex(int index) {
-        if (index < 0 ){
+        if (index < 0) {
             index = taskList.tasks.size() - 1;
         }
-        if (index >= taskList.tasks.size()){
+        if (index >= taskList.tasks.size()) {
             index = 0;
         }
 
@@ -247,16 +277,16 @@ public class TaskListCtrl {
 
     /**
      * Gets the index of the neighbouring task.
+     *
      * @param index of the Task.
      */
     public void getNeighbour(int index) {
-        if (index >= taskList.tasks.size()){
+        if (index >= taskList.tasks.size()) {
             index = taskList.tasks.size() - 1;
         }
-        if (index < 0){
+        if (index < 0) {
             return;
-        }
-        else{
+        } else {
             Task task = taskList.tasks.get(index);
             taskControllers.stream().filter(tc -> tc.getTask().id == task.id)
                     .forEach(tc -> tc.requestFocus());
