@@ -16,7 +16,6 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.TransferMode;
 import javafx.scene.input.ClipboardContent;
-import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
@@ -27,7 +26,7 @@ public class TaskCtrl {
     private final MainCtrl mainCtrl;
     private Task task;
     @FXML
-    private HBox root;
+    private VBox root;
     @FXML
     private Label nameLabel;
     @FXML
@@ -190,7 +189,7 @@ public class TaskCtrl {
      *
      * @return the root.
      */
-    public HBox getRoot() {
+    public VBox getRoot() {
         return root;
     }
 
