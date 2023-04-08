@@ -99,10 +99,19 @@ public class Task implements Comparable<Task> {
      * Adds a subtask to the {@link Task#subtasks task}.
      *
      * @param subTask is the subtask.
+     * @return whether the subtask is successfully added.
      */
-    public void addSubTask(String subTask){
+    public boolean addSubTask(String subTask) {
+        // There already exists a subtask with this name
+        if (this.subtasks.stream().anyMatch(x -> x.startsWith(subTask) &&
+                x.length() == subTask.length() + 1)) {
+            return false;
+        }
+
         // we append a zero to show that the subtask has not been completed yet.
         this.subtasks.add(subTask.concat("0"));
+
+        return true;
     }
 
     /**
@@ -127,7 +136,7 @@ public class Task implements Comparable<Task> {
         Optional<String> value = this.subtasks.stream()
                 .filter(x -> x.startsWith(subTask)).findFirst();
 
-        if (!value.isPresent()) {
+        if (value.isEmpty()) {
             return;
         }
 
@@ -158,7 +167,7 @@ public class Task implements Comparable<Task> {
                 return 1.0;
             }
             return 0.0;
-        }).reduce((x, y) -> x + y).orElse(0.0) / (double)subtasks.size();
+        }).reduce(Double::sum).orElse(0.0) / (double)subtasks.size();
     }
 
     /**

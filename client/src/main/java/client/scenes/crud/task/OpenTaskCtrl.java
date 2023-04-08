@@ -217,7 +217,18 @@ public class OpenTaskCtrl implements Initializable {
         dialog.setContentText("please enter the sub task text: ");
 
         Optional<String> result = dialog.showAndWait();
-        result.ifPresent(name -> task.addSubTask(name));
+        result.ifPresent(this::tryAddSubTask);
         refresh();
+    }
+
+    private void tryAddSubTask(String name) {
+        if (!task.addSubTask(name)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Warning");
+            alert.setHeaderText(null);
+            alert.setContentText("A sub task with this name already exists.");
+
+            alert.showAndWait();
+        }
     }
 }
