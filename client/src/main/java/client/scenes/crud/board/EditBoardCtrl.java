@@ -8,9 +8,14 @@ import jakarta.ws.rs.WebApplicationException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
+
+import java.util.function.DoubleFunction;
+import java.util.function.Function;
 
 public class EditBoardCtrl {
     private ServerUtils server;
@@ -18,6 +23,10 @@ public class EditBoardCtrl {
     private Board board;
     @FXML
     private TextField text;
+    @FXML
+    private ColorPicker bgColorPicker;
+    @FXML
+    private ColorPicker fontColorPicker;
 
     /**
      * Creates a new {@link EditBoardCtrl} object.
@@ -59,6 +68,14 @@ public class EditBoardCtrl {
     public void setBoard(Board board) {
         this.board = board;
         this.text.setText(board.name);
+        if(this.board.backgroundColor.equals(""))
+            this.bgColorPicker.setValue(Color.valueOf("#f4f4f4"));
+        else
+            this.bgColorPicker.setValue(Color.valueOf(this.board.backgroundColor));
+        if(this.board.fontColor.equals(""))
+            this.fontColorPicker.setValue(Color.valueOf("#000000"));
+        else
+            this.fontColorPicker.setValue(Color.valueOf(this.board.fontColor));
     }
 
     /**
@@ -95,6 +112,18 @@ public class EditBoardCtrl {
             return;
         }
         this.board.name = text.getText();
+
+        DoubleFunction<String> fmt = v -> {
+            String in = Integer.toHexString((int) Math.round(v * 255));
+            return in.length() == 1 ? "0" + in : in;
+        };
+        Function<Color, String> toHex = v -> "#" + (
+                fmt.apply(v.getRed()) + fmt.apply(v.getGreen())
+                        + fmt.apply(v.getBlue()) + fmt.apply(v.getOpacity())
+        ).toUpperCase();
+        this.board.backgroundColor = toHex.apply(this.bgColorPicker.getValue());
+        this.board.fontColor = toHex.apply(this.fontColorPicker.getValue());
+
         try {
             this.board = server.updateBoard(board);
         } catch (WebApplicationException e) {
@@ -119,5 +148,7 @@ public class EditBoardCtrl {
     public void reset() {
         this.board = null;
         text.setText("");
+        this.bgColorPicker.setValue(Color.WHITE);
+        this.fontColorPicker.setValue(Color.WHITE);
     }
 }

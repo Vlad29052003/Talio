@@ -6,10 +6,6 @@
     -fx-background-color: black;
 }
 
-.boardName {
-    -fx-text-fill: white;
-}
-
 .orangeButton{
     -fx-background-color: #FF6700;
     -fx-text-fill: #ffffff;

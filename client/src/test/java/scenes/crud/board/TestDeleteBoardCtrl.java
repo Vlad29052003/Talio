@@ -25,7 +25,7 @@ public class TestDeleteBoardCtrl {
         this.server = new ServerUtilsTestingMock();
         this.mainCtrl = mock(MainCtrl.class);
         this.deleteCtrl = new DeleteBoardCtrl(server, mainCtrl);
-        this.board = new Board("testing", "");
+        this.board = new Board("testing", "", "");
     }
 
     @Test

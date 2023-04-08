@@ -8,16 +8,25 @@ import jakarta.ws.rs.WebApplicationException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
+
+import java.util.function.DoubleFunction;
+import java.util.function.Function;
 
 public class CreateNewBoardCtrl {
     private ServerUtils server;
     private MainCtrl mainCtrl;
     private Board board;
     @FXML
-    TextField text;
+    private TextField text;
+    @FXML
+    private ColorPicker bgColorPicker;
+    @FXML
+    private ColorPicker fontColorPicker;
 
     /**
      * Creates a new {@link CreateNewBoardCtrl} object.
@@ -37,6 +46,8 @@ public class CreateNewBoardCtrl {
      */
     public void initialize() {
         Platform.runLater(() -> text.requestFocus());
+        this.bgColorPicker.setValue(Color.valueOf("#f4f4f4"));
+        this.fontColorPicker.setValue(Color.BLACK);
 
         this.text.setOnKeyPressed(event -> {
             KeyCode keyCode = event.getCode();
@@ -74,7 +85,6 @@ public class CreateNewBoardCtrl {
      * Switches back to the workspace Scene.
      */
     public void cancel() {
-        Platform.runLater(() -> text.requestFocus());
         mainCtrl.cancel();
         mainCtrl.hidePopup();
     }
@@ -84,7 +94,6 @@ public class CreateNewBoardCtrl {
      * Creates a new Board.
      */
     public void add() {
-        Platform.runLater(() -> text.requestFocus());
         if (text.getText().isEmpty()) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
@@ -92,7 +101,19 @@ public class CreateNewBoardCtrl {
             alert.showAndWait();
             return;
         }
-        Board newBoard = new Board(text.getText(), "");
+
+        DoubleFunction<String> fmt = v -> {
+            String in = Integer.toHexString((int) Math.round(v * 255));
+            return in.length() == 1 ? "0" + in : in;
+        };
+        Function<Color, String> toHex = v -> "#" + (
+                fmt.apply(v.getRed()) + fmt.apply(v.getGreen())
+                        + fmt.apply(v.getBlue()) + fmt.apply(v.getOpacity())
+        ).toUpperCase();
+        String bgColor = toHex.apply(this.bgColorPicker.getValue());
+        String fontColor = toHex.apply(this.fontColorPicker.getValue());
+
+        Board newBoard = new Board(text.getText(), bgColor, fontColor);
         try {
             this.board = server.addBoard(newBoard);
         } catch (WebApplicationException e) {

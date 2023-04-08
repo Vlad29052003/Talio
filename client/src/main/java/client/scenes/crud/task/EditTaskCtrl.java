@@ -43,7 +43,6 @@ public class EditTaskCtrl {
     }
 
     /**
-<<<<<<< HEAD
      * Autofocuses the first field.
      * Sets the keyboard shortcuts for ENTER and ESC.
      */
@@ -63,10 +62,7 @@ public class EditTaskCtrl {
         });
     }
 
-
     /**
-=======
->>>>>>> main
      * Gets the task.
      *
      * @return the task.
@@ -109,7 +105,6 @@ public class EditTaskCtrl {
      * Initiates the edit operation.
      */
     public void edit() {
-        Platform.runLater(() -> name.requestFocus());
         if (name.getText().isEmpty()) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
@@ -139,7 +134,6 @@ public class EditTaskCtrl {
      * Cancels the action.
      */
     public void cancel() {
-        Platform.runLater(() -> name.requestFocus());
         this.edited = new Task();
         mainCtrl.cancel();
         mainCtrl.hidePopup();

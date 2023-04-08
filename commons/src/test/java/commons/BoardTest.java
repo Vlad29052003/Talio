@@ -22,9 +22,9 @@ public class BoardTest {
 
     @BeforeEach
     public void setUp() {
-        board1 = new Board("board1", "White");
-        board2 = new Board("board2", "Black");
-        board3 = new Board("board1", "White", "",false);
+        board1 = new Board("board1", "white", "black");
+        board2 = new Board("board2", "black", "white");
+        board3 = new Board("board1", "white", "black");
         list1 = new TaskList("1");
         list2 = new TaskList("2");
         list3 = null;
@@ -36,10 +36,11 @@ public class BoardTest {
         Board nullboard = new Board();
         assertNotNull(nullboard);
 
-        Board board = new Board("board", "White","pass",true);
+        Board board = new Board("board", "white", "black", "pass",true);
         assertNotNull(board);
         assertEquals(board.name, "board");
-        assertEquals(board.backgroundColor, "White");
+        assertEquals(board.backgroundColor, "white");
+        assertEquals(board.fontColor, "black");
         assertEquals(board.password, "pass");
         assertTrue(board.RWpermission);
     }
