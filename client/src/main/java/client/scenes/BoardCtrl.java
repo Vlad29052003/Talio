@@ -102,6 +102,8 @@ public class BoardCtrl {
                 "-fx-border-width: 0 0 1 0;");
         this.boardTitle.setTextFill(Paint.valueOf("#000000"));
         this.listControllers = new ArrayList<>();
+        this.scrollPane.setStyle("-fx-border-color: white;");
+        this.anchorPane.setStyle("-fx-border-color: white;");
         if (this.board == null) return;
 
         if (!this.board.backgroundColor.equals("")) {
