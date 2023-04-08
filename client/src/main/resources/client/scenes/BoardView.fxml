@@ -11,7 +11,7 @@
 
 <VBox stylesheets="/style/BoardView.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.BoardCtrl">
    <children>
-      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" spacing="5.0" styleClass="boardMenu">
+      <HBox fx:id="header" alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" spacing="5.0" styleClass="boardMenu">
          <children>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                <children>
@@ -40,7 +40,7 @@
          <children>
             <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <content>
-                  <HBox fx:id="listContainer" prefHeight="535.0" prefWidth="766.0" scaleShape="false" spacing="20.0">
+                  <HBox fx:id="listContainer" scaleShape="false" spacing="20.0">
                      <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>

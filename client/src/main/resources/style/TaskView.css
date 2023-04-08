@@ -2,11 +2,11 @@
     -fx-border-width: 1;
     -fx-border-color: #a8a8a8;
     -fx-border-radius: 15;
+    -fx-background-radius: 15;
     -fx-padding: 15;
 }
 
-.label {
+.nameLabel {
     -fx-font-family: "Roboto Thin";
-    -fx-text-fill: black;
     -fx-font-size: 16;
 }

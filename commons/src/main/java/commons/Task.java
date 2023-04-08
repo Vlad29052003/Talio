@@ -41,6 +41,7 @@ public class Task implements Comparable<Task> {
     public String name;
     public int index;
     public String description;
+    public String color;
 
     @ElementCollection
     public List<String> subtasks;
@@ -63,13 +64,26 @@ public class Task implements Comparable<Task> {
      * @param name        is the name of the task.
      * @param index       is the position within the TaskList.
      * @param description is the description.
+     * @param color is the color of the task.
      */
-    public Task(String name, int index, String description) {
+    public Task(String name, int index, String description, String color) {
         this.name = name;
         this.index = index;
         this.description = description;
         this.subtasks = new ArrayList<>();
+        this.color = color;
         this.tags = new HashSet<>();
+    }
+
+    /**
+     * Creates a new {@link Task task}.
+     *
+     * @param name is the name of the task.
+     * @param index is the position within the TaskList.
+     * @param description is the description.
+     */
+    public Task(String name, int index, String description) {
+        this(name, index, description, "#f4f4f4");
     }
 
     /**

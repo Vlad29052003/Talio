@@ -124,7 +124,7 @@ public class TestWorkspaceCtrl {
 
     @Test
     public void testAddBoardToWorkspace() {
-        Board board = new Board("testBoard", "");
+        Board board = new Board("testBoard");
         Parent displayRoot = new VBox();
         BoardListingCtrl display = mock(BoardListingCtrl.class);
         when(display.getRoot()).thenReturn(displayRoot);
@@ -144,7 +144,7 @@ public class TestWorkspaceCtrl {
 
     @Test
     public void testRemoveBoardFromWorkspace() {
-        Board board = new Board("testBoard", "");
+        Board board = new Board("testBoard", "", "");
         Parent displayRoot = new VBox();
         BoardListingCtrl display = mock(BoardListingCtrl.class);
         when(display.getRoot()).thenReturn(displayRoot);
@@ -164,7 +164,7 @@ public class TestWorkspaceCtrl {
 
     @Test
     public void testRemoveBoardListingFromWorkspace() {
-        Board board = new Board("testBoard", "");
+        Board board = new Board("testBoard", "", "");
         Parent displayRoot = new VBox();
         BoardListingCtrl display = mock(BoardListingCtrl.class);
         when(display.getRoot()).thenReturn(displayRoot);
@@ -185,8 +185,8 @@ public class TestWorkspaceCtrl {
 
     @Test
     public void testUpdateBoardFromWorkspace() {
-        Board board = new Board("test", "");
-        Board updated = new Board("updated", "");
+        Board board = new Board("test", "", "");
+        Board updated = new Board("updated", "", "");
         Parent displayRoot = new VBox();
         BoardListingCtrl display = mock(BoardListingCtrl.class);
         when(display.getRoot()).thenReturn(displayRoot);

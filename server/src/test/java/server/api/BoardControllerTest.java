@@ -138,7 +138,7 @@ public class BoardControllerTest {
     }
 
     private static Board getBoard(String q) {
-        return new Board(q, q, q, false);
+        return new Board(q, q, q, q, false);
     }
 
 

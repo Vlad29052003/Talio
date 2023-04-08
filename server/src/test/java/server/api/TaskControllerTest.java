@@ -36,7 +36,7 @@ public class TaskControllerTest {
         taskRepo = new TestTaskRepository();
         tagRepo = mock(TagRepository.class);
         taskController = new TaskController(taskRepo, listRepo, tagRepo);
-        Board b = new Board("test", "");
+        Board b = new Board("test", "", "");
         TaskList l1 = new TaskList("list1");
         l1.id = 1L;
         b.addTaskList(l1);

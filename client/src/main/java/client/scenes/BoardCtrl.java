@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Paint;
 import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -25,6 +26,8 @@ public class BoardCtrl {
     private ArrayList<TaskListCtrl> listControllers = new ArrayList<>();
     @FXML
     private Label boardTitle;
+    @FXML
+    private HBox header;
     @FXML
     private Button addListButton;
     @FXML
@@ -86,8 +89,21 @@ public class BoardCtrl {
         refreshBoardHeader();
 
         this.listContainer.getChildren().clear();
+        this.listContainer.setStyle("-fx-background-color: #f4f4f4");
+        this.header.setStyle("-fx-background-color: #f4f4f4");
+        this.boardTitle.setTextFill(Paint.valueOf("#000000"));
         this.listControllers = new ArrayList<>();
         if (this.board == null) return;
+
+        if (!this.board.backgroundColor.equals(""))
+        {
+            this.listContainer.setStyle("-fx-background-color: "+this.board.backgroundColor);
+            this.header.setStyle("-fx-background-color: "+this.board.backgroundColor);
+        }
+        if (!this.board.fontColor.equals(""))
+        {
+            this.boardTitle.setTextFill(Paint.valueOf(this.board.fontColor));
+        }
 
         Set<TaskList> taskLists = this.board.lists;
         Iterator<TaskList> it = taskLists.stream()
