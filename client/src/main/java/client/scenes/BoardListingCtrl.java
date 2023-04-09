@@ -15,6 +15,7 @@ public class BoardListingCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private ImageView locked;
+    private ImageView unlocked;
     private Board board;
     @FXML
     private Label label;
@@ -47,11 +48,21 @@ public class BoardListingCtrl {
             this.locked = new ImageView(new Image("/client/icons/lock.png"));
             locked.setScaleX(0.7);
             locked.setScaleY(0.7);
+            this.unlocked = new ImageView(new Image("/client/icons/unlock.png"));
+            unlocked.setScaleX(0.7);
+            unlocked.setScaleY(0.7);
         }
         if (!board.isEditable() && !header.getChildren().contains(locked)) {
             header.getChildren().add(locked);
+            header.getChildren().remove(unlocked);
         }
-        else header.getChildren().remove(locked);
+        else {
+            header.getChildren().remove(locked);
+            header.getChildren().remove(unlocked);
+            if(board.password != null && board.password.length() > 0) {
+                header.getChildren().add(unlocked);
+            }
+        }
     }
 
     /**

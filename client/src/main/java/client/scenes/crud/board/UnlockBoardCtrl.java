@@ -54,6 +54,7 @@ public class UnlockBoardCtrl {
         if(board.password.equals(text.getText())){
             board.editable = true;
             mainCtrl.getUnlockedBoards().add(board.id);
+            mainCtrl.updateBoard(board);
             mainCtrl.switchBoard(board);
             mainCtrl.youHavePermission();
             reset();
