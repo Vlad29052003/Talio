@@ -15,7 +15,7 @@ import client.scenes.crud.admin.PermissionAdminCtrl;
 import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
-import client.scenes.crud.board.EditPermissionCtrl;
+import client.scenes.crud.board.UnlockBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
 import client.scenes.crud.board.YouHavePermissionCtrl;
 import client.scenes.crud.tag.CreateTagCtrl;
@@ -58,7 +58,7 @@ public class MyModule implements Module {
         binder.bind(CreateNewBoardCtrl.class).in(Scopes.SINGLETON);
         binder.bind(EditBoardCtrl.class).in(Scopes.SINGLETON);
         binder.bind(DeleteBoardCtrl.class).in(Scopes.SINGLETON);
-        binder.bind(EditPermissionCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(UnlockBoardCtrl.class).in(Scopes.SINGLETON);
         binder.bind(YouHavePermissionCtrl.class).in(Scopes.SINGLETON);
 
         binder.bind(CreateTaskListCtrl.class).in(Scopes.SINGLETON);

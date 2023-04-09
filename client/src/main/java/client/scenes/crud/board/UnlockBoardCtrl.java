@@ -7,7 +7,7 @@ import commons.Board;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
-public class EditPermissionCtrl {
+public class UnlockBoardCtrl {
     private ServerUtils server;
     private MainCtrl mainCtrl;
     private Board board;
@@ -15,13 +15,13 @@ public class EditPermissionCtrl {
     private TextField text;
 
     /**
-     * Creates a new {@link EditPermissionCtrl} object.
+     * Creates a new {@link UnlockBoardCtrl} object.
      *
      * @param server   is the ServerUtils.
      * @param mainCtrl is the MainCtrl.
      */
     @Inject
-    public EditPermissionCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public UnlockBoardCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
@@ -55,12 +55,10 @@ public class EditPermissionCtrl {
             board.edit = true;
             mainCtrl.switchBoard(board);
             mainCtrl.youHavePermission();
-            mainCtrl.hidePopup();
             reset();
         }else{
             reset();
             mainCtrl.accessDenied();
-            mainCtrl.hidePopup();
         }
     }
 

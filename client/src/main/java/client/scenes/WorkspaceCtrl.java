@@ -105,8 +105,8 @@ public class WorkspaceCtrl implements Initializable {
         server.registerForTaskUpdates(b -> Platform.runLater(() -> {
             updateBoard(b);
             if(mainCtrl.getActiveBoard() != null && mainCtrl.getActiveBoard().id == b.id) {
-                if(b.id == mainCtrl.boardedit.id){
-                    b.edit = mainCtrl.boardedit.edit;
+                if(b.id == mainCtrl.boardEdit.id){
+                    b.edit = mainCtrl.boardEdit.edit;
                 }
                 mainCtrl.switchBoard(b);
             }
@@ -123,8 +123,8 @@ public class WorkspaceCtrl implements Initializable {
         server.registerForTagUpdates(b -> Platform.runLater(() -> {
             updateBoard(b);
             if(mainCtrl.getActiveBoard() != null && mainCtrl.getActiveBoard().id == b.id) {
-                if(b.id == mainCtrl.boardedit.id){
-                    b.edit = mainCtrl.boardedit.edit;
+                if(b.id == mainCtrl.boardEdit.id){
+                    b.edit = mainCtrl.boardEdit.edit;
                 }
                 mainCtrl.switchBoard(b);
             }

@@ -9,7 +9,7 @@ import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
-import client.scenes.crud.board.EditPermissionCtrl;
+import client.scenes.crud.board.UnlockBoardCtrl;
 import client.scenes.crud.board.YouHavePermissionCtrl;
 import client.scenes.crud.tag.CreateTagCtrl;
 import client.scenes.crud.tag.DeleteTagCtrl;
@@ -66,9 +66,9 @@ public class MainCtrl {
     private AccessDeniedCtrl accessDeniedCtrl;
     private Scene permissionAdmin;
     private PermissionAdminCtrl permissionAdminCtrl;
-    private Scene editPermission;
-    private EditPermissionCtrl editPermissionCtrl;
-    private Scene  youHavePermission;
+    private Scene unlockBoard;
+    private UnlockBoardCtrl unlockBoardCtrl;
+    private Scene youHavePermission;
     private YouHavePermissionCtrl youHavePermissionCtrl;
     private Scene editBoardPassword;
     private EditBoardPasswordCtrl editBoardPasswordCtrl;
@@ -96,10 +96,11 @@ public class MainCtrl {
     private EditTagCtrl editTagCtrl;
     private Scene editTag;
     private Stage secondPopupStage;
-    public Board boardedit;
+    public Board boardEdit;
 
     /**
      * Getter for isFocused
+     *
      * @return Task
      */
     public Task getIsFocused() {
@@ -108,7 +109,8 @@ public class MainCtrl {
 
     /**
      * Setter for isFocused
-     * @param isFocused
+     *
+     * @param isFocused is the focused task.
      */
     public void setIsFocused(Task isFocused) {
         this.isFocused = isFocused;
@@ -199,18 +201,18 @@ public class MainCtrl {
     /**
      * Initializes the Scenes and Controllers for the CRUD operations regarding Board.
      *
-     * @param joinBoard   is the Scene for joining Boards.
-     * @param newBoard    is the Scene for creating a new Board.
-     * @param editBoard   is the Scene for editing a Board.
-     * @param deleteBoard is the Scene for deleting a Board.
-     * @param editPermission is the Scene for inputting the password of the board.
+     * @param joinBoard         is the Scene for joining Boards.
+     * @param newBoard          is the Scene for creating a new Board.
+     * @param editBoard         is the Scene for editing a Board.
+     * @param deleteBoard       is the Scene for deleting a Board.
+     * @param unlockBoard       is the Scene for inputting the password of the board.
      * @param youHavePermission is the Scene for the situation in which you already have permission.
      */
     public void initializeBoardCrud(Pair<JoinBoardCtrl, Parent> joinBoard,
                                     Pair<CreateNewBoardCtrl, Parent> newBoard,
                                     Pair<EditBoardCtrl, Parent> editBoard,
                                     Pair<DeleteBoardCtrl, Parent> deleteBoard,
-                                    Pair<EditPermissionCtrl, Parent> editPermission,
+                                    Pair<UnlockBoardCtrl, Parent> unlockBoard,
                                     Pair<YouHavePermissionCtrl, Parent> youHavePermission) {
         this.joinBoardCtrl = joinBoard.getKey();
         this.joinBoard = new Scene(joinBoard.getValue());
@@ -224,8 +226,8 @@ public class MainCtrl {
         this.deleteBoardCtrl = deleteBoard.getKey();
         this.deleteBoard = new Scene(deleteBoard.getValue());
 
-        this.editPermissionCtrl = editPermission.getKey();
-        this.editPermission = new Scene(editPermission.getValue());
+        this.unlockBoardCtrl = unlockBoard.getKey();
+        this.unlockBoard = new Scene(unlockBoard.getValue());
 
         this.youHavePermissionCtrl = youHavePermission.getKey();
         this.youHavePermission = new Scene(youHavePermission.getValue());
@@ -234,9 +236,9 @@ public class MainCtrl {
     /**
      * Initializes the Scenes and Controllers for the CRUD operations regarding admin operations.
      *
-     * @param grantAdmin is the Scene for granting admin.
-     * @param accessDenied is the scene for not having the administrator permission.
-     * @param permissionAdmin is the scene for introducing the correct password.
+     * @param grantAdmin        is the Scene for granting admin.
+     * @param accessDenied      is the scene for not having the administrator permission.
+     * @param permissionAdmin   is the scene for introducing the correct password.
      * @param editBoardPassword is the scene for the board edit permission.
      */
 
@@ -284,7 +286,7 @@ public class MainCtrl {
      *
      * @param helpScreen is the Scene for the keyboard shortcuts menu.
      */
-    public void initializeHelpScreen(Pair<HelpScreenCtrl, Parent> helpScreen){
+    public void initializeHelpScreen(Pair<HelpScreenCtrl, Parent> helpScreen) {
 
         this.helpScreenCtrl = helpScreen.getKey();
         this.helpScreen = new Scene(helpScreen.getValue());
@@ -378,7 +380,7 @@ public class MainCtrl {
     public void switchBoard(Board board) {
         if (boardCtrl != null) {
             boardCtrl.setBoard(board);
-            this.boardedit = board;
+            this.boardEdit = board;
         }
     }
 
@@ -553,7 +555,6 @@ public class MainCtrl {
     }
 
     /**
-     *
      * Switches to the OpenTaskScene
      *
      * @param task is the Task to be opened.
@@ -682,7 +683,7 @@ public class MainCtrl {
     public void addBoardListToWorkspace(List<Board> list) {
         for (Board board : list) {
             if (board != null) {
-                if(!isPresent(board)) {
+                if (!isPresent(board)) {
                     workspaceCtrl.addBoardToWorkspace(board);
                 }
             }
@@ -713,7 +714,6 @@ public class MainCtrl {
 
     /**
      * Loads the scene for GrantAdmin.
-     *
      */
     public void grantAdmin() {
         popupStage.setTitle("Admin");
@@ -723,9 +723,8 @@ public class MainCtrl {
 
     /**
      * Loads the scene for AccessDenied.
-     *
      */
-    public void accessDenied(){
+    public void accessDenied() {
         popupStage.setTitle("Access Denied");
         popupStage.setScene(accessDenied);
         popupStage.show();
@@ -733,9 +732,8 @@ public class MainCtrl {
 
     /**
      * Loads the scene for Permision Admin.
-     *
      */
-    public void permissionAdmin(){
+    public void permissionAdmin() {
         popupStage.setTitle("Permissions upgraded");
         popupStage.setScene(permissionAdmin);
         popupStage.show();
@@ -743,12 +741,13 @@ public class MainCtrl {
 
     /**
      * Loads the scene for Read / Write permissions.
+     *
      * @param board for which we check the password.
      */
-    public void editPermission(Board board){
-        editPermissionCtrl.setBoard(board);
+    public void unlockBoard(Board board) {
+        unlockBoardCtrl.setBoard(board);
         popupStage.setTitle("Edit Board");
-        popupStage.setScene(editPermission);
+        popupStage.setScene(unlockBoard);
         popupStage.show();
     }
 
@@ -763,6 +762,7 @@ public class MainCtrl {
 
     /**
      * Edits the board password.
+     *
      * @param board the board that is edited.
      */
     public void editBoardPassword(Board board) {
@@ -777,13 +777,12 @@ public class MainCtrl {
      *
      * @return admin.
      */
-    public boolean getAdmin(){
+    public boolean getAdmin() {
         return admin;
     }
 
     /**
      * Sets admin to true.
-     *
      */
     public void setAdminTrue() {
         this.admin = true;
@@ -877,8 +876,9 @@ public class MainCtrl {
 
     /**
      * Gets the Index of the following TaskList.
+     *
      * @param taskList TaskList
-     * @param index int
+     * @param index    int
      */
     public void getNextIndex(TaskList taskList, int index) {
         boardCtrl.getNextIndex(taskList, index);
@@ -886,9 +886,10 @@ public class MainCtrl {
 
     /**
      * Gets the index of the neighbouring Task.
+     *
      * @param taskList of the Task
-     * @param index of the Task
-     * @param isRight right/left TaskList
+     * @param index    of the Task
+     * @param isRight  right/left TaskList
      */
     public void getNeighbourIndex(TaskList taskList, int index, boolean isRight) {
         boardCtrl.getNeighbourIndex(taskList, index, isRight);
@@ -928,7 +929,7 @@ public class MainCtrl {
     /**
      * @return The {@link WebsocketSynchroniser} associated with this {@link MainCtrl}
      */
-    public WebsocketSynchroniser getWebsocketSynchroniser(){
+    public WebsocketSynchroniser getWebsocketSynchroniser() {
         return boardSyncroniser;
     }
 

@@ -97,10 +97,10 @@ public class TaskListCtrl {
      * Deletes the TaskList associated with this object.
      */
     public void delete() {
-        if(mainCtrl.boardedit.edit) {
+        if(mainCtrl.boardEdit.edit) {
             mainCtrl.deleteTaskList(this.taskList);
         }else{
-            mainCtrl.editPermission(mainCtrl.boardedit);
+            mainCtrl.unlockBoard(mainCtrl.boardEdit);
         }
     }
 
@@ -108,10 +108,10 @@ public class TaskListCtrl {
      * Edits the TaskList associated with this object.
      */
     public void edit() {
-        if(mainCtrl.boardedit.edit) {
+        if(mainCtrl.boardEdit.edit) {
             mainCtrl.editTaskList(this.taskList);
         }else{
-            mainCtrl.editPermission(mainCtrl.boardedit);
+            mainCtrl.unlockBoard(mainCtrl.boardEdit);
         }
     }
 
@@ -119,10 +119,10 @@ public class TaskListCtrl {
      * Adds a task to this taskList.
      */
     public void addTask() {
-        if(mainCtrl.boardedit.edit) {
+        if(mainCtrl.boardEdit.edit) {
             mainCtrl.addTask(this.taskList);
         }else{
-            mainCtrl.editPermission(mainCtrl.boardedit);
+            mainCtrl.unlockBoard(mainCtrl.boardEdit);
         }
     }
 

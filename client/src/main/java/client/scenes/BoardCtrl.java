@@ -28,9 +28,9 @@ public class BoardCtrl {
     private Board board;
     private ArrayList<TaskListCtrl> listControllers = new ArrayList<>();
     @FXML
-    private Button boardpassword;
+    private Button boardPassword;
     @FXML
-    private Button editpermission;
+    private Button unlockBoard;
     @FXML
     private Label boardTitle;
     @FXML
@@ -85,14 +85,14 @@ public class BoardCtrl {
             boardTitle.setText(board.name + " (id: " + board.id + ")");
             addListButton.setVisible(true);
             tagsButton.setVisible(true);
-            editpermission.setVisible(true);
-            boardpassword.setVisible(true);
+            unlockBoard.setVisible(true);
+            boardPassword.setVisible(true);
         } else {
             boardTitle.setText("No board to be displayed");
             addListButton.setVisible(false);
             tagsButton.setVisible(false);
-            editpermission.setVisible(false);
-            boardpassword.setVisible(false);
+            unlockBoard.setVisible(false);
+            boardPassword.setVisible(false);
         }
     }
 
@@ -148,10 +148,10 @@ public class BoardCtrl {
      */
     public void addTaskList() {
         if (board != null) {
-            if(mainCtrl.boardedit.edit){
+            if(mainCtrl.boardEdit.edit){
                 mainCtrl.addTaskList(board);
             }else{
-                mainCtrl.editPermission(board);
+                mainCtrl.unlockBoard(board);
             }
         }
     }
@@ -160,10 +160,10 @@ public class BoardCtrl {
      * Displays the tag overview.
      */
     public void tagOverview() {
-        if(mainCtrl.boardedit.edit){
+        if(mainCtrl.boardEdit.edit){
             mainCtrl.tagOverview(board);
         }else{
-            mainCtrl.editPermission(board);
+            mainCtrl.unlockBoard(board);
         }
     }
 
@@ -185,11 +185,11 @@ public class BoardCtrl {
      * Checks if you have the read / write permission for the board.
      * In case you are missing it you have to input it.
      */
-    public void editPermissions() {
-        if(mainCtrl.boardedit.edit){
+    public void unlockBoard() {
+        if(mainCtrl.boardEdit.edit){
             mainCtrl.youHavePermission();
         }else{
-            mainCtrl.editPermission(board);
+            mainCtrl.unlockBoard(board);
         }
     }
 
@@ -198,10 +198,10 @@ public class BoardCtrl {
      * If not the scene is changed to the password input.
      */
     public void editBoardPassword() {
-        if (mainCtrl.getAdmin()) {
+        if (mainCtrl.boardEdit.edit) {
             mainCtrl.editBoardPassword(board);
         } else {
-            mainCtrl.grantAdmin();
+            mainCtrl.unlockBoard(board);
         }
     }
 

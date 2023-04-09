@@ -34,6 +34,7 @@ public class EditBoardPasswordCtrl {
      */
     public void setBoard(Board board) {
         this.board = board;
+        text.setText(board.password);
     }
 
     /**

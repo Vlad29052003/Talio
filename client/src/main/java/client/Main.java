@@ -15,7 +15,7 @@ import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
-import client.scenes.crud.board.EditPermissionCtrl;
+import client.scenes.crud.board.UnlockBoardCtrl;
 import client.scenes.crud.board.YouHavePermissionCtrl;
 import client.scenes.crud.tag.CreateTagCtrl;
 import client.scenes.crud.tag.DeleteTagCtrl;
@@ -95,21 +95,21 @@ public class Main extends Application {
                 .load(AccessDeniedCtrl.class,"client", "scenes", "crud", "AccessDenied.fxml");
         var permissionAdmin = FXML
                 .load(PermissionAdminCtrl.class,"client", "scenes", "crud", "PermissionAdmin.fxml");
-        var editPermission = FXML
-                .load(EditPermissionCtrl.class,"client", "scenes", "crud",
-                                                        "BoardEdit.fxml");
+        var unlockBoard = FXML
+                .load(UnlockBoardCtrl.class,"client", "scenes", "crud",
+                                                        "UnlockBoard.fxml");
         var youHavePermission = FXML
                 .load(YouHavePermissionCtrl.class,"client", "scenes", "crud",
                                                         "YouHavePermission.fxml");
         var editBoardPassword = FXML
                 .load(EditBoardPasswordCtrl.class, "client", "scenes", "crud",
-                                                        "NewBoardEdit.fxml");
+                                                        "EditBoardPassword.fxml");
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
 
         mainCtrl.initialize(primaryStage, workspace, board, tagOverview);
         mainCtrl.initializeBoardCrud(joinBoard, createBoard, editBoard, deleteBoard,
-                                        editPermission, youHavePermission);
+                                        unlockBoard, youHavePermission);
         mainCtrl.initializeAdminCrud(grantAdmin, accessDenied, permissionAdmin, editBoardPassword);
         mainCtrl.initializeTaskListCrud(deleteTaskList, newTaskList, editTaskList);
         mainCtrl.initializeTaskCrud(deleteTask, newTask, editTask, openTask);

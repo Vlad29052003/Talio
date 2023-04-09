@@ -5,17 +5,23 @@ import com.google.inject.Inject;
 import commons.Board;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
 
 public class BoardListingCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
+    private ImageView locked;
     private Board board;
     @FXML
     private Label label;
     @FXML
     private VBox root;
+    @FXML
+    private HBox header;
 
     /**
      * Creates a new {@link BoardListingCtrl} object.
@@ -37,6 +43,12 @@ public class BoardListingCtrl {
     public void setBoard(Board board) {
         this.board = board;
         label.setText(board.name + " (id: " + board.id + ")");
+        if (!board.password.equals("") && locked == null) {
+            this.locked = new ImageView(new Image("/client/icons/lock.png"));
+            locked.setScaleX(0.7);
+            locked.setScaleY(0.7);
+            header.getChildren().add(locked);
+        }
     }
 
     /**
@@ -67,13 +79,13 @@ public class BoardListingCtrl {
      */
     public void delete() {
         mainCtrl.switchBoard(this.board);
-        if(this.board.password != null) {
-            if(mainCtrl.getAdmin() || mainCtrl.boardedit.edit){
+        if (this.board.password != null) {
+            if (mainCtrl.getAdmin() || mainCtrl.boardEdit.edit) {
                 mainCtrl.deleteBoard(this.board);
-            }else{
-                mainCtrl.editPermission(this.board);
+            } else {
+                mainCtrl.unlockBoard(this.board);
             }
-        }else{
+        } else {
             mainCtrl.deleteBoard(this.board);
         }
     }
@@ -93,10 +105,10 @@ public class BoardListingCtrl {
      */
     public void edit() {
         mainCtrl.switchBoard(this.board);
-        if(mainCtrl.boardedit.edit){
+        if (mainCtrl.boardEdit.edit) {
             mainCtrl.editBoard(this.board);
-        }else{
-            mainCtrl.editPermission(this.board);
+        } else {
+            mainCtrl.unlockBoard(this.board);
         }
     }
 
