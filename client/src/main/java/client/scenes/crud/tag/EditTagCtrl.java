@@ -56,7 +56,7 @@ public class EditTagCtrl {
     }
 
     /**
-     * Sends a update to delete this tag.
+     * Sends an update to delete this tag.
      */
     public void edit() {
         if (name.getText().isEmpty()) {

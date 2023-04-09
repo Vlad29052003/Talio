@@ -9,7 +9,6 @@ import scenes.ServerUtilsTestingMock;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -43,7 +42,7 @@ public class TestDeleteTaskListCtrl {
     @Test
     public void testCancel() {
         deleteCtrl.cancel();
-        verify(mainCtrl, times(1)).cancel();
+        verify(mainCtrl, times(1)).hidePopup();
     }
 
     @Test
@@ -52,12 +51,6 @@ public class TestDeleteTaskListCtrl {
         deleteCtrl.setTaskList(taskList);
         deleteCtrl.confirm();
         assertEquals(server.getTaskLists(), new ArrayList<>());
-        verify(mainCtrl, times(1)).cancel();
-    }
-
-    @Test
-    public void testReset() {
-        deleteCtrl.reset();
-        assertNull(deleteCtrl.getTaskList());
+        verify(mainCtrl, times(1)).hidePopup();
     }
 }

@@ -4,7 +4,6 @@ import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
 import commons.Task;
 import jakarta.ws.rs.WebApplicationException;
-import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -24,7 +23,6 @@ import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
 import javafx.util.Callback;
-
 import javax.inject.Inject;
 import java.net.URL;
 import java.util.ArrayList;
@@ -35,8 +33,6 @@ import java.util.stream.Collectors;
 public class OpenTaskCtrl implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Platform.runLater(() -> name.requestFocus());
-
         this.name.setOnKeyPressed(event -> {
             KeyCode keyCode = event.getCode();
             if (keyCode == KeyCode.ESCAPE) {
@@ -50,7 +46,6 @@ public class OpenTaskCtrl implements Initializable {
      * Cancels the action.
      */
     public void cancel() {
-        mainCtrl.cancel();
         mainCtrl.hidePopup();
     }
 
@@ -60,9 +55,10 @@ public class OpenTaskCtrl implements Initializable {
 
         /**
          * Creates a new subtask from a name and a boolean.
-         * @param name      is the name of the subtask.
-         * @param completed is the boolean representing whether the subtask is completed.
-         * @param task      is the task that contains the subtask.
+         *
+         * @param name       is the name of the subtask.
+         * @param completed  is the boolean representing whether the subtask is completed.
+         * @param task       is the task that contains the subtask.
          * @param controller the controller for the UI.
          */
         public SubTask(String name, boolean completed, Task task, OpenTaskCtrl controller) {
@@ -79,10 +75,11 @@ public class OpenTaskCtrl implements Initializable {
 
         /**
          * create a subtask from how it is represented in a task (a "0" or a "1" is appended
-         *  representing whether the subtask is completed.)
+         * representing whether the subtask is completed.)
+         *
          * @param abstractName the representation of a subtask in a task.
-         * @param task the task that contains the subtask.
-         * @param controller the UI controller.
+         * @param task         the task that contains the subtask.
+         * @param controller   the UI controller.
          */
         public SubTask(String abstractName, Task task, OpenTaskCtrl controller) {
             this(
@@ -95,6 +92,7 @@ public class OpenTaskCtrl implements Initializable {
 
         /**
          * get the property of the name.
+         *
          * @return the string property.
          */
         public final StringProperty nameProperty() {
@@ -103,6 +101,7 @@ public class OpenTaskCtrl implements Initializable {
 
         /**
          * get the name of the subtask.
+         *
          * @return the name.
          */
         public final String getName() {
@@ -111,6 +110,7 @@ public class OpenTaskCtrl implements Initializable {
 
         /**
          * set the name of the subtask.
+         *
          * @param name is the name.
          */
         public final void setName(final String name) {
@@ -119,6 +119,7 @@ public class OpenTaskCtrl implements Initializable {
 
         /**
          * get the boolean property that represents whether the subtask is completed.
+         *
          * @return the property.
          */
         public final BooleanProperty completedProperty() {
@@ -126,15 +127,8 @@ public class OpenTaskCtrl implements Initializable {
         }
 
         /**
-         * returns whether the subtask has been completed.
-         * @return the boolean gotten from the completed property.
-         */
-        public final boolean isCompleted() {
-            return this.completedProperty().get();
-        }
-
-        /**
          * sets the completed property.
+         *
          * @param completed is whether the subtask is completed.
          */
         public final void setCompleted(final boolean completed) {
@@ -146,6 +140,7 @@ public class OpenTaskCtrl implements Initializable {
             return getName();
         }
     }
+
     private final MainCtrl mainCtrl;
     private final ServerUtils server;
     private Task task;
@@ -161,8 +156,8 @@ public class OpenTaskCtrl implements Initializable {
     /**
      * Creates as new {@link OpenTaskCtrl} object.
      *
-     * @param server    is the ServerUtils.
-     * @param mainCtrl  is the MainCtrl.
+     * @param server   is the ServerUtils.
+     * @param mainCtrl is the MainCtrl.
      */
     @Inject
     public OpenTaskCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -171,7 +166,6 @@ public class OpenTaskCtrl implements Initializable {
     }
 
     /**
-     *
      * Sets the task.
      *
      * @param task the task to be set.
@@ -204,7 +198,7 @@ public class OpenTaskCtrl implements Initializable {
             alert.setContentText("The board was not found on the server!" +
                     "\rIt will be removed from the workspace!");
             alert.showAndWait();
-            mainCtrl.cancel();
+            cancel();
         }
     }
 
@@ -223,9 +217,7 @@ public class OpenTaskCtrl implements Initializable {
     }
 
     /**
-     *
      * Adds a SubTask when the button is clicked.
-     *
      */
     public void onAddSubTask() {
         if(mainCtrl.getAdmin() || task.getTaskList().board.isEditable()) {

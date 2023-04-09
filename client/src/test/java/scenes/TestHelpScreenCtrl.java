@@ -4,22 +4,25 @@ import client.scenes.HelpScreenCtrl;
 import client.scenes.MainCtrl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class TestHelpScreenCtrl {
-    private MainCtrl mainCtrl;
     private ServerUtilsTestingMock server;
-    private HelpScreenCtrl help;
+    private MainCtrl mainCtrl;
+    private HelpScreenCtrl helpCtrl;
 
     @BeforeEach
-    public void SetUp(){
-        help = new HelpScreenCtrl(server, mainCtrl);
+    public void setUp() {
+        server = new ServerUtilsTestingMock();
+        mainCtrl = mock(MainCtrl.class);
+        helpCtrl = new HelpScreenCtrl(server, mainCtrl);
     }
 
     @Test
-    public void TestConstructor(){
-        HelpScreenCtrl help1 = new HelpScreenCtrl(server, mainCtrl);
-        assertNotNull(help1);
+    public void testCancel() {
+        helpCtrl.cancel();
+        verify(mainCtrl, times(1)).hidePopup();
     }
 }

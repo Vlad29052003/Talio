@@ -43,8 +43,6 @@ public class CreateTaskListCtrl {
      * Sets the keyboard shortcuts for ENTER and ESC.
      */
     public void initialize() {
-        Platform.runLater(() -> text.requestFocus());
-
         this.text.setOnKeyPressed(event -> {
             KeyCode keyCode = event.getCode();
             if (keyCode == KeyCode.ENTER) {
@@ -82,9 +80,6 @@ public class CreateTaskListCtrl {
      * Switches back to the workspace Scene.
      */
     public void cancel() {
-        Platform.runLater(() -> text.requestFocus());
-        reset();
-        mainCtrl.cancel();
         mainCtrl.hidePopup();
     }
 
@@ -93,7 +88,6 @@ public class CreateTaskListCtrl {
      * Creates a new TaskList.
      */
     public void add() {
-        Platform.runLater(() -> text.requestFocus());
         if (text.getText().isEmpty()) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
@@ -102,10 +96,8 @@ public class CreateTaskListCtrl {
             return;
         }
         try {
-            board = server.addTaskList(new TaskList(text.getText()), board.id);
-            mainCtrl.refreshBoard(board);
+            server.addTaskList(new TaskList(text.getText()), board.id);
             reset();
-            mainCtrl.cancel();
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);

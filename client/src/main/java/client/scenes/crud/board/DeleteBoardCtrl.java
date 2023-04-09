@@ -75,7 +75,6 @@ public class DeleteBoardCtrl {
      */
     public void cancel() {
         mainCtrl.cancel();
-        mainCtrl.hidePopup();
     }
 
     /**
@@ -92,8 +91,7 @@ public class DeleteBoardCtrl {
             alert.setContentText("This board does not exist on the server!");
             alert.showAndWait();
         }
-        mainCtrl.cancel();
-        mainCtrl.hidePopup();
+        cancel();
     }
 
     /**

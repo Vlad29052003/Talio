@@ -1,41 +1,38 @@
 package server.api;
 
 import commons.Board;
-import commons.Tag;
 import commons.Task;
 import commons.TaskList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.async.DeferredResult;
-import server.database.TagRepository;
+import server.service.TaskService;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class TaskControllerTest {
-    private TaskListTestRepository listRepo;
-    private TestTaskRepository taskRepo;
     private TaskController taskController;
-    private TagRepository tagRepo;
+    private TaskService taskService;
     private List<TaskList> lists;
-
     private List<Task> tasks;
+    private long inc = 4L;
 
     @BeforeEach
     public void setup() {
         lists = new ArrayList<>();
         tasks = new ArrayList<>();
-        listRepo = new TaskListTestRepository();
-        taskRepo = new TestTaskRepository();
-        tagRepo = mock(TagRepository.class);
-        taskController = new TaskController(taskRepo, listRepo, tagRepo);
+        taskService = mock(TaskService.class);
+        taskController = new TaskController(taskService);
         Board b = new Board("test", "", "");
         TaskList l1 = new TaskList("list1");
         l1.id = 1L;
@@ -61,134 +58,137 @@ public class TaskControllerTest {
         l2.setBoard(b);
         lists.addAll(List.of(l1, l2));
         tasks.addAll(List.of(t1, t2, t3));
-        taskRepo.getTasks().addAll(List.of(t1, t2, t3));
-        listRepo.lists.addAll(List.of(l1, l2));
+        when(taskService.getAll()).thenReturn(tasks);
+        doAnswer(invocation -> {
+            Long id = invocation.getArgument(0);
+            var res = tasks.stream().filter(t -> t.id == id).findFirst();
+            if(res.isPresent())return ResponseEntity.ok(res.get());
+            return ResponseEntity.badRequest().body("Invalid ID.");
+        }).when(taskService).getById(Mockito.any(Long.class));
+        doAnswer(invocation -> {
+            Long newListId = invocation.getArgument(0);
+            int index = invocation.getArgument(1);
+            Long taskId = invocation.getArgument(2);
+            var optList = lists.stream().filter(l -> l.id == newListId).findFirst();
+            var optTask = tasks.stream().filter(t -> t.id == taskId).findFirst();
+            if(optList.isEmpty() || optTask.isEmpty())
+                return ResponseEntity.badRequest().body("Invalid ID.");
+            Task t = optTask.get();
+            TaskList tl = optList.get();
+            t.setTaskList(tl);
+            tl.addTask(t);
+            t.index = index;
+            return ResponseEntity.ok("Changed successfully!");
+        }).when(taskService).moveTask(Mockito.any(Long.class),
+                Mockito.any(Integer.class), Mockito.any(Long.class));
+        doAnswer(invocation -> {
+            Task t = invocation.getArgument(1);
+            t.id = inc++;
+            return ResponseEntity.ok(t);
+        }).when(taskService).createTask(Mockito.any(Long.class),
+                Mockito.any(Task.class));
+        doAnswer(invocation -> {
+            Task updated = invocation.getArgument(0);
+            var res = tasks.stream().filter(t -> t.id == updated.id).findFirst();
+            if(res.isPresent()) {
+                Task t = res.get();
+                t.name = updated.name;
+                return ResponseEntity.ok("Task updated.");
+            }
+            return ResponseEntity.badRequest().body("Invalid ID.");
+        }).when(taskService).updateTask(Mockito.any(Task.class));
+        doAnswer(invocation -> {
+            long id = invocation.getArgument(0);
+            var res = tasks.stream().filter(t -> t.id == id).findFirst();
+            if(res.isPresent()) {
+                tasks.remove(res.get());
+                return ResponseEntity.ok("Successfully deleted.");
+            }
+            return ResponseEntity.badRequest().body("Invalid ID.");
+        }).when(taskService).deleteById(Mockito.any(Long.class));
     }
 
     @Test
     public void testGetAll() {
         assertEquals(taskController.getAll(), tasks);
-        assertTrue(taskRepo.getCalledMethods().contains("findAll") &&
-                taskRepo.getCalledMethods().size() == 1);
+        verify(taskService, times(1)).getAll();
     }
 
     @Test
-    public void testValidGetById() {
+    public void testGetById() {
         assertEquals(taskController.getById(1L), ResponseEntity.ok(tasks.get(0)));
-        assertEquals(taskRepo.getCalledMethods(), List.of("existsById", "findById"));
+        verify(taskService, times(1)).getById(1L);
     }
 
     @Test
-    public void testNegativeIdGetById() {
-        assertEquals(taskController.getById(-1L), ResponseEntity.badRequest().body("Invalid ID."));
-    }
-
-    @Test
-    public void testInexistentIdGetById() {
-        assertEquals(taskController.getById(5L), ResponseEntity.badRequest().body("Invalid ID."));
-        assertEquals(taskRepo.getCalledMethods(), List.of("existsById"));
-    }
-
-    @Test
-    public void testInexistentListMoveTask() {
-        assertEquals(taskController.moveTask(4L, 1, 2L),
-                ResponseEntity.badRequest().body("Invalid ID."));
-        assertTrue(listRepo.calledMethods.contains("existsById"));
+    public void testInexistentGetById() {
+        assertEquals(taskController.getById(0L), ResponseEntity.badRequest().body("Invalid ID."));
+        verify(taskService, times(1)).getById(0L);
     }
 
     @Test
     public void testMoveTask() {
         assertEquals(taskController.moveTask(2L, 1, 2L),
                 ResponseEntity.ok("Changed successfully!"));
-        assertEquals(tasks.get(1).getTaskList(), lists.get(1));
+        verify(taskService, times(1)).moveTask(2L, 1, 2L);
         assertEquals(tasks.get(1).index, 1);
-        assertEquals(tasks.get(0).index, 1);
-        assertEquals(tasks.get(2).index, 2);
-        Task moved = taskRepo.getTaskWithIt(2L);
-        assertEquals(moved.index, 1);
-
-        assertTrue(listRepo.calledMethods.contains("existsById")
-                && listRepo.calledMethods.contains("findById"));
-        assertEquals(taskRepo.getCalledMethods(),
-                List.of("existsById", "findById", "saveAndFlush"));
+        assertEquals(tasks.get(1).getTaskList(), lists.get(1));
     }
 
     @Test
-    public void testInexistentListCreateTask() {
-        assertEquals(taskController.createTask(5L, null),
+    public void testInexistentMoveTask() {
+        assertEquals(taskController.moveTask(2L, 1, 5L),
                 ResponseEntity.badRequest().body("Invalid ID."));
-        assertTrue(listRepo.calledMethods.contains("existsById"));
+        verify(taskService, times(1)).moveTask(2L, 1, 5L);
     }
 
-    @Test
-    public void testNullTaskCreateTask() {
-        assertEquals(taskController.createTask(1L, null),
-                ResponseEntity.badRequest().body("Invalid data."));
-        assertTrue(listRepo.calledMethods.contains("existsById"));
-    }
-
-    @Test
-    public void testCreateTask() {
-        Task newTask = new Task("newTask", 1, "");
-        assertEquals(taskController.createTask(1L, newTask),
-                ResponseEntity.ok(taskRepo.saveAndFlush(newTask)));
-        assertEquals(newTask.index, 4);
-        assertEquals(newTask.getTaskList(), lists.get(0));
-        assertTrue(taskRepo.getTasks().contains(newTask));
-        assertEquals(listRepo.calledMethods, List.of("existsById", "findById", "findById"));
-        assertEquals(taskRepo.getCalledMethods(), List.of("saveAndFlush", "saveAndFlush"));
-    }
-
-    @Test
-    public void testNullTaskUpdateTask() {
-        assertEquals(taskController.updateTask(null),
-                ResponseEntity.badRequest().body("Invalid data."));
+    @Test public void testCreate() {
+        Task newest = new Task("new", 0, "");
+        Task expected = new Task("new", 0, "");
+        expected.id = 4L;
+        assertEquals(taskController.createTask(1L, newest),
+                ResponseEntity.ok(expected));
     }
 
     @Test
     public void testUpdateTask() {
-        Task updatedTask = new Task("Task1Updated", 1, "this is updated");
-        Tag tag = new Tag();
-        tag.id = 0L;
-        when(tagRepo.findById(0L)).thenReturn(Optional.of(tag));
-        updatedTask.tags.add(tag);
-        tasks.get(0).tags.add(tag);
-        updatedTask.id = 1L;
-
-        assertEquals(taskController.updateTask(updatedTask), ResponseEntity.ok("Task updated."));
-        assertEquals(tasks.get(0).name, "Task1Updated");
-        assertEquals(tasks.get(0).description, "this is updated");
-        assertEquals(taskRepo.getCalledMethods(),
-                List.of("existsById", "findById", "saveAndFlush"));
+        Task updated = new Task("Updated", 1, "");
+        updated.id = 1L;
+        assertEquals(taskController.updateTask(updated), ResponseEntity.ok("Task updated."));
+        assertEquals(tasks.get(0).name, "Updated");
+        verify(taskService, times(1)).updateTask(updated);
     }
 
     @Test
-    public void testInexistentTaskDeleteById() {
-        assertEquals(taskController.deleteById(10L),
+    public void testInexistentUpdateTask() {
+        Task updated = new Task("Updated", 1, "");
+        updated.id = 5L;
+        assertEquals(taskController.updateTask(updated),
                 ResponseEntity.badRequest().body("Invalid ID."));
-        assertEquals(taskRepo.getCalledMethods(), List.of("existsById"));
+        verify(taskService, times(1)).updateTask(updated);
     }
 
     @Test
-    public void testDeleteById() {
-        Task t1 = tasks.get(0);
-        Tag tag = new Tag();
-        tag.applyTo(t1);
-        t1.tags.add(tag);
-        taskRepo.getTasks().set(0, t1);
+    public void testDelete() {
+        Task deleted = tasks.get(0);
         assertEquals(taskController.deleteById(1L),
                 ResponseEntity.ok("Successfully deleted."));
-        assertEquals(taskRepo.getCalledMethods(),
-                List.of("existsById", "findById", "delete", "deleteById", "flush"));
-        assertFalse(taskRepo.getTasks().contains(tasks.get(0)));
+        assertFalse(tasks.contains(deleted));
+        verify(taskService, times(1)).deleteById(1L);
     }
 
     @Test
-    public void testGetUpdatesNoUpdates() {
-        var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        var res = new DeferredResult<ResponseEntity<Board>>(5000L, noContent);
-        assertEquals(taskController.getUpdates().getResult(), res.getResult());
+    public void testInexistentDelete() {
+        assertEquals(taskController.deleteById(5L),
+                ResponseEntity.badRequest().body("Invalid ID."));
+        verify(taskService, times(1)).deleteById(5L);
     }
 
-
+    @Test
+    public void testGetUpdates() {
+        var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        var res = new DeferredResult<ResponseEntity<Board>>(5000L, noContent);
+        when(taskService.getUpdates()).thenReturn(res);
+        assertEquals(taskController.getUpdates().getResult(), res.getResult());
+    }
 }

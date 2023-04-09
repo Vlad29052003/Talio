@@ -88,7 +88,6 @@ public class CreateNewBoardCtrl {
      */
     public void cancel() {
         mainCtrl.cancel();
-        mainCtrl.hidePopup();
     }
 
     /**
@@ -124,8 +123,7 @@ public class CreateNewBoardCtrl {
             alert.setContentText("There has been an error!\r" + e.getMessage());
             alert.showAndWait();
         }
-        mainCtrl.cancel();
-        mainCtrl.hidePopup();
+        cancel();
     }
 
     /**

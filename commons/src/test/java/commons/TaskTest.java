@@ -76,6 +76,12 @@ public class TaskTest {
     }
 
     @Test
+    public void testAddExistingSubtask() {
+        t1.addSubTask("s1");
+        assertFalse(t1.addSubTask("s1"));
+    }
+
+    @Test
     public void testRemoveExistingSubtask() {
         t1.addSubTask("s1");
         List<String> expected = new ArrayList<>();
@@ -90,6 +96,33 @@ public class TaskTest {
         expected.add("s10");
         assertFalse(t1.removeSubTask("s2"));
         assertEquals(t1.subtasks, expected);
+    }
+
+    @Test
+    public void testSetSubtask() {
+        t1.addSubTask("s1");
+        t1.setSubTask("s1", true);
+        assertTrue(t1.subtasks.contains("s11"));
+    }
+
+    @Test
+    public void testCalculateProgress() {
+        t1.addSubTask("s1");
+        t1.setSubTask("s1", true);
+        t1.addSubTask("s2");
+        assertEquals(t1.calculateProgress(), 0.5);
+    }
+
+    @Test
+    public void testCalculateProgressEmptyList() {
+        assertEquals(t1.calculateProgress(), 1.0);
+    }
+
+    @Test
+    public void testCompletedSubtasks() {
+        t1.addSubTask("s1");
+        t1.setSubTask("s1", true);
+        assertEquals(t1.completedSubtasks(), 1);
     }
 
     @Test
@@ -146,7 +179,7 @@ public class TaskTest {
     }
 
     @Test
-    public void testCalculateProgress(){
+    public void testCalculateProgress2(){
         assertEquals(1.0, t1.calculateProgress());
         
         t1.addSubTask("sub1");
@@ -156,7 +189,7 @@ public class TaskTest {
     }
 
     @Test
-    public void testCompletedSubtasks(){
+    public void testCompletedSubtasks2(){
         assertEquals(0, t1.completedSubtasks());
 
         t1.addSubTask("sub1");

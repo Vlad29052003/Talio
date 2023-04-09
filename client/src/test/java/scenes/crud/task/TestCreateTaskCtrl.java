@@ -8,6 +8,8 @@ import scenes.ServerUtilsTestingMock;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class TestCreateTaskCtrl {
     private ServerUtilsTestingMock server;
@@ -30,5 +32,11 @@ public class TestCreateTaskCtrl {
     @Test
     public void testGetSetTaskList() {
         assertNull(createTaskCtrl.getTaskList());
+    }
+
+    @Test
+    public void testCancel() {
+        createTaskCtrl.cancel();
+        verify(mainCtrl, times(1)).hidePopup();
     }
 }

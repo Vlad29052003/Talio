@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
@@ -230,6 +231,17 @@ public class TestWorkspaceCtrl {
         WorkspaceCtrl test = new WorkspaceCtrl(server, mainCtrl);
         test.stop();
         verify(server, times(1)).stop();
+    }
+
+    @Test
+    public void testOpenHelpScreen() {
+        workspaceCtrl.openHelpScreen();
+        verify(mainCtrl, times(1)).openHelpScreen();
+    }
+
+    @Test
+    public void testGetServer() {
+        assertNull(workspaceCtrl.getServer());
     }
 
 }
