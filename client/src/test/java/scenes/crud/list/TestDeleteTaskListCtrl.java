@@ -52,6 +52,6 @@ public class TestDeleteTaskListCtrl {
         deleteCtrl.setTaskList(taskList);
         deleteCtrl.confirm();
         assertEquals(server.getTaskLists(), new ArrayList<>());
-        verify(mainCtrl, times(1)).cancel();
+        verify(mainCtrl, times(1)).hidePopup();
     }
 }

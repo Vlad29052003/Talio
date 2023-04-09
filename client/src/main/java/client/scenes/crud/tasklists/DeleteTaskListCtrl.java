@@ -91,9 +91,6 @@ public class DeleteTaskListCtrl {
             alert.setContentText("This list does not exist on the server!");
             alert.showAndWait();
         }
-
-        mainCtrl.removeTaskList(taskList);
-        mainCtrl.cancel();
         mainCtrl.hidePopup();
     }
 }

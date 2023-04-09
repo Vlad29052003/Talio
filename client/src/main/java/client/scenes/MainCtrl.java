@@ -77,6 +77,7 @@ public class MainCtrl {
 
     /**
      * Getter for isFocused
+     *
      * @return Task
      */
     public Task getIsFocused() {
@@ -85,6 +86,7 @@ public class MainCtrl {
 
     /**
      * Setter for isFocused
+     *
      * @param isFocused
      */
     public void setIsFocused(Task isFocused) {
@@ -224,7 +226,7 @@ public class MainCtrl {
      *
      * @param helpScreen is the Scene for the keyboard shortcuts menu.
      */
-    public void initializeHelpScreen(Pair<HelpScreenCtrl, Parent> helpScreen){
+    public void initializeHelpScreen(Pair<HelpScreenCtrl, Parent> helpScreen) {
 
         this.helpScreenCtrl = helpScreen.getKey();
         this.helpScreen = new Scene(helpScreen.getValue());
@@ -338,26 +340,6 @@ public class MainCtrl {
     public void removeFromWorkspace(BoardListingCtrl removed) {
         workspaceCtrl.removeFromWorkspace(removed);
         boardCtrl.setBoard(null);
-    }
-
-    /**
-     * Updates the TaskList with the same id as taskList
-     * from the workspace.
-     *
-     * @param taskList is the taskList to be updated.
-     */
-    public void updateTaskList(TaskList taskList) {
-        boardCtrl.updateTaskList(taskList);
-    }
-
-    /**
-     * Removes the TaskList with the same id as taskList
-     * from the workspace.
-     *
-     * @param taskList is the taskList to be removed.
-     */
-    public void removeTaskList(TaskList taskList) {
-        boardCtrl.removeTaskListFromBoard(taskList);
     }
 
     /**
@@ -492,7 +474,6 @@ public class MainCtrl {
     }
 
     /**
-     *
      * Switches to the OpenTaskScene
      *
      * @param task is the Task to be opened.
@@ -706,15 +687,6 @@ public class MainCtrl {
     }
 
     /**
-     * Removes the task from ListView.
-     *
-     * @param task is the Task to be removed.
-     */
-    public void removeTask(Task task) {
-        boardCtrl.removeTask(task);
-    }
-
-    /**
      * Resets focus.
      */
     public void resetFocus() {
@@ -723,8 +695,9 @@ public class MainCtrl {
 
     /**
      * Gets the Index of the following TaskList.
+     *
      * @param taskList TaskList
-     * @param index int
+     * @param index    int
      */
     public void getNextIndex(TaskList taskList, int index) {
         boardCtrl.getNextIndex(taskList, index);
@@ -732,9 +705,10 @@ public class MainCtrl {
 
     /**
      * Gets the index of the neighbouring Task.
+     *
      * @param taskList of the Task
-     * @param index of the Task
-     * @param isRight right/left TaskList
+     * @param index    of the Task
+     * @param isRight  right/left TaskList
      */
     public void getNeighbourIndex(TaskList taskList, int index, boolean isRight) {
         boardCtrl.getNeighbourIndex(taskList, index, isRight);
@@ -774,7 +748,7 @@ public class MainCtrl {
     /**
      * @return The {@link WebsocketSynchroniser} associated with this {@link MainCtrl}
      */
-    public WebsocketSynchroniser getWebsocketSynchroniser(){
+    public WebsocketSynchroniser getWebsocketSynchroniser() {
         return boardSyncroniser;
     }
 

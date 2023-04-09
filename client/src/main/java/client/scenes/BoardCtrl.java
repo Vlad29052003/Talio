@@ -73,6 +73,10 @@ public class BoardCtrl {
         refresh();
     }
 
+    public void setBoardWithoutRefresh(Board board) {
+        this.board = board;
+    }
+
     /**
      * Refreshes the name of the Board.
      */
@@ -152,66 +156,6 @@ public class BoardCtrl {
     }
 
     /**
-     * Removes a TaskList from the board.
-     *
-     * @param removed is the TaskList to be removed.
-     */
-    public void removeTaskListFromBoard(TaskList removed) {
-        TaskListCtrl taskList =
-                listControllers.stream().filter(b -> b.getTaskList().equals(removed)).
-                        findFirst().get();
-        listControllers.remove(taskList);
-        listContainer.getChildren().remove(taskList.getRoot());
-        board.removeTaskList(removed);
-    }
-
-    /**
-     * Removes a Task from the board.
-     *
-     * @param removed is the removed Task.
-     */
-    public void removeTask(Task removed) {
-        TaskListCtrl taskListCtrl =
-                listControllers.stream().filter(b -> b.getTaskList().tasks.contains(removed)).
-                        findFirst().get();
-        taskListCtrl.getTaskList().removeTask(removed);
-        taskListCtrl.refresh();
-    }
-
-    /**
-     * Updates a TaskList on the board.
-     *
-     * @param updated is the TaskList to be updated.
-     */
-    public void updateTaskList(TaskList updated) {
-        var toBeUpdated =
-                listControllers.stream().filter(b -> b.getTaskList().id == updated.id).findFirst();
-        if (toBeUpdated.isEmpty()) return;
-        var updatedTaskList = toBeUpdated.get();
-        updatedTaskList.setTaskList(updated);
-        updatedTaskList.refresh();
-    }
-
-    /**
-     * Updates a Task in the Board.
-     *
-     * @param updated is the updated Task.
-     */
-    public void updateTask(Task updated) {
-        var toBeUpdated =
-                listControllers.stream().filter(b -> b.getTaskList()
-                        .tasks.get(updated.index).id == updated.id).findFirst();
-
-        if (toBeUpdated.isEmpty()) return;
-        TaskListCtrl tlCtrl = toBeUpdated.get();
-        Task found = tlCtrl.getTaskList().tasks.get(updated.index);
-        found.name = updated.name;
-        found.description = updated.description;
-        found.subtasks = updated.subtasks;
-        tlCtrl.refresh();
-    }
-
-    /**
      * Resets the background to transparent.
      * (removes the highlight)
      */
@@ -246,7 +190,7 @@ public class BoardCtrl {
                 .sorted(idComparator).collect(Collectors.toList());
         int i = sortedTaskList.indexOf(taskList);
 
-        TaskList nextTaskList = null;
+        TaskList nextTaskList;
 
         if (isRight) {
             if (i == board.lists.size() - 1) {
@@ -276,6 +220,7 @@ public class BoardCtrl {
                 i = sortedTaskList.size() - 1;
             }
             nextTaskList = sortedTaskList.get(i);
+            step ++;
         }
 
         TaskList finalNextTaskList = nextTaskList;

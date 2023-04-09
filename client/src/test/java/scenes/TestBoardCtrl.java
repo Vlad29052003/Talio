@@ -2,9 +2,14 @@ package scenes;
 
 import client.scenes.BoardCtrl;
 import client.scenes.MainCtrl;
+import client.scenes.TaskCtrl;
+import client.scenes.TaskListCtrl;
 import commons.Board;
+import commons.Task;
+import commons.TaskList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
@@ -45,6 +50,14 @@ public class TestBoardCtrl {
     @Test
     public void testTagOverview() {
         boardCtrl.tagOverview();
+        boardCtrl.resetFocus();
+        TaskList list = new TaskList();
+        board.lists.add(list);
+        boardCtrl.setBoardWithoutRefresh(board);
+        list.id = 1L;
+        boardCtrl.getNextIndex(list, 5);
+        boardCtrl.getNeighbourIndex(list, 5, true);
+        boardCtrl.getNeighbourIndex(list, 5, false);
         verify(mainCtrl, times(1)).tagOverview(null);
     }
 }

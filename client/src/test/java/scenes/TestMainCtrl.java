@@ -137,49 +137,6 @@ public class TestMainCtrl {
     }
 
     @Test
-    public void testRemoveTask() {
-        Task t1 = new Task();
-        final Task[] t = {new Task()};
-        List<Task> added = new ArrayList<>(List.of(t1));
-        doAnswer(invocation -> {
-            t[0] = invocation.getArgument(0);
-            if (added.contains(t[0])) added.remove(t[0]);
-            return null;
-        }).when(boardCtrl).removeTask(Mockito.any(Task.class));
-        mainCtrl.removeTask(t1);
-        assertEquals(added, new ArrayList<>());
-        verify(boardCtrl, times(1)).removeTask(t1);
-    }
-
-    @Test
-    public void testUpdateTaskList() {
-        final TaskList[] t = {new TaskList()};
-        doAnswer(invocation -> {
-            t[0] = invocation.getArgument(0);
-            return null;
-        }).when(boardCtrl).updateTaskList(Mockito.any(TaskList.class));
-        TaskList expected = new TaskList("expected");
-        mainCtrl.updateTaskList(expected);
-        assertEquals(t[0], expected);
-        verify(boardCtrl, times(1)).updateTaskList(expected);
-    }
-
-    @Test
-    public void testRemoveTaskList() {
-        TaskList t1 = new TaskList();
-        final TaskList[] t = {new TaskList()};
-        List<TaskList> added = new ArrayList<>(List.of(t1));
-        doAnswer(invocation -> {
-            t[0] = invocation.getArgument(0);
-            if (added.contains(t[0])) added.remove(t[0]);
-            return null;
-        }).when(boardCtrl).removeTaskListFromBoard(Mockito.any(TaskList.class));
-        mainCtrl.removeTaskList(t1);
-        assertEquals(added, new ArrayList<>());
-        verify(boardCtrl, times(1)).removeTaskListFromBoard(t1);
-    }
-
-    @Test
     public void testRemoveFromWorkspace() {
         Board removed = new Board("test", "", "");
         removed.id = 0L;
@@ -191,5 +148,32 @@ public class TestMainCtrl {
     public void testGetActiveBoard() {
         assertEquals(mainCtrl.getActiveBoard(), board);
         verify(boardCtrl, times(1)).getBoard();
+    }
+
+    @Test
+    public void testSetGetIsFocused() {
+        Task focused = new Task();
+        mainCtrl.setIsFocused(focused);
+        assertEquals(mainCtrl.getIsFocused(), focused);
+    }
+
+    @Test
+    public void testResetFocus() {
+        mainCtrl.resetFocus();
+        verify(boardCtrl, times(1)).resetFocus();
+    }
+
+    @Test
+    public void testGetNextIndex() {
+        TaskList tl = new TaskList();
+        mainCtrl.getNextIndex(tl, 1);
+        verify(boardCtrl, times(1)).getNextIndex(tl, 1);
+    }
+
+    @Test
+    public void testGetNeighbouringIndex() {
+        TaskList tl = new TaskList();
+        mainCtrl.getNeighbourIndex(tl, 1, true);
+        verify(boardCtrl, times(1)).getNeighbourIndex(tl, 1, true);
     }
 }

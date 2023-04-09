@@ -132,7 +132,7 @@ public class TaskCtrl {
 
     }
 
-    private void openTaskOverview() {
+    public void openTaskOverview() {
         mainCtrl.openTask(task);
     }
 
@@ -243,7 +243,7 @@ public class TaskCtrl {
                 textColor = "#ffffff";
             return "-fx-text-fill: " + textColor + ";";
         }
-        return "-fx-text-fill: #000000";
+        return "-fx-text-fill: #000000;";
     }
 
     /**
