@@ -72,7 +72,8 @@ public class JoinBoardCtrl {
      * Switches back to the workspace Scene.
      */
     public void cancel() {
-        mainCtrl.hidePopup();
+        reset();
+        mainCtrl.cancel();
     }
 
     /**

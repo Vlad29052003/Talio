@@ -49,8 +49,6 @@ public class EditBoardCtrl {
      * Sets the keyboard shortcuts for ENTER and ESC.
      */
     public void initialize() {
-        Platform.runLater(() -> text.requestFocus());
-
         this.text.setOnKeyPressed(event -> {
             KeyCode keyCode = event.getCode();
             if (keyCode == KeyCode.ENTER) {
@@ -89,6 +87,7 @@ public class EditBoardCtrl {
             this.listFontColorPicker.setValue(Color.valueOf("#000000"));
         else
             this.listFontColorPicker.setValue(Color.valueOf(this.board.listFontColor));
+        Platform.runLater(() -> text.requestFocus());
     }
 
     /**
@@ -105,7 +104,7 @@ public class EditBoardCtrl {
      * Switches back to the workspace Scene.
      */
     public void cancel() {
-        mainCtrl.hidePopup();
+        mainCtrl.cancel();
     }
 
     /**
@@ -149,7 +148,7 @@ public class EditBoardCtrl {
             this.reset();
             return;
         }
-        mainCtrl.hidePopup();
+        cancel();
     }
 
     /**

@@ -74,7 +74,7 @@ public class DeleteBoardCtrl {
      * Switches back to the workspace Scene.
      */
     public void cancel() {
-        mainCtrl.hidePopup();
+        mainCtrl.cancel();
     }
 
     /**
@@ -91,7 +91,7 @@ public class DeleteBoardCtrl {
             alert.setContentText("This board does not exist on the server!");
             alert.showAndWait();
         }
-        mainCtrl.hidePopup();
+        cancel();
     }
 
     /**

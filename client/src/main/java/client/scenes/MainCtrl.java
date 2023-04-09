@@ -387,7 +387,8 @@ public class MainCtrl {
             workspaceCtrl.addBoardToWorkspace(createBoardCtrl.getBoard());
         }
         createBoardCtrl.reset();
-        primaryStage.setScene(workspaceScene);
+        hidePopup();
+        hideSecondPopup();
     }
 
     /**

@@ -43,7 +43,7 @@ public class TestDeleteBoardCtrl {
     @Test
     public void testCancel() {
         deleteCtrl.cancel();
-        verify(mainCtrl, times(1)).hidePopup();
+        verify(mainCtrl, times(1)).cancel();
     }
 
     @Test
@@ -52,7 +52,7 @@ public class TestDeleteBoardCtrl {
         deleteCtrl.setBoard(board);
         deleteCtrl.confirm();
         assertEquals(server.getBoards(), new ArrayList<>());
-        verify(mainCtrl, times(1)).hidePopup();
+        verify(mainCtrl, times(1)).cancel();
     }
 
     @Test

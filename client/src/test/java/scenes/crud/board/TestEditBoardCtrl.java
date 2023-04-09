@@ -16,14 +16,12 @@ public class TestEditBoardCtrl {
     private ServerUtilsTestingMock server;
     private MainCtrl mainCtrl;
     private EditBoardCtrl editBoardCtrl;
-    private Board board;
 
     @BeforeEach
     public void setUp() {
         this.server = new ServerUtilsTestingMock();
         this.mainCtrl = mock(MainCtrl.class);
         this.editBoardCtrl = new EditBoardCtrl(server, mainCtrl);
-        this.board = new Board("testing", "", "");
     }
 
     @Test
@@ -40,6 +38,6 @@ public class TestEditBoardCtrl {
     @Test
     public void testCancel() {
         editBoardCtrl.cancel();
-        verify(mainCtrl, times(1)).hidePopup();
+        verify(mainCtrl, times(1)).cancel();
     }
 }

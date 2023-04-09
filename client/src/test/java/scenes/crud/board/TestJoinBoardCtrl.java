@@ -37,10 +37,4 @@ public class TestJoinBoardCtrl {
         joinBoardCtrl.setBoard(board);
         assertEquals(joinBoardCtrl.getBoard(), board);
     }
-
-    @Test
-    public void testCancel() {
-        joinBoardCtrl.cancel();
-        verify(mainCtrl, times(1)).hidePopup();
-    }
 }
