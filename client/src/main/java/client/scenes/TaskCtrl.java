@@ -168,7 +168,7 @@ public class TaskCtrl {
      * Switches the scene to Edit Task.
      */
     public void edit() {
-        if(mainCtrl.boardEdit.edit) {
+        if(mainCtrl.getAdmin() || mainCtrl.boardEdit.edit) {
             mainCtrl.editTask(task);
         }else{
             mainCtrl.unlockBoard(mainCtrl.boardEdit);
@@ -186,7 +186,7 @@ public class TaskCtrl {
      * Switches the scene to Delete Task.
      */
     public void delete() {
-        if(mainCtrl.boardEdit.edit) {
+        if(mainCtrl.getAdmin() || mainCtrl.boardEdit.edit) {
             mainCtrl.deleteTask(task);
         }else{
             mainCtrl.unlockBoard(mainCtrl.boardEdit);
@@ -289,7 +289,7 @@ public class TaskCtrl {
      * @param event is the mouse event.
      */
     public void onDragDetected(MouseEvent event) {
-        if(mainCtrl.boardEdit.edit) {
+        if(mainCtrl.getAdmin() || mainCtrl.boardEdit.edit) {
             VBox sourceNode = (VBox) event.getSource();
 
             Dragboard db = sourceNode.startDragAndDrop(TransferMode.MOVE);

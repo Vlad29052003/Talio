@@ -228,7 +228,7 @@ public class OpenTaskCtrl implements Initializable {
      *
      */
     public void onAddSubTask() {
-        if(mainCtrl.boardEdit.edit) {
+        if(mainCtrl.getAdmin() || mainCtrl.boardEdit.edit) {
             TextInputDialog dialog = new TextInputDialog("sub task name");
             dialog.setTitle("");
             dialog.setHeaderText(null);

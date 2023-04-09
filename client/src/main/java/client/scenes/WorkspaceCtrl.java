@@ -364,7 +364,7 @@ public class WorkspaceCtrl implements Initializable {
     /**
      * Puts an info message on the text label
      *
-     * @param connected
+     * @param connected is the status of the connection.
      */
     public void updateConnectionStatus(boolean connected){
         if(!Platform.isFxApplicationThread()){

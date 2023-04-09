@@ -105,7 +105,7 @@ public class BoardListingCtrl {
      */
     public void edit() {
         mainCtrl.switchBoard(this.board);
-        if (mainCtrl.boardEdit.edit) {
+        if (mainCtrl.getAdmin() || mainCtrl.boardEdit.edit) {
             mainCtrl.editBoard(this.board);
         } else {
             mainCtrl.unlockBoard(this.board);
