@@ -49,22 +49,7 @@ public class GrantAdminCtrl {
     public void confirm(){
         if(text.getText().equals(server.getPassword())){
             mainCtrl.setAdminTrue();
-            String boardlist = server.addAllBoards();
-            List<String> boards = Arrays.asList(boardlist.split("\"id\":"));
-            boards = boards.subList(1,boards.size());
-            List<Long> ids = boards.stream()
-                    .map(x -> x.charAt(0))
-                    .map(x -> Character.getNumericValue(x))
-                    .map(x -> (long)x)
-                    .collect(Collectors.toList());
-            List<Board> list = new ArrayList<>();
-            for(int i = 0; i < ids.size();i++){
-                try {
-                    list.add(server.joinBoard(ids.get(i)));
-                }
-                catch (Exception e){
-                }
-            }
+            List<Board> list = server.addAllBoards();
             mainCtrl.addBoardListToWorkspace(list);
             mainCtrl.hidePopup();
             mainCtrl.permissionAdmin();
