@@ -9,8 +9,8 @@ import scenes.ServerUtilsTestingMock;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
-//import static org.mockito.Mockito.times;
-//import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class TestJoinBoardCtrl {
     private ServerUtilsTestingMock server;
@@ -38,9 +38,9 @@ public class TestJoinBoardCtrl {
         assertEquals(joinBoardCtrl.getBoard(), board);
     }
 
-//    @Test
-//    public void testCancel() {
-//        joinBoardCtrl.cancel();
-//        verify(mainCtrl, times(1)).cancel();
-//    }
+    @Test
+    public void testCancel() {
+        joinBoardCtrl.cancel();
+        verify(mainCtrl, times(1)).hidePopup();
+    }
 }

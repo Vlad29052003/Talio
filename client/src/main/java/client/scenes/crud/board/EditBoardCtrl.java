@@ -105,8 +105,6 @@ public class EditBoardCtrl {
      * Switches back to the workspace Scene.
      */
     public void cancel() {
-        Platform.runLater(() -> text.requestFocus());
-        mainCtrl.cancel();
         mainCtrl.hidePopup();
     }
 
@@ -148,12 +146,9 @@ public class EditBoardCtrl {
                     "\rIt will be removed from the workspace!");
             mainCtrl.removeFromWorkspace(this.board);
             alert.showAndWait();
-            mainCtrl.cancel();
             this.reset();
             return;
         }
-
-        mainCtrl.cancel();
         mainCtrl.hidePopup();
     }
 
@@ -179,7 +174,7 @@ public class EditBoardCtrl {
     public void reset() {
         this.board = null;
         text.setText("");
-        this.boardBgColorPicker.setValue(Color.WHITE);
-        this.boardFontColorPicker.setValue(Color.WHITE);
+        resetBoardStyle();
+        resetListStyle();
     }
 }

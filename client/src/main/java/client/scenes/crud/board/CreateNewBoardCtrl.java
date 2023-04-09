@@ -85,7 +85,6 @@ public class CreateNewBoardCtrl {
      * Switches back to the workspace Scene.
      */
     public void cancel() {
-        mainCtrl.cancel();
         mainCtrl.hidePopup();
     }
 
@@ -122,7 +121,6 @@ public class CreateNewBoardCtrl {
             alert.setContentText("There has been an error!\r" + e.getMessage());
             alert.showAndWait();
         }
-        mainCtrl.cancel();
         mainCtrl.hidePopup();
     }
 

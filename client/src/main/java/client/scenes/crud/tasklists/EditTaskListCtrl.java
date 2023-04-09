@@ -42,8 +42,6 @@ public class EditTaskListCtrl {
      * Sets the keyboard shortcuts for ENTER and ESC.
      */
     public void initialize() {
-        Platform.runLater(() -> text.requestFocus());
-
         this.text.setOnKeyPressed(event -> {
             KeyCode keyCode = event.getCode();
             if (keyCode == KeyCode.ENTER) {
@@ -82,8 +80,6 @@ public class EditTaskListCtrl {
      * Switches back to the workspace Scene.
      */
     public void cancel() {
-        Platform.runLater(() -> text.requestFocus());
-        mainCtrl.cancel();
         mainCtrl.hidePopup();
     }
 
@@ -93,7 +89,6 @@ public class EditTaskListCtrl {
      * to update this taskList.
      */
     public void edit() {
-        Platform.runLater(() -> text.requestFocus());
         if (text.getText().isEmpty()) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
@@ -109,21 +104,8 @@ public class EditTaskListCtrl {
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.setContentText("The list was not found on the server!");
             alert.showAndWait();
-            mainCtrl.cancel();
-            this.reset();
             return;
         }
-
-        mainCtrl.updateTaskList(taskList);
-        mainCtrl.cancel();
         mainCtrl.hidePopup();
-    }
-
-    /**
-     * Resets the fields in this object.
-     */
-    public void reset() {
-        this.taskList = null;
-        text.setText("");
     }
 }

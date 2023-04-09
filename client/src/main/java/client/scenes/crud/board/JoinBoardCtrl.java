@@ -36,8 +36,6 @@ public class JoinBoardCtrl {
      * Sets the keyboard shortcuts for ENTER and ESC.
      */
     public void initialize() {
-        Platform.runLater(() -> text.requestFocus());
-
         this.text.setOnKeyPressed(event -> {
             KeyCode keyCode = event.getCode();
             if (keyCode == KeyCode.ENTER) {
@@ -70,23 +68,10 @@ public class JoinBoardCtrl {
     }
 
     /**
-     * Gets the entered id.
-     *
-     * @return the id.
-     */
-    public Long getID() {
-        String idText = text.getText();
-        long id = Long.parseLong(idText);
-        return id;
-    }
-
-    /**
      * Bond to the Cancel button.
      * Switches back to the workspace Scene.
      */
     public void cancel() {
-        Platform.runLater(() -> text.requestFocus());
-        mainCtrl.cancel();
         mainCtrl.hidePopup();
     }
 
@@ -99,7 +84,8 @@ public class JoinBoardCtrl {
         Platform.runLater(() -> text.requestFocus());
         long id;
         try {
-            id = getID();
+            String idText = text.getText();
+            id = Long.parseLong(idText);
         } catch (Exception e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
@@ -129,7 +115,6 @@ public class JoinBoardCtrl {
             this.reset();
             return;
         }
-        mainCtrl.cancel();
         mainCtrl.hidePopup();
     }
 

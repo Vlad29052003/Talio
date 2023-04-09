@@ -31,10 +31,4 @@ public class TestEditTaskListCtrl {
     public void testGetBoard() {
         assertNull(editCtrl.getTaskList());
     }
-
-//    @Test
-//    public void testCancel() {
-//        editTaskCtrl.cancel();
-//        verify(mainCtrl, times(1)).cancel();
-//    }
 }
