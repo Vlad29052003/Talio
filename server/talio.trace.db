@@ -1,5 +1,5 @@
-2023-04-08 23:40:00 database: flush
-org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+2023-04-09 21:17:09 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.get(DbException.java:194)
 	at org.h2.message.DbException.convert(DbException.java:347)
 	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
@@ -183,17 +183,17 @@ org.h2.message.DbException: General error: "java.lang.IllegalStateException: The
 	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:71)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
-Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
 	... 183 more
-Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]
 	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
 	... 177 more
-2023-04-08 23:40:01 database: flush
-org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+2023-04-09 21:17:11 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.get(DbException.java:194)
 	at org.h2.message.DbException.convert(DbException.java:347)
 	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
@@ -346,17 +346,17 @@ org.h2.message.DbException: General error: "java.lang.IllegalStateException: The
 	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:71)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
-Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
 	... 152 more
-Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]
 	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
 	... 146 more
-2023-04-08 23:40:03 database: flush
-org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+2023-04-09 21:17:13 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.get(DbException.java:194)
 	at org.h2.message.DbException.convert(DbException.java:347)
 	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
@@ -508,17 +508,17 @@ org.h2.message.DbException: General error: "java.lang.IllegalStateException: The
 	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:71)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
-Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
 	... 151 more
-Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]
 	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
 	... 145 more
-2023-04-08 23:40:05 database: flush
-org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+2023-04-09 21:17:14 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.get(DbException.java:194)
 	at org.h2.message.DbException.convert(DbException.java:347)
 	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
@@ -701,17 +701,17 @@ org.h2.message.DbException: General error: "java.lang.IllegalStateException: The
 	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:71)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
-Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
 	... 182 more
-Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]
 	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
 	... 176 more
-2023-04-08 23:40:06 database: flush
-org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+2023-04-09 21:17:16 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.get(DbException.java:194)
 	at org.h2.message.DbException.convert(DbException.java:347)
 	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
@@ -863,17 +863,17 @@ org.h2.message.DbException: General error: "java.lang.IllegalStateException: The
 	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:71)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
-Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
 	... 151 more
-Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]
 	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
 	... 145 more
-2023-04-08 23:40:07 database: flush
-org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+2023-04-09 21:17:17 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.get(DbException.java:194)
 	at org.h2.message.DbException.convert(DbException.java:347)
 	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
@@ -1024,17 +1024,17 @@ org.h2.message.DbException: General error: "java.lang.IllegalStateException: The
 	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:71)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
-Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
 	... 150 more
-Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]
 	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
 	... 144 more
-2023-04-08 23:40:08 database: flush
-org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+2023-04-09 21:17:18 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.get(DbException.java:194)
 	at org.h2.message.DbException.convert(DbException.java:347)
 	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
@@ -1218,17 +1218,17 @@ org.h2.message.DbException: General error: "java.lang.IllegalStateException: The
 	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:71)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
-Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
 	... 183 more
-Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]
 	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
 	... 177 more
-2023-04-08 23:40:09 database: flush
-org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+2023-04-09 21:17:19 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.get(DbException.java:194)
 	at org.h2.message.DbException.convert(DbException.java:347)
 	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
@@ -1381,17 +1381,17 @@ org.h2.message.DbException: General error: "java.lang.IllegalStateException: The
 	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:71)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
-Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
 	... 152 more
-Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]
 	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
 	... 146 more
-2023-04-08 23:40:11 database: flush
-org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+2023-04-09 21:17:20 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.get(DbException.java:194)
 	at org.h2.message.DbException.convert(DbException.java:347)
 	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
@@ -1543,17 +1543,17 @@ org.h2.message.DbException: General error: "java.lang.IllegalStateException: The
 	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:71)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
-Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
 	... 151 more
-Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]
 	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
 	... 145 more
-2023-04-08 23:40:12 database: flush
-org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+2023-04-09 21:17:22 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.get(DbException.java:194)
 	at org.h2.message.DbException.convert(DbException.java:347)
 	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
@@ -1736,17 +1736,17 @@ org.h2.message.DbException: General error: "java.lang.IllegalStateException: The
 	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:71)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
-Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
 	... 182 more
-Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]
 	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
 	... 176 more
-2023-04-08 23:40:13 database: flush
-org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+2023-04-09 21:17:23 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.get(DbException.java:194)
 	at org.h2.message.DbException.convert(DbException.java:347)
 	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
@@ -1898,17 +1898,17 @@ org.h2.message.DbException: General error: "java.lang.IllegalStateException: The
 	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:71)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
-Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
 	... 151 more
-Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]
 	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
 	... 145 more
-2023-04-08 23:40:14 database: flush
-org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+2023-04-09 21:17:24 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.get(DbException.java:194)
 	at org.h2.message.DbException.convert(DbException.java:347)
 	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
@@ -2059,17 +2059,17 @@ org.h2.message.DbException: General error: "java.lang.IllegalStateException: The
 	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:71)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
-Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
 	... 150 more
-Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]
 	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
 	... 144 more
-2023-04-08 23:40:16 database: flush
-org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+2023-04-09 21:17:25 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.get(DbException.java:194)
 	at org.h2.message.DbException.convert(DbException.java:347)
 	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
@@ -2253,17 +2253,17 @@ org.h2.message.DbException: General error: "java.lang.IllegalStateException: The
 	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:71)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
-Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
 	... 183 more
-Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]
 	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
 	... 177 more
-2023-04-08 23:40:17 database: flush
-org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+2023-04-09 21:17:26 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.get(DbException.java:194)
 	at org.h2.message.DbException.convert(DbException.java:347)
 	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
@@ -2416,17 +2416,17 @@ org.h2.message.DbException: General error: "java.lang.IllegalStateException: The
 	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:71)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
-Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
 	... 152 more
-Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]
 	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
 	... 146 more
-2023-04-08 23:40:18 database: flush
-org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+2023-04-09 21:17:28 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.get(DbException.java:194)
 	at org.h2.message.DbException.convert(DbException.java:347)
 	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
@@ -2578,17 +2578,17 @@ org.h2.message.DbException: General error: "java.lang.IllegalStateException: The
 	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:71)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
-Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
 	... 151 more
-Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]
 	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
 	... 145 more
-2023-04-08 23:40:19 database: flush
-org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+2023-04-09 21:17:29 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.get(DbException.java:194)
 	at org.h2.message.DbException.convert(DbException.java:347)
 	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
@@ -2771,17 +2771,17 @@ org.h2.message.DbException: General error: "java.lang.IllegalStateException: The
 	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:71)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
-Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
 	... 182 more
-Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]
 	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
 	... 176 more
-2023-04-08 23:40:20 database: flush
-org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+2023-04-09 21:17:30 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.get(DbException.java:194)
 	at org.h2.message.DbException.convert(DbException.java:347)
 	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
@@ -2933,17 +2933,17 @@ org.h2.message.DbException: General error: "java.lang.IllegalStateException: The
 	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:71)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
-Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
 	... 151 more
-Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]
 	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
 	... 145 more
-2023-04-08 23:40:22 database: flush
-org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+2023-04-09 21:17:31 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.get(DbException.java:194)
 	at org.h2.message.DbException.convert(DbException.java:347)
 	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
@@ -3094,11 +3094,11 @@ org.h2.message.DbException: General error: "java.lang.IllegalStateException: The
 	at org.gradle.process.internal.worker.child.SystemApplicationClassLoaderWorker.call(SystemApplicationClassLoaderWorker.java:71)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.run(GradleWorkerMain.java:69)
 	at worker.org.gradle.process.internal.worker.GradleWorkerMain.main(GradleWorkerMain.java:74)
-Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
 	... 150 more
-Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/lovro/oopp-team-48/server/talio.mv.db [1.4.200/7]
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/vladg/oopp-team-48/server/talio.mv.db [1.4.200/7]
 	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)

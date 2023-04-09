@@ -228,12 +228,8 @@ public class TaskController {
         var res = new DeferredResult<ResponseEntity<Board>>(5000L, noContent);
 
         var key = new Object();
-        listenCreate.put(key, b -> {
-            res.setResult(ResponseEntity.ok((Board) b));
-        });
-        res.onCompletion(() -> {
-            listenCreate.remove(key);
-        });
+        listenCreate.put(key, b -> {res.setResult(ResponseEntity.ok((Board) b));});
+        res.onCompletion(() -> {listenCreate.remove(key);});
 
         return res;
     }

@@ -26,11 +26,9 @@
                </children>
             </AnchorPane>
             <JFXButton fx:id="tagsButton" alignment="CENTER" mnemonicParsing="false" onAction="#tagOverview" prefHeight="25.0" prefWidth="86.0" styleClass="orangeButton" text="Tags" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS" visible="false" />
-            <JFXButton fx:id="addListButton" alignment="CENTER" mnemonicParsing="false" onAction="#addTaskList" styleClass="orangeButton" text="Add Task List" textAlignment="CENTER" visible="false">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </JFXButton>
+            <JFXButton fx:id="addListButton" alignment="CENTER" mnemonicParsing="false" onAction="#addTaskList" styleClass="orangeButton" text="Add Task List" textAlignment="CENTER" visible="false"/>
+             <JFXButton fx:id="unlockBoard" alignment="CENTER" mnemonicParsing="false" text="Unlock Board" onAction="#unlockBoard" styleClass="orangeButton" visible="false"/>
+             <JFXButton fx:id="boardPassword" alignment="CENTER" mnemonicParsing="false" text="Edit Password" onAction="#editBoardPassword" styleClass="orangeButton" visible="false"/>
          </children>
          <VBox.margin>
             <Insets />

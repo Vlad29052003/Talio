@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -27,14 +28,14 @@ public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public long id;
-
     public String name;
     public String backgroundColor;
+    public String password;
     public String fontColor;
     public String listBackgroundColor = "";
     public String listFontColor = "";
-    public String password;                 // if no password, no need to check RW permission
-    public boolean RWpermission;            // true - both read and write, false - read only
+    @Transient
+    public boolean editable = false;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -60,18 +61,16 @@ public class Board {
      * @param backgroundColor is the background color of the board.
      * @param fontColor       is the font color of the board.
      * @param password        is the password to access the board
-     * @param RWpermission    is specifies the read and write permissions.
      */
+
     public Board(String name,
                  String backgroundColor,
                  String fontColor,
-                 String password,
-                 boolean RWpermission) {
+                 String password) {
         this.name = name;
         this.backgroundColor = backgroundColor;
         this.fontColor = fontColor;
         this.password = password;
-        this.RWpermission = RWpermission;
         this.lists = new HashSet<>();
         this.tags = new ArrayList<>();
     }
@@ -81,12 +80,12 @@ public class Board {
      *
      * @param name            is the name of the board.
      * @param backgroundColor is the background color of the board.
-     * @param fontColor is the font color of the board.
+     * @param fontColor       is the font color of the board.
      */
     public Board(String name,
                  String backgroundColor,
                  String fontColor) {
-        this(name, backgroundColor, fontColor, "", false);
+        this(name, backgroundColor, fontColor, "");
     }
 
     /**
@@ -95,7 +94,7 @@ public class Board {
      * @param name is the name of the board.
      */
     public Board(String name) {
-        this(name, "#f4f4f4", "#000000", "", false);
+        this(name, "#f4f4f4", "#000000", "");
     }
 
     /**
@@ -131,6 +130,15 @@ public class Board {
         Collections.sort(tags);
     }
 
+    /**
+     * Returns whether the board is editable or not.
+     *
+     * @return a boolean.
+     */
+    public boolean isEditable() {
+        return password == null || password.equals("") || editable;
+    }
+
     @Override
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj);
@@ -141,6 +149,8 @@ public class Board {
         ArrayList<String> exclude = new ArrayList<>();
         exclude.add("tags");
         exclude.add("lists");
+        exclude.add("password");
+        exclude.add("edit");
         return HashCodeBuilder.reflectionHashCode(this, exclude);
     }
 

@@ -114,7 +114,6 @@ public class EditTaskListCtrl {
             return;
         }
 
-        mainCtrl.updateTaskList(taskList);
         mainCtrl.cancel();
         mainCtrl.hidePopup();
     }

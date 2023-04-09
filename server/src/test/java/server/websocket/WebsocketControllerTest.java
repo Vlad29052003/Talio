@@ -144,7 +144,7 @@ public class WebsocketControllerTest {
     }
 
     private Board postCreateDummyBoard() throws Exception {
-        Board test = new Board("Board1", "black", "white", "password", false);
+        Board test = new Board("Board1", "black", "white", "password");
         ObjectMapper mapper = new ObjectMapper();
         String content = mapper.writeValueAsString(test);
         MvcResult result =  mockMvc.perform(MockMvcRequestBuilders

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="170.0" prefWidth="340.0" stylesheets="/style/CreateNewBoard.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.crud.admin.PermissionAdminCtrl">
+    <children>
+        <Text layoutX="13.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Admin" wrappingWidth="161.33673095703125">
+            <font>
+                <Font name="Calibri" size="12.0" />
+            </font></Text>
+        <Text layoutX="13.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Permissions upgraded to administrator." />
+        <JFXButton layoutX="142.0" layoutY="124.0" onAction="#ok" prefHeight="25.0" prefWidth="65.0" styleClass="cancel-button" text="OK" />
+        <JFXBadge layoutX="184.0" layoutY="59.0" />
+    </children>
+</AnchorPane>

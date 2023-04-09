@@ -5,11 +5,13 @@ import client.scenes.MainCtrl;
 import commons.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class TestBoardCtrl {
     private BoardCtrl boardCtrl;
@@ -37,14 +39,16 @@ public class TestBoardCtrl {
     }
 
     @Test
-    public void testAddTaskList() {
-        boardCtrl.addTaskList();
-        verify(mainCtrl, times(0)).addTaskList(board);
+    public void testEditBoardPassword() {
+        when(mainCtrl.getAdmin()).thenReturn(true);
+        boardCtrl.editBoardPassword();
+        verify(mainCtrl, times(1)).getAdmin();
+        verify(mainCtrl, times(1)).editBoardPassword(boardCtrl.getBoard());
     }
 
     @Test
-    public void testTagOverview() {
-        boardCtrl.tagOverview();
-        verify(mainCtrl, times(1)).tagOverview(null);
+    public void testAddTaskList() {
+        boardCtrl.addTaskList();
+        verify(mainCtrl, times(0)).addTaskList(board);
     }
 }

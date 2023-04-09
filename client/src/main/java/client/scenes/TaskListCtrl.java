@@ -97,21 +97,33 @@ public class TaskListCtrl {
      * Deletes the TaskList associated with this object.
      */
     public void delete() {
-        mainCtrl.deleteTaskList(this.taskList);
+        if(mainCtrl.getAdmin() || taskList.board.isEditable()) {
+            mainCtrl.deleteTaskList(this.taskList);
+        }else{
+            mainCtrl.unlockBoard(taskList.board);
+        }
     }
 
     /**
      * Edits the TaskList associated with this object.
      */
     public void edit() {
-        mainCtrl.editTaskList(this.taskList);
+        if(mainCtrl.getAdmin() || taskList.board.isEditable()) {
+            mainCtrl.editTaskList(this.taskList);
+        }else{
+            mainCtrl.unlockBoard(taskList.board);
+        }
     }
 
     /**
      * Adds a task to this taskList.
      */
     public void addTask() {
-        mainCtrl.addTask(this.taskList);
+        if(mainCtrl.getAdmin() || taskList.board.isEditable()) {
+            mainCtrl.addTask(this.taskList);
+        }else{
+            mainCtrl.unlockBoard(taskList.board);
+        }
     }
 
     /**

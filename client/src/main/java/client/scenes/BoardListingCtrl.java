@@ -5,17 +5,24 @@ import com.google.inject.Inject;
 import commons.Board;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
 
 public class BoardListingCtrl {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
+    private ImageView locked;
+    private ImageView unlocked;
     private Board board;
     @FXML
     private Label label;
     @FXML
     private VBox root;
+    @FXML
+    private HBox header;
 
     /**
      * Creates a new {@link BoardListingCtrl} object.
@@ -37,6 +44,25 @@ public class BoardListingCtrl {
     public void setBoard(Board board) {
         this.board = board;
         label.setText(board.name + " (id: " + board.id + ")");
+        if(locked == null) {
+            this.locked = new ImageView(new Image("/client/icons/lock.png"));
+            locked.setScaleX(0.7);
+            locked.setScaleY(0.7);
+            this.unlocked = new ImageView(new Image("/client/icons/unlock.png"));
+            unlocked.setScaleX(0.7);
+            unlocked.setScaleY(0.7);
+        }
+        if (!board.isEditable() && !header.getChildren().contains(locked) && !mainCtrl.getAdmin()) {
+            header.getChildren().add(locked);
+            header.getChildren().remove(unlocked);
+        }
+        else {
+            header.getChildren().remove(locked);
+            header.getChildren().remove(unlocked);
+            if(board.password != null && board.password.length() > 0) {
+                header.getChildren().add(unlocked);
+            }
+        }
     }
 
     /**
@@ -66,7 +92,16 @@ public class BoardListingCtrl {
      * Deletes the Board associated with this object.
      */
     public void delete() {
-        mainCtrl.deleteBoard(this.board);
+        mainCtrl.switchBoard(this.board);
+        if (this.board.password != null) {
+            if (mainCtrl.getAdmin() || board.isEditable()) {
+                mainCtrl.deleteBoard(this.board);
+            } else {
+                mainCtrl.unlockBoard(this.board);
+            }
+        } else {
+            mainCtrl.deleteBoard(this.board);
+        }
     }
 
     /**
@@ -83,7 +118,12 @@ public class BoardListingCtrl {
      * Edits the Board associated with this object.
      */
     public void edit() {
-        mainCtrl.editBoard(this.board);
+        mainCtrl.switchBoard(this.board);
+        if (mainCtrl.getAdmin() || board.isEditable()) {
+            mainCtrl.editBoard(this.board);
+        } else {
+            mainCtrl.unlockBoard(this.board);
+        }
     }
 
     /**
