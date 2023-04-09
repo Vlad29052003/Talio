@@ -3,7 +3,6 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.Board;
 import commons.Tag;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.KeyCode;

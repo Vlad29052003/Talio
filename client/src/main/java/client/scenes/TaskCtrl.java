@@ -60,7 +60,9 @@ public class TaskCtrl {
         this.root.setOnMouseEntered(e -> {
             mainCtrl.resetFocus();
 
-            this.root.setStyle("-fx-border-color: red; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 5.0, 5.0);" + this.getBackgroundStyle());
+            this.root.setStyle("-fx-border-color: red; " +
+                    "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 5.0, 5.0);"
+                    + this.getBackgroundStyle());
             root.requestFocus();
             mainCtrl.setIsFocused(task);
 
@@ -146,7 +148,9 @@ public class TaskCtrl {
         root.requestFocus();
         task.focused = true;
         mainCtrl.setIsFocused(task);
-        this.root.setStyle("-fx-border-color: red; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 5.0, 5.0);" + this.getBackgroundStyle());
+        this.root.setStyle("-fx-border-color: red; " +
+                "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 5.0, 5.0);"
+                + this.getBackgroundStyle());
     }
 
     /**
