@@ -5,8 +5,6 @@ import client.scenes.TaskCtrl;
 import commons.Board;
 import commons.Task;
 import commons.TaskList;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -4,7 +4,6 @@ import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
 import commons.Task;
 import jakarta.ws.rs.WebApplicationException;
-import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -24,7 +23,6 @@ import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
 import javafx.util.Callback;
-
 import javax.inject.Inject;
 import java.net.URL;
 import java.util.ArrayList;

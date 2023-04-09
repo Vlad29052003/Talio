@@ -3,7 +3,6 @@ package client.scenes;
 import com.google.inject.Inject;
 import client.utils.ServerUtils;
 import commons.Board;
-import commons.Task;
 import commons.TaskList;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -77,6 +76,11 @@ public class BoardCtrl {
         refresh();
     }
 
+    /**
+     * Sets the board without refreshing.
+     *
+     * @param board is the board.
+     */
     public void setBoardWithoutRefresh(Board board) {
         this.board = board;
     }
@@ -260,7 +264,7 @@ public class BoardCtrl {
                 i = sortedTaskList.size() - 1;
             }
             nextTaskList = sortedTaskList.get(i);
-            step ++;
+            step++;
         }
 
         TaskList finalNextTaskList = nextTaskList;

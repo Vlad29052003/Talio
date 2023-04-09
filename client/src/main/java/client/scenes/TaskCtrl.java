@@ -132,6 +132,9 @@ public class TaskCtrl {
 
     }
 
+    /**
+     * Opens the task overview.
+     */
     public void openTaskOverview() {
         mainCtrl.openTask(task);
     }

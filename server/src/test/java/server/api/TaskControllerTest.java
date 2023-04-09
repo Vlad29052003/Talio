@@ -71,19 +71,22 @@ public class TaskControllerTest {
             Long taskId = invocation.getArgument(2);
             var optList = lists.stream().filter(l -> l.id == newListId).findFirst();
             var optTask = tasks.stream().filter(t -> t.id == taskId).findFirst();
-            if(optList.isEmpty() || optTask.isEmpty()) return ResponseEntity.badRequest().body("Invalid ID.");
+            if(optList.isEmpty() || optTask.isEmpty())
+                return ResponseEntity.badRequest().body("Invalid ID.");
             Task t = optTask.get();
             TaskList tl = optList.get();
             t.setTaskList(tl);
             tl.addTask(t);
             t.index = index;
             return ResponseEntity.ok("Changed successfully!");
-        }).when(taskService).moveTask(Mockito.any(Long.class), Mockito.any(Integer.class), Mockito.any(Long.class));
+        }).when(taskService).moveTask(Mockito.any(Long.class),
+                Mockito.any(Integer.class), Mockito.any(Long.class));
         doAnswer(invocation -> {
             Task t = invocation.getArgument(1);
             t.id = inc++;
             return ResponseEntity.ok(t);
-        }).when(taskService).createTask(Mockito.any(Long.class), Mockito.any(Task.class));
+        }).when(taskService).createTask(Mockito.any(Long.class),
+                Mockito.any(Task.class));
         doAnswer(invocation -> {
             Task updated = invocation.getArgument(0);
             var res = tasks.stream().filter(t -> t.id == updated.id).findFirst();
@@ -125,7 +128,8 @@ public class TaskControllerTest {
 
     @Test
     public void testMoveTask() {
-        assertEquals(taskController.moveTask(2L, 1, 2L), ResponseEntity.ok("Changed successfully!"));
+        assertEquals(taskController.moveTask(2L, 1, 2L),
+                ResponseEntity.ok("Changed successfully!"));
         verify(taskService, times(1)).moveTask(2L, 1, 2L);
         assertEquals(tasks.get(1).index, 1);
         assertEquals(tasks.get(1).getTaskList(), lists.get(1));
@@ -133,7 +137,8 @@ public class TaskControllerTest {
 
     @Test
     public void testInexistentMoveTask() {
-        assertEquals(taskController.moveTask(2L, 1, 5L), ResponseEntity.badRequest().body("Invalid ID."));
+        assertEquals(taskController.moveTask(2L, 1, 5L),
+                ResponseEntity.badRequest().body("Invalid ID."));
         verify(taskService, times(1)).moveTask(2L, 1, 5L);
     }
 
@@ -141,7 +146,8 @@ public class TaskControllerTest {
         Task newest = new Task("new", 0, "");
         Task expected = new Task("new", 0, "");
         expected.id = 4L;
-        assertEquals(taskController.createTask(1L, newest), ResponseEntity.ok(expected));
+        assertEquals(taskController.createTask(1L, newest),
+                ResponseEntity.ok(expected));
     }
 
     @Test
@@ -157,21 +163,24 @@ public class TaskControllerTest {
     public void testInexistentUpdateTask() {
         Task updated = new Task("Updated", 1, "");
         updated.id = 5L;
-        assertEquals(taskController.updateTask(updated), ResponseEntity.badRequest().body("Invalid ID."));
+        assertEquals(taskController.updateTask(updated),
+                ResponseEntity.badRequest().body("Invalid ID."));
         verify(taskService, times(1)).updateTask(updated);
     }
 
     @Test
     public void testDelete() {
         Task deleted = tasks.get(0);
-        assertEquals(taskController.deleteById(1L), ResponseEntity.ok("Successfully deleted."));
+        assertEquals(taskController.deleteById(1L),
+                ResponseEntity.ok("Successfully deleted."));
         assertFalse(tasks.contains(deleted));
         verify(taskService, times(1)).deleteById(1L);
     }
 
     @Test
     public void testInexistentDelete() {
-        assertEquals(taskController.deleteById(5L), ResponseEntity.badRequest().body("Invalid ID."));
+        assertEquals(taskController.deleteById(5L),
+                ResponseEntity.badRequest().body("Invalid ID."));
         verify(taskService, times(1)).deleteById(5L);
     }
 
