@@ -6,8 +6,10 @@ import commons.Task;
 import commons.TaskList;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
@@ -133,6 +135,19 @@ public class ServerUtils {
     }
 
     /**
+     * Sends a request to get all Boards from the server.
+     *
+     * @return a string with all boards.
+     */
+    public List<Board> addAllBoards() {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(getServerAddress()).path("api/boards")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(new GenericType<List<Board>>() {});
+    }
+
+    /**
      * Sends a request to delete a Board from the server.
      *
      * @param board is the Board to be deleted.
@@ -200,6 +215,21 @@ public class ServerUtils {
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .put(Entity.entity(board, APPLICATION_JSON), Board.class);
+    }
+
+    /**
+     * Sends a request to get the password from the server.
+     *
+     * @return the password.
+     */
+    public String getPassword() {
+        String pass = ClientBuilder.newClient(new ClientConfig())
+                .target(getServerAddress()).path("api/password")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(String.class);
+        pass = pass.substring(14).split("\"")[0];
+        return pass;
     }
 
     /**

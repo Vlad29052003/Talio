@@ -222,14 +222,18 @@ public class OpenTaskCtrl implements Initializable {
      * Adds a SubTask when the button is clicked.
      */
     public void onAddSubTask() {
-        TextInputDialog dialog = new TextInputDialog("sub task name");
-        dialog.setTitle("Sub task name");
-        dialog.setHeaderText(null);
-        dialog.setGraphic(null);
-        dialog.setContentText("please enter the sub task text: ");
+        if(mainCtrl.getAdmin() || task.getTaskList().board.isEditable()) {
+            TextInputDialog dialog = new TextInputDialog("sub task name");
+            dialog.setTitle("");
+            dialog.setHeaderText(null);
+            dialog.setGraphic(null);
+            dialog.setContentText("please enter the sub task text: ");
 
-        Optional<String> result = dialog.showAndWait();
-        result.ifPresent(this::tryAddSubTask);
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(this::tryAddSubTask);
+        }else{
+            mainCtrl.unlockBoard(task.getTaskList().board);
+        }
         refresh();
     }
 

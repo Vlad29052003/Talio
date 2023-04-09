@@ -30,6 +30,7 @@ subprojects {
 		useJUnitPlatform()
 		finalizedBy jacocoTestReport 
 	}
+
 	jacocoTestReport {
 		reports {
 			xml.required = false

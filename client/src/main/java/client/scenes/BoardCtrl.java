@@ -28,6 +28,10 @@ public class BoardCtrl {
     private Board board;
     private ArrayList<TaskListCtrl> listControllers = new ArrayList<>();
     @FXML
+    private Button boardPassword;
+    @FXML
+    private Button unlockBoard;
+    @FXML
     private Label boardTitle;
     @FXML
     private HBox header;
@@ -85,10 +89,14 @@ public class BoardCtrl {
             boardTitle.setText(board.name + " (id: " + board.id + ")");
             addListButton.setVisible(true);
             tagsButton.setVisible(true);
+            unlockBoard.setVisible(true);
+            boardPassword.setVisible(true);
         } else {
             boardTitle.setText("No board to be displayed");
             addListButton.setVisible(false);
             tagsButton.setVisible(false);
+            unlockBoard.setVisible(false);
+            boardPassword.setVisible(false);
         }
     }
 
@@ -144,7 +152,11 @@ public class BoardCtrl {
      */
     public void addTaskList() {
         if (board != null) {
-            mainCtrl.addTaskList(board);
+            if(mainCtrl.getAdmin() || board.isEditable()){
+                mainCtrl.addTaskList(board);
+            }else{
+                mainCtrl.unlockBoard(board);
+            }
         }
     }
 
@@ -152,7 +164,35 @@ public class BoardCtrl {
      * Displays the tag overview.
      */
     public void tagOverview() {
-        mainCtrl.tagOverview(board);
+        if(mainCtrl.getAdmin() || board.isEditable()){
+            mainCtrl.tagOverview(board);
+        }else{
+            mainCtrl.unlockBoard(board);
+        }
+    }
+
+    /**
+     * Checks if you have the read / write permission for the board.
+     * In case you are missing it you have to input it.
+     */
+    public void unlockBoard() {
+        if(mainCtrl.getAdmin() || board.isEditable()){
+            mainCtrl.youHavePermission();
+        }else{
+            mainCtrl.unlockBoard(board);
+        }
+    }
+
+    /**
+     * Checks if the user has administrator privileges and edits the board password.
+     * If not the scene is changed to the password input.
+     */
+    public void editBoardPassword() {
+        if (mainCtrl.getAdmin() || board.isEditable()) {
+            mainCtrl.editBoardPassword(board);
+        } else {
+            mainCtrl.unlockBoard(board);
+        }
     }
 
     /**

@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import java.io.File;
 import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -110,7 +111,11 @@ public class TestWorkspaceCtrl {
     @Test
     public void testAdmin() {
         workspaceCtrl.admin();
-        /* TODO after implementing admin */
+        verify(mainCtrl, times(1)).grantAdmin();
+
+        when(mainCtrl.getAdmin()).thenReturn(true);
+        workspaceCtrl.admin();
+        verify(mainCtrl, times(1)).permissionAdmin();
     }
 
     @Test

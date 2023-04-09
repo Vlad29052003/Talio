@@ -22,7 +22,9 @@ public class CreateNewBoardCtrl {
     private MainCtrl mainCtrl;
     private Board board;
     @FXML
-    private TextField text;
+    TextField text;
+    @FXML
+    TextField pass;
     @FXML
     private ColorPicker bgColorPicker;
     @FXML
@@ -112,7 +114,7 @@ public class CreateNewBoardCtrl {
         String bgColor = toHex.apply(this.bgColorPicker.getValue());
         String fontColor = toHex.apply(this.fontColorPicker.getValue());
 
-        Board newBoard = new Board(text.getText(), bgColor, fontColor);
+        Board newBoard = new Board(text.getText(), bgColor, fontColor, pass.getText());
         try {
             this.board = server.addBoard(newBoard);
         } catch (WebApplicationException e) {
@@ -130,5 +132,6 @@ public class CreateNewBoardCtrl {
     public void reset() {
         this.board = null;
         text.setText("");
+        pass.setText("");
     }
 }

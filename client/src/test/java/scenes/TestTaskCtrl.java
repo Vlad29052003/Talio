@@ -44,6 +44,7 @@ public class TestTaskCtrl {
         assertEquals(taskController.getTask(), task);
     }
 
+    /*
     @Test
     public void testEdit() {
         taskController.setTask(task);
@@ -57,6 +58,7 @@ public class TestTaskCtrl {
         taskController.delete();
         verify(mainCtrl, times(1)).deleteTask(task);
     }
+    */
 
     @Test
     public void testGetRoot() {

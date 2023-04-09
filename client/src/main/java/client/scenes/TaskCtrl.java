@@ -168,7 +168,11 @@ public class TaskCtrl {
      * Switches the scene to Edit Task.
      */
     public void edit() {
-        mainCtrl.editTask(task);
+        if(mainCtrl.getAdmin() || task.getTaskList().board.isEditable()) {
+            mainCtrl.editTask(task);
+        }else{
+            mainCtrl.unlockBoard(task.getTaskList().board);
+        }
     }
 
     /**
@@ -182,7 +186,11 @@ public class TaskCtrl {
      * Switches the scene to Delete Task.
      */
     public void delete() {
-        mainCtrl.deleteTask(task);
+        if(mainCtrl.getAdmin() || task.getTaskList().board.isEditable()) {
+            mainCtrl.deleteTask(task);
+        }else{
+            mainCtrl.unlockBoard(task.getTaskList().board);
+        }
     }
 
     /**
@@ -281,18 +289,22 @@ public class TaskCtrl {
      * @param event is the mouse event.
      */
     public void onDragDetected(MouseEvent event) {
-        VBox sourceNode = (VBox) event.getSource();
+        if(mainCtrl.getAdmin() || task.getTaskList().board.isEditable()) {
+            VBox sourceNode = (VBox) event.getSource();
 
-        Dragboard db = sourceNode.startDragAndDrop(TransferMode.MOVE);
-        ClipboardContent content = new ClipboardContent();
-        content.putString(String.valueOf(task.id));
-        db.setContent(content);
-        mainCtrl.setDragAndDropNode(sourceNode);
+            Dragboard db = sourceNode.startDragAndDrop(TransferMode.MOVE);
+            ClipboardContent content = new ClipboardContent();
+            content.putString(String.valueOf(task.id));
+            db.setContent(content);
+            mainCtrl.setDragAndDropNode(sourceNode);
 
-        WritableImage image = sourceNode.snapshot(new SnapshotParameters(), null);
-        db.setDragView(image, image.getWidth() / 2, image.getHeight() / 2);
+            WritableImage image = sourceNode.snapshot(new SnapshotParameters(), null);
+            db.setDragView(image, image.getWidth() / 2, image.getHeight() / 2);
 
-        event.consume();
+            event.consume();
+        }else{
+            mainCtrl.unlockBoard(task.getTaskList().board);
+        }
     }
 
     /**

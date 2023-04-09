@@ -1,6 +1,7 @@
-package client.utils.websocket;
+package utils.websocket;
 
 import client.utils.UpdateHandler;
+import client.utils.websocket.WebsocketSynchroniser;
 import commons.Board;
 import commons.messages.BoardUpdateMessage;
 import org.junit.jupiter.api.BeforeEach;
@@ -104,7 +105,7 @@ public class WebsocketSynchroniserTest {
     }
 
     private Board getDummyBoard(){
-        return new Board("Board1", "black", "black", "password", false);
+        return new Board("Board1", "black", "black", "password");
     }
 
     private class MyTestUpdateHandler extends UpdateHandler {

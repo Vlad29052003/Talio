@@ -67,6 +67,7 @@ public class TaskTest {
     @Test
     public void testAddSubtask() {
         t1.addSubTask("s1");
+        assertFalse(t1.addSubTask("s1"));
         List<String> expected = new ArrayList<>();
         // a zero or one is appended to the name
         // to show whether the subtask is completed.
@@ -160,4 +161,43 @@ public class TaskTest {
             t1.compareTo(null);
         });
     }
+
+    @Test
+    public void testSetSubTask(){
+        List<String> expect = new ArrayList<>();
+        expect.add("sub10");
+        t1.addSubTask("sub1");
+        assertEquals(t1.subtasks, expect);
+
+        expect.clear();
+        expect.add("sub11");
+        t1.setSubTask("sub1", true);
+        assertEquals(t1.subtasks, expect);
+
+        t1.setSubTask("sub1", true);
+        assertEquals(t1.subtasks, expect);
+    }
+
+    @Test
+    public void testCalculateProgress2(){
+        assertEquals(1.0, t1.calculateProgress());
+        
+        t1.addSubTask("sub1");
+        t1.addSubTask("sub2");
+        t1.setSubTask("sub1", true);
+        assertEquals(0.5,t1.calculateProgress());
+    }
+
+    @Test
+    public void testCompletedSubtasks2(){
+        assertEquals(0, t1.completedSubtasks());
+
+        t1.addSubTask("sub1");
+        t1.addSubTask("sub2");
+        t1.addSubTask("sub3");
+        t1.setSubTask("sub1", true);
+        t1.setSubTask("sub2", true);
+        assertEquals(2,t1.completedSubtasks());
+    }
+
 }
