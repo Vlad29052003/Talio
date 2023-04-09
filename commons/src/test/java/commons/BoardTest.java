@@ -36,25 +36,25 @@ public class BoardTest {
         Board nullboard = new Board();
         assertNotNull(nullboard);
 
-        Board board = new Board("board", "white", "black", "pass",true);
+        Board nameboard = new Board("name");
+        assertEquals(nameboard.name, "name");
+
+        Board board = new Board("board", "white", "black", "pass");
         assertNotNull(board);
         assertEquals(board.name, "board");
         assertEquals(board.backgroundColor, "white");
         assertEquals(board.fontColor, "black");
         assertEquals(board.password, "pass");
-        assertTrue(board.RWpermission);
     }
 
     @Test
     public void testEquals() {
-
         assertEquals(board1, board3);
         assertNotEquals(board1, board2);
     }
 
     @Test
     public void testEqualHashCode() {
-
         assertEquals(board1.hashCode(), board3.hashCode());
         assertNotEquals(board1.hashCode(), board2.hashCode());
     }
@@ -110,6 +110,11 @@ public class BoardTest {
         board1.tags.add(t2);
         board1.sortTags();
         assertEquals(board1.tags, List.of(t2, t1));
+    }
+
+    @Test
+    public void testIsEditable() {
+        assertTrue(board1.isEditable());
     }
 
 }

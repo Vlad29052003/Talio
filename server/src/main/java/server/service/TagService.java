@@ -130,12 +130,8 @@ public class TagService {
         var res = new DeferredResult<ResponseEntity<Board>>(5000L, noContent);
 
         var key = new Object();
-        listen.put(key, b -> {
-            res.setResult(ResponseEntity.ok((Board) b));
-        });
-        res.onCompletion(() -> {
-            listen.remove(key);
-        });
+        listen.put(key, b -> {res.setResult(ResponseEntity.ok((Board) b));});
+        res.onCompletion(() -> {listen.remove(key);});
 
         return res;
     }

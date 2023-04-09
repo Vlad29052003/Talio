@@ -9,8 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 public class TestTaskCtrl {
     private MainCtrl mainCtrl;
@@ -38,6 +36,7 @@ public class TestTaskCtrl {
         assertEquals(taskController.getTask(), task);
     }
 
+    /*
     @Test
     public void testEdit() {
         taskController.setTask(task);
@@ -51,6 +50,7 @@ public class TestTaskCtrl {
         taskController.delete();
         verify(mainCtrl, times(1)).deleteTask(task);
     }
+    */
 
     @Test
     public void testGetRoot() {

@@ -75,7 +75,7 @@ public class BoardChangeQueueTest {
     }
 
     private Board getDummyBoard(){
-        return new Board("Board1", "black", "white", "password", false);
+        return new Board("Board1", "black", "white", "password");
     }
 
 }

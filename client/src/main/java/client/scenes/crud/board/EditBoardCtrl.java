@@ -149,6 +149,7 @@ public class EditBoardCtrl {
             mainCtrl.removeFromWorkspace(this.board);
             alert.showAndWait();
             mainCtrl.cancel();
+            mainCtrl.hidePopup();
             this.reset();
             return;
         }

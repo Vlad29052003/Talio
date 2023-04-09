@@ -7,10 +7,16 @@ import client.scenes.HelpScreenCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.TagOverviewCtrl;
 import client.scenes.WorkspaceCtrl;
+import client.scenes.crud.admin.AccessDeniedCtrl;
+import client.scenes.crud.admin.GrantAdminCtrl;
+import client.scenes.crud.admin.PermissionAdminCtrl;
+import client.scenes.crud.admin.EditBoardPasswordCtrl;
 import client.scenes.crud.board.CreateNewBoardCtrl;
 import client.scenes.crud.board.DeleteBoardCtrl;
 import client.scenes.crud.board.EditBoardCtrl;
 import client.scenes.crud.board.JoinBoardCtrl;
+import client.scenes.crud.board.UnlockBoardCtrl;
+import client.scenes.crud.board.YouHavePermissionCtrl;
 import client.scenes.crud.tag.CreateTagCtrl;
 import client.scenes.crud.tag.DeleteTagCtrl;
 import client.scenes.crud.tag.EditTagCtrl;
@@ -26,7 +32,6 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
 
@@ -46,18 +51,19 @@ public class Main extends Application {
         this.mainCtrl = INJECTOR.getInstance(MainCtrl.class);
         mainCtrl.setMyFXML(FXML);
 
-        var workspace = FXML.load(WorkspaceCtrl.class,
-                "client", "scenes", "WorkspaceView.fxml");
-        var board = FXML.load(BoardCtrl.class,
-                "client", "scenes", "BoardView.fxml");
-        var joinBoard = FXML.load(JoinBoardCtrl.class,
-                "client", "scenes", "crud", "JoinBoard.fxml");
-        var createBoard = FXML.load(CreateNewBoardCtrl.class,
-                "client", "scenes", "crud", "CreateNewBoard.fxml");
-        var editBoard = FXML.load(EditBoardCtrl.class,
-                "client", "scenes", "crud", "EditBoard.fxml");
-        var deleteBoard = FXML.load(DeleteBoardCtrl.class,
-                "client", "scenes", "crud", "ConfirmBoardDelete.fxml");
+
+        var workspace = FXML.load(WorkspaceCtrl.class, "client", "scenes", "WorkspaceView.fxml");
+        var board = FXML.load(BoardCtrl.class, "client", "scenes", "BoardView.fxml");
+
+        var joinBoard = FXML
+                .load(JoinBoardCtrl.class, "client", "scenes", "crud", "JoinBoard.fxml");
+        var createBoard = FXML
+                .load(CreateNewBoardCtrl.class, "client", "scenes", "crud", "CreateNewBoard.fxml");
+        var editBoard = FXML
+                .load(EditBoardCtrl.class, "client", "scenes", "crud", "EditBoard.fxml");
+        var deleteBoard = FXML
+                .load(DeleteBoardCtrl.class, "client", "scenes", "crud", "ConfirmBoardDelete.fxml");
+
         var deleteTaskList = FXML.load(DeleteTaskListCtrl.class,
                 "client", "scenes", "crud", "ConfirmListDelete.fxml");
         var newTaskList = FXML.load(CreateTaskListCtrl.class,
@@ -83,8 +89,28 @@ public class Main extends Application {
         var openTask = FXML.load(OpenTaskCtrl.class,
                 "client", "scenes", "crud", "OpenTask.fxml");
 
+        var grantAdmin = FXML
+                .load(GrantAdminCtrl.class, "client", "scenes", "crud", "GrantAdmin.fxml");
+        var accessDenied = FXML
+                .load(AccessDeniedCtrl.class,"client", "scenes", "crud", "AccessDenied.fxml");
+        var permissionAdmin = FXML
+                .load(PermissionAdminCtrl.class,"client", "scenes", "crud", "PermissionAdmin.fxml");
+        var unlockBoard = FXML
+                .load(UnlockBoardCtrl.class,"client", "scenes", "crud",
+                                                        "UnlockBoard.fxml");
+        var youHavePermission = FXML
+                .load(YouHavePermissionCtrl.class,"client", "scenes", "crud",
+                                                        "YouHavePermission.fxml");
+        var editBoardPassword = FXML
+                .load(EditBoardPasswordCtrl.class, "client", "scenes", "crud",
+                                                        "EditBoardPassword.fxml");
+
+        var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
+
         mainCtrl.initialize(primaryStage, workspace, board, tagOverview);
-        mainCtrl.initializeBoardCrud(joinBoard, createBoard, editBoard, deleteBoard);
+        mainCtrl.initializeBoardCrud(joinBoard, createBoard, editBoard, deleteBoard,
+                                        unlockBoard, youHavePermission);
+        mainCtrl.initializeAdminCrud(grantAdmin, accessDenied, permissionAdmin, editBoardPassword);
         mainCtrl.initializeTaskListCrud(deleteTaskList, newTaskList, editTaskList);
         mainCtrl.initializeTaskCrud(deleteTask, newTask, editTask, openTask);
         mainCtrl.initializeHelpScreen(helpScreen);

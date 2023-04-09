@@ -99,7 +99,6 @@ public class BoardController {
         localBoard.fontColor = board.fontColor;
         localBoard.listBackgroundColor = board.listBackgroundColor;
         localBoard.listFontColor = board.listFontColor;
-        localBoard.RWpermission = board.RWpermission;
 
         Board saved = repo.save(localBoard);
         changes.addChanged(id, saved);
