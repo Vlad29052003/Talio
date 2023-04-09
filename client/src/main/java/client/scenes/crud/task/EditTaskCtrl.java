@@ -161,10 +161,9 @@ public class EditTaskCtrl {
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.setContentText("The task was not found on the server!");
             alert.showAndWait();
-            mainCtrl.cancel();
             return;
         }
-        mainCtrl.hidePopup();
+        cancel();
     }
 
     /**
@@ -172,7 +171,6 @@ public class EditTaskCtrl {
      */
     public void cancel() {
         this.edited = new Task();
-        mainCtrl.cancel();
         mainCtrl.hidePopup();
     }
 }

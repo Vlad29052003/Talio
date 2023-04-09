@@ -114,12 +114,8 @@ public class CreateTaskCtrl {
                     description.getText(),
                     taskColor
             );
-            created = server.addTask(created, taskList.id);
-            taskList.tasks.add(created);
-
-            mainCtrl.updateTaskList(taskList);
-            mainCtrl.cancel();
-            mainCtrl.hidePopup();
+            server.addTask(created, taskList.id);
+            cancel();
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
@@ -132,7 +128,6 @@ public class CreateTaskCtrl {
      * Cancels the action.
      */
     public void cancel() {
-        mainCtrl.cancel();
         mainCtrl.hidePopup();
     }
 }

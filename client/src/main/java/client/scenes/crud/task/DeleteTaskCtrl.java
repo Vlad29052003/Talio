@@ -75,22 +75,19 @@ public class DeleteTaskCtrl {
     public void delete() {
         try {
             server.delete(task);
-            mainCtrl.removeTask(task);
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.setContentText("This task does not exist on the server!");
             alert.showAndWait();
         }
-        mainCtrl.cancel();
-        mainCtrl.hidePopup();
+        cancel();
     }
 
     /**
      * Cancels the action.
      */
     public void cancel() {
-        mainCtrl.cancel();
         mainCtrl.hidePopup();
     }
 }

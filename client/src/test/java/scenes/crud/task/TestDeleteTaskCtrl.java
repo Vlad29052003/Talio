@@ -42,7 +42,7 @@ public class TestDeleteTaskCtrl {
     @Test
     public void testCancel() {
         deleteCtrl.cancel();
-        verify(mainCtrl, times(1)).cancel();
+        verify(mainCtrl, times(1)).hidePopup();
     }
 
     @Test
@@ -51,6 +51,6 @@ public class TestDeleteTaskCtrl {
         deleteCtrl.setTask(task);
         deleteCtrl.delete();
         assertEquals(server.getTasks(), new ArrayList<>());
-        verify(mainCtrl, times(1)).cancel();
+        verify(mainCtrl, times(1)).hidePopup();
     }
 }
