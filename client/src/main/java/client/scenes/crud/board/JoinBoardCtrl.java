@@ -5,9 +5,11 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
 import jakarta.ws.rs.WebApplicationException;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
 
 public class JoinBoardCtrl {
@@ -27,6 +29,26 @@ public class JoinBoardCtrl {
     public JoinBoardCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+    }
+
+    /**
+     * Autofocuses the first field.
+     * Sets the keyboard shortcuts for ENTER and ESC.
+     */
+    public void initialize() {
+        Platform.runLater(() -> text.requestFocus());
+
+        this.text.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+            if (keyCode == KeyCode.ENTER) {
+                confirm();
+                event.consume();
+            }
+            else if (keyCode == KeyCode.ESCAPE) {
+                cancel();
+                event.consume();
+            }
+        });
     }
 
     /**
@@ -52,10 +74,9 @@ public class JoinBoardCtrl {
      *
      * @return the id.
      */
-    public Long getID() throws Exception {
+    public Long getID() {
         String idText = text.getText();
-        long id = 0L;
-        id = Long.parseLong(idText);
+        long id = Long.parseLong(idText);
         return id;
     }
 
@@ -64,7 +85,9 @@ public class JoinBoardCtrl {
      * Switches back to the workspace Scene.
      */
     public void cancel() {
+        Platform.runLater(() -> text.requestFocus());
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**
@@ -73,6 +96,7 @@ public class JoinBoardCtrl {
      * to get the Board with the entered id.
      */
     public void confirm() {
+        Platform.runLater(() -> text.requestFocus());
         long id;
         try {
             id = getID();
@@ -87,7 +111,7 @@ public class JoinBoardCtrl {
         try {
             board = server.joinBoard(id);
 
-            if(mainCtrl.isPresent(board)) {
+            if (mainCtrl.isPresent(board)) {
                 var alert = new Alert(Alert.AlertType.ERROR);
                 alert.initModality(Modality.APPLICATION_MODAL);
                 alert.setContentText("The board is already present in the workspace!");
@@ -106,6 +130,7 @@ public class JoinBoardCtrl {
             return;
         }
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**

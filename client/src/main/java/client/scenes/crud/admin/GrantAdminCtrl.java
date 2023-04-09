@@ -38,6 +38,7 @@ public class GrantAdminCtrl {
     public void cancel() {
         reset();
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**
@@ -61,9 +62,11 @@ public class GrantAdminCtrl {
                 list.add(server.joinBoard(ids.get(i)));
             }
             mainCtrl.addBoardListToWorkspace(list);
+            mainCtrl.hidePopup();
             mainCtrl.permissionAdmin();
         }else{
             reset();
+            mainCtrl.hidePopup();
             mainCtrl.accessDenied();
         }
     }

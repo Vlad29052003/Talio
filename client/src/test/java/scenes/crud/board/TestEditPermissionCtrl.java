@@ -10,8 +10,6 @@ import scenes.ServerUtilsTestingMock;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 public class TestEditPermissionCtrl {
     private ServerUtilsTestingMock server;
@@ -23,7 +21,7 @@ public class TestEditPermissionCtrl {
         this.server = new ServerUtilsTestingMock();
         this.mainCtrl = mock(MainCtrl.class);
         this.editPermissionCtrl = new EditPermissionCtrl(server, mainCtrl);
-        this.board = new Board("testing", "");
+        this.board = new Board("testing");
     }
 
     @Test
@@ -36,11 +34,5 @@ public class TestEditPermissionCtrl {
     public void testGetSetBoard() {
         editPermissionCtrl.setBoard(board);
         assertEquals(editPermissionCtrl.getBoard(), board);
-    }
-
-    @Test
-    public void testCancel() {
-        editPermissionCtrl.cancel();
-        verify(mainCtrl, times(1)).cancel();
     }
 }

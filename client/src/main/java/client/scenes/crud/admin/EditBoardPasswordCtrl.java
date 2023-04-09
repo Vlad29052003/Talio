@@ -43,6 +43,7 @@ public class EditBoardPasswordCtrl {
     public void cancel() {
         reset();
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**
@@ -55,15 +56,22 @@ public class EditBoardPasswordCtrl {
             if (text.getText() == "") {
                 board.password = text.getText();
                 board.edit = true;
+                mainCtrl.permissionAdmin();
+                mainCtrl.hidePopup();
+                reset();
             } else {
                 board.password = text.getText();
                 board.edit = false;
+                mainCtrl.accessDenied();
+                mainCtrl.hidePopup();
+                reset();
             }
             server.updateBoard(board);
             mainCtrl.updateBoard(board);
+        }else {
+            mainCtrl.cancel();
+            mainCtrl.hidePopup();
         }
-        reset();
-        mainCtrl.cancel();
     }
 
     /**

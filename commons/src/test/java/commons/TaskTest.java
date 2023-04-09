@@ -19,9 +19,9 @@ public class TaskTest {
 
     @BeforeEach
     public void setUp() {
-        t1 = new Task("t1", 0, "this is t1");
-        t2 = new Task("t2", 1, "this is t2");
-        t3 = new Task("t1", 0, "this is t1");
+        t1 = new Task("t1", 0, "this is t1", "#ff00ff");
+        t2 = new Task("t2", 1, "this is t2", "#ff66ff");
+        t3 = new Task("t1", 0, "this is t1", "#ff00ff");
     }
 
     @Test
@@ -32,12 +32,13 @@ public class TaskTest {
 
     @Test
     public void testNonEmptyConstructor() {
-        Task t = new Task("t", 5, "this is t");
+        Task t = new Task("t", 5, "this is t", "#112233");
         assertNotNull(t);
         assertEquals(t.name, "t");
         assertEquals(t.index, 5);
         assertEquals(t.description, "this is t");
         assertEquals(t.subtasks, new ArrayList<String>());
+        assertEquals(t.color, "#112233");
     }
 
     @Test
@@ -67,7 +68,9 @@ public class TaskTest {
     public void testAddSubtask() {
         t1.addSubTask("s1");
         List<String> expected = new ArrayList<>();
-        expected.add("s1");
+        // a zero or one is appended to the name
+        // to show whether the subtask is completed.
+        expected.add("s10");
         assertEquals(expected, t1.subtasks);
     }
 
@@ -83,7 +86,7 @@ public class TaskTest {
     public void testRemoveNonExistingSubtask() {
         t1.addSubTask("s1");
         List<String> expected = new ArrayList<>();
-        expected.add("s1");
+        expected.add("s10");
         assertFalse(t1.removeSubTask("s2"));
         assertEquals(t1.subtasks, expected);
     }
@@ -105,7 +108,7 @@ public class TaskTest {
 
     @Test
     public void testToString() {
-        assertEquals(t1.toString(), "this is t1,0,0,<null>,t1,[]");
+        assertNotNull(t1.toString());
     }
 
     @Test

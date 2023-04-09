@@ -3,6 +3,7 @@ package commons;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -21,9 +22,9 @@ public class BoardTest {
 
     @BeforeEach
     public void setUp() {
-        board1 = new Board("board1", "White");
-        board2 = new Board("board2", "Black");
-        board3 = new Board("board1", "White", "");
+        board1 = new Board("board1", "white", "black");
+        board2 = new Board("board2", "black", "white");
+        board3 = new Board("board1", "white", "black");
         list1 = new TaskList("1");
         list2 = new TaskList("2");
         list3 = null;
@@ -34,24 +35,22 @@ public class BoardTest {
     public void testConstructor() {
         Board nullboard = new Board();
         assertNotNull(nullboard);
-
-        Board board = new Board("board", "White","pass");
+        Board board = new Board("board", "white", "black", "pass");
         assertNotNull(board);
         assertEquals(board.name, "board");
-        assertEquals(board.backgroundColor, "White");
+        assertEquals(board.backgroundColor, "white");
+        assertEquals(board.fontColor, "black");
         assertEquals(board.password, "pass");
     }
 
     @Test
     public void testEquals() {
-
         assertEquals(board1, board3);
         assertNotEquals(board1, board2);
     }
 
     @Test
     public void testEqualHashCode() {
-
         assertEquals(board1.hashCode(), board3.hashCode());
         assertNotEquals(board1.hashCode(), board2.hashCode());
     }
@@ -95,6 +94,18 @@ public class BoardTest {
     @Test
     public void testToString() {
         assertNotNull(board1.toString());
+    }
+
+    @Test
+    public void testSortTags() {
+        Tag t1 = new Tag();
+        Tag t2 = new Tag();
+        t1.id = 5L;
+        t2.id = 0L;
+        board1.tags.add(t1);
+        board1.tags.add(t2);
+        board1.sortTags();
+        assertEquals(board1.tags, List.of(t2, t1));
     }
 
 }

@@ -26,5 +26,6 @@ public class AccessDeniedCtrl {
      */
     public void ok() {
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 }

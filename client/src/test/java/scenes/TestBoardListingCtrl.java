@@ -33,11 +33,6 @@ public class TestBoardListingCtrl {
     }
 
     @Test
-    public void testGetSetRoot() {
-        assertNull(display.getRoot());
-    }
-
-    @Test
     public void testView() {
         display.view();
         verify(mainCtrl, times(1)).switchBoard(display.getBoard());
@@ -50,8 +45,7 @@ public class TestBoardListingCtrl {
     }
 
     @Test
-    public void testEdit() {
-        display.edit();
-        verify(mainCtrl, times(1)).editBoard(display.getBoard());
+    public void testGetRoot() {
+        assertNull(display.getRoot());
     }
 }

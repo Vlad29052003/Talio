@@ -41,6 +41,8 @@ public class EditPermissionCtrl {
      */
     public void cancel() {
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
+        reset();
     }
 
     /**
@@ -52,10 +54,13 @@ public class EditPermissionCtrl {
         if(board.password.equals(text.getText())){
             board.edit = true;
             mainCtrl.switchBoard(board);
-            mainCtrl.cancel();
+            mainCtrl.youHavePermission();
+            mainCtrl.hidePopup();
+            reset();
         }else{
             reset();
             mainCtrl.accessDenied();
+            mainCtrl.hidePopup();
         }
     }
 

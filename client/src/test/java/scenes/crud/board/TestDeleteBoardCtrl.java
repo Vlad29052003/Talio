@@ -6,6 +6,7 @@ import commons.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import scenes.ServerUtilsTestingMock;
+import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -18,12 +19,13 @@ public class TestDeleteBoardCtrl {
     private MainCtrl mainCtrl;
     private DeleteBoardCtrl deleteCtrl;
     private Board board;
+
     @BeforeEach
     public void setUp() {
         this.server = new ServerUtilsTestingMock();
         this.mainCtrl = mock(MainCtrl.class);
         this.deleteCtrl = new DeleteBoardCtrl(server, mainCtrl);
-        this.board = new Board("testing", "");
+        this.board = new Board("testing", "", "");
     }
 
     @Test
@@ -46,10 +48,11 @@ public class TestDeleteBoardCtrl {
 
     @Test
     public void testConfirm() {
+        server.addBoard(board);
         deleteCtrl.setBoard(board);
         deleteCtrl.confirm();
+        assertEquals(server.getBoards(), new ArrayList<>());
         verify(mainCtrl, times(1)).cancel();
-        verify(mainCtrl, times(1)).removeFromWorkspace(board);
     }
 
     @Test

@@ -5,13 +5,19 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
 import jakarta.ws.rs.WebApplicationException;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 
 public class DeleteBoardCtrl {
     private ServerUtils server;
     private MainCtrl mainCtrl;
     private Board board;
+    @FXML
+    AnchorPane root;
 
     /**
      * Creates a new {@link DeleteBoardCtrl} object.
@@ -23,6 +29,26 @@ public class DeleteBoardCtrl {
     public DeleteBoardCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+    }
+
+    /**
+     * Sets the keyboard shortcuts for ENTER and ESC.
+     */
+    @FXML
+    public void initialize() {
+        Platform.runLater(() -> root.requestFocus());
+
+        this.root.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+            if (keyCode == KeyCode.ENTER) {
+                confirm();
+                event.consume();
+            }
+            else if (keyCode == KeyCode.ESCAPE) {
+                cancel();
+                event.consume();
+            }
+        });
     }
 
     /**
@@ -49,6 +75,7 @@ public class DeleteBoardCtrl {
      */
     public void cancel() {
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**
@@ -65,8 +92,8 @@ public class DeleteBoardCtrl {
             alert.setContentText("This board does not exist on the server!");
             alert.showAndWait();
         }
-        mainCtrl.removeFromWorkspace(board);
         mainCtrl.cancel();
+        mainCtrl.hidePopup();
     }
 
     /**

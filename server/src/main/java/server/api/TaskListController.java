@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
+import server.database.BoardRepository;
 import server.database.TaskListRepository;
-import server.database.TaskRepository;
+import server.mutations.BoardChangeQueue;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,17 +24,23 @@ import java.util.Optional;
 @RequestMapping("api/task_lists")
 public class TaskListController {
     private final TaskListRepository repo;
-    private final TaskRepository taskRepo;
+    private final BoardRepository boardRepo;
+    private final BoardChangeQueue changes;
 
     /**
      * Instantiate a new {@link TaskListController}.
-     * @param repo the {@link TaskListRepository} to use
-     * @param taskRepo the {@link TaskRepository} to use
+     *
+     * @param boardRepo the {@link BoardRepository} to use.
+     * @param repo the {@link TaskListRepository} to use.
+     * @param changes the {@link BoardChangeQueue} to use.
      */
     @Autowired
-    public TaskListController(TaskListRepository repo, TaskRepository taskRepo) {
+    public TaskListController(BoardRepository boardRepo,
+                              TaskListRepository repo,
+                              BoardChangeQueue changes) {
+        this.boardRepo = boardRepo;
         this.repo = repo;
-        this.taskRepo = taskRepo;
+        this.changes = changes;
     }
 
     /**
@@ -85,26 +92,38 @@ public class TaskListController {
 
         TaskList saved = repo.save(localList);
 
+        Board parent = saved.getBoard();
+        parent.toString();
+        changes.addChanged(parent.id, parent);
+
         return ResponseEntity.ok(saved);
     }
 
     /**
      * Creates a new TaskList.
      *
+     * @param boardId is the id of the board.
      * @param list The TaskList object to add.
-     * @param board The Board that the new TaskList belongs to.
      * @return a ResponseEntity containing the status of the operation.
      */
-    @PostMapping(path = {"", "/"})
-    public ResponseEntity<TaskList> add(@RequestBody TaskList list, @RequestBody Board board) {
-        if (isNullOrEmpty(list.name) || list.tasks == null) {
+    @PostMapping("/{boardId}")
+    public ResponseEntity<?> add(@PathVariable("boardId") long boardId,
+                                 @RequestBody TaskList list) {
+        if (isNullOrEmpty(list.name)
+                || list.tasks == null
+                || !boardRepo.existsById(boardId)) {
             return ResponseEntity.badRequest().build();
         }
 
-        list.setBoard(board);
+        Board board = boardRepo.findById(boardId).get();
+        board.addTaskList(list);
+        repo.save(list);
 
-        TaskList saved = repo.save(list);
-        return ResponseEntity.ok(saved);
+        Board parent = board;
+        parent.toString();
+        changes.addChanged(parent.id, parent);
+
+        return ResponseEntity.ok(boardRepo.findById(boardId).get());
     }
 
     /**
@@ -116,16 +135,20 @@ public class TaskListController {
     @DeleteMapping("/{taskListId}")
     @Transactional
     public ResponseEntity<String> deleteById(@PathVariable("taskListId") long id) {
-        if (id < 0)
+        if (id < 0 || !repo.existsById(id))
             return ResponseEntity.badRequest().body("Invalid ID.");
 
-        Optional<TaskList> optLocal = repo.findById(id);
-        return optLocal.map((opt) -> {
-            opt.getBoard().removeTaskList(opt);
-            taskRepo.deleteAll(opt.tasks);
-            repo.deleteById(opt.id);
-            return ResponseEntity.ok("Successfully deleted.");
-        }).orElseGet(() -> ResponseEntity.notFound().build());
+        TaskList taskList = repo.findById(id).get();
+        Board parent = boardRepo.findById(taskList.getBoard().id).get();
+        parent.removeTaskList(taskList);
+
+        boardRepo.save(parent);
+        repo.delete(taskList);
+
+        parent.toString();
+        changes.addChanged(parent.id, parent);
+
+        return ResponseEntity.ok().build();
     }
 
     private static boolean isNullOrEmpty(String s) { return s == null || s.isEmpty(); }

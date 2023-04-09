@@ -40,7 +40,7 @@
 	-fx-background-radius: 0;
 }
 
-.text-field: focused{
+.text-field:focused{
 	-fx-background-color: -fx-primary-color, white;
 }
 

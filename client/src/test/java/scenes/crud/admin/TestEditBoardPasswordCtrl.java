@@ -21,7 +21,7 @@ public class TestEditBoardPasswordCtrl {
         this.server = new ServerUtilsTestingMock();
         this.mainCtrl = mock(MainCtrl.class);
         this.editBoardPasswordCtrl = new EditBoardPasswordCtrl(server, mainCtrl);
-        this.board = new Board("testing", "");
+        this.board = new Board("testing");
     }
 
     @Test

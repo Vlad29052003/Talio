@@ -8,6 +8,8 @@ import scenes.ServerUtilsTestingMock;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class TestYouHavePermissionCtrl {
     private ServerUtilsTestingMock server;
@@ -24,5 +26,11 @@ public class TestYouHavePermissionCtrl {
     public void testConstructor() {
         YouHavePermissionCtrl ctrl = new YouHavePermissionCtrl(server, mainCtrl);
         assertNotNull(ctrl);
+    }
+
+    @Test
+    public void testOk(){
+        youHavePermissionCtrl.ok();
+        verify(mainCtrl, times(1)).cancel();
     }
 }

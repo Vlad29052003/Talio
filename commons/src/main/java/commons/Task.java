@@ -1,46 +1,78 @@
 package commons;
 
-import static org.apache.commons.lang3.builder.ToStringStyle.SIMPLE_STYLE;
+import static org.apache.commons.lang3.builder.ToStringStyle.MULTI_LINE_STYLE;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
+import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.ElementCollection;
+import javax.persistence.Transient;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Entity
+@Transactional
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Task implements Comparable<Task> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JsonBackReference
     TaskList list;
 
-    public String name;
-    public long index;
-    public String description;
+    @ManyToMany(mappedBy = "tasks")
+    public Set<Tag> tags;
 
-    @ElementCollection // 1
+    public String name;
+    public int index;
+    public String description;
+    public String color;
+
+    @ElementCollection
     public List<String> subtasks;
+
+    @Transient
+    public boolean focused = false;
 
     /**
      * Empty constructor for object mappers.
      */
     @SuppressWarnings("unused")
     public Task() {
-        // for object mappers
-        subtasks = new ArrayList<>();
+        this.subtasks = new ArrayList<>();
+        this.tags = new HashSet<>();
+    }
+
+    /**
+     * Creates a new {@link Task task}.
+     *
+     * @param name        is the name of the task.
+     * @param index       is the position within the TaskList.
+     * @param description is the description.
+     * @param color is the color of the task.
+     */
+    public Task(String name, int index, String description, String color) {
+        this.name = name;
+        this.index = index;
+        this.description = description;
+        this.subtasks = new ArrayList<>();
+        this.color = color;
+        this.tags = new HashSet<>();
     }
 
     /**
@@ -50,11 +82,8 @@ public class Task implements Comparable<Task> {
      * @param index is the position within the TaskList.
      * @param description is the description.
      */
-    public Task(String name, long index, String description) {
-        this.name = name;
-        this.index = index;
-        this.description = description;
-        subtasks = new ArrayList<>();
+    public Task(String name, int index, String description) {
+        this(name, index, description, "#f4f4f4");
     }
 
     /**
@@ -84,9 +113,19 @@ public class Task implements Comparable<Task> {
      * Adds a subtask to the {@link Task#subtasks task}.
      *
      * @param subTask is the subtask.
+     * @return whether the subtask is successfully added.
      */
-    public void addSubTask(String subTask){
-        this.subtasks.add(subTask);
+    public boolean addSubTask(String subTask) {
+        // There already exists a subtask with this name
+        if (this.subtasks.stream().anyMatch(x -> x.startsWith(subTask) &&
+                x.length() == subTask.length() + 1)) {
+            return false;
+        }
+
+        // we append a zero to show that the subtask has not been completed yet.
+        this.subtasks.add(subTask.concat("0"));
+
+        return true;
     }
 
     /**
@@ -97,7 +136,63 @@ public class Task implements Comparable<Task> {
      * false otherwise.
      */
     public boolean removeSubTask(String subTask) {
-        return this.subtasks.remove(subTask);
+        return this.subtasks
+                .removeIf(x -> x.startsWith(subTask) &&
+                        x.length() == subTask.length() + 1);
+    }
+
+    /**
+     * changes the value of a subtask.
+     * @param subTask the name of the subtask.
+     * @param newValue the new value of the subtask.
+     */
+    public void setSubTask(String subTask, boolean newValue) {
+        String booleanSearched = "1";
+        if(newValue) booleanSearched = "0";
+        String searched = subTask + booleanSearched;
+
+        Optional<String> value = this.subtasks.stream()
+                .filter(x -> x.equals(searched)).findFirst();
+
+        if (value.isEmpty()) {
+            return;
+        }
+
+        String newConcat = "0";
+        if (newValue) {
+            newConcat = "1";
+        }
+        String oldValue = value.get();
+
+        int index = this.subtasks.indexOf(oldValue);
+        this.subtasks.set(index, subTask + newConcat);
+    }
+
+    /**
+     * Returns the progress of the subtasks.
+     *
+     * @return a value from 0 to 1 that determines how many of the subtasks have been completed.
+     */
+    public double calculateProgress() {
+        if (subtasks.size() == 0) {
+            return 1.0;
+        }
+
+        return subtasks.stream().map(x -> {
+            if (x.endsWith("1")) {
+                return 1.0;
+            }
+            return 0.0;
+        }).reduce(Double::sum).orElse(0.0) / (double)subtasks.size();
+    }
+
+    /**
+     * Gets the number of completed subtasks.
+     *
+     * @return the number of completed subtasks.
+     */
+    public int completedSubtasks() {
+        return (int) subtasks.stream().filter(st -> st.endsWith("1")).count();
     }
 
     /**
@@ -120,6 +215,7 @@ public class Task implements Comparable<Task> {
     public int hashCode() {
         ArrayList<String> exclude = new ArrayList<>();
         exclude.add("list");
+        exclude.add("tags");
         return HashCodeBuilder.reflectionHashCode(this, exclude);
     }
 
@@ -131,7 +227,7 @@ public class Task implements Comparable<Task> {
      */
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this, SIMPLE_STYLE);
+        return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
     }
 
     /**
@@ -142,7 +238,7 @@ public class Task implements Comparable<Task> {
      */
     @Override
     public int compareTo(Task o) {
-        if(o == null)
+        if (o == null)
             throw new NullPointerException();
         return Long.compare(this.index, o.index);
     }

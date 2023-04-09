@@ -24,7 +24,7 @@ public class TestBoardCtrl {
         this.mainCtrl = mock(MainCtrl.class);
         this.server = new ServerUtilsTestingMock();
         this.boardCtrl = new BoardCtrl(server, mainCtrl);
-        this.board = new Board("testing", "");
+        this.board = new Board("testing", "", "");
     }
 
     @Test
@@ -39,13 +39,18 @@ public class TestBoardCtrl {
     }
 
     @Test
-    public void testEditBoardPassword(){
+    public void testEditBoardPassword() {
         boardCtrl.editBoardPassword();
         verify(mainCtrl, times(1)).grantAdmin();
 
         when(mainCtrl.getAdmin()).thenReturn(true);
         boardCtrl.editBoardPassword();
         verify(mainCtrl, times(1)).editBoardPassword(boardCtrl.getBoard());
+    }
 
+    @Test
+    public void testAddTaskList() {
+        boardCtrl.addTaskList();
+        verify(mainCtrl, times(0)).addTaskList(board);
     }
 }

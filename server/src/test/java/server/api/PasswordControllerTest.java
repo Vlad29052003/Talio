@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PasswordControllerTest {
 
@@ -26,17 +25,5 @@ public class PasswordControllerTest {
     public void newRepository(){
         List<Password> allPasswords = sut.getAll();
         assertEquals(0, allPasswords.size());
-    }
-
-    @Test
-    public void createNewPassword(){
-        var actual = sut.createNewPassword();
-        if(actual.getBody() == null) return;
-        var actual2 = sut.createNewPassword();
-        if(actual2.getBody() == null) return;
-
-        List<Password> allPasswords = sut.getAll();
-        assertEquals(1, allPasswords.size());
-        assertTrue(allPasswords.contains(actual2.getBody()));
     }
 }

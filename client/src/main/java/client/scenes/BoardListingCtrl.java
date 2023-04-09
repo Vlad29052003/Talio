@@ -66,8 +66,9 @@ public class BoardListingCtrl {
      * Deletes the Board associated with this object.
      */
     public void delete() {
+        mainCtrl.switchBoard(this.board);
         if(this.board.password != null) {
-            if(mainCtrl.getAdmin() || this.board.edit){
+            if(mainCtrl.getAdmin() || mainCtrl.boardedit.edit){
                 mainCtrl.deleteBoard(this.board);
             }else{
                 mainCtrl.editPermission(this.board);
@@ -91,7 +92,12 @@ public class BoardListingCtrl {
      * Edits the Board associated with this object.
      */
     public void edit() {
-        mainCtrl.editBoard(this.board);
+        mainCtrl.switchBoard(this.board);
+        if(mainCtrl.boardedit.edit){
+            mainCtrl.editBoard(this.board);
+        }else{
+            mainCtrl.editPermission(this.board);
+        }
     }
 
     /**

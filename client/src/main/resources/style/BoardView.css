@@ -1,0 +1,49 @@
+.vbox {
+    -fx-font-family: "Roboto Thin";
+}
+
+.boardMenu {
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-border-style: none;
+}
+
+.anchorPane {
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-border-color: transparent;
+}
+
+.orangeButton{
+    -fx-background-color: #FF6700;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 8pt;
+    -fx-shape: "M 200 250 L 500 250 Q 550 250 550 300 Q 550 350 500 350 L 200 350 Q 150 350 150 300 Q 150 250 200 250"
+
+}
+
+.orangeButton:hover{
+    -fx-background-color: #b6b6b6;
+    -fx-text-fill: #000000;
+}
+
+.scroll-pane {
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-border-style: none;
+}
+
+.scroll-pane .scroll-bar:horizontal {
+    -fx-background-color: white;
+    -fx-background-insets: 0;
+}
+
+
+.scroll-pane .scroll-bar:horizontal .thumb {
+    -fx-background-color: black;
+}
+
+.scroll-pane .increment-arrow,
+.scroll-pane .decrement-arrow {
+    -fx-background-color: black;
+}

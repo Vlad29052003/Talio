@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import server.database.BoardRepository;
+import server.mutations.BoardChangeQueue;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -20,16 +21,18 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/boards")
 public class BoardController {
-
     private final BoardRepository repo;
+    public final BoardChangeQueue changes;
 
     /**
      * Instantiate a new {@link BoardController}.
      * @param repo the {@link BoardRepository} to use.
+     * @param changes the {@link BoardChangeQueue} to use
      */
     @Autowired
-    public BoardController(BoardRepository repo) {
+    public BoardController(BoardRepository repo, BoardChangeQueue changes) {
         this.repo = repo;
+        this.changes = changes;
     }
 
     /**
@@ -54,6 +57,7 @@ public class BoardController {
         }
 
         Board saved = repo.save(board);
+        changes.addCreated(board.id, saved);
         return ResponseEntity.ok(saved);
     }
 
@@ -92,8 +96,12 @@ public class BoardController {
         localBoard.name = board.name;
         localBoard.password = board.password;
         localBoard.backgroundColor = board.backgroundColor;
+        localBoard.fontColor = board.fontColor;
+        localBoard.listBackgroundColor = board.listBackgroundColor;
+        localBoard.listFontColor = board.listFontColor;
 
         Board saved = repo.save(localBoard);
+        changes.addChanged(id, saved);
 
         return ResponseEntity.ok(saved);
     }
@@ -115,6 +123,7 @@ public class BoardController {
         }
 
         repo.deleteById(id);
+        changes.addDeleted(id);
         return ResponseEntity.ok().build();
     }
 
