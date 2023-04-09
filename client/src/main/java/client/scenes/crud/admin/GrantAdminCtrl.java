@@ -59,7 +59,11 @@ public class GrantAdminCtrl {
                     .collect(Collectors.toList());
             List<Board> list = new ArrayList<>();
             for(int i = 0; i < ids.size();i++){
-                list.add(server.joinBoard(ids.get(i)));
+                try {
+                    list.add(server.joinBoard(ids.get(i)));
+                }
+                catch (Exception e){
+                }
             }
             mainCtrl.addBoardListToWorkspace(list);
             mainCtrl.hidePopup();
