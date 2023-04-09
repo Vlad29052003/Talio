@@ -52,6 +52,7 @@ public class EditPermissionCtrl {
         if(board.password.equals(text.getText())){
             board.edit = true;
             mainCtrl.switchBoard(board);
+            mainCtrl.cancel();
         }else{
             reset();
             mainCtrl.accessDenied();

@@ -16,6 +16,8 @@ public class CreateNewBoardCtrl {
     private Board board;
     @FXML
     TextField text;
+    @FXML
+    TextField pass;
 
     /**
      * Creates a new {@link CreateNewBoardCtrl} object.
@@ -60,7 +62,7 @@ public class CreateNewBoardCtrl {
      * Creates a new Board.
      */
     public void add() {
-        Board newBoard = new Board(text.getText(), "");
+        Board newBoard = new Board(text.getText(), "", pass.getText());
         try {
             this.board = server.addBoard(newBoard);
             mainCtrl.addBoardToWorkspace(board);
@@ -80,5 +82,6 @@ public class CreateNewBoardCtrl {
     public void reset() {
         this.board = null;
         text.setText("");
+        pass.setText("");
     }
 }

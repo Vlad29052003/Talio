@@ -53,20 +53,20 @@ public class Main extends Application {
                 .load(PermissionAdminCtrl.class,"client", "scenes", "crud", "PermissionAdmin.fxml");
         var editPermission = FXML
                 .load(EditPermissionCtrl.class,"client", "scenes", "crud",
-                                                        "ReadWritePermissions.fxml");
+                                                        "BoardEdt.fxml");
         var youHavePermission = FXML
                 .load(YouHavePermissionCtrl.class,"client", "scenes", "crud",
                                                         "YouHavePermission.fxml");
-        var editBoardPassord = FXML
+        var editBoardPassword = FXML
                 .load(EditBoardPasswordCtrl.class, "client", "scenes", "crud",
-                                                        "ReadWritePassword.fxml");
+                                                        "NewBoardEdit.fxml");
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
 
         mainCtrl.initialize(primaryStage, FXML, workspace, board);
         mainCtrl.initializeBoardCrud(joinBoard, createBoard, editBoard, deleteBoard,
                                         editPermission, youHavePermission);
-        mainCtrl.initializeAdminCrud(grantAdmin, accessDenied, permissionAdmin, editBoardPassord);
+        mainCtrl.initializeAdminCrud(grantAdmin, accessDenied, permissionAdmin, editBoardPassword);
 
     }
 }
