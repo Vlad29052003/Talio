@@ -35,6 +35,10 @@ public class BoardTest {
     public void testConstructor() {
         Board nullboard = new Board();
         assertNotNull(nullboard);
+
+        Board nameboard = new Board("name");
+        assertEquals(nameboard.name, "name");
+
         Board board = new Board("board", "white", "black", "pass");
         assertNotNull(board);
         assertEquals(board.name, "board");

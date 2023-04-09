@@ -23,6 +23,7 @@ public class PasswordController {
     public PasswordController(PasswordRepository repo){
         Password pass = new Password();
         System.out.println("\n\nAdmin Password: " + pass.getPassword() + "\n\n");
+        repo.deleteAll();
         repo.save(pass);
         this.repo = repo;
     }

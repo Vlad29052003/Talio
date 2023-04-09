@@ -1,6 +1,7 @@
-package client.utils.websocket;
+package utils.websocket;
 
 import client.utils.UpdateHandler;
+import client.utils.websocket.WebsocketSynchroniser;
 import commons.Board;
 import commons.messages.BoardUpdateMessage;
 import org.junit.jupiter.api.BeforeEach;
