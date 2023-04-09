@@ -96,7 +96,16 @@ public class MainCtrl {
     private EditTagCtrl editTagCtrl;
     private Scene editTag;
     private Stage secondPopupStage;
-    public Board boardEdit;
+    private Board boardEdit;
+
+    /**
+     * Gets the boardEdit.
+     *
+     * @return boardEdit.
+     */
+    public Board getBoardEdit() {
+        return boardEdit;
+    }
 
     /**
      * Getter for isFocused

@@ -1,7 +1,5 @@
 package client.utils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Board;
 import commons.Tag;
 import commons.Task;

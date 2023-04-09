@@ -80,7 +80,7 @@ public class BoardListingCtrl {
     public void delete() {
         mainCtrl.switchBoard(this.board);
         if (this.board.password != null) {
-            if (mainCtrl.getAdmin() || mainCtrl.boardEdit.edit) {
+            if (mainCtrl.getAdmin() || mainCtrl.getBoardEdit().edit) {
                 mainCtrl.deleteBoard(this.board);
             } else {
                 mainCtrl.unlockBoard(this.board);
@@ -105,7 +105,7 @@ public class BoardListingCtrl {
      */
     public void edit() {
         mainCtrl.switchBoard(this.board);
-        if (mainCtrl.getAdmin() || mainCtrl.boardEdit.edit) {
+        if (mainCtrl.getAdmin() || mainCtrl.getBoardEdit().edit) {
             mainCtrl.editBoard(this.board);
         } else {
             mainCtrl.unlockBoard(this.board);

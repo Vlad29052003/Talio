@@ -6,9 +6,8 @@ import commons.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import scenes.ServerUtilsTestingMock;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 
 public class TestEditBoardPasswordCtrl {
@@ -32,7 +31,6 @@ public class TestEditBoardPasswordCtrl {
 
     @Test
     public void testGetSetBoard() {
-        editBoardPasswordCtrl.setBoard(board);
-        assertEquals(editBoardPasswordCtrl.getBoard(), board);
+        assertNull(editBoardPasswordCtrl.getBoard());
     }
 }

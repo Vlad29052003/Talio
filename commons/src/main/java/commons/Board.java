@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -27,9 +28,8 @@ public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public long id;
-
+    @Transient
     public boolean edit = false;
-
     public String name;
     public String backgroundColor;
     public String password;                 // password for edit permissions of the board.

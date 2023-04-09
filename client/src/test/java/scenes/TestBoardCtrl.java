@@ -40,12 +40,21 @@ public class TestBoardCtrl {
 
     @Test
     public void testEditBoardPassword() {
-        boardCtrl.editBoardPassword();
-        verify(mainCtrl, times(1)).grantAdmin();
-
         when(mainCtrl.getAdmin()).thenReturn(true);
         boardCtrl.editBoardPassword();
+        verify(mainCtrl, times(1)).getAdmin();
         verify(mainCtrl, times(1)).editBoardPassword(boardCtrl.getBoard());
+    }
+
+    @Test
+    public void testUnableEditBoardPassword() {
+        when(mainCtrl.getAdmin()).thenReturn(false);
+        Board boardEdit = new Board();
+        boardEdit.edit = false;
+        when(mainCtrl.getBoardEdit()).thenReturn(boardEdit);
+        boardCtrl.editBoardPassword();
+        verify(mainCtrl, times(1)).getAdmin();
+        verify(mainCtrl, times(1)).unlockBoard(boardCtrl.getBoard());
     }
 
     @Test
