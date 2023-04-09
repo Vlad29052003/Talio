@@ -151,20 +151,14 @@ public class Task implements Comparable<Task> {
         if(newValue) booleanSearched = "0";
         String searched = subTask + booleanSearched;
 
-        Optional<String> value = this.subtasks.stream()
-                .filter(x -> x.equals(searched)).findFirst();
-
-        if (value.isEmpty()) {
-            return;
-        }
-
         String newConcat = "0";
         if (newValue) {
             newConcat = "1";
         }
-        String oldValue = value.get();
 
-        int index = this.subtasks.indexOf(oldValue);
+        int index = this.subtasks.indexOf(searched);
+        if(index == -1)return;
+
         this.subtasks.set(index, subTask + newConcat);
     }
 

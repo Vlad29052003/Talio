@@ -46,6 +46,17 @@ public class BoardTest {
     }
 
     @Test
+    public void testConstructor2() {
+        Board board = new Board("board");
+        assertNotNull(board);
+        assertEquals(board.name, "board");
+        assertEquals(board.backgroundColor, "#f4f4f4");
+        assertEquals(board.fontColor, "#000000");
+        assertEquals(board.password, "");
+        assertFalse(board.RWpermission);
+    }
+
+    @Test
     public void testEquals() {
 
         assertEquals(board1, board3);
