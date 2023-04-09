@@ -97,10 +97,10 @@ public class TaskListCtrl {
      * Deletes the TaskList associated with this object.
      */
     public void delete() {
-        if(mainCtrl.getAdmin() || mainCtrl.getBoardEdit().edit) {
+        if(mainCtrl.getAdmin() || taskList.board.isEditable()) {
             mainCtrl.deleteTaskList(this.taskList);
         }else{
-            mainCtrl.unlockBoard(mainCtrl.getBoardEdit());
+            mainCtrl.unlockBoard(taskList.board);
         }
     }
 
@@ -108,10 +108,10 @@ public class TaskListCtrl {
      * Edits the TaskList associated with this object.
      */
     public void edit() {
-        if(mainCtrl.getAdmin() || mainCtrl.getBoardEdit().edit) {
+        if(mainCtrl.getAdmin() || taskList.board.isEditable()) {
             mainCtrl.editTaskList(this.taskList);
         }else{
-            mainCtrl.unlockBoard(mainCtrl.getBoardEdit());
+            mainCtrl.unlockBoard(taskList.board);
         }
     }
 
@@ -119,10 +119,10 @@ public class TaskListCtrl {
      * Adds a task to this taskList.
      */
     public void addTask() {
-        if(mainCtrl.getAdmin() || mainCtrl.getBoardEdit().edit) {
+        if(mainCtrl.getAdmin() || taskList.board.isEditable()) {
             mainCtrl.addTask(this.taskList);
         }else{
-            mainCtrl.unlockBoard(mainCtrl.getBoardEdit());
+            mainCtrl.unlockBoard(taskList.board);
         }
     }
 

@@ -28,14 +28,14 @@ public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public long id;
-    @Transient
-    public boolean edit = false;
     public String name;
     public String backgroundColor;
-    public String password;                 // password for edit permissions of the board.
+    public String password;
     public String fontColor;
     public String listBackgroundColor = "";
     public String listFontColor = "";
+    @Transient
+    public boolean editable = false;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -60,7 +60,7 @@ public class Board {
      * @param name            is the name of the board.
      * @param backgroundColor is the background color of the board.
      * @param fontColor       is the font color of the board.
-     * @param password is the password to access the board
+     * @param password        is the password to access the board
      */
 
     public Board(String name,
@@ -73,9 +73,6 @@ public class Board {
         this.password = password;
         this.lists = new HashSet<>();
         this.tags = new ArrayList<>();
-        if(password.equals("")){
-            edit = true;
-        }
     }
 
     /**
@@ -83,7 +80,7 @@ public class Board {
      *
      * @param name            is the name of the board.
      * @param backgroundColor is the background color of the board.
-     * @param fontColor is the font color of the board.
+     * @param fontColor       is the font color of the board.
      */
     public Board(String name,
                  String backgroundColor,
@@ -131,6 +128,15 @@ public class Board {
      */
     public void sortTags() {
         Collections.sort(tags);
+    }
+
+    /**
+     * Returns whether the board is editable or not.
+     *
+     * @return a boolean.
+     */
+    public boolean isEditable() {
+        return password == null || password.equals("") || editable;
     }
 
     @Override

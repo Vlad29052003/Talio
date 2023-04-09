@@ -112,4 +112,9 @@ public class BoardTest {
         assertEquals(board1.tags, List.of(t2, t1));
     }
 
+    @Test
+    public void testIsEditable() {
+        assertTrue(board1.isEditable());
+    }
+
 }

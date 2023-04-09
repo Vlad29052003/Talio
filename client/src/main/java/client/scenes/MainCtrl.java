@@ -37,6 +37,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainCtrl {
@@ -72,7 +73,6 @@ public class MainCtrl {
     private YouHavePermissionCtrl youHavePermissionCtrl;
     private Scene editBoardPassword;
     private EditBoardPasswordCtrl editBoardPasswordCtrl;
-
     private boolean admin = false;
     private Node dnd;
     private WebsocketSynchroniser boardSyncroniser;
@@ -96,16 +96,7 @@ public class MainCtrl {
     private EditTagCtrl editTagCtrl;
     private Scene editTag;
     private Stage secondPopupStage;
-    private Board boardEdit;
-
-    /**
-     * Gets the boardEdit.
-     *
-     * @return boardEdit.
-     */
-    public Board getBoardEdit() {
-        return boardEdit;
-    }
+    private final List<Long> unlockedBoards = new ArrayList<>();
 
     /**
      * Getter for isFocused
@@ -123,6 +114,15 @@ public class MainCtrl {
      */
     public void setIsFocused(Task isFocused) {
         this.isFocused = isFocused;
+    }
+
+    /**
+     * Gets the unlocked boards.
+     *
+     * @return the unlocked boards.
+     */
+    public List<Long> getUnlockedBoards() {
+        return unlockedBoards;
     }
 
     /**
@@ -389,7 +389,6 @@ public class MainCtrl {
     public void switchBoard(Board board) {
         if (boardCtrl != null) {
             boardCtrl.setBoard(board);
-            this.boardEdit = board;
         }
     }
 
@@ -740,7 +739,7 @@ public class MainCtrl {
     }
 
     /**
-     * Loads the scene for Permision Admin.
+     * Loads the scene for Permission Admin.
      */
     public void permissionAdmin() {
         popupStage.setTitle("Permissions upgraded");
@@ -755,7 +754,7 @@ public class MainCtrl {
      */
     public void unlockBoard(Board board) {
         unlockBoardCtrl.setBoard(board);
-        popupStage.setTitle("Edit Board");
+        popupStage.setTitle("Unlock Board");
         popupStage.setScene(unlockBoard);
         popupStage.show();
     }

@@ -104,10 +104,7 @@ public class WorkspaceCtrl implements Initializable {
 
         server.registerForTaskUpdates(b -> Platform.runLater(() -> {
             updateBoard(b);
-            if(mainCtrl.getActiveBoard() != null && mainCtrl.getActiveBoard().id == b.id) {
-                if(b.id == mainCtrl.getBoardEdit().id){
-                    b.edit = mainCtrl.getBoardEdit().edit;
-                }
+            if (mainCtrl.getActiveBoard() != null && mainCtrl.getActiveBoard().id == b.id) {
                 mainCtrl.switchBoard(b);
             }
         }));
@@ -122,10 +119,7 @@ public class WorkspaceCtrl implements Initializable {
 
         server.registerForTagUpdates(b -> Platform.runLater(() -> {
             updateBoard(b);
-            if(mainCtrl.getActiveBoard() != null && mainCtrl.getActiveBoard().id == b.id) {
-                if(b.id == mainCtrl.getBoardEdit().id){
-                    b.edit = mainCtrl.getBoardEdit().edit;
-                }
+            if (mainCtrl.getActiveBoard() != null && mainCtrl.getActiveBoard().id == b.id) {
                 mainCtrl.switchBoard(b);
             }
             mainCtrl.checkTagOverviewUpdate(b);
@@ -295,7 +289,7 @@ public class WorkspaceCtrl implements Initializable {
      */
     public void fetch() {
         ServerURL url = ServerURL.parseURL(serverIP.getText());
-        if(url == null) {
+        if (url == null) {
             connectionStatus.setStyle("-fx-text-fill: #880606;");
             connectionStatus.setText("Server address invalid");
             return;
@@ -309,7 +303,7 @@ public class WorkspaceCtrl implements Initializable {
     /**
      * @return the active {@link ServerURL}
      */
-    public ServerURL getServer(){
+    public ServerURL getServer() {
         return url;
     }
 
@@ -319,8 +313,8 @@ public class WorkspaceCtrl implements Initializable {
      *
      * @param url address of the server
      */
-    public void tryConnect(ServerURL url){
-        if(!Platform.isFxApplicationThread()){
+    public void tryConnect(ServerURL url) {
+        if (!Platform.isFxApplicationThread()) {
             Platform.runLater(() -> tryConnect(url));
             return;
         }
@@ -340,7 +334,7 @@ public class WorkspaceCtrl implements Initializable {
             Platform.runLater(() -> {
                 updateConnectionStatus(connected);
 
-                if(!connected) return;
+                if (!connected) return;
 
                 mainCtrl.getWebsocketSynchroniser().switchServer(url);
 
@@ -366,16 +360,16 @@ public class WorkspaceCtrl implements Initializable {
      *
      * @param connected is the status of the connection.
      */
-    public void updateConnectionStatus(boolean connected){
-        if(!Platform.isFxApplicationThread()){
+    public void updateConnectionStatus(boolean connected) {
+        if (!Platform.isFxApplicationThread()) {
             Platform.runLater(() -> updateConnectionStatus(connected));
             return;
         }
 
-        if(connected){
+        if (connected) {
             connectionStatus.setText("Connected to server");
             connectionStatus.setStyle("-fx-text-fill: #046600;");
-        }else{
+        } else {
             connectionStatus.setStyle("-fx-text-fill: #880606;");
             connectionStatus.setText("Server not found");
         }
@@ -392,9 +386,9 @@ public class WorkspaceCtrl implements Initializable {
      * Switches to the GrantAdmin Scene.
      */
     public void admin() {
-        if(mainCtrl.getAdmin()){
+        if (mainCtrl.getAdmin()) {
             mainCtrl.permissionAdmin();
-        }else{
+        } else {
             mainCtrl.grantAdmin();
         }
     }
@@ -420,6 +414,8 @@ public class WorkspaceCtrl implements Initializable {
      */
     public void addBoardToWorkspace(Board newBoard) {
         if (mainCtrl.isPresent(newBoard)) return;
+        if(mainCtrl.getUnlockedBoards().contains(newBoard.id))
+            newBoard.editable = true;
         var pair = mainCtrl.newBoardListingView(newBoard);
         boards.add(pair.getKey());
         boardWorkspace.getChildren().add(pair.getValue());
@@ -473,6 +469,8 @@ public class WorkspaceCtrl implements Initializable {
                 boards.stream().filter(b -> b.getBoard().id == board.id).findFirst();
         if (toBeUpdated.isEmpty()) return;
         var updatedBoardWorkspace = toBeUpdated.get();
+        if(mainCtrl.getUnlockedBoards().contains(board.id))
+            board.editable = true;
         updatedBoardWorkspace.setBoard(board);
         updatedBoardWorkspace.refresh();
     }

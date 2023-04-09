@@ -43,12 +43,15 @@ public class BoardListingCtrl {
     public void setBoard(Board board) {
         this.board = board;
         label.setText(board.name + " (id: " + board.id + ")");
-        if (!board.password.equals("") && locked == null) {
+        if(locked == null) {
             this.locked = new ImageView(new Image("/client/icons/lock.png"));
             locked.setScaleX(0.7);
             locked.setScaleY(0.7);
+        }
+        if (!board.isEditable() && !header.getChildren().contains(locked)) {
             header.getChildren().add(locked);
         }
+        else header.getChildren().remove(locked);
     }
 
     /**
@@ -80,7 +83,7 @@ public class BoardListingCtrl {
     public void delete() {
         mainCtrl.switchBoard(this.board);
         if (this.board.password != null) {
-            if (mainCtrl.getAdmin() || mainCtrl.getBoardEdit().edit) {
+            if (mainCtrl.getAdmin() || board.isEditable()) {
                 mainCtrl.deleteBoard(this.board);
             } else {
                 mainCtrl.unlockBoard(this.board);
@@ -105,7 +108,7 @@ public class BoardListingCtrl {
      */
     public void edit() {
         mainCtrl.switchBoard(this.board);
-        if (mainCtrl.getAdmin() || mainCtrl.getBoardEdit().edit) {
+        if (mainCtrl.getAdmin() || board.isEditable()) {
             mainCtrl.editBoard(this.board);
         } else {
             mainCtrl.unlockBoard(this.board);

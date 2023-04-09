@@ -148,7 +148,7 @@ public class BoardCtrl {
      */
     public void addTaskList() {
         if (board != null) {
-            if(mainCtrl.getAdmin() || mainCtrl.getBoardEdit().edit){
+            if(mainCtrl.getAdmin() || board.isEditable()){
                 mainCtrl.addTaskList(board);
             }else{
                 mainCtrl.unlockBoard(board);
@@ -160,7 +160,7 @@ public class BoardCtrl {
      * Displays the tag overview.
      */
     public void tagOverview() {
-        if(mainCtrl.getAdmin() || mainCtrl.getBoardEdit().edit){
+        if(mainCtrl.getAdmin() || board.isEditable()){
             mainCtrl.tagOverview(board);
         }else{
             mainCtrl.unlockBoard(board);
@@ -186,7 +186,7 @@ public class BoardCtrl {
      * In case you are missing it you have to input it.
      */
     public void unlockBoard() {
-        if(mainCtrl.getAdmin() || mainCtrl.getBoardEdit().edit){
+        if(mainCtrl.getAdmin() || board.isEditable()){
             mainCtrl.youHavePermission();
         }else{
             mainCtrl.unlockBoard(board);
@@ -198,7 +198,7 @@ public class BoardCtrl {
      * If not the scene is changed to the password input.
      */
     public void editBoardPassword() {
-        if (mainCtrl.getAdmin() || mainCtrl.getBoardEdit().edit) {
+        if (mainCtrl.getAdmin() || board.isEditable()) {
             mainCtrl.editBoardPassword(board);
         } else {
             mainCtrl.unlockBoard(board);

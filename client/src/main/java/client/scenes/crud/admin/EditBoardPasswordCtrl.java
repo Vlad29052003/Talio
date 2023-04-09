@@ -56,13 +56,12 @@ public class EditBoardPasswordCtrl {
         if(board != null){
             if (text.getText() == "") {
                 board.password = text.getText();
-                board.edit = true;
-                mainCtrl.permissionAdmin();
+                board.editable = true;
                 mainCtrl.hidePopup();
                 reset();
             } else {
                 board.password = text.getText();
-                board.edit = false;
+                board.editable = false;
                 mainCtrl.accessDenied();
                 mainCtrl.hidePopup();
                 reset();
