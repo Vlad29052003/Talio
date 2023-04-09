@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.image.Image?>
-<VBox fx:id="root" alignment="TOP_CENTER" minHeight="30.0" onDragDetected="#onDragDetected" onMouseClicked="#open" spacing="5.0" styleClass="rootNode" stylesheets="/style/TaskView.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskCtrl">
+<VBox fx:id="root" alignment="TOP_LEFT" minHeight="30.0" onDragDetected="#onDragDetected" onMouseClicked="#open" spacing="5.0" styleClass="rootNode" stylesheets="/style/TaskView.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.TaskCtrl">
 <children>
    <HBox alignment="CENTER_LEFT" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" spacing="5.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
       <children>

@@ -4,8 +4,10 @@ import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 
 public class UnlockBoardCtrl {
     private ServerUtils server;
@@ -27,6 +29,25 @@ public class UnlockBoardCtrl {
     }
 
     /**
+     * Autofocuses the first field.
+     * Sets the keyboard shortcuts for ENTER and ESC.
+     */
+    public void initialize() {
+        Platform.runLater(() -> text.requestFocus());
+        this.text.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+            if (keyCode == KeyCode.ENTER) {
+                confirm();
+                event.consume();
+            }
+            else if (keyCode == KeyCode.ESCAPE) {
+                cancel();
+                event.consume();
+            }
+        });
+    }
+
+    /**
      * Sets the board.
      *
      * @param board is the Board.
@@ -40,6 +61,7 @@ public class UnlockBoardCtrl {
      * Switches back to the workspace Scene.
      */
     public void cancel() {
+        Platform.runLater(() -> text.requestFocus());
         mainCtrl.cancel();
         mainCtrl.hidePopup();
         reset();
@@ -51,6 +73,7 @@ public class UnlockBoardCtrl {
      * to test the password.
      */
     public void confirm(){
+        Platform.runLater(() -> text.requestFocus());
         if(board.password.equals(text.getText())){
             board.editable = true;
             mainCtrl.getUnlockedBoards().add(board.id);

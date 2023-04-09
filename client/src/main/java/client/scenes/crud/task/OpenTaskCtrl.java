@@ -2,8 +2,11 @@ package client.scenes.crud.task;
 
 import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
+import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXTextArea;
 import commons.Task;
 import jakarta.ws.rs.WebApplicationException;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -14,12 +17,12 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ListView;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.CheckBoxListCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
 import javafx.util.Callback;
@@ -33,6 +36,7 @@ import java.util.stream.Collectors;
 public class OpenTaskCtrl implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Platform.runLater(() -> name.requestFocus());
         this.name.setOnKeyPressed(event -> {
             KeyCode keyCode = event.getCode();
             if (keyCode == KeyCode.ESCAPE) {
@@ -147,11 +151,11 @@ public class OpenTaskCtrl implements Initializable {
     @FXML
     private Label name;
     @FXML
-    private TextArea description;
+    private JFXTextArea description;
     @FXML
     private ProgressBar progress;
     @FXML
-    private ListView<SubTask> subTasks;
+    private JFXListView<SubTask> subTasks;
 
     /**
      * Creates as new {@link OpenTaskCtrl} object.
@@ -221,11 +225,12 @@ public class OpenTaskCtrl implements Initializable {
      */
     public void onAddSubTask() {
         if(mainCtrl.getAdmin() || task.getTaskList().board.isEditable()) {
-            TextInputDialog dialog = new TextInputDialog("sub task name");
-            dialog.setTitle("");
+            TextInputDialog dialog = new TextInputDialog("subtask");
+            dialog.setTitle("Add subtask");
+            dialog.setGraphic(new ImageView(new Image("/client/icons/logo.png")));
             dialog.setHeaderText(null);
             dialog.setGraphic(null);
-            dialog.setContentText("please enter the sub task text: ");
+            dialog.setContentText("Subtask name: ");
 
             Optional<String> result = dialog.showAndWait();
             result.ifPresent(this::tryAddSubTask);

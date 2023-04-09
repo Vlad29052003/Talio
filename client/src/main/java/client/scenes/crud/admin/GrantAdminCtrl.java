@@ -4,8 +4,11 @@ import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Board;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+
 import java.util.List;
 
 public class GrantAdminCtrl {
@@ -26,12 +29,31 @@ public class GrantAdminCtrl {
         this.mainCtrl = mainCtrl;
     }
 
+    /**
+     * Autofocuses the first field.
+     * Sets the keyboard shortcuts for ENTER and ESC.
+     */
+    public void initialize() {
+        Platform.runLater(() -> text.requestFocus());
+        this.text.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+            if (keyCode == KeyCode.ENTER) {
+                confirm();
+                event.consume();
+            }
+            else if (keyCode == KeyCode.ESCAPE) {
+                cancel();
+                event.consume();
+            }
+        });
+    }
 
     /**
      * Bond to the Cancel button.
      * Switches back to the workspace Scene.
      */
     public void cancel() {
+        Platform.runLater(() -> text.requestFocus());
         reset();
         mainCtrl.cancel();
         mainCtrl.hidePopup();
@@ -43,6 +65,7 @@ public class GrantAdminCtrl {
      * to test the password.
      */
     public void confirm(){
+        Platform.runLater(() -> text.requestFocus());
         if(text.getText().equals(server.getPassword())){
             mainCtrl.setAdminTrue();
             List<Board> list = server.addAllBoards();

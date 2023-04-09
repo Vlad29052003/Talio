@@ -26,11 +26,11 @@
 }
 
 .add-button-list{
-    -fx-background-color: #6495ED;
+    -fx-background-color: #FF6700;
 }
 
 *{
-	-fx-primary-color: #6495ED;
+	-fx-primary-color: #FF6700;
 	-fx-secondary-color: #4B6EAF;
 	-fx-grey-color: #A9A9A9;
 

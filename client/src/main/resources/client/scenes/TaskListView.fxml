@@ -24,7 +24,7 @@
                      </font></Label>
                </children>
             </AnchorPane>
-            <JFXButton alignment="CENTER" onAction="#edit" text="Edit" textAlignment="CENTER">
+            <JFXButton alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#edit" text="Edit" textAlignment="CENTER">
                <graphic>
                   <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -36,7 +36,7 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <JFXButton alignment="CENTER" layoutX="194.0" layoutY="15.0" onAction="#delete" text="Delete" textAlignment="CENTER">
+            <JFXButton alignment="CENTER" layoutX="194.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#delete" text="Delete" textAlignment="CENTER">
                <graphic>
                   <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -62,7 +62,7 @@
             </VBox>
          </content>
       </ScrollPane>
-      <HBox alignment="CENTER" prefHeight="37.0" prefWidth="298.0" >
+      <HBox alignment="CENTER" prefHeight="37.0" prefWidth="298.0">
          <children>
             <JFXButton onAction="#addTask" prefHeight="43.0" prefWidth="298.0" styleClass="largeButton" text="Add Task">
                <font>

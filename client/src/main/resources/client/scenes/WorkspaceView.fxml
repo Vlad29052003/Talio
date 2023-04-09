@@ -3,6 +3,9 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
@@ -12,52 +15,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
 <VBox prefHeight="681.0" prefWidth="1136.0" stylesheets="/style/Workspace.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.WorkspaceCtrl">
     <children>
         <MenuBar prefHeight="0.0" prefWidth="878.0" VBox.vgrow="NEVER">
             <menus>
-                <Menu mnemonicParsing="false" text="File">
+                <Menu mnemonicParsing="false" text="Help">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="New" />
-                        <MenuItem mnemonicParsing="false" text="Open…" />
-                        <Menu mnemonicParsing="false" text="Open Recent" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Close" />
-                        <MenuItem mnemonicParsing="false" text="Save" />
-                        <MenuItem mnemonicParsing="false" text="Save As…" />
-                        <MenuItem mnemonicParsing="false" text="Revert" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" onAction="#openHelpScreen" text="Keyboard shortcuts">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="SLASH" control="UP" meta="UP" shift="DOWN" shortcut="UP" />
                      </accelerator></MenuItem>
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Preferences…" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Quit" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Undo" />
-                        <MenuItem mnemonicParsing="false" text="Redo" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Cut" />
-                        <MenuItem mnemonicParsing="false" text="Copy" />
-                        <MenuItem mnemonicParsing="false" text="Paste" />
-                        <MenuItem mnemonicParsing="false" text="Delete" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Select All" />
-                        <MenuItem mnemonicParsing="false" text="Unselect All" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="About Talio" />
                     </items>
                 </Menu>
             </menus>
@@ -72,7 +39,7 @@
                         <HBox spacing="2.0">
                             <children>
                                 <TextField fx:id="serverIP" prefHeight="17.0" prefWidth="280.0" promptText="hostname.." text="http://localhost:8080/" HBox.hgrow="ALWAYS" />
-                                <JFXButton maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#fetch" text="Connect" />
+                                <JFXButton maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#fetch" styleClass="connectButton" text="Connect" />
                             </children>
                             <VBox.margin>
                                 <Insets top="10.0" />
@@ -102,7 +69,7 @@
                                         <Insets />
                                     </HBox.margin>
                                 </JFXButton>
-                                <JFXButton mnemonicParsing="false" onAction="#admin" prefHeight="25.0" prefWidth="85.0" text="Admin">
+                                <JFXButton mnemonicParsing="false" onAction="#admin" prefHeight="25.0" prefWidth="85.0" styleClass="adminButton" text="Admin">
                                     <HBox.margin>
                                         <Insets />
                                     </HBox.margin>
