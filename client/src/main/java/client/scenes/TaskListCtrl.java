@@ -284,7 +284,7 @@ public class TaskListCtrl {
 
         Task task = taskList.tasks.get(index);
         taskControllers.stream().filter(tc -> tc.getTask().id == task.id)
-                .forEach(tc -> tc.requestFocus());
+                .forEach(TaskCtrl::requestFocus);
     }
 
     /**
@@ -301,7 +301,7 @@ public class TaskListCtrl {
         } else {
             Task task = taskList.tasks.get(index);
             taskControllers.stream().filter(tc -> tc.getTask().id == task.id)
-                    .forEach(tc -> tc.requestFocus());
+                    .forEach(TaskCtrl::requestFocus);
         }
 
     }

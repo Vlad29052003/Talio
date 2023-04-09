@@ -74,7 +74,6 @@ public class DeleteTaskListCtrl {
      * Switches back to the workspace Scene.
      */
     public void cancel() {
-        mainCtrl.cancel();
         mainCtrl.hidePopup();
     }
 
@@ -84,7 +83,6 @@ public class DeleteTaskListCtrl {
      * to delete this taskList.
      */
     public void confirm() {
-
         try {
             server.deleteTaskList(taskList);
         } catch (WebApplicationException e) {
@@ -93,16 +91,6 @@ public class DeleteTaskListCtrl {
             alert.setContentText("This list does not exist on the server!");
             alert.showAndWait();
         }
-
-        mainCtrl.removeTaskList(taskList);
-        mainCtrl.cancel();
         mainCtrl.hidePopup();
-    }
-
-    /**
-     * Resets the fields in this object.
-     */
-    public void reset() {
-        this.taskList = null;
     }
 }

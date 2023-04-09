@@ -25,7 +25,6 @@ public class HelpScreenCtrl {
      * Switches back to the workspace Scene.
      */
     public void cancel() {
-        mainCtrl.cancel();
         mainCtrl.hidePopup();
     }
 }

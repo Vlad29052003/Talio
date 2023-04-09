@@ -1,12 +1,8 @@
 package server.api;
 
 import commons.Board;
-import commons.Tag;
 import commons.Task;
-import commons.TaskList;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,41 +12,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
-import server.database.TagRepository;
-import server.database.TaskListRepository;
-import server.database.TaskRepository;
-
+import server.service.TaskService;
 import javax.transaction.Transactional;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.function.Consumer;
 
 @RestController
 @RequestMapping("/api/task")
 public class TaskController {
-    private final TaskRepository taskRepo;
-    private final TaskListRepository listRepo;
-    private final TagRepository tagRepo;
-    private Map<Object, Consumer<Board>> listenCreate;
+    private final TaskService taskService;
 
     /**
      * Instantiate a new {@link TaskController}.
      *
-     * @param taskRepo the {@link TaskRepository} to use.
-     * @param listRepo the {@link TaskListRepository} to use.
-     * @param tagRepo the {@link TagRepository} to use.
+     * @param taskService the {@link TaskService} to use.
      */
     @Autowired
-    public TaskController(TaskRepository taskRepo,
-                          TaskListRepository listRepo,
-                          TagRepository tagRepo) {
-        this.taskRepo = taskRepo;
-        this.listRepo = listRepo;
-        this.tagRepo = tagRepo;
-        this.listenCreate = new HashMap<>();
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
     }
 
     /**
@@ -60,7 +38,7 @@ public class TaskController {
      */
     @GetMapping(path = {"", "/"})
     public List<Task> getAll() {
-        return taskRepo.findAll();
+        return taskService.getAll();
     }
 
     /**
@@ -71,11 +49,7 @@ public class TaskController {
      */
     @GetMapping("/{taskId}")
     public ResponseEntity<?> getById(@PathVariable("taskId") long taskId) {
-
-        if (taskId < 0 || !taskRepo.existsById(taskId))
-            return ResponseEntity.badRequest().body("Invalid ID.");
-
-        return ResponseEntity.ok(taskRepo.findById(taskId).get());
+        return taskService.getById(taskId);
     }
 
     /**
@@ -92,25 +66,7 @@ public class TaskController {
     public ResponseEntity<String> moveTask(@PathVariable("newListId") long newListId,
                                            @PathVariable("index") int index,
                                            @PathVariable("taskId") long taskId) {
-        if (index < 0 || newListId < 0 || !listRepo.existsById((newListId)) ||
-                taskId < 0 || !taskRepo.existsById(taskId))
-            return ResponseEntity.badRequest().body("Invalid ID.");
-
-        Task t = taskRepo.findById(taskId).get();
-        TaskList newList = listRepo.findById(newListId).get();
-
-        changeIndexesOldList(t.getTaskList(), t.index);
-        changeIndexesNewList(newList, index);
-        t.setTaskList(newList);
-
-        t.index = index;
-        Task updated = taskRepo.saveAndFlush(t);
-
-        Board board = updated.getTaskList().getBoard();
-        board.toString();
-        listenCreate.forEach((k, l) -> l.accept(board));
-
-        return ResponseEntity.ok("Changed successfully!");
+        return taskService.moveTask(newListId, index, taskId);
     }
 
     /**
@@ -123,24 +79,7 @@ public class TaskController {
     @PostMapping("/{listId}")
     public ResponseEntity<?> createTask(@PathVariable("listId") long listId,
                                         @RequestBody Task task) {
-        if (listId < 0 || !listRepo.existsById(listId))
-            return ResponseEntity.badRequest().body("Invalid ID.");
-        if (task == null || task.name == null)
-            return ResponseEntity.badRequest().body("Invalid data.");
-        Optional<Integer> i = listRepo.findById(listId).get().tasks.stream().
-                map(t -> t.index).max(Integer::compare);
-
-        int index = 0;
-        if (i.isPresent()) index = i.get() + 1;
-        task.index = index;
-        task.setTaskList(listRepo.findById(listId).get());
-        Task saved = taskRepo.saveAndFlush(task);
-
-        Board board = saved.getTaskList().getBoard();
-        board.toString();
-        listenCreate.forEach((k, l) -> l.accept(board));
-
-        return ResponseEntity.ok(saved);
+        return taskService.createTask(listId, task);
     }
 
     /**
@@ -151,36 +90,7 @@ public class TaskController {
      */
     @PostMapping(path = {"", "/"})
     public ResponseEntity<String> updateTask(@RequestBody Task task) {
-        if (task == null || task.id < 0 || !taskRepo.existsById(task.id))
-            return ResponseEntity.badRequest().body("Invalid data.");
-
-        Task current = taskRepo.findById(task.id).get();
-        current.name = task.name;
-        current.description = task.description;
-        current.subtasks = task.subtasks;
-        current.color = task.color;
-
-        Set<Tag> copy = Set.copyOf(current.tags);
-        for(Tag tag : copy) {
-            Tag onServer = tagRepo.findById((long) tag.id).get();
-            current.tags.remove(onServer);
-            onServer.removeFrom(current);
-            tagRepo.saveAndFlush(onServer);
-        }
-        copy = Set.copyOf(task.tags);
-        for(Tag tag : copy) {
-            Tag onServer = tagRepo.findById((long) tag.id).get();
-            current.tags.add(onServer);
-            onServer.applyTo(current);
-            tagRepo.saveAndFlush(onServer);
-        }
-        Task updated = taskRepo.saveAndFlush(current);
-
-        Board board = updated.getTaskList().getBoard();
-        board.toString();
-        listenCreate.forEach((k, l) -> l.accept(board));
-
-        return ResponseEntity.ok("Task updated.");
+        return taskService.updateTask(task);
     }
 
     /**
@@ -192,29 +102,7 @@ public class TaskController {
     @DeleteMapping("/{taskId}")
     @Transactional
     public ResponseEntity<String> deleteById(@PathVariable("taskId") long taskId) {
-        if (taskId < 0 || !taskRepo.existsById(taskId))
-            return ResponseEntity.badRequest().body("Invalid ID.");
-
-        Task deleted = taskRepo.findById(taskId).get();
-        TaskList old = listRepo.findById(deleted.getTaskList().id).get();
-        old.removeTask(deleted);
-        TaskList savedTaskList = listRepo.save(old);
-
-        int index = deleted.index;
-
-        for(Tag tag : deleted.tags) {
-            tag.removeFrom(deleted);
-            tagRepo.saveAndFlush(tag);
-        }
-
-        taskRepo.delete(deleted);
-        taskRepo.flush();
-        changeIndexesOldList(old, index);
-        Board board = listRepo.findById(old.id).get().getBoard();
-        board.toString();
-        listenCreate.forEach((k, l) -> l.accept(board));
-
-        return ResponseEntity.ok("Successfully deleted.");
+        return taskService.deleteById(taskId);
     }
 
     /**
@@ -224,36 +112,6 @@ public class TaskController {
      */
     @GetMapping("/getUpdates")
     public DeferredResult<ResponseEntity<Board>> getUpdates() {
-        var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        var res = new DeferredResult<ResponseEntity<Board>>(5000L, noContent);
-
-        var key = new Object();
-        listenCreate.put(key, b -> {res.setResult(ResponseEntity.ok((Board) b));});
-        res.onCompletion(() -> {listenCreate.remove(key);});
-
-        return res;
+        return taskService.getUpdates();
     }
-
-    /**
-     * Increments indexes larger than index so a new Task can be inserted in the list.
-     *
-     * @param list  is the TaskList in which it updates the Task indexes.
-     * @param index is the index of the inserted Task.
-     */
-    public void changeIndexesNewList(TaskList list, int index) {
-        list.tasks.stream().filter(t -> t.index >= index).forEach(t -> t.index++);
-        listRepo.saveAndFlush(list);
-    }
-
-    /**
-     * Decrements indexes larger that index to keep the order after removing a Task.
-     *
-     * @param list  is the TaskList in which it decrements the Task indexes.
-     * @param index is the index of the removed Task.
-     */
-    public void changeIndexesOldList(TaskList list, int index) {
-        list.tasks.stream().filter(t -> t.index > index).forEach(t -> t.index--);
-        listRepo.saveAndFlush(list);
-    }
-
 }

@@ -3,9 +3,9 @@ package scenes;
 import client.scenes.BoardCtrl;
 import client.scenes.MainCtrl;
 import commons.Board;
+import commons.TaskList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
@@ -50,5 +50,20 @@ public class TestBoardCtrl {
     public void testAddTaskList() {
         boardCtrl.addTaskList();
         verify(mainCtrl, times(0)).addTaskList(board);
+    }
+
+    @Test
+    public void testTagOverview() {
+        when(mainCtrl.getAdmin()).thenReturn(true);
+        boardCtrl.tagOverview();
+        boardCtrl.resetFocus();
+        TaskList list = new TaskList();
+        board.lists.add(list);
+        boardCtrl.setBoardWithoutRefresh(board);
+        list.id = 1L;
+        boardCtrl.getNextIndex(list, 5);
+        boardCtrl.getNeighbourIndex(list, 5, true);
+        boardCtrl.getNeighbourIndex(list, 5, false);
+        verify(mainCtrl, times(1)).tagOverview(null);
     }
 }
