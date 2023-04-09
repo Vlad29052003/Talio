@@ -689,6 +689,7 @@ public class MainCtrl {
      * @param list is the list of Boards to be added.
      */
     public void addBoardListToWorkspace(List<Board> list) {
+        workspaceCtrl.reset();
         for (Board board : list) {
             if (board != null) {
                 if (!isPresent(board)) {

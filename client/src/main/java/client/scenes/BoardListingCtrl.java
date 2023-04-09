@@ -52,7 +52,7 @@ public class BoardListingCtrl {
             unlocked.setScaleX(0.7);
             unlocked.setScaleY(0.7);
         }
-        if (!board.isEditable() && !header.getChildren().contains(locked)) {
+        if (!board.isEditable() && !header.getChildren().contains(locked) && !mainCtrl.getAdmin()) {
             header.getChildren().add(locked);
             header.getChildren().remove(unlocked);
         }
