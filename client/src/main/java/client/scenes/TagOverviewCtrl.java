@@ -3,8 +3,10 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.Board;
 import commons.Tag;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javax.inject.Inject;
 import java.net.URL;
@@ -33,9 +35,20 @@ public class TagOverviewCtrl implements Initializable {
         tags = new ArrayList<>();
     }
 
+    /**
+     * Sets the keyboard shortcuts for ENTER and ESC.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (board != null) populate();
+
+        this.tagContainer.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+            if (keyCode == KeyCode.ESCAPE) {
+                close();
+                event.consume();
+            }
+        });
     }
 
     /**

@@ -102,7 +102,7 @@ public class AddTagListingCtrl {
         if (task.tags.contains(tag)) {
             button.setText("Remove");
             button.setOnAction(event -> remove());
-            button.setStyle("-fx-background-color: #860000;");
+            button.setStyle("-fx-background-color: #c90016;");
         }
         else {
             button.setText("Add");

@@ -1,0 +1,17 @@
+.text-area{
+    -fx-text-fill: #a0a0a0;
+    -fx-opacity: 1.0;
+    -fx-font-family: Roboto;
+}
+.button{
+    -fx-background-color: #FF6700;
+}
+.progress-bar{
+    -fx-accent: black;
+}
+.list-view{
+    -fx-background-color: white;
+}
+.label{
+    -fx-font-family: Roboto;
+}

@@ -22,11 +22,11 @@
 }
 
 .add-button-tag{
-    -fx-background-color: #008000;
+    -fx-background-color: #FF6700;
 }
 
 *{
-	-fx-primary-color: #008000;
+	-fx-primary-color: #FF6700;
 	-fx-secondary-color: #4B6EAF;
 	-fx-grey-color: #A9A9A9;
 

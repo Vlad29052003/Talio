@@ -20,6 +20,12 @@
     -fx-background-color: #b6b6b6;
     -fx-text-fill: black;
 }
+.adminButton:hover{
+    -fx-background-color: #3CB371;
+}
+.connectButton:hover{
+    -fx-background-color: #6495ed;
+}
 
 .split-pane > .split-pane-divider {
     -fx-background-color: #d9d9d9;
@@ -28,4 +34,16 @@
 .scroll-pane {
     -fx-background-color: white;
     -fx-border-color: #e5e5e5;
+}
+
+.text-field{
+    -fx-font-family: Roboto;
+	-fx-accent: #000000;
+	-fx-background-color: #A9A9A9, white;
+	-fx-background-insets: 0, 0 0 2 0;
+	-fx-background-radius: 0;
+}
+
+.text-field:focused{
+	-fx-background-color: #000000, white;
 }
