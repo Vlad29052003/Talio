@@ -1,9 +1,9 @@
 .vbox {
-    -fx-font-family: "Roboto Thin";
+    -fx-font-family: "Roboto";
 }
 
 .label {
-    -fx-font-family: "Roboto Thin";
+    -fx-font-family: "Roboto";
     -fx-text-fill: white;
 }
 

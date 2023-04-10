@@ -3,7 +3,7 @@
     -fx-border-color: #a8a8a8;
     -fx-border-radius: 15 15 0 0;
     -fx-background-radius: 15 15 0 0;
-    -fx-font-family: "Roboto Thin";
+    -fx-font-family: "Roboto";
 }
 
 .button {
@@ -17,7 +17,7 @@
 }
 
 .label {
-    -fx-font-family: "Roboto Thin";
+    -fx-font-family: "Roboto";
 }
 
 .largeButton {

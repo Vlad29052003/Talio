@@ -1,9 +1,9 @@
 .root {
-    -fx-font-family: "Roboto Thin";
+    -fx-font-family: "Roboto";
 }
 
 .label {
-    -fx-font-family: "Roboto Thin";
+    -fx-font-family: "Roboto";
 }
 
 .leftMenu {
