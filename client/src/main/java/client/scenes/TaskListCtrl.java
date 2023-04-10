@@ -133,7 +133,7 @@ public class TaskListCtrl {
     public void refresh() {
         this.title.setText(this.taskList.name);
 
-        taskContainer.prefHeightProperty().bind(scrollPane.heightProperty());
+        taskContainer.minHeightProperty().bind(scrollPane.heightProperty());
 
         this.taskContainer.setStyle("-fx-background-color: #f4f4f4;");
         this.root.setStyle("-fx-background-color: #f4f4f4;");
