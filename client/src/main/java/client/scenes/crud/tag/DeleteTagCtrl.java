@@ -4,7 +4,11 @@ import client.scenes.MainCtrl;
 import client.utils.ServerUtils;
 import commons.Tag;
 import jakarta.ws.rs.WebApplicationException;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javax.inject.Inject;
 
@@ -12,6 +16,8 @@ public class DeleteTagCtrl {
     private ServerUtils server;
     private MainCtrl mainCtrl;
     private Tag tag;
+    @FXML
+    private AnchorPane root;
 
     /**
      * Creates a new {@link DeleteTagCtrl} object.
@@ -23,6 +29,26 @@ public class DeleteTagCtrl {
     public DeleteTagCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+    }
+
+    /**
+     * Sets the keyboard shortcuts for ENTER and ESC.
+     */
+    @FXML
+    public void initialize() {
+        Platform.runLater(() -> root.requestFocus());
+
+        this.root.setOnKeyPressed(event -> {
+            KeyCode keyCode = event.getCode();
+            if (keyCode == KeyCode.ENTER) {
+                delete();
+                event.consume();
+            }
+            else if (keyCode == KeyCode.ESCAPE) {
+                cancel();
+                event.consume();
+            }
+        });
     }
 
     /**

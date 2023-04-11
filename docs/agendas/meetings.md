@@ -1,7 +1,7 @@
 # Meetings
 this is a living document containing the notes of all the meetings for the OOP Project
 
-## Meeting 1 (By `Jochem Pouwels`)
+## Meeting 2 (By `Jochem Pouwels`)
 ### Agenda OOPP Group 48 Meeting 21/02
 
 per the agenda template presented in OOPP materials
@@ -96,7 +96,7 @@ per the agenda template presented in OOPP materials
 
 
 
-## Meeting 2 (By `Jesse Klijsma`)
+## Meeting 3 (By `Jesse Klijsma`)
 ### Agenda OOPP Group 48 Meeting 28/02
 *per the agenda template presented in OOPP materials*
 
@@ -156,7 +156,7 @@ per the agenda template presented in OOPP materials
 
 
 
-## Meeting 3 (by `Lovro Mlikotić`)
+## Meeting 4 (by `Lovro Mlikotić`)
 ### Agenda OOPP Group 48 Meeting 07/03
 *per the agenda template presented in OOPP materials*
 
@@ -238,7 +238,7 @@ Commons
 
 
 
-## Meeting 4 (by `Petre Andrei`)
+## Meeting 5 (by `Petre Andrei`)
 ### Agenda OOPP Group 48 Meeting 21/03
 *per the agenda template presented in OOPP materials*
 
@@ -294,7 +294,7 @@ Commons
 - Everyone decided to stay over to assign tasks to each member and create issues based on the backlog.
 
 
-## Meeting 5 (by `Vlad Graure`)
+## Meeting 6 (by `Vlad Graure`)
 ### Agenda OOPP Group 48 Meeting 28/03
 *per the agenda template presented in OOPP materials*
 
@@ -367,7 +367,7 @@ The most important tasks for the next sprint are:
 - Some team members decided to stay over to merge some MRs and discuss future steps
 
 
-## Meeting 6 (by `Olaf Herman`)
+## Meeting 7 (by `Olaf Herman`)
 ### Agenda OOPP Group 48 Meeting 28/03
 *per the agenda template presented in OOPP materials*
 
@@ -432,3 +432,59 @@ The most important tasks for the next sprint are:
 
 #### Closing Time
 - Some team members decided to stay over to merge some MRs and discuss future steps
+
+## Meeting 8 (by `Vlad Graure`)
+### Agenda OOPP Group 48 Meeting 11/04
+*per the agenda template presented in OOPP materials*
+
+* Location: DW PC1 cubicle 11
+* Date: April 11th 2023
+* Time: 13:45-14:10
+* Attendees:
+  * Rareș Toader (Scrum Master)
+  * Vlad Graure (Notetaker)
+  * Olaf Herman
+  * Jesse Klijnsma
+  * Lovro Mlikotić (Chair 🪑)
+  * Andrei Petre
+  * Jochem Pouwels
+
+#### Talking points
+- [13:45] Open by Chair.
+- [13:45-13:46] Check-in: how is everyone doing?
+- [13:46-13:47] Approval of the agenda: does anyone have any additions to the agenda?
+- [13:47-13:50] Product progress: showcasing the current state of our project to the TA.
+- [13:50-13:55] Going over the application one last time
+- [13:55-14:00] Going over the HUE one last time
+- [14:00-14:05] Going over the video one last time.
+- [14:05-14:10] Questions for the TA - misc.
+- [14:10] Closure by Chair.
+
+#### Additions to the Agenda
+- Oral examination - discussion
+
+#### Going over the application one last time
+We decided to make the following changes:
+- Add "Esc" shortcut to all popups
+- Change the name of some scenes from "Rename" to "Edit"
+- Fix inconsistent spacing in one popup
+- Fix the size of the "Tags" button
+- Fix the size of the "Reset style" buttons
+
+#### HUE
+- Do one more review, together, after the meeting
+
+#### Product Pitch
+- Decided to redo a section of the video
+
+#### Feedback from the TA
+- The Teamwork Self Reflection should include references to the lecture slides
+
+#### Announcements by the TA
+- We will get some practice questions for the oral examination
+- The oral examination consists of both group and individual questions
+- The oral examination questions are mostly about the application
+- The date and location for the oral examination will be announced soon
+
+#### Closing Time
+- All team members decided to stay over to make some adjustments to the HUE

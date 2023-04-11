@@ -3,6 +3,7 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.Board;
 import commons.Tag;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.KeyCode;
@@ -40,7 +41,6 @@ public class TagOverviewCtrl implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (board != null) populate();
-
         this.tagContainer.setOnKeyPressed(event -> {
             KeyCode keyCode = event.getCode();
             if (keyCode == KeyCode.ESCAPE) {
@@ -82,6 +82,7 @@ public class TagOverviewCtrl implements Initializable {
     public void setBoard(Board board) {
         this.board = board;
         populate();
+        Platform.runLater(() -> tagContainer.requestFocus());
     }
 
     /**

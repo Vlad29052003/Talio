@@ -59,7 +59,11 @@ public class TestWorkspaceCtrl {
     @AfterAll
     public static void reset() {
         boolean deleted = testFile.delete();
-        while (!deleted) testFile.delete();
+        int step = 0;
+        while (!deleted && step < 1000) {
+            deleted = testFile.delete();
+            step++;
+        }
     }
 
     @Test

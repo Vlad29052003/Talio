@@ -513,7 +513,7 @@ public class MainCtrl {
      * @param board is the Board to be edited.
      */
     public void editBoard(Board board) {
-        popupStage.setTitle("Rename board");
+        popupStage.setTitle("Edit board");
         popupStage.setScene(editBoard);
         editBoardCtrl.setBoard(board);
         popupStage.show();
@@ -525,7 +525,7 @@ public class MainCtrl {
      * @param taskList is the TaskList to be edited.
      */
     public void editTaskList(TaskList taskList) {
-        popupStage.setTitle("Rename list");
+        popupStage.setTitle("Edit list");
         popupStage.setScene(editList);
         editTaskListCtrl.setTaskList(taskList);
         popupStage.show();
