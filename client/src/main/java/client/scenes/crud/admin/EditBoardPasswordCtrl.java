@@ -40,8 +40,7 @@ public class EditBoardPasswordCtrl {
             if (keyCode == KeyCode.ENTER) {
                 confirm();
                 event.consume();
-            }
-            else if (keyCode == KeyCode.ESCAPE) {
+            } else if (keyCode == KeyCode.ESCAPE) {
                 cancel();
                 event.consume();
             }
@@ -74,25 +73,15 @@ public class EditBoardPasswordCtrl {
      * Sends a request to the server
      * to replace the password.
      */
-    public void confirm(){
+    public void confirm() {
         Platform.runLater(() -> text.requestFocus());
-        if(board != null){
-            if (text.getText() == "") {
-                board.password = text.getText();
-                board.editable = true;
-                mainCtrl.hidePopup();
-                reset();
-            } else {
-                board.password = text.getText();
-                board.editable = false;
-                mainCtrl.accessDenied();
-                mainCtrl.hidePopup();
-                reset();
-            }
+        if (board != null) {
+            board.password = text.getText();
             server.updateBoard(board);
             mainCtrl.updateBoard(board);
-        }else {
-            mainCtrl.cancel();
+            mainCtrl.hidePopup();
+            reset();
+        } else {
             mainCtrl.hidePopup();
         }
     }
@@ -102,7 +91,7 @@ public class EditBoardPasswordCtrl {
      *
      * @return the current board;
      */
-    public Board getBoard(){
+    public Board getBoard() {
         return board;
     }
 

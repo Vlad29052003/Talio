@@ -80,6 +80,7 @@ public class CreateTaskListCtrl {
      * Switches back to the workspace Scene.
      */
     public void cancel() {
+        reset();
         mainCtrl.hidePopup();
     }
 

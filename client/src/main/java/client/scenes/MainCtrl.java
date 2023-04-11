@@ -36,9 +36,9 @@ import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MainCtrl {
     private Stage primaryStage;
@@ -62,15 +62,11 @@ public class MainCtrl {
     private Scene deleteList;
     private BoardCtrl boardCtrl;
     private Scene grantAdmin;
-    private GrantAdminCtrl grantAdminCtrl;
     private Scene accessDenied;
-    private AccessDeniedCtrl accessDeniedCtrl;
     private Scene permissionAdmin;
-    private PermissionAdminCtrl permissionAdminCtrl;
     private Scene unlockBoard;
     private UnlockBoardCtrl unlockBoardCtrl;
     private Scene youHavePermission;
-    private YouHavePermissionCtrl youHavePermissionCtrl;
     private Scene editBoardPassword;
     private EditBoardPasswordCtrl editBoardPasswordCtrl;
     private boolean admin = false;
@@ -84,7 +80,6 @@ public class MainCtrl {
     private Scene editTask;
     private OpenTaskCtrl openTaskCtrl;
     private Scene openTask;
-    private HelpScreenCtrl helpScreenCtrl;
     private Scene helpScreen;
     private Task isFocused;
     private TagOverviewCtrl tagOverviewCtrl;
@@ -96,7 +91,7 @@ public class MainCtrl {
     private EditTagCtrl editTagCtrl;
     private Scene editTag;
     private Stage secondPopupStage;
-    private final List<Long> unlockedBoards = new ArrayList<>();
+    private final Set<Long> unlockedBoards = new HashSet<>();
 
     /**
      * Getter for isFocused
@@ -121,7 +116,7 @@ public class MainCtrl {
      *
      * @return the unlocked boards.
      */
-    public List<Long> getUnlockedBoards() {
+    public Set<Long> getUnlockedBoards() {
         return unlockedBoards;
     }
 
@@ -238,7 +233,6 @@ public class MainCtrl {
         this.unlockBoardCtrl = unlockBoard.getKey();
         this.unlockBoard = new Scene(unlockBoard.getValue());
 
-        this.youHavePermissionCtrl = youHavePermission.getKey();
         this.youHavePermission = new Scene(youHavePermission.getValue());
     }
 
@@ -256,15 +250,9 @@ public class MainCtrl {
                                     Pair<PermissionAdminCtrl, Parent> permissionAdmin,
                                     Pair<EditBoardPasswordCtrl, Parent> editBoardPassword) {
 
-        this.grantAdminCtrl = grantAdmin.getKey();
         this.grantAdmin = new Scene(grantAdmin.getValue());
-
-        this.accessDeniedCtrl = accessDenied.getKey();
         this.accessDenied = new Scene(accessDenied.getValue());
-
-        this.permissionAdminCtrl = permissionAdmin.getKey();
         this.permissionAdmin = new Scene(permissionAdmin.getValue());
-
         this.editBoardPasswordCtrl = editBoardPassword.getKey();
         this.editBoardPassword = new Scene(editBoardPassword.getValue());
     }
@@ -296,8 +284,6 @@ public class MainCtrl {
      * @param helpScreen is the Scene for the keyboard shortcuts menu.
      */
     public void initializeHelpScreen(Pair<HelpScreenCtrl, Parent> helpScreen) {
-
-        this.helpScreenCtrl = helpScreen.getKey();
         this.helpScreen = new Scene(helpScreen.getValue());
     }
 

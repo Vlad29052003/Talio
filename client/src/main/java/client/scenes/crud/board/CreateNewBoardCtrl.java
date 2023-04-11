@@ -117,6 +117,7 @@ public class CreateNewBoardCtrl {
         Board newBoard = new Board(text.getText(), bgColor, fontColor, pass.getText());
         try {
             this.board = server.addBoard(newBoard);
+            mainCtrl.getUnlockedBoards().add(board.id);
         } catch (WebApplicationException e) {
             var alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
