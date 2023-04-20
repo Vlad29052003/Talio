@@ -1,4 +1,6 @@
 ## Description of project
+The application was developed in collaboration with five other students from TU Delft as part of the course Object-Oriented Programming Project.
+<br>
 Talio is a web application designed to help users manage projects and tasks. Talio allows users to organize
 tasks into different categories represented by boards. Within each board, tasks, represented as cards, can be assigned to different lists, allowing for a better
 organization. With Talio, users can easily create new boards, and track progress or set the level of priority using tags.
@@ -6,17 +8,10 @@ Talio provides a powerful and intuitive way to organize your tasks and stay prod
 Additionally, Talio offers support for collaborative work, allowing more users to view and edit a board at the same time. This way, we make it easier
 to track and manage group projects and help everyone be on track with his/her tasks.
 
-## Group members
-[](#group-members)
-
-| Profile Picture                                                                                                                                           | Name           | Email                           |
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------|----------------|---------------------------------|
-| ![birb](./resources/birb.png)                                                                                                                             | Andrei Petre   | a.petre-1@student.tudelft.nl    |
-| <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Rust_programming_language_black_logo.svg" alt="Rust programming language logo" height="50"> | Jochem Pouwels | j.j.pouwels@student.tudelft.nl  |
-| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325)                                                   | Olaf Herman    | o.h.s.herman@student.tudelft.nl |
-| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325)                                                   | Jesse Klijnsma | j.b.klijnsma@student.tudelft.nl |
-| ![](https://eu.ui-avatars.com/api/?name=OOPP&length=4&size=50&color=DDD&background=777&font-size=0.325)                                                   | Lovro Mlikotić | l.mlikotic@student.tudelft.nl   |
-| <img src="./resources/vlad.jpeg" height="50">                                                                                                             | Vlad Graure    | v.s.graure@student.tudelft.nl   |
+## Technology
+The client is a single page web application developed using JavaFX. It uses http requests for comminication with the server. For synchronizing the changes made by other users, it uses web sockets and long polling.
+<br>
+The server is a REST API developed using Spring, one of the most popular Java frameworks for REST APIs. It is developed using the Model-View-Controller design.
 
 ## How to run it
 
@@ -61,19 +56,3 @@ bug as good as possible, so we can identify it easier.
 2. Suggest new features: If you have any ideas for new features that you think would be valuable, please open a new issue on our GitLab repository.
 3. Submit code: If you would like to contribute code to our project, fork our GitLab repository, create a new branch for your changes, and submit a merge request. It will be
  reviewed by our team.
-
-#### Code of Conduct
-In the docs section, the Code of Conduct of our team can be found. We expect everyone that wants to contribute to our project to adhere to the conditions stipulated in this document.
-
-#### Contact Us
-If you have any questions or need help getting started with contributing, please feel free to reach out to us at the mail provided in the [Group Members section](#group-members). 
-We look forward to working with you to make our application the best it can be!
-
-## Copyright / License
-The project is owned and maintained by the development team which cam be found [here](#group-members).
-
-Users are permitted to use this application for personal purposes, subject to the following restrictions:
-
-- The application may not be distributed or sold without our permission.
-- The application may not be used for any illegal purposes.
-- Our team is not responsible for any damages resulting from the use of this application.
