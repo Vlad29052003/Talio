@@ -53,6 +53,6 @@ There are many ways in which you can contribute to our project:
 
 1. Report bugs and issues: If you encounter any issues while using our application, please let us know. Please try to describe the
 bug as good as possible, so we can identify it easier.
-2. Suggest new features: If you have any ideas for new features that you think would be valuable, please open a new issue on our GitLab repository.
-3. Submit code: If you would like to contribute code to our project, fork our GitLab repository, create a new branch for your changes, and submit a merge request. It will be
+2. Suggest new features: If you have any ideas for new features that you think would be valuable, please open a new issue on our repository.
+3. Submit code: If you would like to contribute code to our project, fork our repository, create a new branch for your changes, and submit a merge request. It will be
  reviewed by our team.
